@@ -21,7 +21,7 @@ public class DriverClass {
 			public void run() {
 				try {
 					Login_Frame frame = new Login_Frame();
-					frame.setSize(500, 400);
+					frame.setSize(1000, 600);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
