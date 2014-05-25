@@ -36,7 +36,10 @@ public class Login_Frame extends JFrame {
 		
 		JPanel loginPanel = new JPanel();
 		loginPanel.setBackground(new Color(255, 250, 205));
-		loginPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Login", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
+		loginPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+											 "Login", TitledBorder.LEADING, TitledBorder.TOP, 
+											 null, new Color(0, 128, 128)));
+		
 		loginPanel.setBounds(119, 187, 293, 173);
 		contentPane.add(loginPanel);	
 		loginPanel.setLayout(null);
@@ -91,7 +94,7 @@ public class Login_Frame extends JFrame {
 		loginPanel.add(btnSubmit);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Documents and Settings\\Administrator\\workspace\\projectManager\\img\\banner-Process.jpg"));
+		lblNewLabel_1.setIcon(new ImageIcon("./resources/img/banner-Process.jpg"));
 		lblNewLabel_1.setBounds(10, 0, 964, 551);
 		contentPane.add(lblNewLabel_1);
 	}
