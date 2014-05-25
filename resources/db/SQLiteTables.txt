@@ -1,0 +1,104 @@
+=============
+SQLite Tables
+=============
+
+--------
+Entities
+--------
+
+	Project
+	-------
+	CREATE TABLE "Projects"(     
+		"PID" Integer PRIMARY KEY  NOT NULL  ,      
+		"Name" Text  NOT NULL  ,      
+		"Description" Text  ,
+		"Manager ID" REFERENCES Members(MID),      
+		"StartDate" Text  NOT NULL  ,      
+		"Deadline" Text  NOT NULL  ,      
+		"ProjectedLength" Integer  );
+
+
+	Members
+	----
+	CREATE TABLE "Members"(     
+		"MID" Integer Primary Key Autoincrement  NOT NULL  ,      
+		"Name" Text  NOT NULL  );
+
+
+	Activity
+	--------
+	CREATE TABLE "Activities"(
+		"PID"	Integer REFERENCES Project(PID),	
+		"Number"	Integer, 	
+		"Name"	Text,	
+		"Description"	Text, 	
+		"StartDate"	Text,	
+		"Deadline"	Text, 	
+		"ProjectedLength"	Text,	
+		PRIMARY KEY (PID, Number));
+
+
+-------------
+Relationships
+-------------
+
+	MemberProjects
+	--------------
+	CREATE TABLE "MemberProjects"(
+		"MID"	Integer REFERENCES	Members(MID),
+		"PID"	Integer REFERENCES Project(PID),
+		PRIMARY KEY (MID, PID));
+
+	MemberActivities
+	----------------
+	CREATE TABLE "MemberProjects"(
+		"MID"	 Integer REFERENCES	Members(MID),
+		"PID"	 Integer REFERENCES Project(PID),
+		"Number" Integer,
+		PRIMARY KEY (MID, PID, Number));
+
+---------------------------------
+Clean Statements For Da CopyPaste
+---------------------------------
+
+=============
+SQLite Tables
+=============
+
+	CREATE TABLE "Projects"(     
+		"PID" Integer PRIMARY KEY  NOT NULL  ,      
+		"Name" Text  NOT NULL  ,      
+		"Description" Text  ,
+		"Manager ID" REFERENCES Members(MID),      
+		"StartDate" Text  NOT NULL  ,      
+		"Deadline" Text  NOT NULL  ,      
+		"ProjectedLength" Integer  );
+
+
+	CREATE TABLE "Members"(     
+		"MID" Integer Primary Key Autoincrement  NOT NULL  ,      
+		"Name" Text  NOT NULL  );
+
+
+	CREATE TABLE "Activities"(
+		"PID"	Integer REFERENCES Project(PID),	
+		"Number"	Integer, 	
+		"Name"	Text,	
+		"Description"	Text, 	
+		"StartDate"	Text,	
+		"Deadline"	Text, 	
+		"ProjectedLength"	Text,	
+		PRIMARY KEY (PID, Number));
+
+
+	CREATE TABLE "MemberProjects"(
+		"MID"	Integer REFERENCES	Members(MID),
+		"PID"	Integer REFERENCES Project(PID),
+		PRIMARY KEY (MID, PID));
+
+
+	CREATE TABLE "MemberActivities"(
+		"MID"	 Integer REFERENCES	Members(MID),
+		"PID"	 Integer REFERENCES Project(PID),
+		"Number" Integer,
+		PRIMARY KEY (MID, PID, Number));

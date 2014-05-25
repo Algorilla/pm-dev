@@ -18,9 +18,7 @@ public class SQLiteDBConnection {
 	    try {
 	        Class.forName("org.sqlite.JDBC");
 	        // change the path of the database file you saved in you pc.
-	        conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\huota_000\\Google Drive\\Workspace\\GitHub\\pm-dev\\db\\ProjectManagerDB.sqlite");
-	        // conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Robert\\Documents\\GitHub\\pm-dev\\db\\ProjectManagerDB.sqlite");
-	        // conn = DriverManager.getConnection("jdbc:sqlite:C:\\Documents and Settings\\Administrator\\workspace\\ProjectManager\\db\\ProjectManagerDB.sqlite");
+	        conn = DriverManager.getConnection("jdbc:sqlite:./resources/db/ProjectManagerDB.sqlite");
 	        // JOptionPane.showMessageDialog(null, "DATABASE Connection Established!");
 	        return conn;
 	    } catch ( Exception e ) {
