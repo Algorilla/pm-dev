@@ -1,4 +1,4 @@
-package pmModel;
+package PModel;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package pmModel;
+package PModel;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -9,7 +9,7 @@ import java.util.HashSet;
  * @generated
  */
 
-public class Activity extends Manageable
+public class Member
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -18,7 +18,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	private int projectID;
+	private int memberID;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -27,7 +27,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	private int activityNumber;
+	private String name;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -36,7 +36,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public Set<Member> member;
+	public Set<Project> project;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -45,7 +45,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public Project project;
+	public Set<Activity> activity;
 	
 
 	/**
@@ -55,7 +55,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public Activity(int projectID, int actvityNum, String name, String description, Date start, Date deadline, int length) {
+	public Member(int ID, String name) {
 		super();
 		// TODO construct me	
 	}
@@ -67,7 +67,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public void setProjectID(int newProjectID) {
+	public void setMemberID(int newID) {
 		// TODO implement me	
 	}
 	
@@ -78,7 +78,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public void setNumber(int newNumber) {
+	public void setName(String newName) {
 		// TODO implement me	
 	}
 	
@@ -89,7 +89,7 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public int getProjectID() {
+	public int getMemberID() {
 		// TODO implement me
 		return 0;	
 	}
@@ -101,9 +101,9 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public int getNumber() {
+	public String getName() {
 		// TODO implement me
-		return 0;	
+		return "";	
 	}
 	
 }

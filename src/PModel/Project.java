@@ -1,4 +1,4 @@
-package pmModel;
+package PModel;
 import java.util.Set;
 import java.util.HashSet;
 
