@@ -1,5 +1,6 @@
 package JDialogue;
 import DatabaseConnect.SQLiteDBConnection;
+import PModel.MainController;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -22,6 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+// TODO: Add fields necessary to use CreateProject function in MainController
 public class CreateNewProjectDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -72,8 +74,10 @@ public class CreateNewProjectDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						/*
 						String sql = "insert into Project (ProjectName, ProjectManager)values(?,?)";
 						try{
 							pst = conn.prepareStatement(sql);
@@ -85,6 +89,7 @@ public class CreateNewProjectDialog extends JDialog {
 							JOptionPane.showMessageDialog(null,ex);	
 						}
 						dispose();
+						*/
 					}
 				});
 				okButton.setActionCommand("OK");

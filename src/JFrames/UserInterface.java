@@ -12,6 +12,7 @@ import javax.swing.JButton;
 
 import JDialogue.CreateNewProjectDialog;
 import JDialogue.OpenProjectListDialog;
+import PModel.MainController;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,17 +30,8 @@ import javax.swing.border.EmptyBorder;
 public class UserInterface extends InitialJFrame {
 	
 	private JLabel nameLabel;
-	private String projectName = "Tab";
 	private JPanel panel2 = new JPanel();
 	
-	public String getProjectName() {
-		return projectName;
-	}
-
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -57,11 +49,12 @@ public class UserInterface extends InitialJFrame {
 		
 		JPanel currentProjectPanel = new JPanel();
 		
+		String projectName = MainController.get().GetCurrentProject().getName();
 		tabbedPane.add(projectName, currentProjectPanel);		
 		String rowData[][] = { { "", "", "" ,"",""}};
 		
 		Object columnNames[] = { "ProjectName", "Task", "Member","Manager", "Status" };	
-		String sql = "select * from Tasks where ProjectManager = ?";
+		/*String sql = "select * from Tasks where ProjectManager = ?";
 		try{
 			pst = conn.prepareStatement(sql);
 			//pst.setString(1, projectName);
@@ -81,7 +74,7 @@ public class UserInterface extends InitialJFrame {
 			pst.close();
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null,ex);	
-		}	
+		}	*/
 		
 //		Object rowData[][] = { { "Row1-Column1", "Row1-Column2", "Row1-Column3" },
 //		        { "Row2-Column1", "Row2-Column2", "Row2-Column3" } };
@@ -137,10 +130,8 @@ public class UserInterface extends InitialJFrame {
 	        JMenuItem fileOpen = new JMenuItem("Open", iconOpen);
 	        fileOpen.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
-	        		OpenProjectListDialog list = new OpenProjectListDialog(userName);
+	        		OpenProjectListDialog list = new OpenProjectListDialog();
 	        		list.setVisible(true);
-	        		String currentProjectName = list.getProjectName();
-	        		setProjectName(currentProjectName);
 	        		resetFrame();
 	        		projectTabbedPanel();
 	        	    validate();

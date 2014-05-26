@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import javax.swing.border.*;
 
 import DatabaseConnect.SQLiteDBConnection;
+import PModel.MainController;
 
 
 
@@ -65,28 +66,8 @@ public class Login_Frame extends JFrame {
 		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String sql = "select * from UserInfo where username = ? and password = ?";
-				try{
-					pst = conn.prepareStatement(sql);
-					pst.setString(1, txt_username.getText());
-					pst.setString(2, txt_passwordField.getText());
-					
-					rs = pst.executeQuery();
-					if(rs.next()){
-						//JOptionPane.showMessageDialog(null, "username and password is correct.");											
-						rs.close();
-						pst.close();
-						close();
-						UserInterface userAccount = new UserInterface(100,100,1000,600,"",txt_username.getText());
-						userAccount.setVisible(true);
-						
-					}else{
-						JOptionPane.showMessageDialog(null, "username and password is not correct.");
-					}
-					
-				}catch(Exception ex){
-					JOptionPane.showMessageDialog(null,ex);	
-				}	
+				MainController.get().Login(txt_username.getText(), txt_passwordField.getText());
+				close();
 			}
 		});
 		

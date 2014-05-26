@@ -88,6 +88,11 @@ public abstract class Manageable
 	
 	public Manageable(String name, String description, Date start, Date deadline, int length) {
 		super();
+		this.name = name;
+		this.description = description;
+		this.startDate = start;
+		this.deadline = deadline;
+		this.length = length;
 		// TODO construct me	
 	}
 	
@@ -99,7 +104,7 @@ public abstract class Manageable
 	 */
 	
 	public void setName(String newName) {
-		// TODO implement me	
+		name = newName;
 	}
 	
 	/**
@@ -110,7 +115,7 @@ public abstract class Manageable
 	 */
 	
 	public void setDescr(String newDescr) {
-		// TODO implement me	
+		description = newDescr;
 	}
 	
 	/**
@@ -121,7 +126,7 @@ public abstract class Manageable
 	 */
 	
 	public void setStart(Date newStart) {
-		// TODO implement me	
+		startDate = newStart;
 	}
 	
 	/**
@@ -132,7 +137,7 @@ public abstract class Manageable
 	 */
 	
 	public void setDeadline(Date newDeadline) {
-		// TODO implement me	
+		deadline = newDeadline;	
 	}
 	
 	/**
@@ -143,7 +148,7 @@ public abstract class Manageable
 	 */
 	
 	public void setLength(int newLength) {
-		// TODO implement me	
+		length = newLength;
 	}
 	
 	/**
@@ -154,7 +159,7 @@ public abstract class Manageable
 	 */
 	
 	public void setStatus(boolean newStatus) {
-		// TODO implement me	
+		status = newStatus;
 	}
 	
 	/**
@@ -165,8 +170,7 @@ public abstract class Manageable
 	 */
 	
 	public String getName() {
-		// TODO implement me
-		return "";	
+		return name;
 	}
 	
 	/**
@@ -177,8 +181,7 @@ public abstract class Manageable
 	 */
 	
 	public String getDescr() {
-		// TODO implement me
-		return "";	
+		return description;
 	}
 	
 	/**
@@ -189,8 +192,7 @@ public abstract class Manageable
 	 */
 	
 	public Date getStart() {
-		// TODO implement me
-		return new Date();	
+		return startDate;	
 	}
 	
 	/**
@@ -201,8 +203,7 @@ public abstract class Manageable
 	 */
 	
 	public Date getDeadline() {
-		// TODO implement me
-		return new Date();	
+		return deadline;
 	}
 	
 	/**
@@ -213,8 +214,7 @@ public abstract class Manageable
 	 */
 	
 	public int getLength() {
-		// TODO implement me
-		return 0;	
+		return length;
 	}
 	
 	/**
@@ -224,8 +224,8 @@ public abstract class Manageable
 	 * @ordered
 	 */
 	
-	public void getStatus() {
-		// TODO implement me	
+	public boolean getStatus() {
+		return status;
 	}
 	
 	/**

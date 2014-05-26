@@ -1,4 +1,5 @@
 package PModel;
+import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -55,9 +56,8 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
-	public Activity(int projectID, int actvityNum, String name, String description, Date start, Date deadline, int length) {
-		super();
-		// TODO construct me	
+	public Activity(String name, String description, Date start, Date deadline, int length) {
+		super(name, description, start, deadline, length);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class Activity extends Manageable
 	 */
 	
 	public void setProjectID(int newProjectID) {
-		// TODO implement me	
+		projectID = newProjectID;
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class Activity extends Manageable
 	 */
 	
 	public void setNumber(int newNumber) {
-		// TODO implement me	
+		activityNumber = newNumber;
 	}
 	
 	/**
@@ -90,8 +90,7 @@ public class Activity extends Manageable
 	 */
 	
 	public int getProjectID() {
-		// TODO implement me
-		return 0;	
+		return projectID;
 	}
 	
 	/**
@@ -102,8 +101,7 @@ public class Activity extends Manageable
 	 */
 	
 	public int getNumber() {
-		// TODO implement me
-		return 0;	
+		return activityNumber;
 	}
 	
 }

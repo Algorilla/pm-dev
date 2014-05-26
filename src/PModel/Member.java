@@ -36,6 +36,15 @@ public class Member
 	 * @ordered
 	 */
 	
+	private String type;
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
 	public Set<Project> project;
 	
 	/**
@@ -47,6 +56,8 @@ public class Member
 	
 	public Set<Activity> activity;
 	
+	private String username;
+	private String password;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -55,9 +66,11 @@ public class Member
 	 * @ordered
 	 */
 	
-	public Member(int ID, String name) {
-		super();
-		// TODO construct me	
+	public Member(String name, String type, String username, String password) {
+		this.name = name;
+		this.type = type;
+		this.username = username;
+		this.password = password;
 	}
 	
 	/**
@@ -68,7 +81,7 @@ public class Member
 	 */
 	
 	public void setMemberID(int newID) {
-		// TODO implement me	
+		memberID = newID;
 	}
 	
 	/**
@@ -79,7 +92,40 @@ public class Member
 	 */
 	
 	public void setName(String newName) {
-		// TODO implement me	
+		name = newName;	
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public void setType(String newType) {
+		type = newType;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public void setUserName(String newUserName) {
+		username = newUserName;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public void setPassword(String newPassword) {
+		password = newPassword;
 	}
 	
 	/**
@@ -90,8 +136,7 @@ public class Member
 	 */
 	
 	public int getMemberID() {
-		// TODO implement me
-		return 0;	
+		return memberID;
 	}
 	
 	/**
@@ -102,9 +147,40 @@ public class Member
 	 */
 	
 	public String getName() {
-		// TODO implement me
-		return "";	
+		return name;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public String getType() {
+		return type;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public String getUserName() {
+		return username;
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public String getPassword() {
+		return password;
+	}
 }
 
