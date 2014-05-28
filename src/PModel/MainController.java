@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
+import net.proteanit.sql.DbUtils;
 
 // Class for main data and application operations.
 public class MainController {
@@ -78,7 +82,7 @@ public class MainController {
 						rs.getString("Description"),
 						df.parse(rs.getString("StartDate")),
 						df.parse(rs.getString("Deadline")),
-						rs.getInt("ProjectedLength")
+						rs.getInt("ProjectLength")
 						);
 				project.setProjectID(rs.getInt("PID"));
 				Projects.add(project);
@@ -93,7 +97,7 @@ public class MainController {
 						rs.getString("Description"),
 						df.parse(rs.getString("StartDate")),
 						df.parse(rs.getString("Deadline")),
-						rs.getInt("ProjectedLength")
+						rs.getInt("ProjectLength")
 						);
 				activity.setProjectID(rs.getInt("PID"));
 				activity.setNumber(rs.getInt("Number"));
@@ -153,7 +157,64 @@ public class MainController {
 		
 		// TODO: Display project and its data in the GUI
 	}
-	
+	/**
+	 * Display project and its data in the GUI
+	 * @param table
+	 * @return
+	 */
+	public void getActivityList(JTable table){
+		
+			int pid = currentProject.getProjectID();
+			String sql = "select * from Activities  where PID = ?";
+			try{
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, pid);
+				rs = pst.executeQuery();
+				table.setModel(DbUtils.resultSetToTableModel(rs));				
+				pst.execute();
+				pst.close();
+			}catch(Exception ex){
+				//JOptionPane.showMessageDialog(null,ex);	
+			}					
+	}
+	public void Fillcombo(JComboBox comboBox){
+		int pid = currentProject.getProjectID();
+		String sql = "select * from Activities  where PID = ?";
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, pid);
+			rs = pst.executeQuery();
+			
+			while(rs.next()){
+				String name = rs.getString("Name");
+				comboBox.addItem(name);
+			}					
+			pst.execute();
+			pst.close();
+		}catch(Exception ex){
+			//JOptionPane.showMessageDialog(null,ex);	
+		}					
+	}
+	public void mouseClickTable(JTable table){
+		int row = table.getSelectedRow();
+		int pid = currentProject.getProjectID();		
+		try{			
+			String table_click = (table.getModel().getValueAt(row, 2)).toString();	
+			String sql = "select * from Activities  where PID = ? and Name = ?";
+			
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, pid);
+			pst.setString(2, table_click);
+			rs = pst.executeQuery();
+
+			
+			pst.execute();
+			pst.close();
+		}catch(Exception ex){
+			//JOptionPane.showMessageDialog(null,ex);	
+		}			
+		
+	}
 	// Creates a User
 	public boolean CreateMember(Member member)
 	{
@@ -299,7 +360,7 @@ public class MainController {
 					ErrorController.get().DisplayErrors();
 					return false;
 				}	
-				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?)";				
+				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectLength)values(?,?,?,?,?,?)";				
 				try{
 					pst = conn.prepareStatement(sql);
 					pst.setString(1, project.getName());
@@ -359,7 +420,7 @@ public class MainController {
 				ErrorController.get().DisplayErrors();
 				return false;
 			}			
-			sql = "update Projects set Name=?,Description=?,ManagerID=?,StartDate=?,Deadline=?,ProjectedLength=? where PID = ?";
+			sql = "update Projects set Name=?,Description=?,ManagerID=?,StartDate=?,Deadline=?,ProjectLength=? where PID = ?";
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, project.getName());
@@ -388,17 +449,17 @@ public class MainController {
 	
 	// Deletes a Project
 	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Projects
-	public boolean DeleteProject(Project project) { return DeleteProject(project.getProjectID());}
-	public boolean DeleteProject(int PID)
+	public boolean DeleteProject(Project project) { return DeleteProject(project.getName());}
+	public boolean DeleteProject(String name)
 	{
 		String sql;
 		try {
-			sql = "select count(*) from Projects where PID = ?";
+			sql = "select count(*) from Projects where Name = ?";
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1,PID);
+			pst.setString(1,name);
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Project with ID "+PID+" does not exist.");
+				ErrorController.get().AddError("Project with name "+name+" does not exist.");
 			}
 		} catch (SQLException ex) {}
 		
@@ -409,12 +470,12 @@ public class MainController {
 		sql = "delete from Projects where PID = ?";
 		try{
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1, PID);
+			pst.setString(1,name);
 			pst.execute();
 			pst.close();
 			int x=0;
 			for (Project oldProject : Projects)
-			    if (oldProject.getProjectID() == PID)
+			    if (oldProject.getName() == name)
 					break;
 			    else
 			    	x++;				
@@ -458,7 +519,7 @@ public class MainController {
 				ErrorController.get().DisplayErrors();
 				return false;
 			}			
-			sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";				
+			sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectLength)values(?,?,?,?,?,?,?)";				
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setInt(1, activity.getProjectID());
@@ -490,7 +551,7 @@ public class MainController {
 			)
 		{
 			String sql;			
-			sql = "update Activities set Name=?,Description=?,StartDate=?,Deadline=?,ProjectedLength=? where PID = ? and Number = ?";
+			sql = "update Activities set Name=?,Description=?,StartDate=?,Deadline=?,ProjectLength=? where PID = ? and Number = ?";
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, activity.getName());
@@ -509,6 +570,7 @@ public class MainController {
 				    else
 				    	x++;				
 				Activities.set(x,activity);*/
+				JOptionPane.showMessageDialog(null,"Data saved.");
 				return true;
 			}catch(Exception ex){
 				JOptionPane.showMessageDialog(null,ex);	
@@ -518,20 +580,26 @@ public class MainController {
 	}
 	
 	// Deletes an Activity
-	public boolean DeleteActivity(int number) { return DeleteActivity(currentProject.getProjectID(),number);}
-	public boolean DeleteActivity(int PID,int number)
+	public boolean DeleteActivity(String name) { return DeleteActivity(currentProject.getProjectID(),name);}
+	public boolean DeleteActivity(int PID,String name)
 	{
 		String sql;
 		try {
-			sql = "select count(*) from Activities where PID = ? and Number = ?";
+			sql = "select count(*) from Activities where PID = ? and Name = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1,PID);
-			pst.setInt(2, number);
+			pst.setString(2, name);
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Activity with PID "+PID+" and Number "+number+" does not exist.");
+				ErrorController.get().AddError("Activity with PID "+PID+" and name "+name+" does not exist.");
 			}
-		} catch (SQLException ex) {}		
+		} catch (SQLException ex) {}
+		finally{
+			try{
+				rs.close();
+				pst.close();			
+			}catch(Exception e){}
+		}
 		if (ErrorController.get().ErrorsExist()) {
 			ErrorController.get().DisplayErrors();
 			return false;
@@ -540,20 +608,25 @@ public class MainController {
 		try{
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, PID);
-			pst.setInt(2, number);
+			pst.setString(2, name);
 			pst.execute();
-			pst.close();
 			int x=0;
 			for (Activity oldActivity : Activities)
-			    if (oldActivity.getProjectID() == PID && oldActivity.getNumber() == number )
+			    if (oldActivity.getProjectID() == PID && oldActivity.getName() == name )
 					break;
 			    else
 			    	x++;				
 			Activities.remove(x);
 			return true;
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null,ex);	
-		}	
+			JOptionPane.showMessageDialog(null,ex+ "dde");	
+		}finally{
+			try{
+				rs.close();
+				pst.close();			
+			}catch(Exception e){}
+		}
+		
 		return false;
 	}
 }

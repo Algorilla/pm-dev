@@ -1,8 +1,5 @@
 package JDialogue;
 
-import DatabaseConnect.SQLiteDBConnection;
-import PModel.MainController;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -10,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DatabaseConnect.SQLiteDBConnection;
+import PModel.MainController;
+
 import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
@@ -19,11 +20,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.List;
 /**
- * A dialogue to open project from list.
+ * a dialouge used to delete project from list.
  * @author Administrator
  *
  */
-public class OpenProjectListDialog extends JDialog {
+public class DeleteProjectDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	List projectList = new List();
@@ -33,11 +34,11 @@ public class OpenProjectListDialog extends JDialog {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 
-	public OpenProjectListDialog() {
+	public DeleteProjectDialog() {
 		conn = SQLiteDBConnection.ConnecrDb();
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
-	    setTitle("Open Project List");
+	    setTitle("Delete Project from List");
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 		setBounds(100, 100, 450, 250);
@@ -59,11 +60,11 @@ public class OpenProjectListDialog extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-		JButton okButton = new JButton("OK");
+		JButton okButton = new JButton("Delete");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String projectName = projectList.getSelectedItem().toString();
-				MainController.get().OpenProject(projectName);
+				MainController.get().DeleteProject(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
 				dispose();
 			}

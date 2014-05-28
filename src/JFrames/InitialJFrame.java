@@ -13,21 +13,14 @@ import javax.swing.border.EmptyBorder;
 
 import DatabaseConnect.SQLiteDBConnection;
 import java.awt.Color;
-
+/**
+ * a base frame to initial frame
+ * @author Administrator
+ *
+ */
 public class InitialJFrame extends JFrame {
 
 	public JPanel contentPane;
-	Connection conn = null;
-	ResultSet rs = null;
-	PreparedStatement pst = null;
-	public String userName = null;
-	
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 	/**
 	 * Create the frame.
 	 */
@@ -35,7 +28,6 @@ public class InitialJFrame extends JFrame {
 		getContentPane().setBackground(Color.WHITE);}
 	public InitialJFrame(int x, int y, int width, int height,String title, String name) {
 		initialFrame(x,y,width,height,title);		
-		this.userName = name;
 		getContentPane().setBackground(Color.WHITE);
 
 	}
@@ -51,9 +43,4 @@ public class InitialJFrame extends JFrame {
 		setContentPane(contentPane);		
 				
 	}
-	public void connectDatabase(){
-		conn = SQLiteDBConnection.ConnecrDb();		
-	}
-
-
 }

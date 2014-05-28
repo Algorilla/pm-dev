@@ -12,7 +12,10 @@ import javax.swing.*;
 public class SQLiteDBConnection {
 	
 	static Connection conn = null;
-   
+   /**
+    * A method to connect with database
+    * @return
+    */
 	public static Connection ConnecrDb(){
 		
 	    try {

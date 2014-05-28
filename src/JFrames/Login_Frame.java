@@ -11,10 +11,11 @@ import javax.swing.border.*;
 
 import DatabaseConnect.SQLiteDBConnection;
 import PModel.MainController;
-
-
-
-
+/**
+ * user login authentication
+ * @author Administrator
+ *
+ */
 public class Login_Frame extends JFrame {
 	
 	Connection conn = null;

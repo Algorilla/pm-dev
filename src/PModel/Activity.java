@@ -56,10 +56,13 @@ public class Activity extends Manageable
 	 * @ordered
 	 */
 	
+	public Activity(int ProjectID,String name, String description, Date start, Date deadline, int length) {
+		super(name, description, start, deadline, length);
+		projectID = ProjectID;
+	}
 	public Activity(String name, String description, Date start, Date deadline, int length) {
 		super(name, description, start, deadline, length);
-	}
-	
+	}	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->

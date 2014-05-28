@@ -1,34 +1,34 @@
 package JDialogue;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Dialog.ModalityType;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import PModel.Activity;
 import PModel.MainController;
 import PModel.Member;
 import PModel.Project;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-
-import javax.swing.JTextField;
-
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Date;
-
-import java.awt.TextArea;
 import com.toedter.calendar.JDateChooser;
 /**
- * A dialogue used to create new project.
- * @author team B
+ * A dialogue used to create new activity of the project
+ * @author Administrator
  *
  */
-// TODO: Add fields necessary to use CreateProject function in MainController
-public class CreateNewProjectDialog extends JDialog {
+public class CreateNewActivityDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txt_newProjectNameField;
@@ -37,12 +37,10 @@ public class CreateNewProjectDialog extends JDialog {
 	JDateChooser Deadline;
 	private Project newPro = null;
 	private TextArea textArea_Description = new TextArea();
-	/**
-	 * Create the dialog.
-	 */
-	public CreateNewProjectDialog() {
+
+	public CreateNewActivityDialog() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-	    setTitle("Create New Project");
+	    setTitle("Create New Activity");
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 		setBounds(100, 100, 450, 460);
@@ -53,7 +51,7 @@ public class CreateNewProjectDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblProjectName = new JLabel("Project Name:");
+			JLabel lblProjectName = new JLabel("Activity Name:");
 			lblProjectName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblProjectName.setBounds(44, 84, 123, 14);
 			contentPanel.add(lblProjectName);
@@ -65,7 +63,7 @@ public class CreateNewProjectDialog extends JDialog {
 			txt_newProjectNameField.setColumns(10);
 		}
 		{
-			JLabel lblPleaseEnterNew = new JLabel("Please enter new project name:");
+			JLabel lblPleaseEnterNew = new JLabel("Please enter new activity name:");
 			lblPleaseEnterNew.setFont(new Font("Verdana", Font.PLAIN, 13));
 			lblPleaseEnterNew.setBounds(10, 25, 225, 14);
 			contentPanel.add(lblPleaseEnterNew);
@@ -85,7 +83,7 @@ public class CreateNewProjectDialog extends JDialog {
 		lblEndedDate.setBounds(47, 281, 66, 14);
 		contentPanel.add(lblEndedDate);
 		
-		JLabel lblProjectLength = new JLabel("Project Length:");
+		JLabel lblProjectLength = new JLabel("Activity Length:");
 		lblProjectLength.setBounds(44, 317, 86, 14);
 		contentPanel.add(lblProjectLength);
 		
@@ -114,18 +112,17 @@ public class CreateNewProjectDialog extends JDialog {
 				
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//newPro = new Project();
-						Member currentUser = MainController.get().GetCurrentUser();
-						int managerID = currentUser.getMemberID();
+						
+						int pid = MainController.get().GetCurrentProject().getProjectID();
 						String name = txt_newProjectNameField.getText();
 						String description = textArea_Description.getText();
 						Date start = StartedDate.getDate();
 						Date deadline = Deadline.getDate();
 						int length = Integer.parseInt(textField_length.getText());
-						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());
-						
-						newPro = new Project(managerID, name, description, start, deadline, length);
-						MainController.get().CreateProject(newPro);
+						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
+						Activity ac = new Activity(pid, name, description, start, deadline, length);
+				        //table_1 = MainController.get().ProjectList(table_1);
+				        MainController.get().CreateActivity(ac);				        
 						dispose();
 					}
 				});
@@ -136,3 +133,4 @@ public class CreateNewProjectDialog extends JDialog {
 		}
 	}
 }
+
