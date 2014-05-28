@@ -82,7 +82,7 @@ public class MainController {
 						rs.getString("Description"),
 						df.parse(rs.getString("StartDate")),
 						df.parse(rs.getString("Deadline")),
-						rs.getInt("ProjectLength")
+						rs.getInt("ProjectedLength")
 						);
 				project.setProjectID(rs.getInt("PID"));
 				Projects.add(project);
@@ -97,7 +97,7 @@ public class MainController {
 						rs.getString("Description"),
 						df.parse(rs.getString("StartDate")),
 						df.parse(rs.getString("Deadline")),
-						rs.getInt("ProjectLength")
+						rs.getInt("ProjectedLength")
 						);
 				activity.setProjectID(rs.getInt("PID"));
 				activity.setNumber(rs.getInt("Number"));
@@ -360,7 +360,7 @@ public class MainController {
 					ErrorController.get().DisplayErrors();
 					return false;
 				}	
-				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectLength)values(?,?,?,?,?,?)";				
+				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?)";				
 				try{
 					pst = conn.prepareStatement(sql);
 					pst.setString(1, project.getName());
@@ -420,7 +420,7 @@ public class MainController {
 				ErrorController.get().DisplayErrors();
 				return false;
 			}			
-			sql = "update Projects set Name=?,Description=?,ManagerID=?,StartDate=?,Deadline=?,ProjectLength=? where PID = ?";
+			sql = "update Projects set Name=?,Description=?,ManagerID=?,StartDate=?,Deadline=?,ProjectedLength=? where PID = ?";
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, project.getName());
@@ -519,7 +519,7 @@ public class MainController {
 				ErrorController.get().DisplayErrors();
 				return false;
 			}			
-			sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectLength)values(?,?,?,?,?,?,?)";				
+			sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";				
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setInt(1, activity.getProjectID());
@@ -551,7 +551,7 @@ public class MainController {
 			)
 		{
 			String sql;			
-			sql = "update Activities set Name=?,Description=?,StartDate=?,Deadline=?,ProjectLength=? where PID = ? and Number = ?";
+			sql = "update Activities set Name=?,Description=?,StartDate=?,Deadline=?,ProjectedLength=? where PID = ? and Number = ?";
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, activity.getName());
