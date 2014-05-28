@@ -93,7 +93,7 @@ public abstract class Manageable
 		this.startDate = start;
 		this.deadline = deadline;
 		this.length = length;
-		// TODO construct me	
+		// TODO construct me
 	}
 	
 	/**
