@@ -18,64 +18,13 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	private String name;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private String description;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private Date startDate;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private Date deadline;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private int length;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private boolean status;
-	
-	/**
-	 * List of Member assigned to project
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private Set<Member> memberList;
 	
 
@@ -83,9 +32,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public Manageable(String name, String description, Date start, Date deadline, int length) {
 		super();
 		this.name = name;
@@ -93,16 +40,13 @@ public abstract class Manageable
 		this.startDate = start;
 		this.deadline = deadline;
 		this.length = length;
-		// TODO construct me	
 	}
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setName(String newName) {
 		name = newName;
 	}
@@ -111,9 +55,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setDescr(String newDescr) {
 		description = newDescr;
 	}
@@ -122,9 +64,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setStart(Date newStart) {
 		startDate = newStart;
 	}
@@ -133,9 +73,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setDeadline(Date newDeadline) {
 		deadline = newDeadline;	
 	}
@@ -144,9 +82,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public void setLength(int newLength) {
 		length = newLength;
 	}
@@ -155,9 +91,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public void setStatus(boolean newStatus) {
 		status = newStatus;
 	}
@@ -166,9 +100,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public String getName() {
 		return name;
 	}
@@ -177,9 +109,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public String getDescr() {
 		return description;
 	}
@@ -188,9 +118,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public Date getStart() {
 		return startDate;	
 	}
@@ -199,9 +127,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public Date getDeadline() {
 		return deadline;
 	}
@@ -210,9 +136,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public int getLength() {
 		return length;
 	}
@@ -221,9 +145,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public boolean getStatus() {
 		return status;
 	}
@@ -232,9 +154,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public List<Member> getMemberList() {
 		// TODO implement me
 		return null;	
@@ -244,9 +164,7 @@ public abstract class Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void addMember(Member newMember) {
 		// TODO implement me	
 	}
