@@ -8,52 +8,17 @@ import java.util.HashSet;
  * <!--  end-user-doc  -->
  * @generated
  */
-
 public class Member
 {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	private int memberID;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private String name;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private String type;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	public Set<Project> project;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	public Set<Activity> activity;
 	
 	private String username;
@@ -63,9 +28,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public Member(String name, String type, String username, String password) {
 		this.name = name;
 		this.type = type;
@@ -77,9 +40,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setMemberID(int newID) {
 		memberID = newID;
 	}
@@ -88,9 +49,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public void setName(String newName) {
 		name = newName;	
 	}
@@ -99,9 +58,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setType(String newType) {
 		type = newType;
 	}
@@ -110,9 +67,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public void setUserName(String newUserName) {
 		username = newUserName;
 	}
@@ -121,9 +76,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public void setPassword(String newPassword) {
 		password = newPassword;
 	}
@@ -132,9 +85,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public int getMemberID() {
 		return memberID;
 	}
@@ -143,9 +94,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public String getName() {
 		return name;
 	}
@@ -154,9 +103,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public String getType() {
 		return type;
 	}
@@ -165,9 +112,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public String getUserName() {
 		return username;
 	}
@@ -176,9 +121,7 @@ public class Member
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
-	 */
-	
+	 */	
 	public String getPassword() {
 		return password;
 	}

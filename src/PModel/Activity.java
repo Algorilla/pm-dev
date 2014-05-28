@@ -16,60 +16,35 @@ public class Activity extends Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
 	
-	private int projectID;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private int activityNumber;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Set<Member> member;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Project project;
-	
+	private int projectID;	
+	private int activityNumber;		
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public Activity(int ProjectID,String name, String description, Date start, Date deadline, int length) {
 		super(name, description, start, deadline, length);
 		projectID = ProjectID;
 	}
-	public Activity(String name, String description, Date start, Date deadline, int length) {
-		super(name, description, start, deadline, length);
-	}	
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
+	public Activity(String name, String description, Date start, Date deadline, int length) {
+		super(name, description, start, deadline, length);
+	}	
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 */	
 	public void setProjectID(int newProjectID) {
 		projectID = newProjectID;
 	}
@@ -78,9 +53,7 @@ public class Activity extends Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public void setNumber(int newNumber) {
 		activityNumber = newNumber;
 	}
@@ -89,9 +62,7 @@ public class Activity extends Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public int getProjectID() {
 		return projectID;
 	}
@@ -100,9 +71,7 @@ public class Activity extends Manageable
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
-	 * @ordered
 	 */
-	
 	public int getNumber() {
 		return activityNumber;
 	}
