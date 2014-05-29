@@ -522,6 +522,7 @@ public class MainController {
 		}	
 		return false;
 	}
+	// TODO: Where this is done will most likely change as project development goes on
 	private boolean DeleteProjectActivities(Project project)
 	{
 		String sql = "delete from Activities where PID = ?";
@@ -530,13 +531,14 @@ public class MainController {
 			pst.setInt(1,project.getProjectID());
 			pst.execute();
 			pst.close();
-			int x=0;
-			for (Activity activity : Activities)
+			for (int x=0;x<Activities.size();x++)
 			{
-			    if (activity.getProjectID() == project.getProjectID())
+			   if (Activities.get(x).getProjectID() == project.getProjectID())
+			    {
 			    	Activities.remove(x);
-			    x++;
-			}
+			    	x--;			   
+			    }
+			}			
 			return true;
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null,ex);	
