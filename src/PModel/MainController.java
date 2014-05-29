@@ -448,18 +448,36 @@ public class MainController {
 	}
 	
 	// Deletes a Project
-	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Projects
-	public boolean DeleteProject(Project project) { return DeleteProject(project.getName());}
-	public boolean DeleteProject(String name)
+	public boolean DeleteProject(int PID) 
+	{
+		int x = 0;
+		for (Project project : Projects)
+		    if (project.getProjectID() == PID)
+				break;
+		    else
+		    	x++;
+		return DeleteProject(Projects.get(x));
+	}
+	public boolean DeleteProject(String projectName) 
+	{
+		int x = 0;
+		for (Project project : Projects)
+		    if (project.getName() == projectName)
+				break;
+		    else
+		    	x++;
+		return DeleteProject(Projects.get(x));
+	}
+	public boolean DeleteProject(Project project)
 	{
 		String sql;
 		try {
 			sql = "select count(*) from Projects where Name = ?";
 			pst = conn.prepareStatement(sql);
-			pst.setString(1,name);
+			pst.setString(1,project.getName());
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Project with name "+name+" does not exist.");
+				ErrorController.get().AddError("Project with name "+project.getName()+" does not exist.");
 			}
 		} catch (SQLException ex) {}
 		
@@ -470,12 +488,12 @@ public class MainController {
 		sql = "delete from Projects where Name = ?";
 		try{
 			pst = conn.prepareStatement(sql);
-			pst.setString(1,name);
+			pst.setString(1,project.getName());
 			pst.execute();
 			pst.close();
 			int x=0;
 			for (Project oldProject : Projects)
-			    if (oldProject.getName() == name)
+			    if (oldProject.getName() == project.getName())
 					break;
 			    else
 			    	x++;
