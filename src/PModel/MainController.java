@@ -518,12 +518,19 @@ public class MainController {
 			if (ErrorController.get().ErrorsExist()) {
 				ErrorController.get().DisplayErrors();
 				return false;
-			}			
-			sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";				
+			}						
 			try{
+				// Here we get the max number for the current project, as with 2 primary keys we cannot auto-increment them.
+				sql = "select Max(number) from Activities where PID = ?";
 				pst = conn.prepareStatement(sql);
-				pst.setInt(1, activity.getProjectID());
-				pst.setInt(2, activity.getNumber());
+				pst.setInt(1, currentProject.getProjectID());
+				rs = pst.executeQuery();
+				int x = rs.getInt(1);
+				x++;		
+				sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, currentProject.getProjectID());
+				pst.setInt(2, x);
 				pst.setString(3, activity.getName());
 				pst.setString(4, activity.getDescr());
 				pst.setString(5, df.format(activity.getStart()));
@@ -580,18 +587,17 @@ public class MainController {
 	}
 	
 	// Deletes an Activity
-	public boolean DeleteActivity(String name) { return DeleteActivity(currentProject.getProjectID(),name);}
-	public boolean DeleteActivity(int PID,String name)
+	public boolean DeleteActivity(int PID,int number)
 	{
 		String sql;
 		try {
-			sql = "select count(*) from Activities where PID = ? and Name = ?";
+			sql = "select count(*) from Activities where PID = ? and Number = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1,PID);
-			pst.setString(2, name);
+			pst.setInt(2,number);
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Activity with PID "+PID+" and name "+name+" does not exist.");
+				ErrorController.get().AddError("Activity with PID "+PID+" and name "+number+" does not exist.");
 			}
 		} catch (SQLException ex) {}
 		finally{
@@ -608,11 +614,11 @@ public class MainController {
 		try{
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, PID);
-			pst.setString(2, name);
+			pst.setInt(2,number);
 			pst.execute();
 			int x=0;
 			for (Activity oldActivity : Activities)
-			    if (oldActivity.getProjectID() == PID && oldActivity.getName() == name )
+			    if (oldActivity.getProjectID() == PID && oldActivity.getNumber() == number )
 					break;
 			    else
 			    	x++;				

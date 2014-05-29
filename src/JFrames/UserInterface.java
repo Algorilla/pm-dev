@@ -136,8 +136,9 @@ public class UserInterface extends InitialJFrame {
 	        btnDeleteActivity.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
 	        		int row = table_1.getSelectedRow();
-	        		String name = table_1.getModel().getValueAt(row, 2).toString();
-	        		 MainController.get().DeleteActivity(name);
+	        		int PID = (int) table_1.getModel().getValueAt(row, 0);
+	        		int number = (int) table_1.getModel().getValueAt(row, 0);
+	        		 MainController.get().DeleteActivity(PID,number);
 		        		resetFrame();
 		        		projectPanel();
 		        	    validate();
