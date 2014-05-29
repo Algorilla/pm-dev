@@ -216,7 +216,7 @@ public class MainController {
 		
 	}
 	// Creates a User
-	public boolean CreateMember(Member member)
+	public Member CreateMember(Member member)
 	{
 		if (member.getName() != "" && member.getName() != null &&
 			member.getType() != "" && member.getType() != null &&
@@ -233,13 +233,17 @@ public class MainController {
 				pst.setString(4, member.getPassword());
 				pst.execute();
 				pst.close();
+				sql = "select max(MID) from Members";
+				pst = conn.prepareStatement(sql);
+				rs = pst.executeQuery();
+				member.setMemberID(rs.getInt(1));
 				Members.add(member);
-				return true;
+				return member;
 			}catch(Exception ex){
 				JOptionPane.showMessageDialog(null,ex);	
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	// Updates a User
