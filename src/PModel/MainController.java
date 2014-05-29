@@ -532,7 +532,7 @@ public class MainController {
 	}
 	
 	// Creates an Activity
-	public boolean CreateActivity(Activity activity)
+	public Activity CreateActivity(Activity activity)
 	{		
 		if (activity.getName() != "" && activity.getName() != null &&
 			activity.getDescr() != "" && activity.getDescr() != null &&
@@ -553,7 +553,7 @@ public class MainController {
 			} catch (SQLException ex) { }			
 			if (ErrorController.get().ErrorsExist()) {
 				ErrorController.get().DisplayErrors();
-				return false;
+				return null;
 			}						
 			try{
 				// Here we get the max number for the current project, as with 2 primary keys we cannot auto-increment them.
@@ -574,13 +574,15 @@ public class MainController {
 				pst.setString(7, String.valueOf(activity.getProjectID()));
 				pst.execute();
 				pst.close();
+				activity.setProjectID(currentProject.getProjectID());
+				activity.setNumber(x);
 				Activities.add(activity);
-				return true;
+				return activity;
 			}catch(Exception ex){
 				JOptionPane.showMessageDialog(null,ex);	
 			}
 		}
-	return false;
+	return null;
 	}
 	
 	// Updates an Activity
