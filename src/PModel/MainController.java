@@ -478,7 +478,7 @@ public class MainController {
 			    if (oldProject.getName() == name)
 					break;
 			    else
-			    	x++;				
+			    	x++;
 			Projects.remove(x);
 			return true;
 		}catch(Exception ex){
@@ -493,26 +493,18 @@ public class MainController {
 		if (activity.getName() != "" && activity.getName() != null &&
 			activity.getDescr() != "" && activity.getDescr() != null &&
 			activity.getStart() != null &&
-			activity.getDeadline() != null &&
-			activity.getProjectID() != 0
+			activity.getDeadline() != null
 			)
 		{		
 			String sql;				
 			try {
-				sql = "select count(*) from Projects where PID = ?";
-				pst = conn.prepareStatement(sql);
-				pst.setInt(1,activity.getProjectID());
-				rs = pst.executeQuery();
-				if(rs.getInt(1) == 0){
-					ErrorController.get().AddError("Project with ID "+activity.getProjectID()+" does not exist.");
-				}
 				sql = "select count(*) from Activities where PID = ? and Number = ?";
 				pst = conn.prepareStatement(sql);
 				pst.setInt(1, activity.getProjectID());
 				pst.setInt(2, activity.getNumber());
 				rs = pst.executeQuery();
 				if(rs.getInt(1) == 1){
-					ErrorController.get().AddError("Activity with PID "+activity.getProjectID()+" and activity.getNumber() "+activity.getNumber()+" already exists.");
+					ErrorController.get().AddError("Activity with PID "+activity.getProjectID()+" and Number "+activity.getNumber()+" already exists.");
 				}
 			} catch (SQLException ex) { }			
 			if (ErrorController.get().ErrorsExist()) {
