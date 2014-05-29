@@ -467,7 +467,7 @@ public class MainController {
 			ErrorController.get().DisplayErrors();
 			return false;
 		}		
-		sql = "delete from Projects where PID = ?";
+		sql = "delete from Projects where Name = ?";
 		try{
 			pst = conn.prepareStatement(sql);
 			pst.setString(1,name);
