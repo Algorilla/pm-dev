@@ -330,7 +330,7 @@ public class MainController {
 	}
 	
 	// Creates a Project
-	public boolean CreateProject(Project project)
+	public Project CreateProject(Project project)
 	{
 		if (project.getName() != "" && project.getName() != null &&
 			project.getDescr() != "" && project.getDescr() != null &&
@@ -341,7 +341,7 @@ public class MainController {
 		{		
 				String sql;
 				try {
-					sql = "select project.getName() from Projects where project.getName() = ?";
+					sql = "select * from Projects where Name = ?";
 					pst = conn.prepareStatement(sql);
 					pst.setString(1, project.getName());
 					rs = pst.executeQuery();
@@ -358,7 +358,7 @@ public class MainController {
 				} catch (SQLException ex) {}				
 				if (ErrorController.get().ErrorsExist()) {
 					ErrorController.get().DisplayErrors();
-					return false;
+					return null;
 				}	
 				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?)";				
 				try{
@@ -371,13 +371,17 @@ public class MainController {
 					pst.setInt(6, project.getLength());
 					pst.execute();
 					pst.close();
+					sql = "select max(PID) from Projects";
+					pst = conn.prepareStatement(sql);
+					rs = pst.executeQuery();
+					project.setProjectID(rs.getInt(1));
 					Projects.add(project);
-					return true;
+					return project;
 				}catch(Exception ex){
 					JOptionPane.showMessageDialog(null,ex);	
 				}
 			}		
-			return false;
+			return null;
 	}
 	
 	// Updates a Project
