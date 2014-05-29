@@ -296,17 +296,26 @@ public class MainController {
 	
 	// Deletes a User
 	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Users
-	public boolean DeleteMember(Member member){return DeleteMember(member.getMemberID());}
-	public boolean DeleteMember(int MID)
+	public boolean DeleteMember(int MID) 
+	{
+		int x = 0;
+		for (Member member : Members)
+		    if (member.getMemberID() == MID)
+				break;
+		    else
+		    	x++;
+		return DeleteMember(Members.get(x));
+	}
+	public boolean DeleteMember(Member member)
 	{
 		String sql;
 		try {
 			sql = "select count(*) from Members where MID = ?";
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1,MID);
+			pst.setInt(1,member.getMemberID());
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Member with ID "+MID+" does not exist.");
+				ErrorController.get().AddError("Member with ID "+member.getMemberID()+" does not exist.");
 			}
 		} catch (SQLException ex) {}		
 		if (ErrorController.get().ErrorsExist()) {
@@ -316,12 +325,12 @@ public class MainController {
 		sql = "delete from Members where MID = ?";
 		try{
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1, MID);
+			pst.setInt(1, member.getMemberID());
 			pst.execute();
 			pst.close();
 			int x=0;
 			for (Member oldMember : Members)
-			    if (oldMember.getMemberID() == MID)
+			    if (oldMember.getMemberID() == member.getMemberID())
 					break;
 			    else
 			    	x++;				
