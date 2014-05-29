@@ -487,6 +487,7 @@ public class MainController {
 		}		
 		sql = "delete from Projects where Name = ?";
 		try{
+			DeleteProjectActivities(project);
 			pst = conn.prepareStatement(sql);
 			pst.setString(1,project.getName());
 			pst.execute();
@@ -502,6 +503,27 @@ public class MainController {
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null,ex);	
 		}	
+		return false;
+	}
+	private boolean DeleteProjectActivities(Project project)
+	{
+		String sql = "delete from Activities where PID = ?";
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,project.getProjectID());
+			pst.execute();
+			pst.close();
+			int x=0;
+			for (Activity activity : Activities)
+			{
+			    if (activity.getProjectID() == project.getProjectID())
+			    	Activities.remove(x);
+			    x++;
+			}
+			return true;
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null,ex);	
+		}
 		return false;
 	}
 	
