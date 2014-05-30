@@ -2,7 +2,11 @@ package PModelTest;
 
 import static org.junit.Assert.*;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import PModel.MainController;
+import PModel.Member;
 
 public class MainControllerTest {
 	private static Member GoodMember;
@@ -25,9 +29,7 @@ public class MainControllerTest {
 		
 	}
 
-	
-	@Test
-	public void testGet() {
+	@Test	public void testGet() {
 		fail("Not yet implemented");
 	}
 
@@ -66,7 +68,7 @@ public class MainControllerTest {
 		//invalid login
 		assertFalse(MainController.get().Login("FailedUsername", "FailedPassword"));
 	}
-	
+
 	@Test
 	public void testGetProjectList() {
 		fail("Not yet implemented");
@@ -92,7 +94,6 @@ public class MainControllerTest {
 		fail("Not yet implemented");
 	}
 
-
 	/*
 	 * Create Member Test
 	 * 	Valid
@@ -103,24 +104,17 @@ public class MainControllerTest {
 	 */
 	@Test
 	public void testCreateMember() {
-		//Valid Members
-		assertTrue(MainController.get().CreateMember(GoodMember));
-		//Invalid Members
-		//Blank Member
-		assertFalse(MainController.get().CreateMember(BlankMember));
-		//Blank Name
-		assertFalse(MainController.get().CreateMember(BlankName));
-		//Blank Type
-		assertFalse(MainController.get().CreateMember(BlankType));
-		//Blank Username
-		assertFalse(MainController.get().CreateMember(BlankUsername));
-		//Blank Password
-		assertFalse(MainController.get().CreateMember(BlankPassword));
-		/*
-		 * Copy of Valid Member For Unique Member Creation
-		 * Need to test database
-		 */
-		assertFalse(MainController.get().CreateMember(NonUniqueMember));
+		//Valid
+		assertEquals(GoodMember, MainController.get().CreateMember(GoodMember));
+		
+		//Invalid
+		assertNull(MainController.get().CreateMember(BlankMember));
+		assertNull(MainController.get().CreateMember(BlankName));
+		assertNull(MainController.get().CreateMember(BlankType));
+		assertNull(MainController.get().CreateMember(BlankUsername));
+		assertNull(MainController.get().CreateMember(BlankPassword));
+		assertNull(MainController.get().CreateMember(NonUniqueMember));
+		
 	}
 
 	@Test
