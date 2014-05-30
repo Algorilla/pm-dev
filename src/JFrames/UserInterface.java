@@ -69,6 +69,7 @@ public class UserInterface extends InitialJFrame {
     private  TextArea textArea_description;
     private JTextField textField_ActivityName;
     final JTable table_1 = new JTable();
+    private Activity activity;
 	/**
 	 * Create the frame.
 	 */
@@ -160,6 +161,9 @@ public class UserInterface extends InitialJFrame {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		int row = table_1.getSelectedRow();
+        		int PID =  Integer.parseInt(table_1.getModel().getValueAt(row, 0).toString());
+        		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
+        		activity = MainController.get().GetActivityFromID(PID, number);
         		String name = table_1.getModel().getValueAt(row, 2).toString();
         		textField_ActivityName.setText(name);        		
         		String des = table_1.getModel().getValueAt(row, 3).toString();
@@ -275,8 +279,13 @@ public class UserInterface extends InitialJFrame {
 				}
 				int length = Integer.parseInt(textField_length.getText());
 				JOptionPane.showMessageDialog(null,description + startd + end);						
-				Activity ac = new Activity(pid, name, description, start, deadline, length);
-		        MainController.get().UpdateActivity(ac);
+				//Activity ac = new Activity(pid, name, description, start, deadline, length);
+				activity.setName(name);
+				activity.setDescr(description);
+				activity.setStart(start);
+				activity.setDeadline(deadline);
+				activity.setLength(length);
+		        MainController.get().UpdateActivity(activity);
         		resetFrame();
         		projectPanel();
         	    validate();

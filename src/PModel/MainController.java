@@ -272,6 +272,23 @@ public class MainController {
 	}
 	
 	/**
+	* Description: Returns a reference to an activity
+	* in local memory based on the needed identifiers.
+	*
+	* @author  Robert Wolfstein
+	* @param int PID (Project ID) and int number
+	* (Activity ID in project)
+	* @return Activity
+	*/	
+	public Activity GetActivityFromID(int PID,int number)
+	{
+		for (Activity activity : Activities)
+		    if (activity.getProjectID() == PID && activity.getNumber() == number)
+		    	return activity;
+		return null;
+	}
+	
+	/**
 	* Description: Creates a user.
 	*
 	* @author  Robert Wolfstein
@@ -730,10 +747,10 @@ public class MainController {
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, activity.getName());
 				pst.setString(2, activity.getDescr());
-				pst.setString(3, activity.getStart().toString());
-				pst.setString(4, activity.getDeadline().toString());
-				pst.setString(5, df.format(activity.getStart()));
-				pst.setString(6, df.format(activity.getDeadline()));
+				pst.setString(3, df.format(activity.getStart()));
+				pst.setString(4, df.format(activity.getDeadline()));
+				pst.setInt(5, activity.getLength());
+				pst.setInt(6, activity.getProjectID());
 				pst.setInt(7, activity.getNumber());
 				pst.execute();
 				pst.close();
