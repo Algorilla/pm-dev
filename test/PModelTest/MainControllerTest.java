@@ -5,7 +5,27 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MainControllerTest {
+	private static Member GoodMember;
+	private static Member BlankMember;
+	private static Member BlankName;
+	private static Member BlankType;
+	private static Member BlankUsername;
+	private static Member BlankPassword;
+	private static Member NonUniqueMember;
+	
+	@BeforeClass
+	public static void testSetup(){
+		GoodMember = new Member("John Doe", "member", "JDoe", "password123");
+		BlankMember = new Member("", "", "", "");
+		BlankName = new Member("", "member", "JDoe1", "password123");
+		BlankType = new Member("Timmy", "", "Tim4", "password123");
+		BlankUsername = new Member("Jane", "member", "", "password123");
+		BlankPassword = new Member("Fred", "member", "Freddy", "");
+		NonUniqueMember = new Member("John Doe", "member", "JDoe", "password123");
+		
+	}
 
+	
 	@Test
 	public void testGet() {
 		fail("Not yet implemented");
@@ -31,11 +51,22 @@ public class MainControllerTest {
 		fail("Not yet implemented");
 	}
 
+	/*
+	 * Login Test
+	 * Checks if valid login passes
+	 * Checks if invalid login doesn't pass
+	 * 		On failed login GUI opens saying invalid login
+	 * 			could this be changed?
+	 */
 	@Test
 	public void testLogin() {
-		fail("Not yet implemented");
+		//valid login
+		assertTrue(MainController.get().Login("root", "root"));
+		
+		//invalid login
+		assertFalse(MainController.get().Login("FailedUsername", "FailedPassword"));
 	}
-
+	
 	@Test
 	public void testGetProjectList() {
 		fail("Not yet implemented");
@@ -61,9 +92,35 @@ public class MainControllerTest {
 		fail("Not yet implemented");
 	}
 
+
+	/*
+	 * Create Member Test
+	 * 	Valid
+	 * 		All categories filled in, name, type, usernmae, password
+	 * Invalid
+	 * 		Missing Name, type, username, and/or password
+	 * 		Creation of second exact same member
+	 */
 	@Test
 	public void testCreateMember() {
-		fail("Not yet implemented");
+		//Valid Members
+		assertTrue(MainController.get().CreateMember(GoodMember));
+		//Invalid Members
+		//Blank Member
+		assertFalse(MainController.get().CreateMember(BlankMember));
+		//Blank Name
+		assertFalse(MainController.get().CreateMember(BlankName));
+		//Blank Type
+		assertFalse(MainController.get().CreateMember(BlankType));
+		//Blank Username
+		assertFalse(MainController.get().CreateMember(BlankUsername));
+		//Blank Password
+		assertFalse(MainController.get().CreateMember(BlankPassword));
+		/*
+		 * Copy of Valid Member For Unique Member Creation
+		 * Need to test database
+		 */
+		assertFalse(MainController.get().CreateMember(NonUniqueMember));
 	}
 
 	@Test
@@ -71,9 +128,16 @@ public class MainControllerTest {
 		fail("Not yet implemented");
 	}
 
+	/*
+	 * Test to delete Member
+	 * Parameter: Member
+	 */
 	@Test
 	public void testDeleteMemberMember() {
-		fail("Not yet implemented");
+		//Delete Existing Member
+		assertTrue(MainController.get().DeleteMember(GoodMember));
+		//Deletes Non-Existant Member
+		assertFalse(MainController.get().DeleteMember(BlankMember));
 	}
 
 	@Test
