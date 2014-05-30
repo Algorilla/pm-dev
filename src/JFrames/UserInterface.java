@@ -138,7 +138,7 @@ public class UserInterface extends InitialJFrame {
 	        	public void actionPerformed(ActionEvent e) {
 	        		int row = table_1.getSelectedRow();
 	        		int PID = (int) table_1.getModel().getValueAt(row, 0);
-	        		int number = (int) table_1.getModel().getValueAt(row, 0);
+	        		int number = (int) table_1.getModel().getValueAt(row, 1);
 	        		 MainController.get().DeleteActivity(PID,number);
 		        		resetFrame();
 		        		projectPanel();
@@ -278,8 +278,7 @@ public class UserInterface extends InitialJFrame {
 					exe.printStackTrace();
 				}
 				int length = Integer.parseInt(textField_length.getText());
-				JOptionPane.showMessageDialog(null,description + startd + end);						
-				//Activity ac = new Activity(pid, name, description, start, deadline, length);
+				JOptionPane.showMessageDialog(null,description + startd + end);
 				activity.setName(name);
 				activity.setDescr(description);
 				activity.setStart(start);
