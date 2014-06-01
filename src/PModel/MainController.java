@@ -167,7 +167,7 @@ public class MainController {
 		    {
 				currentUser = member;								
 				UserInterface userAccount = new UserInterface(100,100,1000,600,"",username);
-				userAccount.setVisible(true);
+				userAccount.setVisible(true);				
 				return true;
 		    }			
 		}
@@ -297,12 +297,19 @@ public class MainController {
 	*/	
 	public Member CreateMember(Member member)
 	{
-		if (member.getName() != "" && member.getName() != null &&
-			member.getType() != "" && member.getType() != null &&
-			member.getUserName() != "" && member.getUserName() != null &&
-			member.getPassword() != "" && member.getPassword() != null
+		if (!member.getName().equals("") && member.getName() != null &&
+			!member.getType().equals("") && member.getType() != null &&
+			!member.getUserName().equals("") && member.getUserName() != null &&
+			!member.getPassword().equals("") && member.getPassword() != null
 			)
-		{		
+		{
+			for (Member theMember : Members)
+			    if (theMember.getUserName().equals(member.getUserName()))
+					ErrorController.get().AddError("Member with Username "+theMember.getUserName()+" already exists.");
+			if (ErrorController.get().ErrorsExist()) {
+				ErrorController.get().DisplayErrors();
+				return null;
+			}			
 			String sql = "insert into Members (Name,Type,Username,Password)values(?,?,?,?)";
 			try{
 				pst = conn.prepareStatement(sql);
@@ -320,7 +327,7 @@ public class MainController {
 				return member;
 			}catch(Exception ex){
 				JOptionPane.showMessageDialog(null,ex);	
-			}
+			}		
 		}
 		return null;
 	}
@@ -334,12 +341,18 @@ public class MainController {
 	*/	
 	public boolean UpdateMember(Member member)
 	{
-		if (member.getName() != "" && member.getName() != null &&
-			member.getType() != "" && member.getType() != null &&
-			member.getUserName() != "" && member.getUserName() != null &&
-			member.getPassword() != "" && member.getPassword() != null
+		if (!member.getName().equals("") && member.getName() != null &&
+			!member.getType().equals("") && member.getType() != null &&
+			!member.getUserName().equals("") && member.getUserName() != null &&
+			!member.getPassword().equals("") && member.getPassword() != null
 			)
 		{
+			int count = 0;
+			for (Member theMember : Members)
+			    if (theMember.getUserName().equals(member.getUserName()))
+			    	count++;
+			if (count > 1)
+				ErrorController.get().AddError("Member with Username "+member.getUserName()+" already exists.");			
 			String sql;
 			try {
 				sql = "select count(*) from Members where MID = ?";
@@ -442,8 +455,8 @@ public class MainController {
 	*/	
 	public Project CreateProject(Project project)
 	{
-		if (project.getName() != "" && project.getName() != null &&
-			project.getDescr() != "" && project.getDescr() != null &&
+		if (!project.getName().equals("") && project.getName() != null &&
+			!project.getDescr().equals("") && project.getDescr() != null &&
 			project.getStart() != null &&
 			project.getDeadline() != null &&
 			project.getLength() != 0
@@ -451,6 +464,8 @@ public class MainController {
 		{		
 				String sql;
 				try {
+					// TODO: Change to use local memory rather than DB
+					
 					sql = "select * from Projects where Name = ?";
 					pst = conn.prepareStatement(sql);
 					pst.setString(1, project.getName());
@@ -503,8 +518,8 @@ public class MainController {
 	*/	
 	public boolean UpdateProject(Project project)
 	{		
-		if (project.getName() != "" && project.getName() != null &&
-			project.getDescr() != "" && project.getDescr() != null &&
+		if (!project.getName().equals("") && project.getName() != null &&
+			!project.getDescr().equals("") && project.getDescr() != null &&
 			project.getStart() != null &&
 			project.getDeadline() != null &&
 			project.getLength() != 0
@@ -674,8 +689,8 @@ public class MainController {
 	*/	
 	public Activity CreateActivity(Activity activity)
 	{		
-		if (activity.getName() != "" && activity.getName() != null &&
-			activity.getDescr() != "" && activity.getDescr() != null &&
+		if (!activity.getName().equals("") && activity.getName() != null &&
+			!activity.getDescr().equals("") && activity.getDescr() != null &&
 			activity.getStart() != null &&
 			activity.getDeadline() != null
 			)
@@ -711,7 +726,7 @@ public class MainController {
 				pst.setString(4, activity.getDescr());
 				pst.setString(5, df.format(activity.getStart()));
 				pst.setString(6, df.format(activity.getDeadline()));
-				pst.setString(7, String.valueOf(activity.getProjectID()));
+				pst.setString(7, String.valueOf(activity.getLength()));
 				pst.execute();
 				pst.close();
 				activity.setProjectID(currentProject.getProjectID());
@@ -734,8 +749,8 @@ public class MainController {
 	*/	
 	public boolean UpdateActivity(Activity activity)
 	{		
-		if (activity.getName() != "" && activity.getName() != null &&
-			activity.getDescr() != "" && activity.getDescr() != null &&
+		if (!activity.getName().equals("") && activity.getName() != null &&
+			!activity.getDescr().equals("") && activity.getDescr() != null &&
 			activity.getStart() != null &&
 			activity.getDeadline() != null &&
 			activity.getProjectID() != 0

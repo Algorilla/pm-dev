@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 // Class for handling and displaying errors
 public class ErrorController {
 
+	// TODO: Change to use string buffer to manage memory more efficiently
+	
 	// Singleton design pattern
 	private static ErrorController self = new ErrorController();
     public static ErrorController get() { return self; }
