@@ -2,13 +2,20 @@ package PModelTest;
 
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import PModel.Activity;
 import PModel.MainController;
 import PModel.Member;
+import PModel.Project;
 
 public class MainControllerTest {
+	//members
 	private static Member GoodMember;
 	private static Member BlankMember;
 	private static Member BlankName;
@@ -17,6 +24,17 @@ public class MainControllerTest {
 	private static Member BlankPassword;
 	private static Member NonUniqueMember;
 	
+	//activities
+	private static Activity UpdateActivityTrue;
+	private static Activity UpdateActivityFalse;
+	private static Activity NewActivity;
+	private static Activity BlankActivity;
+	private static Activity InvalidActivity;
+	
+	//project
+	private static Project newProject;
+	private static Project blankProject;
+	private static Project invalidProject;
 	@BeforeClass
 	public static void testSetup(){
 		GoodMember = new Member("John Doe", "member", "JDoe", "password123");
@@ -26,6 +44,26 @@ public class MainControllerTest {
 		BlankUsername = new Member("Jane", "member", "", "password123");
 		BlankPassword = new Member("Fred", "member", "Freddy", "");
 		NonUniqueMember = new Member("John Doe", "member", "JDoe", "password123");
+		
+		
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+			Date d1 = sdf.parse("31-JUN-2014");
+			Date d2 = sdf.parse("31-JUL-2014");
+			//Activity
+			NewActivity = new Activity(1,"New Activity 1", "This is a testing activity", d1,  d2, 6);
+			BlankActivity = new Activity(0, "","",null,null,0);
+			InvalidActivity = new Activity(1, "Invalid Activity", "this is an invalid activity", d2, d1, 8);
+			
+			//Project
+			newProject = new Project(4, "New Project 1", "This is a testing project", d1, d2, 8);
+			blankProject = new Project(0, "", "", null, null, 0);
+			invalidProject = new Project(5,"Invalid Project","This should Fail",d2,d1,8);
+		}catch(ParseException e)
+		{
+			System.out.println("Improper Date Format");
+		}
+		
 		
 	}
 
@@ -161,9 +199,19 @@ public class MainControllerTest {
 		assertFalse(MainController.get().DeleteMember(999999999));
 	}
 
+	/*
+	 * Attempts to Create a Project 
+	 * 
+	 * Test Passes if:
+	 * 	Valid project is created
+	 * 	Blank Project is not created
+	 * 	Invalid Project is not created
+	 */
 	@Test
 	public void testCreateProject() {
-		fail("Not yet implemented");
+		assertEquals(newProject, MainController.get().CreateProject(newProject));
+		assertNull(MainController.get().CreateProject(blankProject));
+		assertNull(MainController.get().CreateProject(invalidProject));
 	}
 
 	@Test
@@ -221,9 +269,22 @@ public class MainControllerTest {
 		assertFalse(MainController.get().DeleteProject("Fake Project"));
 	}
 
+	/*
+	 * Attempts to Create an Activity
+	 * 
+	 * Passes if:
+	 * 	Valid Activity is created
+	 * 	Blank Activity is not created 
+	 *  Invalid Activity is not created
+	 */
 	@Test
 	public void testCreateActivity() {
-		fail("Not yet implemented");
+		//creates valid activity
+		assertEquals(NewActivity, MainController.get().CreateActivity(NewActivity));
+		//creates blank activity
+		assertNull(MainController.get().CreateActivity(BlankActivity));
+		//created activity where start is after deadline
+		assertNull(MainController.get().CreateActivity(InvalidActivity));
 	}
 
 	@Test
@@ -231,14 +292,18 @@ public class MainControllerTest {
 		fail("Not yet implemented");
 	}
 
+	/*
+	 * Attempts to Delete an Activity using ProjectID and Activity Number
+	 * 
+	 * Example: Project ID = 1  Activity Number = 1
+	 * 
+	 * Test Passes if True is Returned and Activity is Deleted for valid Activity
+	 * 			and False is Returned and Activity is Not Deleted for invalid Activity
+	 */
 	@Test
-	public void testDeleteActivityString() {
-		fail("Not yet implemented");
+	public void testDeleteActivity() {
+		assertTrue(MainController.get().DeleteActivity(1, 1));
+		assertFalse(MainController.get().DeleteActivity(99, 99));
 	}
-
-	@Test
-	public void testDeleteActivityIntString() {
-		fail("Not yet implemented");
-	}
-
+	
 }
