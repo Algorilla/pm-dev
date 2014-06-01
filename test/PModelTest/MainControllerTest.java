@@ -134,9 +134,31 @@ public class MainControllerTest {
 		assertFalse(MainController.get().DeleteMember(BlankMember));
 	}
 
+	/*
+	 * Attempts To Delete Member ID that does no exist/is not in list of members
+	 *
+	 * example: MemberID = 2
+	 * 
+	 * Test passes if True is returned and the member is deleted
+	 */
 	@Test
-	public void testDeleteMemberInt() {
-		fail("Not yet implemented");
+	public void testDeleteMemberIDTrue() {
+		/*
+		 * Not sure of valid MemberID, Don't want to delete root so add valid non-root id
+		 */
+		// assertTrue(MainController.get().DeleteMember(2));
+	}
+	
+	/*
+	 * Attempts To Delete Member ID that does no exist/is not in list of members
+	 *
+	 * example: MemberID = 999999999
+	 * 
+	 * Test passes if False is returned and no member is deleted
+	 */
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testDeleteMemberIDFalse(){
+		assertFalse(MainController.get().DeleteMember(999999999));
 	}
 
 	@Test
@@ -149,14 +171,54 @@ public class MainControllerTest {
 		fail("Not yet implemented");
 	}
 
+	/*
+	 * Attempts to Delete Project using Project ID
+	 * 
+	 * Example: project id = 2
+	 * 
+	 * Test Passes if True is returned and project is deleted
+	 */
 	@Test
-	public void testDeleteProjectProject() {
-		fail("Not yet implemented");
+	public void testDeleteProjectIDTrue() {
+		assertTrue(MainController.get().DeleteProject(2));
 	}
+	
+	/*
+	 * Attempts to Delete Project using Project ID
+	 * 
+	 * Example: project id = 999999999
+	 * 
+	 * Test Passes if False is returned and no project is deleted
+	 */
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testDeleteProjectIDFalse(){
+		assertFalse(MainController.get().DeleteProject(999999999));
+	}	
 
+	/*
+	 * Attempts to Delete a Project using Project Name
+	 * 
+	 * Example: project name = My Project
+	 * 
+	 * Test passes if True is returned and project is deleted
+	 */
 	@Test
-	public void testDeleteProjectString() {
-		fail("Not yet implemented");
+	public void testDeleteProjectByNameTrue() {
+		//Replace My Project with a valid Name in order to pass the test
+		assertTrue(MainController.get().DeleteProject("My Project"));
+	}
+	
+	/*
+	 * Attempts to Delete a Project using Fake Project Name
+	 * 
+	 * Example: project Name = Fake Project
+	 * 
+	 * Test passes if False is Returned and project is not deleted
+	 */
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testDeleteProjectByNameFalse() {
+		//Replace My Project with a valid Name in order to pass the test
+		assertFalse(MainController.get().DeleteProject("Fake Project"));
 	}
 
 	@Test
