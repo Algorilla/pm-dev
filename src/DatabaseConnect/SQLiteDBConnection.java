@@ -4,19 +4,19 @@ import java.sql.*;
 import javax.swing.*;
 /**
  * A class used to connect with sqlite db.
- * @author COMP354 Team B
- * @version 1.0
- *
+ * 
+ * @author Jun Hui Chen
  */
 
 public class SQLiteDBConnection {
 	
 	static Connection conn = null;
-   /**
-    * A method to connect with database
-    * @return
-    */
-	public static Connection ConnecrDb(){
+   
+	/**
+	 * Connection to SQLite DB file
+	 * @return A database connection
+	 */
+	public static Connection ConnectDb(){
 		
 	    try {
 	        Class.forName("org.sqlite.JDBC");

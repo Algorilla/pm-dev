@@ -6,16 +6,15 @@ import javax.swing.*;
 
 import JFrames.Login_Frame;
 import PModel.MainController;
+
 /**
- * 
+ * Main Driver Class for Project Management Software 
  * @author COMP354 Team B
- * @version 1.0
- *
  */
 public class DriverClass {
 
 	/**
-	 * main driver
+	 * Main driver
 	 * @param args
 	 */
 	

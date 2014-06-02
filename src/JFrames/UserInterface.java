@@ -398,13 +398,13 @@ public class UserInterface extends InitialJFrame {
 	        int day = cal.get(Calendar.DAY_OF_MONTH);
 	        Date_txt.setText("Date "+ year+"/"+(month+1) +"/" + day);
 	        
-	        JMenu Time_txt = new JMenu("Time");
-	        menubar.add(Time_txt);
-	        getContentPane().setLayout(null);
-	        int second = cal.get(Calendar.SECOND);
-	        int minute = cal.get(Calendar.MINUTE);
-	        int hour = cal.get(Calendar.HOUR);
-	        Time_txt.setText("Time "+ hour+":"+minute +":" + second);	        
+//	        JMenu Time_txt = new JMenu("Time");
+//	        menubar.add(Time_txt);
+//	        getContentPane().setLayout(null);
+//	        int second = cal.get(Calendar.SECOND);
+//	        int minute = cal.get(Calendar.MINUTE);
+//	        int hour = cal.get(Calendar.HOUR);
+//	        Time_txt.setText("Time "+ hour+":"+minute +":" + second);	        
 	    }
 	 /**
 	  * reset frame if you want to refresh the main frame

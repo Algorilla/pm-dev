@@ -35,7 +35,7 @@ public class DeleteProjectDialog extends JDialog {
 	PreparedStatement pst = null;
 
 	public DeleteProjectDialog() {
-		conn = SQLiteDBConnection.ConnecrDb();
+		conn = SQLiteDBConnection.ConnectDb();
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 	    setTitle("Delete Project from List");

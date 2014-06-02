@@ -19,7 +19,11 @@ import javax.swing.JTable;
 
 import net.proteanit.sql.DbUtils;
 
-// Class for main data and application operations.
+/**
+ * Main Controller class for Project Management Software, following MVC design pattern. 
+ * Controls all manipulation of data in database, and reflects changes via Swing GUI.
+ * @author  Robert Wolfstein
+ */
 public class MainController {
 
 	// Singleton design pattern
@@ -44,16 +48,12 @@ public class MainController {
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 		
 	/**
-	* Description: Initializes controller by connecting 
+	* Initializes controller by connecting 
 	* to the DB and loading the data into memory.
-	*
-	* @author  Robert Wolfstein
-	* @param
-	* @return
 	*/
 	MainController()
 	{
-		conn = SQLiteDBConnection.ConnecrDb();
+		conn = SQLiteDBConnection.ConnectDb();
 		LoadData();
 		
 		// Sample usage:
@@ -62,11 +62,7 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Loads Database into local memory.
-	*
-	* @author  Robert Wolfstein
-	* @param
-	* @return
+	* Loads Database into local memory.
 	*/
 	public void LoadData()
 	{
@@ -127,12 +123,9 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Returns a reference to the current
-	* user.
+	* Returns a reference to the current user.
 	*
-	* @author  Robert Wolfstein
-	* @param
-	* @return Member
+	* @return The current program user
 	*/
 	public Member GetCurrentUser()
 	{
@@ -140,12 +133,9 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Returns a reference to the current
-	* project.
+	* Returns a reference to the current project.
 	*
-	* @author  Robert Wolfstein
-	* @param
-	* @return Project
+	* @return The currently loaded project
 	*/
 	public Project GetCurrentProject()
 	{
@@ -153,11 +143,11 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Logs the user in.
+	* Logs the user in.
 	*
-	* @author  Robert Wolfstein
-	* @param username, password
-	* @return boolean
+	* @param username Username
+	* @param password Password
+	* @return Login status ( success or fail )
 	*/
 	public boolean Login(String username,String password)
 	{
@@ -176,12 +166,9 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Returns a list of projects for the 
-	* currently signed in user.
+	* Returns a list of projects for the currently signed in user.
 	*
-	* @author  Robert Wolfstein
-	* @param
-	* @return List (string)
+	* @return A list of projects for the currently signed in user.
 	*/	
 	public List GetProjectList()
 	{
@@ -193,12 +180,9 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Opens a project selected in the 
-	* OpenProject list
+	* Opens a project selected in the OpenProject list
 	*
-	* @author  Robert Wolfstein
-	* @param name
-	* @return
+	* @param name Name of project to open
 	*/	
 	public void OpenProject(String name)
 	{
@@ -208,12 +192,9 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Display project and its data in 
-	* the GUI
+	* Display project and its data in the GUI
 	*
-	* @author  Junhui C
 	* @param table
-	* @return
 	*/	
 	public void getActivityList(JTable table)
 	{
@@ -231,6 +212,10 @@ public class MainController {
 		}					
 	}
 	
+	/**
+	 * Fills comboBox
+	 * @param comboBox comboBox to fill
+	 */
 	public void Fillcombo(JComboBox comboBox){
 		int pid = currentProject.getProjectID();
 		String sql = "select * from Activities  where PID = ?";
@@ -250,6 +235,10 @@ public class MainController {
 		}					
 	}
 	
+	/**
+	 * MouseClickTable (Description to be filled)
+	 * @param table A JTable
+	 */
 	public void mouseClickTable(JTable table){
 		int row = table.getSelectedRow();
 		int pid = currentProject.getProjectID();		
@@ -272,13 +261,11 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Returns a reference to an activity
-	* in local memory based on the needed identifiers.
+	* Returns a reference to an activity in local memory based on the needed identifiers.
 	*
-	* @author  Robert Wolfstein
-	* @param int PID (Project ID) and int number
-	* (Activity ID in project)
-	* @return Activity
+	* @param PID Project ID 
+	* @param number Activity Number
+	* @return A reference to an activity in local memory
 	*/	
 	public Activity GetActivityFromID(int PID,int number)
 	{
@@ -289,11 +276,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Creates a user.
+	* Creates a user.
 	*
-	* @author  Robert Wolfstein
-	* @param Member
-	* @return Member
+	* @param member Member object from which to create user
+	* @return The created user
 	*/	
 	public Member CreateMember(Member member)
 	{
@@ -333,11 +319,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Updates a user.
+	* Updates a user's information into DB.
 	*
-	* @author  Robert Wolfstein
-	* @param Member
-	* @return boolean
+	* @param member The Member to update
+	* @return Update status ( success or fail )
 	*/	
 	public boolean UpdateMember(Member member)
 	{
@@ -393,11 +378,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Deletes a user.
+	* Deletes a user from DB.
 	*
-	* @author  Robert Wolfstein
-	* @param int (Member ID) OR Member
-	* @return boolean
+	* @param MID ID of Member to delete
+	* @return Deletion status ( success or fail )
 	*/	
 	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Users
 	public boolean DeleteMember(int MID) 
@@ -410,6 +394,13 @@ public class MainController {
 		    	x++;
 		return DeleteMember(Members.get(x));
 	}
+	
+	/**
+	 * Deletes a user
+	 * 
+	 * @param member Member object to delete
+	 * @return Deletion status ( success or fail )
+	 */
 	public boolean DeleteMember(Member member)
 	{
 		String sql;
@@ -447,11 +438,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Creates a project.
+	* Creates a project.
 	*
-	* @author  Robert Wolfstein
-	* @param Project
-	* @return Project
+	* @param project Project object to create
+	* @return Created project
 	*/	
 	public Project CreateProject(Project project)
 	{
@@ -510,11 +500,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Updates a project.
+	* Updates a project's information into DB.
 	*
-	* @author  Robert Wolfstein
-	* @param Project
-	* @return boolean
+	* @param project Project object o update
+	* @return Update status ( success or fail )
 	*/	
 	public boolean UpdateProject(Project project)
 	{		
@@ -583,11 +572,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Deletes a project.
+	* Deletes a project from DB.
 	*
-	* @author  Robert Wolfstein
-	* @param int (Project ID) OR string (Project Name) Or Project
-	* @return boolean
+	* @param PID Project's ID
+	* @return Deletion status ( success or fail )
 	*/	
 	public boolean DeleteProject(int PID) 
 	{
@@ -599,6 +587,13 @@ public class MainController {
 		    	x++;
 		return DeleteProject(Projects.get(x));
 	}
+	
+	/**
+	 * Deletes a project from DB
+	 * 
+	 * @param projectName Project's name
+	 * @return Deletion status ( success or fail )
+	 */
 	public boolean DeleteProject(String projectName) 
 	{
 		int x = 0;
@@ -609,6 +604,13 @@ public class MainController {
 		    	x++;
 		return DeleteProject(Projects.get(x));
 	}
+	
+	/**
+	 * Deletes a project from DB
+	 * 
+	 * @param project Project object
+	 * @return Deletion status ( success or fail )
+	 */
 	public boolean DeleteProject(Project project)
 	{
 		String sql;
@@ -648,12 +650,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Deletes all activities associated
-	* with a project.
+	* Deletes all activities associated with a project.
 	*
-	* @author  Robert Wolfstein
-	* @param Project
-	* @return boolean
+	* @param project Project from which to delete all activities
+	* @return Deletion status ( success or fail )
 	*/
 	// TODO: Where this is done will most likely change as the project progresses.
 	// TODO: Where this is done will most likely change as project development goes on
@@ -681,11 +681,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Creates an activity
+	* Creates an activity
 	*
-	* @author  Robert Wolfstein
-	* @param Activity
-	* @return Activity
+	* @param activity Activity object to create
+	* @return The created Activity
 	*/	
 	public Activity CreateActivity(Activity activity)
 	{		
@@ -741,11 +740,10 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Updates an activity.
+	* Updates an activity's information in DB.
 	*
-	* @author  Robert Wolfstein
-	* @param Activity
-	* @return boolean
+	* @param activity Activity to update
+	* @return Update status ( success or fail )
 	*/	
 	public boolean UpdateActivity(Activity activity)
 	{		
@@ -786,11 +784,11 @@ public class MainController {
 	}
 	
 	/**
-	* Description: Deletes an activity
+	* Deletes an activity from DB.
 	*
-	* @author  Robert Wolfstein
-	* @param int (Project ID), int (Activity Number)
-	* @return boolean
+	* @param PID Activity's project ID
+	* @param number Activity's number
+	* @return Deletion status ( success or fail )
 	*/	
 	public boolean DeleteActivity(int PID,int number)
 	{
