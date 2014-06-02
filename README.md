@@ -32,7 +32,11 @@ Please try to follow convention set out in PModel package files. JavaDoc comment
 		 */
 		public int getID(Project project) throws NonexistantProjectException {...}
 
+<<<<<<< HEAD
  Appropriately filled, this comment would look like this:
+=======
+Appropriately filled, this comment would look like this:
+>>>>>>> origin/test-branch2
 
  		/**
  		 * Find the ID of a given project.
