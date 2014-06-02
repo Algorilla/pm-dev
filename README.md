@@ -32,7 +32,7 @@ Please try to follow convention set out in PModel package files. JavaDoc comment
 		 */
 		public int getID(Project project) throws NonexistantProjectException {...}
 
- 		Appropriately filled, this comment would look like this:
+ Appropriately filled, this comment would look like this:
 
  		/**
  		 * Find the ID of a given project.
@@ -43,7 +43,7 @@ Please try to follow convention set out in PModel package files. JavaDoc comment
  		 */
  		public int getID(Project project) throws NonexistantProjectException {...}
 
- 		Do not include other parameters like @author, these do not work here. Besides, these should be
- 		as short as we can make them, there's bound to be a ton by the end of this, so keep them
- 		concise please.
+Do not include other parameters like @author, these do not work here. Besides, these should be
+as short as we can make them, there's bound to be a ton by the end of this, so keep them
+concise please.
 
