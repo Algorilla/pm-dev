@@ -9,15 +9,15 @@ Relative file paths can now be used to access these files, which makes the progr
 ## JavaDoc
 Please try to follow convention set out in PModel package files. JavaDoc comments should take the following form:
 
-/**
- * Description of function
- *
- * @param paramName1 Desription of param
- * @param paramName2 Description of param
- *...
- * @return Description of return (no need to enter a variable name/type here)
- * @throws ThrownExceptionType
- */
+		/**
+		 * Description of function
+		 *
+		 * @param paramName1 Desription of param
+		 * @param paramName2 Description of param
+		 *...
+		 * @return Description of return (no need to enter a variable name/type here)
+		 * @throws ThrownExceptionType
+		 */
 
  It is very important to follow this format, else the JavaDoc does not generate correctly. A quick shortcut in eclipse:
  		Once the function signature is written, type /**<NEW LINE> right above it, and the JavaDoc skeleton will be 
