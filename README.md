@@ -20,7 +20,7 @@ Please try to follow convention set out in PModel package files. JavaDoc comment
 		 */
 
  It is very important to follow this format, else the JavaDoc does not generate correctly. A quick shortcut in eclipse:
- 		Once the function signature is written, type /**<NEW LINE> right above it, and the JavaDoc skeleton will be 
+ 		Once the function signature is written, type /**\<return\> right above it, and the JavaDoc skeleton will be 
  		automatically formed, and you just need to fill in the descriptions. For example the following function would
  		generate the following skeleton:
 
