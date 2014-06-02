@@ -9,15 +9,15 @@ Relative file paths can now be used to access these files, which makes the progr
 ## JavaDoc
 Please try to follow convention set out in PModel package files. JavaDoc comments should take the following form:
 
-/**
- * Description of function
- *
- * @param paramName1 Desription of param
- * @param paramName2 Description of param
- *...
- * @return Description of return (no need to enter a variable name/type here)
- * @throws ThrownExceptionType
- */
+		/**
+		 * Description of function
+		 *
+		 * @param paramName1 Desription of param
+		 * @param paramName2 Description of param
+		 *...
+		 * @return Description of return (no need to enter a variable name/type here)
+		 * @throws ThrownExceptionType
+		 */
 
  It is very important to follow this format, else the JavaDoc does not generate correctly. A quick shortcut in eclipse:
  		Once the function signature is written, type /**<NEW LINE> right above it, and the JavaDoc skeleton will be 
@@ -32,7 +32,7 @@ Please try to follow convention set out in PModel package files. JavaDoc comment
 		 */
 		public int getID(Project project) throws NonexistantProjectException {...}
 
- 		Appropriately filled, this comment would look like this:
+Appropriately filled, this comment would look like this:
 
  		/**
  		 * Find the ID of a given project.
@@ -43,7 +43,7 @@ Please try to follow convention set out in PModel package files. JavaDoc comment
  		 */
  		public int getID(Project project) throws NonexistantProjectException {...}
 
- 		Do not include other parameters like @author, these do not work here. Besides, these should be
- 		as short as we can make them, there's bound to be a ton by the end of this, so keep them
- 		concise please.
+Do not include other parameters like @author, these do not work here. Besides, these should be
+as short as we can make them, there's bound to be a ton by the end of this, so keep them
+concise please.
 
