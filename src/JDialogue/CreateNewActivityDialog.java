@@ -83,7 +83,7 @@ public class CreateNewActivityDialog extends JDialog {
 		lblEndedDate.setBounds(47, 281, 66, 14);
 		contentPanel.add(lblEndedDate);
 		
-		JLabel lblProjectLength = new JLabel("Activity Length:");
+		JLabel lblProjectLength = new JLabel("Length (Days):");
 		lblProjectLength.setBounds(44, 317, 86, 14);
 		contentPanel.add(lblProjectLength);
 		
