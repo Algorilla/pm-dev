@@ -19,7 +19,11 @@ import javax.swing.JTable;
 
 import net.proteanit.sql.DbUtils;
 
-// Class for main data and application operations.
+/**
+ * Main Controller class for Project Management Software, following MVC design pattern. 
+ * Controls all manipulation of data in database, and reflects changes via Swing GUI.
+ * @author  Robert Wolfstein
+ */
 public class MainController {
 
 	// Singleton design pattern
@@ -40,12 +44,16 @@ public class MainController {
 	Member currentUser;
 	Project currentProject;
 	
+	// Date format
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-	
-	// Initializes controller by connecting to the DB and loading data into memory
+		
+	/**
+	* Initializes controller by connecting 
+	* to the DB and loading the data into memory.
+	*/
 	MainController()
 	{
-		conn = SQLiteDBConnection.ConnecrDb();
+		conn = SQLiteDBConnection.ConnectDb();
 		LoadData();
 		
 		// Sample usage:
@@ -53,6 +61,9 @@ public class MainController {
 		//CreateProject(new Project(1,"Project 1","Project 1",new Date(),new Date(),1));
 	}
 	
+	/**
+	* Loads Database into local memory.
+	*/
 	public void LoadData()
 	{
 		String sqlMembers = "select * from Members";
@@ -111,17 +122,33 @@ public class MainController {
 		}
 	}
 	
+	/**
+	* Returns a reference to the current user.
+	*
+	* @return The current program user
+	*/
 	public Member GetCurrentUser()
 	{
 		return currentUser;
-	}	
+	}
 	
+	/**
+	* Returns a reference to the current project.
+	*
+	* @return The currently loaded project
+	*/
 	public Project GetCurrentProject()
 	{
 		return currentProject;	
 	}
 	
-	// Logs the user in
+	/**
+	* Logs the user in.
+	*
+	* @param username Username
+	* @param password Password
+	* @return Login status ( success or fail )
+	*/
 	public boolean Login(String username,String password)
 	{
 		for (Member member : Members)
@@ -130,7 +157,7 @@ public class MainController {
 		    {
 				currentUser = member;								
 				UserInterface userAccount = new UserInterface(100,100,1000,600,"",username);
-				userAccount.setVisible(true);
+				userAccount.setVisible(true);				
 				return true;
 		    }			
 		}
@@ -138,7 +165,11 @@ public class MainController {
 		return false;
 	}
 	
-	// Returns a list of projects for the currently signed in user.
+	/**
+	* Returns a list of projects for the currently signed in user.
+	*
+	* @return A list of projects for the currently signed in user.
+	*/	
 	public List GetProjectList()
 	{
 		final List projectList = new List();	
@@ -148,35 +179,43 @@ public class MainController {
 		return projectList;	
 	}
 	
-	// Opens a project selected in the OpenProject list
+	/**
+	* Opens a project selected in the OpenProject list
+	*
+	* @param name Name of project to open
+	*/	
 	public void OpenProject(String name)
 	{
 		for (Project project : Projects)
 		    if (project.getName() == name)
 				currentProject = project;
-		
-		// TODO: Display project and its data in the GUI
 	}
+	
 	/**
-	 * Display project and its data in the GUI
-	 * @param table
-	 * @return
-	 */
-	public void getActivityList(JTable table){
-		
-			int pid = currentProject.getProjectID();
-			String sql = "select * from Activities  where PID = ?";
-			try{
-				pst = conn.prepareStatement(sql);
-				pst.setInt(1, pid);
-				rs = pst.executeQuery();
-				table.setModel(DbUtils.resultSetToTableModel(rs));				
-				pst.execute();
-				pst.close();
-			}catch(Exception ex){
-				//JOptionPane.showMessageDialog(null,ex);	
-			}					
+	* Display project and its data in the GUI
+	*
+	* @param table
+	*/	
+	public void getActivityList(JTable table)
+	{
+		int pid = currentProject.getProjectID();
+		String sql = "select * from Activities  where PID = ?";
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, pid);
+			rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));				
+			pst.execute();
+			pst.close();
+		}catch(Exception ex){
+			//JOptionPane.showMessageDialog(null,ex);	
+		}					
 	}
+	
+	/**
+	 * Fills comboBox
+	 * @param comboBox comboBox to fill
+	 */
 	public void Fillcombo(JComboBox comboBox){
 		int pid = currentProject.getProjectID();
 		String sql = "select * from Activities  where PID = ?";
@@ -195,6 +234,11 @@ public class MainController {
 			//JOptionPane.showMessageDialog(null,ex);	
 		}					
 	}
+	
+	/**
+	 * MouseClickTable (Description to be filled)
+	 * @param table A JTable
+	 */
 	public void mouseClickTable(JTable table){
 		int row = table.getSelectedRow();
 		int pid = currentProject.getProjectID();		
@@ -215,15 +259,43 @@ public class MainController {
 		}			
 		
 	}
-	// Creates a User
-	public boolean CreateMember(Member member)
+	
+	/**
+	* Returns a reference to an activity in local memory based on the needed identifiers.
+	*
+	* @param PID Project ID 
+	* @param number Activity Number
+	* @return A reference to an activity in local memory
+	*/	
+	public Activity GetActivityFromID(int PID,int number)
 	{
-		if (member.getName() != "" && member.getName() != null &&
-			member.getType() != "" && member.getType() != null &&
-			member.getUserName() != "" && member.getUserName() != null &&
-			member.getPassword() != "" && member.getPassword() != null
+		for (Activity activity : Activities)
+		    if (activity.getProjectID() == PID && activity.getNumber() == number)
+		    	return activity;
+		return null;
+	}
+	
+	/**
+	* Creates a user.
+	*
+	* @param member Member object from which to create user
+	* @return The created user
+	*/	
+	public Member CreateMember(Member member)
+	{
+		if (!member.getName().equals("") && member.getName() != null &&
+			!member.getType().equals("") && member.getType() != null &&
+			!member.getUserName().equals("") && member.getUserName() != null &&
+			!member.getPassword().equals("") && member.getPassword() != null
 			)
-		{		
+		{
+			for (Member theMember : Members)
+			    if (theMember.getUserName().equals(member.getUserName()))
+					ErrorController.get().AddError("Member with Username "+theMember.getUserName()+" already exists.");
+			if (ErrorController.get().ErrorsExist()) {
+				ErrorController.get().DisplayErrors();
+				return null;
+			}			
 			String sql = "insert into Members (Name,Type,Username,Password)values(?,?,?,?)";
 			try{
 				pst = conn.prepareStatement(sql);
@@ -233,24 +305,39 @@ public class MainController {
 				pst.setString(4, member.getPassword());
 				pst.execute();
 				pst.close();
+				sql = "select max(MID) from Members";
+				pst = conn.prepareStatement(sql);
+				rs = pst.executeQuery();
+				member.setMemberID(rs.getInt(1));
 				Members.add(member);
-				return true;
+				return member;
 			}catch(Exception ex){
 				JOptionPane.showMessageDialog(null,ex);	
-			}
+			}		
 		}
-		return false;
+		return null;
 	}
 	
-	// Updates a User
+	/**
+	* Updates a user's information into DB.
+	*
+	* @param member The Member to update
+	* @return Update status ( success or fail )
+	*/	
 	public boolean UpdateMember(Member member)
 	{
-		if (member.getName() != "" && member.getName() != null &&
-			member.getType() != "" && member.getType() != null &&
-			member.getUserName() != "" && member.getUserName() != null &&
-			member.getPassword() != "" && member.getPassword() != null
+		if (!member.getName().equals("") && member.getName() != null &&
+			!member.getType().equals("") && member.getType() != null &&
+			!member.getUserName().equals("") && member.getUserName() != null &&
+			!member.getPassword().equals("") && member.getPassword() != null
 			)
 		{
+			int count = 0;
+			for (Member theMember : Members)
+			    if (theMember.getUserName().equals(member.getUserName()))
+			    	count++;
+			if (count > 1)
+				ErrorController.get().AddError("Member with Username "+member.getUserName()+" already exists.");			
 			String sql;
 			try {
 				sql = "select count(*) from Members where MID = ?";
@@ -290,19 +377,40 @@ public class MainController {
 		return false;
 	}
 	
-	// Deletes a User
+	/**
+	* Deletes a user from DB.
+	*
+	* @param MID ID of Member to delete
+	* @return Deletion status ( success or fail )
+	*/	
 	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Users
-	public boolean DeleteMember(Member member){return DeleteMember(member.getMemberID());}
-	public boolean DeleteMember(int MID)
+	public boolean DeleteMember(int MID) 
+	{
+		int x = 0;
+		for (Member member : Members)
+		    if (member.getMemberID() == MID)
+				break;
+		    else
+		    	x++;
+		return DeleteMember(Members.get(x));
+	}
+	
+	/**
+	 * Deletes a user
+	 * 
+	 * @param member Member object to delete
+	 * @return Deletion status ( success or fail )
+	 */
+	public boolean DeleteMember(Member member)
 	{
 		String sql;
 		try {
 			sql = "select count(*) from Members where MID = ?";
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1,MID);
+			pst.setInt(1,member.getMemberID());
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Member with ID "+MID+" does not exist.");
+				ErrorController.get().AddError("Member with ID "+member.getMemberID()+" does not exist.");
 			}
 		} catch (SQLException ex) {}		
 		if (ErrorController.get().ErrorsExist()) {
@@ -312,12 +420,12 @@ public class MainController {
 		sql = "delete from Members where MID = ?";
 		try{
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1, MID);
+			pst.setInt(1, member.getMemberID());
 			pst.execute();
 			pst.close();
 			int x=0;
 			for (Member oldMember : Members)
-			    if (oldMember.getMemberID() == MID)
+			    if (oldMember.getMemberID() == member.getMemberID())
 					break;
 			    else
 			    	x++;				
@@ -329,11 +437,16 @@ public class MainController {
 		return false;
 	}
 	
-	// Creates a Project
-	public boolean CreateProject(Project project)
+	/**
+	* Creates a project.
+	*
+	* @param project Project object to create
+	* @return Created project
+	*/	
+	public Project CreateProject(Project project)
 	{
-		if (project.getName() != "" && project.getName() != null &&
-			project.getDescr() != "" && project.getDescr() != null &&
+		if (!project.getName().equals("") && project.getName() != null &&
+			!project.getDescr().equals("") && project.getDescr() != null &&
 			project.getStart() != null &&
 			project.getDeadline() != null &&
 			project.getLength() != 0
@@ -341,7 +454,9 @@ public class MainController {
 		{		
 				String sql;
 				try {
-					sql = "select project.getName() from Projects where project.getName() = ?";
+					// TODO: Change to use local memory rather than DB
+					
+					sql = "select * from Projects where Name = ?";
 					pst = conn.prepareStatement(sql);
 					pst.setString(1, project.getName());
 					rs = pst.executeQuery();
@@ -358,7 +473,7 @@ public class MainController {
 				} catch (SQLException ex) {}				
 				if (ErrorController.get().ErrorsExist()) {
 					ErrorController.get().DisplayErrors();
-					return false;
+					return null;
 				}	
 				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?)";				
 				try{
@@ -371,20 +486,29 @@ public class MainController {
 					pst.setInt(6, project.getLength());
 					pst.execute();
 					pst.close();
+					sql = "select max(PID) from Projects";
+					pst = conn.prepareStatement(sql);
+					rs = pst.executeQuery();
+					project.setProjectID(rs.getInt(1));
 					Projects.add(project);
-					return true;
+					return project;
 				}catch(Exception ex){
 					JOptionPane.showMessageDialog(null,ex);	
 				}
 			}		
-			return false;
+			return null;
 	}
 	
-	// Updates a Project
+	/**
+	* Updates a project's information into DB.
+	*
+	* @param project Project object o update
+	* @return Update status ( success or fail )
+	*/	
 	public boolean UpdateProject(Project project)
 	{		
-		if (project.getName() != "" && project.getName() != null &&
-			project.getDescr() != "" && project.getDescr() != null &&
+		if (!project.getName().equals("") && project.getName() != null &&
+			!project.getDescr().equals("") && project.getDescr() != null &&
 			project.getStart() != null &&
 			project.getDeadline() != null &&
 			project.getLength() != 0
@@ -447,19 +571,56 @@ public class MainController {
 		return false;
 	}
 	
-	// Deletes a Project
-	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Projects
-	public boolean DeleteProject(Project project) { return DeleteProject(project.getName());}
-	public boolean DeleteProject(String name)
+	/**
+	* Deletes a project from DB.
+	*
+	* @param PID Project's ID
+	* @return Deletion status ( success or fail )
+	*/	
+	public boolean DeleteProject(int PID) 
+	{
+		int x = 0;
+		for (Project project : Projects)
+		    if (project.getProjectID() == PID)
+				break;
+		    else
+		    	x++;
+		return DeleteProject(Projects.get(x));
+	}
+	
+	/**
+	 * Deletes a project from DB
+	 * 
+	 * @param projectName Project's name
+	 * @return Deletion status ( success or fail )
+	 */
+	public boolean DeleteProject(String projectName) 
+	{
+		int x = 0;
+		for (Project project : Projects)
+		    if (project.getName() == projectName)
+				break;
+		    else
+		    	x++;
+		return DeleteProject(Projects.get(x));
+	}
+	
+	/**
+	 * Deletes a project from DB
+	 * 
+	 * @param project Project object
+	 * @return Deletion status ( success or fail )
+	 */
+	public boolean DeleteProject(Project project)
 	{
 		String sql;
 		try {
 			sql = "select count(*) from Projects where Name = ?";
 			pst = conn.prepareStatement(sql);
-			pst.setString(1,name);
+			pst.setString(1,project.getName());
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Project with name "+name+" does not exist.");
+				ErrorController.get().AddError("Project with name "+project.getName()+" does not exist.");
 			}
 		} catch (SQLException ex) {}
 		
@@ -467,18 +628,19 @@ public class MainController {
 			ErrorController.get().DisplayErrors();
 			return false;
 		}		
-		sql = "delete from Projects where PID = ?";
+		sql = "delete from Projects where Name = ?";
 		try{
+			DeleteProjectActivities(project);
 			pst = conn.prepareStatement(sql);
-			pst.setString(1,name);
+			pst.setString(1,project.getName());
 			pst.execute();
 			pst.close();
 			int x=0;
 			for (Project oldProject : Projects)
-			    if (oldProject.getName() == name)
+			    if (oldProject.getName() == project.getName())
 					break;
 			    else
-			    	x++;				
+			    	x++;
 			Projects.remove(x);
 			return true;
 		}catch(Exception ex){
@@ -487,64 +649,106 @@ public class MainController {
 		return false;
 	}
 	
-	// Creates an Activity
-	public boolean CreateActivity(Activity activity)
+	/**
+	* Deletes all activities associated with a project.
+	*
+	* @param project Project from which to delete all activities
+	* @return Deletion status ( success or fail )
+	*/
+	// TODO: Where this is done will most likely change as the project progresses.
+	// TODO: Where this is done will most likely change as project development goes on
+	private boolean DeleteProjectActivities(Project project)
+	{
+		String sql = "delete from Activities where PID = ?";
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,project.getProjectID());
+			pst.execute();
+			pst.close();
+			for (int x=0;x<Activities.size();x++)
+			{
+			   if (Activities.get(x).getProjectID() == project.getProjectID())
+			    {
+			    	Activities.remove(x);
+			    	x--;			   
+			    }
+			}			
+			return true;
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null,ex);	
+		}
+		return false;
+	}
+	
+	/**
+	* Creates an activity
+	*
+	* @param activity Activity object to create
+	* @return The created Activity
+	*/	
+	public Activity CreateActivity(Activity activity)
 	{		
-		if (activity.getName() != "" && activity.getName() != null &&
-			activity.getDescr() != "" && activity.getDescr() != null &&
+		if (!activity.getName().equals("") && activity.getName() != null &&
+			!activity.getDescr().equals("") && activity.getDescr() != null &&
 			activity.getStart() != null &&
-			activity.getDeadline() != null &&
-			activity.getProjectID() != 0
+			activity.getDeadline() != null
 			)
 		{		
 			String sql;				
 			try {
-				sql = "select count(*) from Projects where PID = ?";
-				pst = conn.prepareStatement(sql);
-				pst.setInt(1,activity.getProjectID());
-				rs = pst.executeQuery();
-				if(rs.getInt(1) == 0){
-					ErrorController.get().AddError("Project with ID "+activity.getProjectID()+" does not exist.");
-				}
 				sql = "select count(*) from Activities where PID = ? and Number = ?";
 				pst = conn.prepareStatement(sql);
 				pst.setInt(1, activity.getProjectID());
 				pst.setInt(2, activity.getNumber());
 				rs = pst.executeQuery();
 				if(rs.getInt(1) == 1){
-					ErrorController.get().AddError("Activity with PID "+activity.getProjectID()+" and activity.getNumber() "+activity.getNumber()+" already exists.");
+					ErrorController.get().AddError("Activity with PID "+activity.getProjectID()+" and Number "+activity.getNumber()+" already exists.");
 				}
 			} catch (SQLException ex) { }			
 			if (ErrorController.get().ErrorsExist()) {
 				ErrorController.get().DisplayErrors();
-				return false;
-			}			
-			sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";				
+				return null;
+			}						
 			try{
+				// Here we get the max number for the current project, as with 2 primary keys we cannot auto-increment them.
+				sql = "select Max(number) from Activities where PID = ?";
 				pst = conn.prepareStatement(sql);
-				pst.setInt(1, activity.getProjectID());
-				pst.setInt(2, activity.getNumber());
+				pst.setInt(1, currentProject.getProjectID());
+				rs = pst.executeQuery();
+				int x = rs.getInt(1);
+				x++;		
+				sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, currentProject.getProjectID());
+				pst.setInt(2, x);
 				pst.setString(3, activity.getName());
 				pst.setString(4, activity.getDescr());
 				pst.setString(5, df.format(activity.getStart()));
 				pst.setString(6, df.format(activity.getDeadline()));
-				pst.setString(7, String.valueOf(activity.getProjectID()));
+				pst.setString(7, String.valueOf(activity.getLength()));
 				pst.execute();
 				pst.close();
+				activity.setProjectID(currentProject.getProjectID());
+				activity.setNumber(x);
 				Activities.add(activity);
-				return true;
+				return activity;
 			}catch(Exception ex){
 				JOptionPane.showMessageDialog(null,ex);	
 			}
 		}
-	return false;
+	return null;
 	}
 	
-	// Updates an Activity
+	/**
+	* Updates an activity's information in DB.
+	*
+	* @param activity Activity to update
+	* @return Update status ( success or fail )
+	*/	
 	public boolean UpdateActivity(Activity activity)
 	{		
-		if (activity.getName() != "" && activity.getName() != null &&
-			activity.getDescr() != "" && activity.getDescr() != null &&
+		if (!activity.getName().equals("") && activity.getName() != null &&
+			!activity.getDescr().equals("") && activity.getDescr() != null &&
 			activity.getStart() != null &&
 			activity.getDeadline() != null &&
 			activity.getProjectID() != 0
@@ -556,10 +760,10 @@ public class MainController {
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, activity.getName());
 				pst.setString(2, activity.getDescr());
-				pst.setString(3, activity.getStart().toString());
-				pst.setString(4, activity.getDeadline().toString());
-				pst.setString(5, df.format(activity.getStart()));
-				pst.setString(6, df.format(activity.getDeadline()));
+				pst.setString(3, df.format(activity.getStart()));
+				pst.setString(4, df.format(activity.getDeadline()));
+				pst.setInt(5, activity.getLength());
+				pst.setInt(6, activity.getProjectID());
 				pst.setInt(7, activity.getNumber());
 				pst.execute();
 				pst.close();
@@ -579,19 +783,24 @@ public class MainController {
 		return false;
 	}
 	
-	// Deletes an Activity
-	public boolean DeleteActivity(String name) { return DeleteActivity(currentProject.getProjectID(),name);}
-	public boolean DeleteActivity(int PID,String name)
+	/**
+	* Deletes an activity from DB.
+	*
+	* @param PID Activity's project ID
+	* @param number Activity's number
+	* @return Deletion status ( success or fail )
+	*/	
+	public boolean DeleteActivity(int PID,int number)
 	{
 		String sql;
 		try {
-			sql = "select count(*) from Activities where PID = ? and Name = ?";
+			sql = "select count(*) from Activities where PID = ? and Number = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1,PID);
-			pst.setString(2, name);
+			pst.setInt(2,number);
 			rs = pst.executeQuery();
 			if(rs.getInt(1) == 0){
-				ErrorController.get().AddError("Activity with PID "+PID+" and name "+name+" does not exist.");
+				ErrorController.get().AddError("Activity with PID "+PID+" and name "+number+" does not exist.");
 			}
 		} catch (SQLException ex) {}
 		finally{
@@ -608,11 +817,11 @@ public class MainController {
 		try{
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, PID);
-			pst.setString(2, name);
+			pst.setInt(2,number);
 			pst.execute();
 			int x=0;
 			for (Activity oldActivity : Activities)
-			    if (oldActivity.getProjectID() == PID && oldActivity.getName() == name )
+			    if (oldActivity.getProjectID() == PID && oldActivity.getNumber() == number )
 					break;
 			    else
 			    	x++;				

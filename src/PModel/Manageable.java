@@ -7,17 +7,13 @@ import java.util.Date;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * The abstract class from which all manageable objects are derived,
+ * including Projects and Activities.
+ * @author Alex Huot
  */
 public abstract class Manageable
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */	
+
 	private String name;
 	private String description;
 	private Date startDate;
@@ -28,9 +24,12 @@ public abstract class Manageable
 	
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Sole constructor for <tt>Manageable</tt>
+	 * @param name Name of Manageable object
+	 * @param description Description of object
+	 * @param start Start date of object
+	 * @param deadline Deadline of object
+	 * @param length Projected length to completion of object in days
 	 */
 	public Manageable(String name, String description, Date start, Date deadline, int length) {
 		super();
@@ -39,140 +38,124 @@ public abstract class Manageable
 		this.startDate = start;
 		this.deadline = deadline;
 		this.length = length;
-		// TODO construct me
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */	
+	 * Sets Manageable's name
+	 * @param newName New name
+	 */
 	public void setName(String newName) {
 		name = newName;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */	
+	 * Sets description of Manageable object
+	 * @param newDescr New description
+	 */
 	public void setDescr(String newDescr) {
 		description = newDescr;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Sets start date for Manageable Object
+	 * @param newStart New start date
 	 */
 	public void setStart(Date newStart) {
 		startDate = newStart;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */	
+	 * Sets deadline for Manageable object
+	 * @param newDeadline New deadline
+	 */
 	public void setDeadline(Date newDeadline) {
 		deadline = newDeadline;	
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Sets projected length for Manageable object
+	 * @param newLength New projected length in days
 	 */
 	public void setLength(int newLength) {
 		length = newLength;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Sets Manageable's status as Active, Completed, Late or Rush 
+	 * @param newStatus New status
 	 */
 	public void setStatus(boolean newStatus) {
 		status = newStatus;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Returns Manageable's name
+	 * @return Manageable's name
 	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */	
+	 * Returns Manageable's Description
+	 * @return Manageable's Description
+	 */
 	public String getDescr() {
 		return description;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Returns Manageable's Start Date
+	 * @return Manageable's Start Date
 	 */
 	public Date getStart() {
 		return startDate;	
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Returns Manageable's Deadline
+	 * @return Manageable's Deadline
 	 */
 	public Date getDeadline() {
 		return deadline;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Returns Manageable's Description
+	 * @return Manageable's Description
 	 */
 	public int getLength() {
 		return length;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Returns Manageable's Status
+	 * @return Manageable's Status
 	 */
 	public boolean getStatus() {
 		return status;
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */	
+	 * Returns Manageable's Member List
+	 * @return Manageable's Member List
+	 */
 	public List<Member> getMemberList() {
 		// TODO implement me
 		return null;	
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Adds new member to Member List
+	 * @param newMember Member to add to List
 	 */
 	public void addMember(Member newMember) {
 		// TODO implement me	
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Removes existing member from List
+	 * @param member
 	 */
 	public void removeMember(Member member) {
 		// TODO implement me	

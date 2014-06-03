@@ -69,6 +69,7 @@ public class UserInterface extends InitialJFrame {
     private  TextArea textArea_description;
     private JTextField textField_ActivityName;
     final JTable table_1 = new JTable();
+    private Activity activity;
 	/**
 	 * Create the frame.
 	 */
@@ -122,7 +123,7 @@ public class UserInterface extends InitialJFrame {
         scrollPane.setViewportView(table_1);
         table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table_1.setBorder(null);
-        MainController.get().getActivityList(table_1);		
+        MainController.get().getActivityList(table_1);
         
         JButton btnCreateNewActivity = new JButton("Create New Activity");
         btnCreateNewActivity.setBackground(new Color(0, 153, 102));
@@ -136,8 +137,9 @@ public class UserInterface extends InitialJFrame {
 	        btnDeleteActivity.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
 	        		int row = table_1.getSelectedRow();
-	        		String name = table_1.getModel().getValueAt(row, 2).toString();
-	        		 MainController.get().DeleteActivity(name);
+	        		int PID = (int) table_1.getModel().getValueAt(row, 0);
+	        		int number = (int) table_1.getModel().getValueAt(row, 1);
+	        		 MainController.get().DeleteActivity(PID,number);
 		        		resetFrame();
 		        		projectPanel();
 		        	    validate();
@@ -159,6 +161,9 @@ public class UserInterface extends InitialJFrame {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		int row = table_1.getSelectedRow();
+        		int PID =  Integer.parseInt(table_1.getModel().getValueAt(row, 0).toString());
+        		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
+        		activity = MainController.get().GetActivityFromID(PID, number);
         		String name = table_1.getModel().getValueAt(row, 2).toString();
         		textField_ActivityName.setText(name);        		
         		String des = table_1.getModel().getValueAt(row, 3).toString();
@@ -273,9 +278,13 @@ public class UserInterface extends InitialJFrame {
 					exe.printStackTrace();
 				}
 				int length = Integer.parseInt(textField_length.getText());
-				JOptionPane.showMessageDialog(null,description + startd + end);						
-				Activity ac = new Activity(pid, name, description, start, deadline, length);
-		        MainController.get().UpdateActivity(ac);
+				JOptionPane.showMessageDialog(null,description + startd + end);
+				activity.setName(name);
+				activity.setDescr(description);
+				activity.setStart(start);
+				activity.setDeadline(deadline);
+				activity.setLength(length);
+		        MainController.get().UpdateActivity(activity);
         		resetFrame();
         		projectPanel();
         	    validate();
@@ -350,7 +359,7 @@ public class UserInterface extends InitialJFrame {
 	        		projectPanel();
 	        	    validate();
 	        	    repaint();
-	        		//JOptionPane.showMessageDialog(null, "Project "+currentProjectName+" Opened");	
+	        		//JOptionPane.showMessageDialog(null, "Project "+currentProjectName+" Deleted");	
 	        	}
 	        });
 	        JMenuItem fileExit = new JMenuItem("Exit", iconExit);
@@ -389,13 +398,13 @@ public class UserInterface extends InitialJFrame {
 	        int day = cal.get(Calendar.DAY_OF_MONTH);
 	        Date_txt.setText("Date "+ year+"/"+(month+1) +"/" + day);
 	        
-	        JMenu Time_txt = new JMenu("Time");
-	        menubar.add(Time_txt);
-	        getContentPane().setLayout(null);
-	        int second = cal.get(Calendar.SECOND);
-	        int minute = cal.get(Calendar.MINUTE);
-	        int hour = cal.get(Calendar.HOUR);
-	        Time_txt.setText("Time "+ hour+":"+minute +":" + second);	        
+//	        JMenu Time_txt = new JMenu("Time");
+//	        menubar.add(Time_txt);
+//	        getContentPane().setLayout(null);
+//	        int second = cal.get(Calendar.SECOND);
+//	        int minute = cal.get(Calendar.MINUTE);
+//	        int hour = cal.get(Calendar.HOUR);
+//	        Time_txt.setText("Time "+ hour+":"+minute +":" + second);	        
 	    }
 	 /**
 	  * reset frame if you want to refresh the main frame

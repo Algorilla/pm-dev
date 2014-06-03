@@ -86,7 +86,7 @@ public class Login_Frame extends JFrame {
 	 */
 	public Login_Frame() {
 		initComponents();
-		conn = SQLiteDBConnection.ConnecrDb();
+		conn = SQLiteDBConnection.ConnectDb();
 	}
 	public void close(){
 		WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);

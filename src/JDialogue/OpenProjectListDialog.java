@@ -34,7 +34,7 @@ public class OpenProjectListDialog extends JDialog {
 	PreparedStatement pst = null;
 
 	public OpenProjectListDialog() {
-		conn = SQLiteDBConnection.ConnecrDb();
+		conn = SQLiteDBConnection.ConnectDb();
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 	    setTitle("Open Project List");
