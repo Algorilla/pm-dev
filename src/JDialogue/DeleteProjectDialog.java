@@ -34,6 +34,11 @@ public class DeleteProjectDialog extends JDialog {
 	ResultSet rs = null;
 	PreparedStatement pst = null;
 
+	public String getProjectName()
+	{
+		return projectName;
+	}
+	
 	public DeleteProjectDialog() {
 		conn = SQLiteDBConnection.ConnectDb();
 		
@@ -63,7 +68,7 @@ public class DeleteProjectDialog extends JDialog {
 		JButton okButton = new JButton("Delete");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String projectName = projectList.getSelectedItem().toString();
+				projectName = projectList.getSelectedItem().toString();
 				MainController.get().DeleteProject(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Deleted");	
 				dispose();

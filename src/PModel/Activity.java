@@ -72,7 +72,6 @@ public class Activity extends Manageable
 	 */
 	public int getNumber() {
 		return activityNumber;
-	}
-	
+	}	
 }
 

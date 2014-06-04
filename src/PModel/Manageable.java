@@ -160,5 +160,10 @@ public abstract class Manageable
 	public void removeMember(Member member) {
 		// TODO implement me	
 	}
+		
+	@Override
+    public String toString(){
+      return name;
+    }
 }
 

@@ -142,6 +142,11 @@ public class MainController {
 		return currentProject;	
 	}
 	
+	public void CloseCurrentProject()
+	{
+		currentProject = null;
+	}
+	
 	/**
 	* Logs the user in.
 	*
@@ -210,6 +215,15 @@ public class MainController {
 		}catch(Exception ex){
 			//JOptionPane.showMessageDialog(null,ex);	
 		}					
+	}
+	
+	public ArrayList<Activity> getActivityListForCurrentProject()
+	{
+		final ArrayList<Activity> activityList = new ArrayList<Activity>();	
+		for (Activity activity : Activities)
+		    if (activity.getProjectID() == currentProject.getProjectID())
+				activityList.add(activity);
+		return activityList;	
 	}
 	
 	/**
@@ -836,6 +850,26 @@ public class MainController {
 			}catch(Exception e){}
 		}
 		
+		return false;
+	}
+	
+	public boolean CreateActivityDependencies(Activity activity,ArrayList<Activity> activities)
+	{
+		String sql;				
+		try {
+			for (Activity dependantActivity : activities)
+			{			
+				sql = "insert into ActivityDependency(PID,Number,DependantOnPID,DependantOnNumber) values(?,?,?,?)";
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, activity.getProjectID());
+				pst.setInt(2, activity.getNumber());
+				pst.setInt(3, dependantActivity.getProjectID());
+				pst.setInt(4, dependantActivity.getNumber());
+				pst.execute();
+				pst.close();
+			}
+			return true;
+		} catch (SQLException ex) { }			
 		return false;
 	}
 }
