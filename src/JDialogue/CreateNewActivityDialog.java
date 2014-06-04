@@ -5,14 +5,17 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Dialog.ModalityType;
+import java.awt.List;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -23,6 +26,8 @@ import PModel.Member;
 import PModel.Project;
 
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 /**
  * A dialogue used to create new activity of the project
  * @author Administrator
@@ -37,13 +42,16 @@ public class CreateNewActivityDialog extends JDialog {
 	JDateChooser Deadline;
 	private Project newPro = null;
 	private TextArea textArea_Description = new TextArea();
-
+	private ArrayList<Activity> activities;
+	private ArrayList<Activity> selectedActivities;	
+	List listSelectedDependencies = new List();
+	
 	public CreateNewActivityDialog() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 	    setTitle("Create New Activity");
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
-		setBounds(100, 100, 450, 460);
+		setBounds(100, 100, 477, 593);
 		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(204, 255, 204));
@@ -97,12 +105,40 @@ public class CreateNewActivityDialog extends JDialog {
 		contentPanel.add(textArea_Description);
 		
 		StartedDate = new JDateChooser();
+		StartedDate.setDate(new Date());
 		StartedDate.setBounds(170, 238, 200, 20);
 		contentPanel.add(StartedDate);
 		
 		Deadline = new JDateChooser();
+		Deadline.setDate(new Date());
 		Deadline.setBounds(170, 275, 200, 20);
 		contentPanel.add(Deadline);
+		
+		JLabel lblDependencies = new JLabel("Dependencies:");
+		lblDependencies.setBounds(44, 364, 107, 14);
+		contentPanel.add(lblDependencies);
+		
+		final JComboBox dependenciesComboBox = new JComboBox();
+		dependenciesComboBox.setBounds(170, 458, 200, 20);
+		activities = MainController.get().getActivityListForCurrentProject();		
+		for (Activity activity : activities)
+			dependenciesComboBox.addItem(activity);		
+		contentPanel.add(dependenciesComboBox);
+		
+		selectedActivities = new ArrayList<Activity>();
+		JButton btnAddDependency = new JButton("Add");
+		btnAddDependency.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectedActivities.add((Activity)dependenciesComboBox.getSelectedItem());
+				listSelectedDependencies.addItem(((Activity)dependenciesComboBox.getSelectedItem()).toString());
+			}
+		});
+		btnAddDependency.setBounds(376, 457, 58, 23);
+		contentPanel.add(btnAddDependency);
+		
+				listSelectedDependencies.setBounds(170, 364, 200, 87);
+				contentPanel.add(listSelectedDependencies);
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -112,18 +148,29 @@ public class CreateNewActivityDialog extends JDialog {
 				
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						int pid = MainController.get().GetCurrentProject().getProjectID();
-						String name = txt_newProjectNameField.getText();
-						String description = textArea_Description.getText();
-						Date start = StartedDate.getDate();
-						Date deadline = Deadline.getDate();
-						int length = Integer.parseInt(textField_length.getText());
-						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
-						Activity ac = new Activity(pid, name, description, start, deadline, length);
-				        //table_1 = MainController.get().ProjectList(table_1);
-				        MainController.get().CreateActivity(ac);				        
-						dispose();
+						if (
+								!txt_newProjectNameField.getText().equals("") &&
+								!textArea_Description.getText().equals("") &&
+								!textField_length.getText().equals("") &&
+								Deadline.getDate().after(StartedDate.getDate()))
+						{
+							int pid = MainController.get().GetCurrentProject().getProjectID();
+							String name = txt_newProjectNameField.getText();
+							String description = textArea_Description.getText();
+							Date start = StartedDate.getDate();
+							Date deadline = Deadline.getDate();
+							int length = Integer.parseInt(textField_length.getText());
+							//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
+							Activity ac = new Activity(pid, name, description, start, deadline, length);
+					        //table_1 = MainController.get().ProjectList(table_1);
+					        Activity ac2 = MainController.get().CreateActivity(ac);
+					        MainController.get().CreateActivityDependencies(ac2, selectedActivities);
+							dispose();
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null,"There were errors, please check your input.");
+						}
 					}
 				});
 				okButton.setActionCommand("OK");

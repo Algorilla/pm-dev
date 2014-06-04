@@ -141,7 +141,8 @@ public class UserInterface extends InitialJFrame {
 	        		int number = (int) table_1.getModel().getValueAt(row, 1);
 	        		 MainController.get().DeleteActivity(PID,number);
 		        		resetFrame();
-		        		projectPanel();
+		        		//projectPanel();
+		        		addImage();
 		        	    validate();
 		        	    repaint();
 	        	}
@@ -319,18 +320,16 @@ public class UserInterface extends InitialJFrame {
 	        file.setMnemonic(KeyEvent.VK_F);
 	        JMenu view = new JMenu("View");
 	        view.setMnemonic(KeyEvent.VK_V);
-	        
-	        JMenu imp = new JMenu("Import");
-	        imp.setMnemonic(KeyEvent.VK_M);
-
-	        JMenuItem dbfile = new JMenuItem("Import from database");
-	        imp.add(dbfile);
 
 	        JMenuItem fileNew = new JMenuItem("New", iconNew);
 	        fileNew.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {    
 	        		CreateNewProjectDialog newProject = new CreateNewProjectDialog();
-	        		newProject.setVisible(true);		        		
+	        		newProject.setVisible(true);
+	        		resetFrame();
+	        		projectPanel();
+	        	    validate();
+	        	    repaint();
 	        	}
 	        });
 	        fileNew.setMnemonic(KeyEvent.VK_N);
@@ -355,10 +354,17 @@ public class UserInterface extends InitialJFrame {
 	        	public void actionPerformed(ActionEvent e) {
 	        		DeleteProjectDialog list = new DeleteProjectDialog();
 	        		list.setVisible(true);
-	        		resetFrame();
-	        		projectPanel();
-	        	    validate();
-	        	    repaint();
+	        		String test = list.getProjectName();
+	        		if (	MainController.get().GetCurrentProject() != null &&
+	        				list.getProjectName().equals(MainController.get().GetCurrentProject().getName()))
+	        		{
+	        			MainController.get().CloseCurrentProject();
+		        		resetFrame();
+		        		//projectPanel();
+		        		//addImage();
+		        	    validate();
+		        	    repaint();
+	        		}
 	        		//JOptionPane.showMessageDialog(null, "Project "+currentProjectName+" Deleted");	
 	        	}
 	        });
@@ -379,7 +385,6 @@ public class UserInterface extends InitialJFrame {
 	        file.add(fileOpen);
 	        file.add(fileDelete);
 	        file.addSeparator();
-	        file.add(imp);
 	        file.addSeparator();
 	        file.add(fileExit);
 
@@ -387,16 +392,12 @@ public class UserInterface extends InitialJFrame {
 	        menubar.add(view);
 
 	        setJMenuBar(menubar);
-	        
-	        JMenu Date_txt = new JMenu("Date");
-	        menubar.add(Date_txt);
 	        getContentPane().setLayout(null);
 	        
 	        Calendar cal = new GregorianCalendar();
 	        int month = cal.get(Calendar.MONTH);
 	        int year = cal.get(Calendar.YEAR);
 	        int day = cal.get(Calendar.DAY_OF_MONTH);
-	        Date_txt.setText("Date "+ year+"/"+(month+1) +"/" + day);
 	        
 //	        JMenu Time_txt = new JMenu("Time");
 //	        menubar.add(Time_txt);
