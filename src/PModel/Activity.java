@@ -14,7 +14,8 @@ public class Activity extends Manageable
 {
 
 	private int projectID;	
-	private int activityNumber;		
+	private int activityNumber;
+	private Project project; //TODO Use me
 
 	/**
 	 * Constructor for an Activity.

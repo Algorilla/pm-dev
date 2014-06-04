@@ -146,21 +146,24 @@ public abstract class Manageable
 	}
 	
 	/**
-	 * Adds new member to Member List
-	 * @param newMember Member to add to List
+	 * Adds a new member to the Manageable's list
+	 * @param newMember Member to add
+	 * @return Addition status ( success or fail )
 	 */
-	public void addMember(Member newMember) {
-		// TODO implement me	
+	public boolean addMember(Member newMember) {
+		// TODO implement me
+		return false;	
 	}
 	
 	/**
-	 * Removes existing member from List
-	 * @param member
+	 * Removes a member from Manageable's Member List
+	 * @return Remove Status ( success or fail )
 	 */
-	public void removeMember(Member member) {
-		// TODO implement me	
+	public boolean removeMember(Member memberToDel) {
+		// TODO implement me
+		return false;	
 	}
-		
+
 	@Override
     public String toString(){
       return name;
