@@ -44,6 +44,9 @@ public class TestMainController {
 		nonUniqueMember = new Member("John Doe", "member", "JDoe", "password123");
 		deleteMember = new Member("DELETED", "manager", "DELETED2", "123");
 
+		// Ensure that JDoe is not in the database to begin with
+		assert (!MainController.get().Login("JDoe", "password123"));
+		
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 			Date d1 = sdf.parse("31-JUN-2014");
@@ -67,11 +70,11 @@ public class TestMainController {
 
 	@AfterClass
 	public static void testCleanUp() {
-		// Clean added members and projects from DB
+		deleteJohnDoe();
 	}
 	
 	/**
-	 * Test passes:
+	 * Test passes if:
 	 * 1) Valid user can log in with correct password.
 	 * 2) Valid user cannot log in with incorrect password.
 	 * 3) Invalid user cannot log in.
@@ -89,20 +92,22 @@ public class TestMainController {
 	}
 
 	/**
-	 * Attempts to Create a valid member, a blank member and a non-unique member
-	 * 
-	 * Test will pass if: - Null is returned when blank member is created - Null
-	 * is return if a non-unique member is attempted to be created
-	 * 
+	 * Test passes if:
+	 * 1) Unable to create a blank member.
+	 * 2) Able to create a valid member.
+	 * 3) Unable to create a member with a duplicate username.
 	 */
 	@Test
 	public void testCreateMember() {
 		// Invalid
 		assertNull(MainController.get().CreateMember(blankMember));
-		assertNull(MainController.get().CreateMember(nonUniqueMember));
 
 		// Valid
-		// Add Valid Test
+		assertNotNull(MainController.get().CreateMember(goodMember));
+		
+		// Nonunique
+		assertNull(MainController.get().CreateMember(nonUniqueMember));
+
 	}
 
 	/**
@@ -277,5 +282,12 @@ public class TestMainController {
 	public void testDeleteActivity() {
 		assertTrue(MainController.get().DeleteActivity(1, 1));
 		assertFalse(MainController.get().DeleteActivity(99, 99));
+	}
+	
+	private static void deleteJohnDoe() {
+		if ((MainController.get().Login("JDoe", "password123")) &&
+			(MainController.get().DeleteMember(MainController.get().GetCurrentUser()))) {
+				System.out.println("JDoe removed successfully");
+		}
 	}
 }
