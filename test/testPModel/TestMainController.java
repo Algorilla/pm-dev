@@ -17,35 +17,32 @@ import PModel.Project;
 
 public class TestMainController {
 	// members
-	private static Member GoodMember;
-	private static Member BlankMember;
-	private static Member NonUniqueMember;
-	private static Member DeleteMember;
+	private static Member goodMember;
+	private static Member blankMember;
+	private static Member nonUniqueMember;
+	private static Member deleteMember;
 
 	// activities
-	private static Activity UpdateActivityTrue;
-	private static Activity UpdateActivityFalse;
-	private static Activity NewActivity;
-	private static Activity BlankActivity;
-	private static Activity InvalidActivity;
+	private static Activity newActivity;
+	private static Activity blankActivity;
+	private static Activity invalidActivity;
 
 	// project
 	private static Project newProject;
 	private static Project blankProject;
 	private static Project invalidProject;
-	private static Project myProject; // tests deleteProject
+	private static Project myProject;
+	// tests deleteProject
 
 	/**
 	 * Initializing Method done prior to test creation
 	 */
 	@BeforeClass
 	public static void testSetup() {
-		GoodMember = new Member("John Doe", "member", "JDoe3", "password123");
-		BlankMember = new Member("", "", "", "");
-		NonUniqueMember = new Member("John Doe", "member", "JDoe",
-				"password123");
-
-		DeleteMember = new Member("DELETED", "manager", "DELETED2", "123");
+		goodMember = new Member("John Doe", "member", "JDoe", "password123");
+		blankMember = new Member("", "", "", "");
+		nonUniqueMember = new Member("John Doe", "member", "JDoe", "password123");
+		deleteMember = new Member("DELETED", "manager", "DELETED2", "123");
 
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
@@ -53,39 +50,42 @@ public class TestMainController {
 			Date d2 = sdf.parse("31-JUL-2014");
 			// Activity
 			// project = new Project()
-			NewActivity = new Activity(1, "New Activity 1",
-					"This is a testing activity", d1, d2, 6);
-			BlankActivity = new Activity(0, "", "", null, null, 0);
-			InvalidActivity = new Activity(1, "Invalid Activity",
-					"this is an invalid activity", d2, d1, 8);
+			newActivity = new Activity(1, "New Activity 1",	"This is a testing activity", d1, d2, 6);
+			blankActivity = new Activity(0, "", "", null, null, 0);
+			invalidActivity = new Activity(1, "Invalid Activity", "this is an invalid activity", d2, d1, 8);
 
 			// Project
-			newProject = new Project(4, "New Project 1",
-					"This is a testing project", d1, d2, 8);
+			newProject = new Project(4, "New Project 1", "This is a testing project", d1, d2, 8);
 			blankProject = new Project(1, "", "", null, null, 0);
-			invalidProject = new Project(1, "Invalid Project",
-					"This should Fail", d2, d1, 8);
-			myProject = new Project(1, "My Project",
-					"THIS PROJECT TESTS DELETE", d1, d2, 6);
+			invalidProject = new Project(1, "Invalid Project", "This should Fail", d2, d1, 8);
+			myProject = new Project(1, "My Project", "THIS PROJECT TESTS DELETE", d1, d2, 6);
+		
 		} catch (ParseException e) {
-			System.out.println("Improper Date Format");
+			System.out.println("TestMainController: Improper Date Format");
 		}
 	}
 
+	@AfterClass
+	public static void testCleanUp() {
+		// Clean added members and projects from DB
+	}
+	
 	/**
-	 * Attempts to Login
-	 * 
-	 * Test will pass if: - True is returned and already created user is able to
-	 * log in - False is returned when a new user is not created
+	 * Test passes:
+	 * 1) Valid user can log in with correct password.
+	 * 2) Valid user cannot log in with incorrect password.
+	 * 3) Invalid user cannot log in.
 	 */
 	@Test
 	public void testLogin() {
 		// valid login
 		assertTrue(MainController.get().Login("root", "root"));
-
+		
+		// incorrect password
+		assertFalse(MainController.get().Login("root", "rot"));
+		
 		// invalid login
-		assertFalse(MainController.get().Login("FailedUsername",
-				"FailedPassword"));
+		assertFalse(MainController.get().Login("FailedUsername", "FailedPassword"));
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class TestMainController {
 	@Test
 	public void testCreateMember() {
 		// Invalid
-		assertNull(MainController.get().CreateMember(BlankMember));
-		assertNull(MainController.get().CreateMember(NonUniqueMember));
+		assertNull(MainController.get().CreateMember(blankMember));
+		assertNull(MainController.get().CreateMember(nonUniqueMember));
 
 		// Valid
 		// Add Valid Test
@@ -121,11 +121,11 @@ public class TestMainController {
 	 */
 	@Test
 	public void testDeleteMemberByMember() {
-		MainController.get().CreateMember(DeleteMember);
+		MainController.get().CreateMember(deleteMember);
 		// Delete Existing Member
-		assertTrue(MainController.get().DeleteMember(DeleteMember));
+		assertTrue(MainController.get().DeleteMember(deleteMember));
 		// Deletes Non-Existant Member
-		assertFalse(MainController.get().DeleteMember(BlankMember));
+		assertFalse(MainController.get().DeleteMember(blankMember));
 	}
 
 	/**
@@ -248,12 +248,12 @@ public class TestMainController {
 	@Test
 	public void testCreateActivity() {
 		// creates valid activity
-		assertEquals(NewActivity,
-				MainController.get().CreateActivity(NewActivity));
+		assertEquals(newActivity,
+				MainController.get().CreateActivity(newActivity));
 		// creates blank activity
-		assertNull(MainController.get().CreateActivity(BlankActivity));
+		assertNull(MainController.get().CreateActivity(blankActivity));
 		// created activity where start is after deadline
-		assertNull(MainController.get().CreateActivity(InvalidActivity));
+		assertNull(MainController.get().CreateActivity(invalidActivity));
 	}
 
 	/**
@@ -278,5 +278,4 @@ public class TestMainController {
 		assertTrue(MainController.get().DeleteActivity(1, 1));
 		assertFalse(MainController.get().DeleteActivity(99, 99));
 	}
-
 }
