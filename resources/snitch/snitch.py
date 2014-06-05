@@ -5,10 +5,10 @@
 import os
 
 SRC   = (True, 'src')  # indicates whether to test the src folder
-TEST  = (False, 'test') # indicates whether to test the test folder
+TEST  = (True, 'test') # indicates whether to test the test folder
 
 # The program generates and stores reports in snitch directory.
-snitch_dir = os.getcwd(); os.chdir('..')
+snitch_dir = os.getcwd(); os.chdir('../..')
 root_dir   = os.getcwd()
 
 def getFuncSignatures(packages_to_test):
@@ -35,4 +35,4 @@ for test in [SRC, TEST]:
         getFuncSignatures(contents)
         generateReports()
 
-#print('all kosher')
+print('all kosher')
