@@ -1,0 +1,26 @@
+	Hour does not get update in main window
+	View and date appear as clickable items
+	Manually enter start date after deadline
+	Does not switch into newly created project
+	Stays in project after it's deleted
+	New activity field validation inconsistent 
+	What's the difference between Activity save and Create New?
+	What does import from database do?
+	Date and Time as drag-down menus in main frame?
+	What does View do?
+
+	Should not terminate if username or password is wrong.
+	Equality test with strings
+	Appending strings as log
+
+Manageable:
+TODO in Manageable constructor
+	addMemeber and removeMember implement me
+
+	Member: type: if referring to Manager vs Coder, as a String?
+
+Project:
+	addActivity and removeActivity
+	
+Project should be open
+Create new activity -> project length sets itself to 1
