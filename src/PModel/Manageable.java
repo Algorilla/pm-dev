@@ -22,6 +22,7 @@ public abstract class Manageable
 	private boolean status;
 	private Set<Member> memberList;
 	
+	
 
 	/**
 	 * Sole constructor for <tt>Manageable</tt>
