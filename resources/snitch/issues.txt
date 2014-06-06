@@ -8,14 +8,18 @@ Currently, most of the exception handling in PModel's MainController done via "c
 The execption is handled by displaying a pop-up, making autamation of JUnit tests tedious because tester must click on every pop-up.
 One specific place where this is a problem is with MainController.Login.
 Other methods throw and catch an exception.
-Login displays a pop-up because it needs to return false.
+Possible solution: have a flag to enable pop-ups, which gets turned off when tests are starting.
+Either way, needs standardizing.
 
 ErrorController uses a string instead of a buffer.
 
 Bugs:
 =====
+-I am able to create a project where the deadline comes before the start date:
+(TestCreateProjectInvalidDates)
 -I am to modify activity dates so that deadline comes before start date.
 -I am able to modify an existing activity's duration to exceed the project duration.
 -New project and activity dialog boxes allow to drag-and-drop dates, but modifying an activity's data requires manual entry, whose input allows incorrect dates.
 -How to see/modify project's settings (description, dates, etc...)
+
 
