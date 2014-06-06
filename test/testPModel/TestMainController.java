@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import PModel.Activity;
@@ -16,37 +18,38 @@ import PModel.Member;
 import PModel.Project;
 
 public class TestMainController {
-	// members
+
+	private static PModel.MainController controller;
+
+	// test members
 	private static Member goodMember;
 	private static Member blankMember;
-	private static Member nonUniqueMember;
+	private static Member duplicateUsernameMember;
 	private static Member deleteMember;
 
-	// activities
+	// test activities
 	private static Activity newActivity;
 	private static Activity blankActivity;
 	private static Activity invalidActivity;
 
-	// project
+	// test project
 	private static Project newProject;
 	private static Project blankProject;
 	private static Project invalidProject;
 	private static Project myProject;
-	// tests deleteProject
 
-	/**
-	 * Initializing Method done prior to test creation
-	 */
 	@BeforeClass
-	public static void testSetup() {
+	public static void setup() {
+		controller = PModel.MainController.get();
+
 		goodMember = new Member("John Doe", "member", "JDoe", "password123");
 		blankMember = new Member("", "", "", "");
-		nonUniqueMember = new Member("John Doe", "member", "JDoe", "password123");
+		duplicateUsernameMember = new Member("John Doe", "member", "JDoe", "password123");
 		deleteMember = new Member("DELETED", "manager", "DELETED2", "123");
 
-		// Ensure that JDoe is not in the database to begin with
-		assert (!MainController.get().Login("JDoe", "password123"));
-		
+		// Ensure that JDoe is not in the database prior to testing.
+		assert (!controller.Login("JDoe", "password123"));
+
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 			Date d1 = sdf.parse("31-JUN-2014");
@@ -69,82 +72,50 @@ public class TestMainController {
 	}
 
 	@AfterClass
-	public static void testCleanUp() {
+	public static void cleanUp() {
 		deleteJohnDoe();
 	}
-	
-	/**
-	 * Test passes if:
-	 * 1) Valid user can log in with correct password.
-	 * 2) Valid user cannot log in with incorrect password.
-	 * 3) Invalid user cannot log in.
-	 */
+
 	@Test
-	public void testLogin() {
-		// valid login
-		assertTrue(MainController.get().Login("root", "root"));
-		
-		// incorrect password
-		assertFalse(MainController.get().Login("root", "rot"));
-		
-		// invalid login
-		assertFalse(MainController.get().Login("FailedUsername", "FailedPassword"));
+	public void testLoginValidUsernameAndPassword() {
+		assertTrue(controller.Login("root", "root"));
 	}
 
-	/**
-	 * Test passes if:
-	 * 1) Unable to create a blank member.
-	 * 2) Able to create a valid member.
-	 * 3) Unable to create a member with a duplicate username.
-	 */
+	@Test
+	public void testLoginInvalidPassword() {
+		assertFalse(controller.Login("root", "rot"));
+	}
+
+	@Test
+	public void testLoginInvalidUsername() {
+		assertFalse(controller.Login("FailedUsername", "FailedPassword"));
+	}
+
 	@Test
 	public void testCreateMember() {
-		// Invalid
-		assertNull(MainController.get().CreateMember(blankMember));
-
-		// Valid
-		assertNotNull(MainController.get().CreateMember(goodMember));
-		
-		// Nonunique
-		assertNull(MainController.get().CreateMember(nonUniqueMember));
-
+		assertNull(controller.CreateMember(blankMember));
+		assertNotNull(controller.CreateMember(goodMember));
+		assertNull(controller.CreateMember(duplicateUsernameMember));
+		// Last condition is should return null because no two users can have the same username.
 	}
 
-	/**
-	 * This Method is to be tested in GUI
-	 */
+	@Ignore
 	@Test
 	public void testUpdateMember() {
-		fail("UpdateMember(Member member) is tested in the GUI");
+		fail("UpdateMember(Member member) works only from GUI.");
 	}
 
-	/**
-	 * Attempts to Delete a member that exists and a member that doesn't exist
-	 * 
-	 * Test passes if: True is returned and member is deleted False is returned
-	 * and non-existant member is not deleted
-	 */
 	@Test
 	public void testDeleteMemberByMember() {
-		MainController.get().CreateMember(deleteMember);
-		// Delete Existing Member
-		assertTrue(MainController.get().DeleteMember(deleteMember));
-		// Deletes Non-Existant Member
-		assertFalse(MainController.get().DeleteMember(blankMember));
+		controller.CreateMember(deleteMember);
+		assertTrue(controller.DeleteMember(deleteMember));
+		assertFalse(controller.DeleteMember(blankMember));
 	}
 
-	/**
-	 * Attempts To Delete Member ID that does no exist/is not in list of members
-	 * 
-	 * example: MemberID = 2
-	 * 
-	 * Test passes if True is returned and the member is deleted
-	 * 
-	 */
 	@Test
-	public void testDeleteMemberIDTrue() {
-		// This test will fail if no user with ID 2
-		assertTrue(MainController.get().DeleteMember(5));
+	public void testDeleteMemberByID() {
+		assertFalse(controller.DeleteMember(5));
+		assertTrue(controller.DeleteMember(goodMember.getMemberID()));
 	}
 
 	/**
@@ -156,7 +127,7 @@ public class TestMainController {
 	 */
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testDeleteMemberIDFalse() {
-		assertFalse(MainController.get().DeleteMember(999999999));
+		assertFalse(controller.DeleteMember(999999999));
 	}
 
 	/**
@@ -171,14 +142,14 @@ public class TestMainController {
 	@Test
 	public void testCreateProject() {
 		// to avoid test Failure because project already exists incase
-		MainController.get().DeleteProject(newProject);
-		assertEquals(newProject, MainController.get().CreateProject(newProject));
-		assertNull(MainController.get().CreateProject(blankProject));
+		controller.DeleteProject(newProject);
+		assertEquals(newProject, controller.CreateProject(newProject));
+		assertNull(controller.CreateProject(blankProject));
 
 		// Project has start date after deadline date
-		assertNull(MainController.get().CreateProject(invalidProject));
+		assertNull(controller.CreateProject(invalidProject));
 		// check if unique project
-		assertNull(MainController.get().CreateProject(newProject));
+		assertNull(controller.CreateProject(newProject));
 	}
 
 	/**
@@ -201,7 +172,7 @@ public class TestMainController {
 	 */
 	@Test
 	public void testDeleteProjectIDTrue() {
-		assertTrue(MainController.get().DeleteProject(3));
+		assertTrue(controller.DeleteProject(3));
 	}
 
 	/**
@@ -213,7 +184,7 @@ public class TestMainController {
 	 */
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testDeleteProjectIDFalse() {
-		assertFalse(MainController.get().DeleteProject(999999999));
+		assertFalse(controller.DeleteProject(999999999));
 	}
 
 	/**
@@ -226,9 +197,9 @@ public class TestMainController {
 	 */
 	@Test
 	public void testDeleteProjectByNameTrue() {
-		MainController.get().CreateProject(myProject);
+		controller.CreateProject(myProject);
 		// Replace My Project with a valid Name in order to pass the test
-		assertTrue(MainController.get().DeleteProject("My Project"));
+		assertTrue(controller.DeleteProject("My Project"));
 	}
 
 	/**
@@ -241,7 +212,7 @@ public class TestMainController {
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testDeleteProjectByNameFalse() {
 		// Replace My Project with a valid Name in order to pass the test
-		assertFalse(MainController.get().DeleteProject("Fake Project"));
+		assertFalse(controller.DeleteProject("Fake Project"));
 	}
 
 	/**
@@ -254,11 +225,11 @@ public class TestMainController {
 	public void testCreateActivity() {
 		// creates valid activity
 		assertEquals(newActivity,
-				MainController.get().CreateActivity(newActivity));
+				controller.CreateActivity(newActivity));
 		// creates blank activity
-		assertNull(MainController.get().CreateActivity(blankActivity));
+		assertNull(controller.CreateActivity(blankActivity));
 		// created activity where start is after deadline
-		assertNull(MainController.get().CreateActivity(invalidActivity));
+		assertNull(controller.CreateActivity(invalidActivity));
 	}
 
 	/**
@@ -280,14 +251,12 @@ public class TestMainController {
 	 */
 	@Test
 	public void testDeleteActivity() {
-		assertTrue(MainController.get().DeleteActivity(1, 1));
-		assertFalse(MainController.get().DeleteActivity(99, 99));
+		assertTrue(controller.DeleteActivity(1, 1));
+		assertFalse(controller.DeleteActivity(99, 99));
 	}
-	
-	private static void deleteJohnDoe() {
-		if ((MainController.get().Login("JDoe", "password123")) &&
-			(MainController.get().DeleteMember(MainController.get().GetCurrentUser()))) {
-				System.out.println("JDoe removed successfully");
+
+	private static boolean deleteJohnDoe() {
+		return controller.Login("JDoe", "password123") && 
+				controller.DeleteMember(controller.GetCurrentUser());
 		}
 	}
-}

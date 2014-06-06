@@ -1,26 +1,21 @@
-	Hour does not get update in main window
-	View and date appear as clickable items
-	Manually enter start date after deadline
-	Does not switch into newly created project
-	Stays in project after it's deleted
-	New activity field validation inconsistent 
-	What's the difference between Activity save and Create New?
-	What does import from database do?
-	Date and Time as drag-down menus in main frame?
-	What does View do?
+Current issues:
+===============
+Are length and deadline needed?
+Shouldn't the length be determined by time elapsed from the earliest activity until the termination of the latests?
 
-	Should not terminate if username or password is wrong.
-	Equality test with strings
-	Appending strings as log
+Exception handling:
+Currently, most of the exception handling in PModel's MainController done via "catch (Exception ex).
+The execption is handled by displaying a pop-up, making autamation of JUnit tests tedious because tester must click on every pop-up.
+One specific place where this is a problem is with MainController.Login.
+Other methods throw and catch an exception.
+Login displays a pop-up because it needs to return false.
 
-Manageable:
-TODO in Manageable constructor
-	addMemeber and removeMember implement me
+ErrorController uses a string instead of a buffer.
 
-	Member: type: if referring to Manager vs Coder, as a String?
+Bugs:
+=====
+-I am to modify activity dates so that deadline comes before start date.
+-I am able to modify an existing activity's duration to exceed the project duration.
+-New project and activity dialog boxes allow to drag-and-drop dates, but modifying an activity's data requires manual entry, whose input allows incorrect dates.
+-How to see/modify project's settings (description, dates, etc...)
 
-Project:
-	addActivity and removeActivity
-	
-Project should be open
-Create new activity -> project length sets itself to 1
