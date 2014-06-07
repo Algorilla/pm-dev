@@ -132,7 +132,7 @@ public class TestMainController {
 		assertTrue(controller.DeleteMember(deleteMember.getMemberID()));
 		assertFalse(controller.DeleteMember(deleteMember));
 	}
-	
+
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testDeleteMemberByIDInvalid() {
 		// attempts to delete a with a non-exing MID
