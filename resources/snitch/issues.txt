@@ -13,6 +13,13 @@ Either way, needs standardizing.
 
 ErrorController uses a string instead of a buffer.
 
+Tests that end with Invalid (testCreateActivityInvalid) are currently failing because they expect a null object and do not get it.
+Given that there is not error-checking to prevent an activity with a deadline before the start date, these tests fail when the activity/project is returned.
+Once these cases are handled, these tests should pass.
+
+No method to tell whether activity is in list of activities.
+Really ugly hack in testPModel.testDeleteActivity()
+
 Bugs:
 =====
 -I am able to create a project where the deadline comes before the start date:
@@ -21,5 +28,3 @@ Bugs:
 -I am able to modify an existing activity's duration to exceed the project duration.
 -New project and activity dialog boxes allow to drag-and-drop dates, but modifying an activity's data requires manual entry, whose input allows incorrect dates.
 -How to see/modify project's settings (description, dates, etc...)
-
-
