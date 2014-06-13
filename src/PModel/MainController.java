@@ -27,9 +27,22 @@ import net.proteanit.sql.DbUtils;
 public class MainController {
 
 	// Singleton design pattern
-	private static MainController self = new MainController();
-    public static MainController get() { return self; }
+	private static MainController self;
+    public static MainController get()
+    { 
+      	if (self == null && !testMode)
+    		self = new MainController();
+      	else if (testMode)
+      		self = new MainController();
+    	return self;
+    }
+    private static boolean testMode = false;
 	
+    public static void setTestMode(boolean test)
+    {
+    	testMode = test;
+    }
+    
     // Data
     private ArrayList<Member> Members = new ArrayList<Member>();
     private ArrayList<Project> Projects = new ArrayList<Project>();
@@ -46,14 +59,22 @@ public class MainController {
 	
 	// Date format
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-		
+	
+	public Connection GetControllerConnection()
+	{
+		return conn;
+	}
+	
 	/**
 	* Initializes controller by connecting 
 	* to the DB and loading the data into memory.
 	*/
-	MainController()
+	private MainController()
 	{
-		conn = SQLiteDBConnection.ConnectDb();
+		if (!testMode)
+			conn = SQLiteDBConnection.ConnectDb();
+		else	
+			conn = SQLiteDBConnection.ConnectDbTest();			
 		LoadData();
 		
 		// Sample usage:

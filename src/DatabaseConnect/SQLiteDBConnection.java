@@ -30,4 +30,17 @@ public class SQLiteDBConnection {
 	      return null;				
 	}
 	
+	public static Connection ConnectDbTest(){
+			
+		    try {
+		        Class.forName("org.sqlite.JDBC");
+		        // change the path of the database file you saved in you pc.
+		        conn = DriverManager.getConnection("jdbc:sqlite:./resources/db/pm-DB-NEW-test.sqlite");
+		        // JOptionPane.showMessageDialog(null, "DATABASE Connection Established!");
+		        return conn;
+		    } catch ( Exception e ) {
+		        JOptionPane.showMessageDialog(null, e+"inrrcd");
+		      }	      
+		      return null;				
+		}
 }

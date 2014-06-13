@@ -2,16 +2,22 @@ package testPModel;
 
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import DatabaseConnect.SQLiteDBConnection;
 import PModel.Activity;
 import PModel.MainController;
 import PModel.Member;
@@ -19,11 +25,15 @@ import PModel.Project;
 
 public class TestMainController {
 
-	private static PModel.MainController controller;
+	private PModel.MainController controller;
 
 	// test members
-	private static Member validMemeber;
-	private static Member blankMember;
+	private Member validMemeber;
+	
+	private static Date date1;
+	private static Date date2;
+	
+	/*private static Member blankMember;
 	private static Member duplicateUsernameMember;
 	private static Member deleteMember;
 	private static Member activityTestMember;
@@ -38,29 +48,61 @@ public class TestMainController {
 	private static Project blankProject;
 	private static Project invalidDatesProject;
 	private static Project deleteProject;
-	private static Project activityProject;
+	private static Project activityProject;*/
 
-	@BeforeClass
-	public static void setup() {
-
+	@Before
+	public void before()
+	{
 		controller = PModel.MainController.get();
-
-		validMemeber = new Member("John Doe", "member", "JDoe", "password123");
+		
+		validMemeber = new Member("John Doe", "member", "jdoe", "password");
+	}
+	
+	@After
+	public void after()
+	{
+		validMemeber = null;
+		
+		Connection conn = controller.GetControllerConnection();
+		PreparedStatement pst = null;
+		String sql1 = "delete from activities";
+		String sql2 = "delete from projects";
+		String sql3 = "delete from members where username <> jdoe";
+		try {
+			pst = conn.prepareStatement(sql1);
+			pst.execute();
+			pst = conn.prepareStatement(sql2);
+			pst.execute();
+			pst = conn.prepareStatement(sql3);
+			pst.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		controller = null;
+	}
+	
+	@BeforeClass
+	public static void setup() {		
+		PModel.MainController.setTestMode(true);
+		
+		/*validMemeber = new Member("John Doe", "member", "JDoe", "password123");
 		blankMember = new Member("", "", "", "");
 		duplicateUsernameMember = new Member("John Doe", "member", "JDoe", "password123");
 		deleteMember = new Member("Deleted", "manager", "DELETED2", "123");
 		activityTestMember = new Member("Activity Tester", "manager", "acttest", "acttest");
-
-		// Ensure that JDoe is not in the database prior to testing.
-		assert(!controller.Login("JDoe", "password123"));
-
+*/
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-			Date d1 = sdf.parse("31-JUN-2014");
-			Date d2 = sdf.parse("31-JUL-2014");
+			date1 = sdf.parse("31-JUN-2014");
+			date2 = sdf.parse("31-JUL-2014");
 			// Project
 
-			validProject = new Project(1, "Valid Project", "This is a valid testing project", d1, d2, 8);
+			/*validProject = new Project(1, "Valid Project", "This is a valid testing project", d1, d2, 8);
 			blankProject = new Project(0, "", "", null, null, 0);
 			invalidDatesProject = new Project(1, "Invalid Dates Project", "This is an invalid testing project", d2, d1, 8);
 			deleteProject = new Project(1, "Delete Project", "This is a delete-testing project", d1, d2, 6);
@@ -69,57 +111,56 @@ public class TestMainController {
 			// Activity
 			validActivity = new Activity(1, "Valid Activity", "This is a valid testing activity", d1, d2, 6);
 			blankActivity = new Activity(0, "", "", null, null, 0);
-			invalidDatesActivity = new Activity(1, "Invalid Activity", "this is an invalid testing activity", d2, d1, 8);
+			invalidDatesActivity = new Activity(1, "Invalid Activity", "this is an invalid testing activity", d2, d1, 8);*/
 
 		} catch (ParseException e) {
 			System.out.println("TestMainController: Improper Date Format");
 		}
-
-		controller.Login("acttest", "acttest");
-		assertEquals(activityProject, controller.CreateProject(activityProject));
 	}
 
 	@AfterClass
 	public static void cleanUp() {
-		deleteJohnDoe("");
-		deleteValidProject("");
-		controller.DeleteProject(blankProject);
-		controller.DeleteProject(invalidDatesProject);
-		controller.DeleteProject(deleteProject);
-		controller.DeleteProject(activityProject);
-		controller.DeleteMember(activityTestMember);
+		/*deleteJohnDoe("");
+		deleteValidProject("");*/
+		
+		//TODO: Purge database when finished
 	}
 
 	@Test
 	public void testLoginValidUsernameAndPassword() {
-		assertTrue(controller.Login("root", "root"));
+		assertTrue(controller.Login("jdoe", "password"));
 	}
 
 	@Test
 	public void testLoginInvalidPassword() {
-		assertFalse(controller.Login("root", "rot"));
+		assertFalse(controller.Login("jdoe", "badpass"));
 	}
 
 	@Test
 	public void testLoginInvalidUsername() {
-		assertFalse(controller.Login("FailedUsername", "FailedPassword"));
+		assertFalse(controller.Login("jdont", "badpass"));
 	}
 
 	@Test
 	public void testCreateMemberBlank() {
+		Member blankMember = new Member("","","","");
 		assertNull(controller.CreateMember(blankMember));
 	}
 
 	@Test
 	public void testCreateMemberDuplicate() {
 		// Should return null because no two users can have the same username.
+		Member duplicateUsernameMember = new Member("John Doe", "member", "jdoe", "password");
 		assertNull(controller.CreateMember(duplicateUsernameMember));
 	}
 
 	@Test
 	public void testCreateMemberValid() {
-		deleteJohnDoe("testCreateMemberValid");
-		assertNotNull(controller.CreateMember(validMemeber));
+		Member newMember = new Member("John Doe 2", "member", "jdoe2", "password");
+		assertNotNull(controller.CreateMember(newMember));
+		if (!controller.DeleteMember(newMember))
+			System.out.println("Failed to delete John Doe in testCreateMemberValid");
+		//TODO: Log this
 	}
 
 	@Ignore
@@ -130,16 +171,24 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteMemberByMember() {
-		controller.CreateMember(deleteMember);
-		assertTrue(controller.DeleteMember(deleteMember));
-		assertFalse(controller.DeleteMember(deleteMember));
+		Member deleteMember = new Member("Deleted", "manager", "DELETED2", "123");
+		if (controller.CreateMember(deleteMember) != null)
+		{
+			assertTrue(controller.DeleteMember(deleteMember));
+			assertFalse(controller.DeleteMember(deleteMember));
+		}
+		//TODO: Log if error
 	}
 
 	@Test
 	public void testDeleteMemberByID() {
-		controller.CreateMember(deleteMember);
-		assertTrue(controller.DeleteMember(deleteMember.getMemberID()));
-		assertFalse(controller.DeleteMember(deleteMember));
+		Member deleteMember = new Member("Deleted", "manager", "DELETED2", "123");
+		if (controller.CreateMember(deleteMember) != null)
+		{
+			assertTrue(controller.DeleteMember(deleteMember.getMemberID()));
+			assertFalse(controller.DeleteMember(deleteMember));
+		}
+		//TODO: Log if error
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
@@ -151,27 +200,27 @@ public class TestMainController {
 	@Test
 	public void testCreateProjectValid() {
 		// ensure that project does not already exist
-		deleteValidProject("testCreateProjectValid");
-
+		Project validProject = new Project(1, "Valid Project", "This is a valid testing project", date1, date2, 8);		
 		assertEquals(validProject, controller.CreateProject(validProject));
 	}
 
 	@Test
 	public void testCreateProjectBlankProject() {
+		Project blankProject = new Project(1, "", "", date1, date2, 8);		
 		assertNull(controller.CreateProject(blankProject));
 	}
 
 	@Test
 	public void testCreateProjectDuplicate() {
-		deleteValidProject("testCreateProjectDuplicate");
-
-		assertEquals(validProject, controller.CreateProject(validProject));
+		Project validProject = new Project(1, "Valid Project", "This is a valid testing project", date1, date2, 8);
+		controller.CreateProject(validProject);
 		assertNull(controller.CreateProject(validProject));
 	}
 
-	@Test
+	@Ignore
 	public void testCreateProjectInvalidDates() {
 		//project has start date after deadline date
+		Project invalidDatesProject = new Project(1, "Valid Project", "This is a valid testing project", date2, date1, 8);
 		assertNull(controller.CreateProject(invalidDatesProject));
 	}
 
@@ -183,8 +232,9 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteProjectByIDValid() {
-		assertNotNull(controller.CreateProject(deleteProject));
-		assertTrue(controller.DeleteProject(deleteProject.getProjectID()));
+		Project validProject = new Project(1, "Valid Project", "This is a valid testing project", date1, date2, 8);
+		assertNotNull(controller.CreateProject(validProject));
+		assertTrue(controller.DeleteProject(validProject.getProjectID()));
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
@@ -194,8 +244,9 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteProjectByNameValid() {
-		assertNotNull(controller.CreateProject(deleteProject));
-		assertTrue(controller.DeleteProject(deleteProject.getName()));
+		Project validProject = new Project(1, "Valid Project", "This is a valid testing project", date1, date2, 8);
+		assertNotNull(controller.CreateProject(validProject));
+		assertTrue(controller.DeleteProject(validProject.getName()));
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
@@ -206,18 +257,21 @@ public class TestMainController {
 	@Test
 	public void testCreateActivityValid() {
 		loginToTestActivity();
+		Activity validActivity = new Activity(1, "Valid Activity", "This is a valid testing activity", date1, date2, 6);
 		assertEquals(validActivity, controller.CreateActivity(validActivity));
 	}
 
 	@Test
 	public void testCreateActivityBlank() {
 		loginToTestActivity();
-		assertNull(controller.CreateActivity(blankActivity));	
+		Activity blankActivity = new Activity(1, "", "", date1, date2, 6);
+		assertNull(controller.CreateActivity(blankActivity));
 	}
 
-	@Test
-	public void testCreateActivityInvalid() {
+	@Ignore
+	public void testCreateActivityInvalidDates() {
 		loginToTestActivity();
+		Activity invalidDatesActivity = new Activity(1, "Valid Activity", "This is a valid testing activity", date2, date1, 6);
 		assertNull(controller.CreateActivity(invalidDatesActivity));	
 	}
 
@@ -230,46 +284,15 @@ public class TestMainController {
 	@Test
 	public void testDeleteActivity() {
 		loginToTestActivity();
-		boolean validActivityInCurrentProject = false;
-		for (Activity act : controller.getActivityListForCurrentProject()) {
-			// verify whether validActivity is in the current project
-			if (act.getNumber() == validActivity.getNumber() &&
-				act.getName() == validActivity.getName() &&
-				act.getProjectID() == validActivity.getProjectID()) {
-					validActivityInCurrentProject = true;
-					break;
-			}
-		}
-		
-		if (validActivityInCurrentProject) {
-			assertTrue(controller.DeleteActivity(validActivity.getProjectID(),
-					validActivity.getNumber()));
-		} else {
-			assertNotNull(controller.CreateActivity(validActivity));
-			assertTrue(controller.DeleteActivity(validActivity.getProjectID(), validActivity.getNumber()));
-		}
+		Activity validActivity = new Activity(1, "Valid Activity", "This is a valid testing activity", date1, date2, 6);
+		assertNotNull(controller.CreateActivity(validActivity));
+		assertTrue(controller.DeleteActivity(validActivity.getProjectID(), validActivity.getNumber()));
 	}
 
-	// Helper methods used by some unit tests
-	private static void deleteJohnDoe(String callingMethod) {
-		if (controller.Login("JDoe", "password123") && controller.DeleteMember(controller.GetCurrentUser())) {
-			if (!callingMethod.equals("")) {
-				System.out.println(callingMethod + " deleted newProject prior to test");
-			}
-		}
-	}
-
-	private static void deleteValidProject(String callingMethod) {
-		// ensure that project does not already exist
-		if (controller.DeleteProject(validProject)) {
-			if (!callingMethod.equals("")) {
-				System.out.println(callingMethod + " deleted validProject prior to test");
-			}
-		}
-	}
-
-	private static void loginToTestActivity() {
-		controller.Login("acttest", "acttest");
-		controller.OpenProject(activityProject.getName());
+	private void loginToTestActivity() {
+		controller.Login("jdoe", "password");
+		Project validProject = new Project(1, "Valid Project", "This is a valid testing project", date1, date2, 8);
+		controller.CreateProject(validProject);
+		controller.OpenProject(validProject.getName());
 	}
 }
