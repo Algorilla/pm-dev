@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import DatabaseConnect.SQLiteDBConnection;
+import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
 import JDialogue.DeleteProjectDialog;
@@ -258,6 +259,18 @@ public class UserInterface extends InitialJFrame {
         textField_length.setBounds(131, 261, 143, 20);
         activity_update_panel.add(textField_length);
         textField_length.setColumns(10);
+        
+        JButton btnAddMem = new JButton("Add Team Member");
+        btnAddMem.setBackground(new Color(0, 153, 102));
+        btnAddMem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		AddTeamMember teamWindow = new AddTeamMember(activity);
+        		teamWindow.setVisible(true);
+        	};
+        });
+        btnAddMem.setIcon(new ImageIcon("./resources/img/icon/save-icon.png"));
+        btnAddMem.setBounds(82, 376, 118, 23);
+        activity_update_panel.add(btnAddMem); 
         
         JButton btnSave = new JButton("Save");
         btnSave.setBackground(new Color(0, 153, 102));

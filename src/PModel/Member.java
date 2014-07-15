@@ -114,5 +114,10 @@ public class Member
 	public String getPassword() {
 		return password;
 	}
+	
+	@Override
+    public String toString(){
+      return name;
+    }
 }
 

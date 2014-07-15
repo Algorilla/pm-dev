@@ -61,7 +61,7 @@ public class MainController {
 		//CreateMember(new Member("example user","manager","example","password"));
 		//CreateProject(new Project(1,"Project 1","Project 1",new Date(),new Date(),1));
 		
-		CreateMemberActivity(new MemberActivity(1,1,1));	
+//		CreateMemberActivity(new MemberActivity(1,1,1));	
 	}
 	
 	/**
@@ -922,5 +922,10 @@ public class MainController {
 			}		
 	}
 		return null;
+	}
+	
+	public ArrayList<Member> GetMemberListForAddMemberToActivity()
+	{
+		return Members;
 	}
 }
