@@ -74,7 +74,7 @@ public class UserInterface extends InitialJFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UserInterface(int x, int y, int width, int height,String title, String name) {
+	public UserInterface(int x, int y, int width, int height, String title, String name) {
 		super(x,y,width,height,title,name);	
 		addMenuBar();
 		addImage();
@@ -268,7 +268,7 @@ public class UserInterface extends InitialJFrame {
         		teamWindow.setVisible(true);
         	};
         });
-        btnAddMem.setIcon(new ImageIcon("./resources/img/icon/save-icon.png"));
+        btnAddMem.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
         btnAddMem.setBounds(82, 376, 118, 23);
         activity_update_panel.add(btnAddMem); 
         
@@ -323,8 +323,8 @@ public class UserInterface extends InitialJFrame {
       * menu bar components.
       */
 	 private void addMenuBar() {
-	        JMenuBar menubar = new JMenuBar();
-	        ImageIcon iconNew = new ImageIcon("new.png");
+	        JMenuBar  menubar  = new JMenuBar();
+	        ImageIcon iconNew  = new ImageIcon("new.png");
 	        ImageIcon iconOpen = new ImageIcon("open.png");
 	        ImageIcon iconSave = new ImageIcon("save.png");
 	        ImageIcon iconExit = new ImageIcon("exit.png");

@@ -1,6 +1,7 @@
 package PModel;
 
 import DatabaseConnect.SQLiteDBConnection;
+import JFrames.TeamMemberView;
 import JFrames.UserInterface;
 
 import java.awt.List;
@@ -177,9 +178,18 @@ public class MainController {
 		    if (member.getUserName().equals(username) && member.getPassword().equals(password))
 		    {
 				currentUser = member;								
-				UserInterface userAccount = new UserInterface(100,100,1000,600,"",username);
-				userAccount.setVisible(true);				
-				return true;
+				if (currentUser.getType().equals("manager"))
+				{
+					UserInterface userAccount = new UserInterface(100,100,1000,600,"",username);
+					userAccount.setVisible(true);				
+					return true;
+				}
+				else
+				{
+					TeamMemberView memberView = new TeamMemberView();
+					memberView.setVisible(true);
+					return true;
+				}
 		    }			
 		}
 		JOptionPane.showMessageDialog(null, "Username and password combination is not correct.");	
@@ -230,9 +240,35 @@ public class MainController {
 			pst.close();
 		}catch(Exception ex){
 			//JOptionPane.showMessageDialog(null,ex);	
-		}					
+		}			
 	}
-	
+	/**
+	* Display project and its data in the GUI
+	*
+	* @param table
+	*/	
+	public void getActivityListForCurrentTeamMember(JTable table)
+	{
+
+		int mid = currentUser.getMemberID();// change naming convention
+		String sql = "select * from Activities, MemberActivities" +
+					"  where MemberActivities.PID = Activities.PID   AND " +
+					" 	 	 MemberActivities.Number = Activities.Number   AND" +
+					"  		 MemberActivities.MID = ?";
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, mid);
+			rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));				
+			pst.execute();
+			pst.close();
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null,ex);	
+		}
+	}
+	/**
+	 *  
+	 * */
 	public ArrayList<Activity> getActivityListForCurrentProject()
 	{
 		final ArrayList<Activity> activityList = new ArrayList<Activity>();	
@@ -241,7 +277,6 @@ public class MainController {
 				activityList.add(activity);
 		return activityList;	
 	}
-	
 	/**
 	 * Fills comboBox
 	 * @param comboBox comboBox to fill

@@ -96,10 +96,6 @@ public class AddTeamMember extends JDialog {
 		});
 		btnAdd.setBounds(265, 366, 117, 29);
 		contentPanel.add(btnAdd);
-//		activities = MainController.get().getActivityListForCurrentProject();
-
-		
-		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
