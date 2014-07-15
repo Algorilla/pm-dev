@@ -34,6 +34,7 @@ public class MainController {
     private ArrayList<Member> Members = new ArrayList<Member>();
     private ArrayList<Project> Projects = new ArrayList<Project>();
     private ArrayList<Activity> Activities = new ArrayList<Activity>();
+    private ArrayList<MemberActivity> MemberActivities = new ArrayList<MemberActivity>();
     
     // SQLite DB connection data
 	Connection conn = null;
@@ -59,6 +60,8 @@ public class MainController {
 		// Sample usage:
 		//CreateMember(new Member("example user","manager","example","password"));
 		//CreateProject(new Project(1,"Project 1","Project 1",new Date(),new Date(),1));
+		
+		CreateMemberActivity(new MemberActivity(1,1,1));	
 	}
 	
 	/**
@@ -69,6 +72,7 @@ public class MainController {
 		String sqlMembers = "select * from Members";
 		String sqlProjects = "select * from Projects";
 		String sqlActivities = "select * from Activities";
+		String sqlMemberActivities = "select * from MemberActivities";
 		try{
 			pst = conn.prepareStatement(sqlMembers);
 			rs = pst.executeQuery();
@@ -113,6 +117,18 @@ public class MainController {
 				activity.setProjectID(rs.getInt("PID"));
 				activity.setNumber(rs.getInt("Number"));
 				Activities.add(activity);
+			}									
+			rs.close();
+			pst.close();			
+			pst = conn.prepareStatement(sqlMemberActivities);
+			rs = pst.executeQuery();
+			while(rs.next()){
+            MemberActivity ma = new  MemberActivity(
+						rs.getInt("MID"),
+						rs.getInt("PID"),
+						rs.getInt("Number")
+						);				
+            	MemberActivities.add(ma);
 			}									
 			rs.close();
 			pst.close();	
@@ -871,5 +887,40 @@ public class MainController {
 			return true;
 		} catch (SQLException ex) { }			
 		return false;
+	}
+	
+	
+	public MemberActivity CreateMemberActivity (MemberActivity ma)
+	{
+		if (
+				ma.getMemberID() > 0 &&  ma.getProjectID () > 0 && ma.getNumber() > 0 
+			)
+		{
+			for (MemberActivity theMemberActivity : MemberActivities)
+			    if ( theMemberActivity.getMemberID() == ma.getMemberID() && 
+			    	 theMemberActivity.getProjectID() == ma.getProjectID() &&
+			    	 theMemberActivity.getNumber() == ma.getNumber() )
+			    {
+					ErrorController.get().AddError("Member is already assigned to that activity");
+			    }
+			if (ErrorController.get().ErrorsExist()) {
+				ErrorController.get().DisplayErrors();
+				return null;
+			}
+			String sql = "insert into MemberActivities (MID,PID,Number) values(?,?,?)";
+			try{
+				pst = conn.prepareStatement(sql);
+				pst.setInt(1, ma.getMemberID());
+				pst.setInt(2, ma.getProjectID());
+				pst.setInt(3, ma.getNumber());
+				pst.execute();
+				pst.close();
+				MemberActivities.add(ma);
+				return ma;
+			}catch(Exception ex){
+				JOptionPane.showMessageDialog(null,ex);	
+			}		
+	}
+		return null;
 	}
 }
