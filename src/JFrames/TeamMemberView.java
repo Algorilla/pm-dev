@@ -78,7 +78,6 @@ public class TeamMemberView extends InitialJFrame {
         getContentPane().add(panel);
         panel.setLayout(null);
         
-        
         panel_activitylist = new JPanel();
         panel_activitylist.setBackground(Color.WHITE);
         panel_activitylist.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -98,14 +97,17 @@ public class TeamMemberView extends InitialJFrame {
         scrollPane.setViewportView(table_1);
         table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table_1.setBorder(null);
-//        int row = table_1.getSelectedRow();
-//		int PID = (int) table_1.getModel().getValueAt(row, 0);
-//		int number = (int) table_1.getModel().getValueAt(row, 1);
+
         MainController.get().getActivityListForCurrentTeamMember(table_1);
         
         final TextArea textArea_description = new TextArea();
         textArea_description.setBounds(637, 68, 300, 332);
-        panel.add(textArea_description);;
+        panel.add(textArea_description);
+        
+        JLabel lblDescription = new JLabel("Description");
+        lblDescription.setBackground(Color.WHITE);
+        lblDescription.setBounds(637, 32, 93, 16);
+        panel.add(lblDescription);;
         
         table_1.addMouseListener(new MouseAdapter() {
         	@Override

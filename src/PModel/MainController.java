@@ -243,15 +243,16 @@ public class MainController {
 		}			
 	}
 	/**
-	* Display project and its data in the GUI
+	* Display the Activities to which a Member has been assigned.
 	*
-	* @param table
+	* @param table The JTable into which the results are stored
 	*/	
 	public void getActivityListForCurrentTeamMember(JTable table)
 	{
 
-		int mid = currentUser.getMemberID();// change naming convention
-		String sql = "select * from Activities, MemberActivities" +
+		int mid = currentUser.getMemberID();
+		String sql = "select Activities.PID, Activities.Number, Activities.Name" +
+					" from Activities, MemberActivities" +
 					"  where MemberActivities.PID = Activities.PID   AND " +
 					" 	 	 MemberActivities.Number = Activities.Number   AND" +
 					"  		 MemberActivities.MID = ?";
