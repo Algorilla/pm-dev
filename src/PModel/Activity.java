@@ -62,6 +62,24 @@ public class Activity extends Manageable
 		
 	}
 	/**
+	 * Copy Constructor for Activity
+	 * @param a An Activity Object
+	 * */
+	public Activity(Activity a){
+		
+		super(a.getName(), a.getDescr());
+		
+		this.projectID 						= a.getProjectID();
+		this.mostLikelyTimeToCompletion 	= a.getMostLikelyTimeToCompletion();
+		this.optimisticTimeToCompletion 	= a.getOptimisticTimeToCompletion();
+		this.pessimisticTimeToCompletion	= a.getPessimisticTimeToCompletion();
+		this.targetCompletionDate			= a.getTargetCompletionDate();
+		
+		setPlannedValue(a.getPlannedValue());
+		setDuration();
+		
+	}
+	/**
 	 * Set the single duration value for the activity, calculated for estimated entries.
 	 * */
 	private void setDuration() {
@@ -258,6 +276,25 @@ public class Activity extends Manageable
     public String toString(){
       return projectID + "-" + activityNumber + "-" + getName();
     }
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Activity other = (Activity) obj;
+		if (activityNumber != other.activityNumber)
+			return false;
+		if (projectID != other.projectID)
+			return false;
+		return true;
+	}
+	
 	
 }
 

@@ -86,6 +86,7 @@ SQLite Tables
 		"Description" TEXT, 
 		"PlannedValue" DOUBLE, 
 		"MostLikelyTimeToCompletion" DOUBLE, 
+		"OptimisticTimeToCompletion"	Double,
 		"PessimisticTimeToCompletion" DOUBLE, 
 		"TargetCompletionDate" DOUBLE, 
 		"Status" BOOL, 

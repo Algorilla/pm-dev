@@ -941,4 +941,38 @@ public class MainController {
 	{
 		return Members;
 	}
+	/**
+	 * @param a An Activity Object
+	 * @return temp An ArrayList of Integers representing the PID and Number pairs of those Activities that depend on the Activity passed.
+	 * */
+	public ArrayList<Integer> getDependantActivities(Activity a){
+		
+		String sql;
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		
+		try {
+			sql = 	"select DependantOnPID, DependantOnNumber " +
+					"from ActivityDependency" +
+					"where PID == ? AND Number == ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,a.getProjectID());
+			pst.setInt(2,a.getNumber());
+			rs = pst.executeQuery();
+			
+			while(rs.next()){
+				temp.add(rs.getInt("DependantOnPID"));
+				temp.add(rs.getInt("DependantOnNumber"));
+			}
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null,ex);	
+		}finally{
+			try{
+				rs.close();
+				pst.close();			
+			}catch(Exception e){}
+		}
+		temp.trimToSize();
+		return temp;
+			
+	}
 }
