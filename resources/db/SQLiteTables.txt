@@ -13,9 +13,7 @@ Entities
 		"Name" Text  NOT NULL  ,      
 		"Description" Text  ,
 		"Manager ID" REFERENCES Members(MID),      
-		"StartDate" Text  NOT NULL  ,      
-		"Deadline" Text  NOT NULL  ,      
-		"ProjectedLength" Integer  );
+		);
 
 
 	Members
@@ -32,9 +30,12 @@ Entities
 		"Number"	Integer, 	
 		"Name"	Text,	
 		"Description"	Text, 	
-		"StartDate"	Text,	
-		"Deadline"	Text, 	
-		"ProjectedLength"	Text,	
+		"PlannedValue"	Integer,	
+		"MostLikelyTimeToCompletion"	Double, 	
+		"OptimisticTimeToCompletion"	Double,	
+		"PessimisticTimeToCompletion"	Double,	
+		"TargetCompletionDate"	Double,	
+		"Status"	Boolean,
 		PRIMARY KEY (PID, Number));
 
 
@@ -70,9 +71,7 @@ SQLite Tables
 		"Name" Text  NOT NULL  ,      
 		"Description" Text  ,
 		"Manager ID" REFERENCES Members(MID),      
-		"StartDate" Text  NOT NULL  ,      
-		"Deadline" Text  NOT NULL  ,      
-		"ProjectedLength" Integer  );
+		);
 
 
 	CREATE TABLE "Members"(     
@@ -80,15 +79,17 @@ SQLite Tables
 		"Name" Text  NOT NULL  );
 
 
-	CREATE TABLE "Activities"(
-		"PID"	Integer REFERENCES Project(PID),	
-		"Number"	Integer, 	
-		"Name"	Text,	
-		"Description"	Text, 	
-		"StartDate"	Text,	
-		"Deadline"	Text, 	
-		"ProjectedLength"	Text,	
-		PRIMARY KEY (PID, Number));
+	CREATE TABLE "Activities" (
+		"PID" INTEGER NOT NULL , 
+		"Number" INTEGER NOT NULL , 
+		"Name" TEXT, 
+		"Description" TEXT, 
+		"PlannedValue" DOUBLE, 
+		"MostLikelyTimeToCompletion" DOUBLE, 
+		"PessimisticTimeToCompletion" DOUBLE, 
+		"TargetCompletionDate" DOUBLE, 
+		"Status" BOOL, 
+		PRIMARY KEY ("PID", "Number"))
 
 
 	CREATE TABLE "MemberProjects"(

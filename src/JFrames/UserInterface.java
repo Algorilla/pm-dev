@@ -64,9 +64,6 @@ public class UserInterface extends InitialJFrame {
 	private JLabel nameLabel;
 	JPanel activity_update_panel;
     JPanel panel_projectlist;
-    private JTextField textField_startedDate;
-    private JTextField textField_deadline;
-    private JTextField textField_length;
     private  TextArea textArea_description;
     private JTextField textField_ActivityName;
     final JTable table_1 = new JTable();
@@ -169,13 +166,7 @@ public class UserInterface extends InitialJFrame {
         		String name = table_1.getModel().getValueAt(row, 2).toString();
         		textField_ActivityName.setText(name);        		
         		String des = table_1.getModel().getValueAt(row, 3).toString();
-        		textArea_description.setText(des); 
-        		String starDate = table_1.getModel().getValueAt(row, 4).toString();
-        		textField_startedDate.setText(starDate); 
-        		String deadline = table_1.getModel().getValueAt(row, 5).toString();
-        		textField_deadline.setText(deadline); 
-        		String length = table_1.getModel().getValueAt(row, 6).toString();
-        		textField_length.setText(length);       		
+        		textArea_description.setText(des);      		
         	}
         });
         headingInfo();
@@ -237,29 +228,6 @@ public class UserInterface extends InitialJFrame {
         lblStartedDate.setBounds(20, 202, 74, 14);
         activity_update_panel.add(lblStartedDate);
         
-        textField_startedDate = new JTextField();
-        textField_startedDate.setBounds(133, 199, 141, 20);
-        activity_update_panel.add(textField_startedDate);
-        textField_startedDate.setColumns(10);
-        
-        JLabel lblDeadline = new JLabel("Deadline:");
-        lblDeadline.setBounds(20, 234, 74, 14);
-        activity_update_panel.add(lblDeadline);
-        
-        textField_deadline = new JTextField();
-        textField_deadline.setBounds(131, 230, 143, 20);
-        activity_update_panel.add(textField_deadline);
-        textField_deadline.setColumns(10);
-        
-        JLabel lblLength = new JLabel("Length:");
-        lblLength.setBounds(20, 271, 74, 14);
-        activity_update_panel.add(lblLength);
-        
-        textField_length = new JTextField();
-        textField_length.setBounds(131, 261, 143, 20);
-        activity_update_panel.add(textField_length);
-        textField_length.setColumns(10);
-        
         JButton btnAddMem = new JButton("Add Team Member");
         btnAddMem.setBackground(new Color(0, 153, 102));
         btnAddMem.addActionListener(new ActionListener() {
@@ -280,24 +248,10 @@ public class UserInterface extends InitialJFrame {
 				int pid = MainController.get().GetCurrentProject().getProjectID();
 				String name = textField_ActivityName.getText();
 				String description = textArea_description.getText();
-				String startd = textField_startedDate.getText();
-				String end = textField_deadline.getText();
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-				Date start = null;
-				Date deadline = null;		 
-				try {			 
-					start = formatter.parse(startd);
-					deadline = formatter.parse(end);
-				} catch (ParseException exe) {
-					exe.printStackTrace();
-				}
-				int length = Integer.parseInt(textField_length.getText());
-				JOptionPane.showMessageDialog(null,description + startd + end);
+				
 				activity.setName(name);
 				activity.setDescr(description);
-				activity.setStart(start);
-				activity.setDeadline(deadline);
-				activity.setLength(length);
+
 		        MainController.get().UpdateActivity(activity);
         		resetFrame();
         		projectPanel();

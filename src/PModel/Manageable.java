@@ -16,9 +16,7 @@ public abstract class Manageable
 
 	private String name;
 	private String description;
-	private Date startDate;
-	private Date deadline;
-	private int length;
+	private double plannedValue;
 	private boolean status;
 	private Set<Member> memberList;
 
@@ -26,17 +24,12 @@ public abstract class Manageable
 	 * Sole constructor for <tt>Manageable</tt>
 	 * @param name Name of Manageable object
 	 * @param description Description of object
-	 * @param start Start date of object
-	 * @param deadline Deadline of object
-	 * @param length Projected length to completion of object in days
 	 */
-	public Manageable(String name, String description, Date start, Date deadline, int length) {
+	public Manageable(String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.startDate = start;
-		this.deadline = deadline;
-		this.length = length;
+		this.status = false;
 	}
 	
 	/**
@@ -54,35 +47,17 @@ public abstract class Manageable
 	public void setDescr(String newDescr) {
 		description = newDescr;
 	}
-	
 	/**
-	 * Sets start date for Manageable Object
-	 * @param newStart New start date
-	 */
-	public void setStart(Date newStart) {
-		startDate = newStart;
+	 * Sets Planned Value of the Manageable Entity
+	 * @param newPlannedValue New Planned Value
+	 *  */
+	public void setPlannedValue(double newPlannedValue) {
+		this.plannedValue = newPlannedValue;
 	}
-	
-	/**
-	 * Sets deadline for Manageable object
-	 * @param newDeadline New deadline
-	 */
-	public void setDeadline(Date newDeadline) {
-		deadline = newDeadline;	
-	}
-	
-	/**
-	 * Sets projected length for Manageable object
-	 * @param newLength New projected length in days
-	 */
-	public void setLength(int newLength) {
-		length = newLength;
-	}
-	
-	/**
-	 * Sets Manageable's status as Active, Completed, Late or Rush 
-	 * @param newStatus New status
-	 */
+	/** 
+	 * Sets the status of the Manageable
+	 * @param newStatus Updated Status value
+	 * */
 	public void setStatus(boolean newStatus) {
 		status = newStatus;
 	}
@@ -94,7 +69,6 @@ public abstract class Manageable
 	public String getName() {
 		return name;
 	}
-	
 	/**
 	 * Returns Manageable's Description
 	 * @return Manageable's Description
@@ -102,31 +76,12 @@ public abstract class Manageable
 	public String getDescr() {
 		return description;
 	}
-	
 	/**
-	 * Returns Manageable's Start Date
-	 * @return Manageable's Start Date
-	 */
-	public Date getStart() {
-		return startDate;	
+	 * Returns the PlannedValue (projected budget) of the Manageable entity
+	 * @return Manageable's Planned Value*/
+	public double getPlannedValue() {
+		return plannedValue;
 	}
-	
-	/**
-	 * Returns Manageable's Deadline
-	 * @return Manageable's Deadline
-	 */
-	public Date getDeadline() {
-		return deadline;
-	}
-	
-	/**
-	 * Returns Manageable's Description
-	 * @return Manageable's Description
-	 */
-	public int getLength() {
-		return length;
-	}
-	
 	/**
 	 * Returns Manageable's Status
 	 * @return Manageable's Status
@@ -134,7 +89,6 @@ public abstract class Manageable
 	public boolean getStatus() {
 		return status;
 	}
-	
 	/**
 	 * Returns Manageable's Member List
 	 * @return Manageable's Member List

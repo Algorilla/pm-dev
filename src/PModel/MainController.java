@@ -95,10 +95,7 @@ public class MainController {
 				Project project = new Project(
 						rs.getInt("ManagerID"),
 						rs.getString("Name"),
-						rs.getString("Description"),
-						df.parse(rs.getString("StartDate")),
-						df.parse(rs.getString("Deadline")),
-						rs.getInt("ProjectedLength")
+						rs.getString("Description")
 						);
 				project.setProjectID(rs.getInt("PID"));
 				Projects.add(project);
@@ -109,11 +106,14 @@ public class MainController {
 			rs = pst.executeQuery();
 			while(rs.next()){
 				Activity activity = new Activity(
+						rs.getInt("PID"),
 						rs.getString("Name"),
 						rs.getString("Description"),
-						df.parse(rs.getString("StartDate")),
-						df.parse(rs.getString("Deadline")),
-						rs.getInt("ProjectedLength")
+						rs.getDouble("PlannedValue"),
+						rs.getDouble("MostLikelyTimeToCompletion"),
+						rs.getDouble("OptimisticTimeToCompletion"),
+						rs.getDouble("PessimisticTimeToCompletion"),
+						rs.getDouble("TargetCompletionDate")
 						);
 				activity.setProjectID(rs.getInt("PID"));
 				activity.setNumber(rs.getInt("Number"));
@@ -512,10 +512,7 @@ public class MainController {
 	public Project CreateProject(Project project)
 	{
 		if (!project.getName().equals("") && project.getName() != null &&
-			!project.getDescr().equals("") && project.getDescr() != null &&
-			project.getStart() != null &&
-			project.getDeadline() != null &&
-			project.getLength() != 0
+			!project.getDescr().equals("") && project.getDescr() != null
 			)
 		{		
 				String sql;
@@ -541,15 +538,12 @@ public class MainController {
 					ErrorController.get().DisplayErrors();
 					return null;
 				}	
-				sql = "insert into Projects (Name,Description,ManagerID,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?)";				
+				sql = "insert into Projects (Name,Description,ManagerID)values(?,?,?)";				
 				try{
 					pst = conn.prepareStatement(sql);
 					pst.setString(1, project.getName());
 					pst.setString(2, project.getDescr());
 					pst.setInt(3, project.getManagerID());
-					pst.setString(4, df.format(project.getStart()));
-					pst.setString(5, df.format(project.getDeadline()));
-					pst.setInt(6, project.getLength());
 					pst.execute();
 					pst.close();
 					sql = "select max(PID) from Projects";
@@ -574,10 +568,7 @@ public class MainController {
 	public boolean UpdateProject(Project project)
 	{		
 		if (!project.getName().equals("") && project.getName() != null &&
-			!project.getDescr().equals("") && project.getDescr() != null &&
-			project.getStart() != null &&
-			project.getDeadline() != null &&
-			project.getLength() != 0
+			!project.getDescr().equals("") && project.getDescr() != null
 			)
 		{
 			String sql;
@@ -610,16 +601,13 @@ public class MainController {
 				ErrorController.get().DisplayErrors();
 				return false;
 			}			
-			sql = "update Projects set Name=?,Description=?,ManagerID=?,StartDate=?,Deadline=?,ProjectedLength=? where PID = ?";
+			sql = "update Projects set Name=?,Description=?,ManagerID=? where PID = ?";
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, project.getName());
 				pst.setString(2, project.getDescr());
 				pst.setInt(3, project.getManagerID());
-				pst.setString(4, df.format(project.getStart()));
-				pst.setString(5, df.format(project.getDeadline()));
-				pst.setInt(6, (project.getLength()));
-				pst.setInt(7,project.getProjectID());
+				pst.setInt(4,project.getProjectID());
 				pst.execute();
 				pst.close();
 				/*int x=0;
@@ -755,9 +743,7 @@ public class MainController {
 	public Activity CreateActivity(Activity activity)
 	{		
 		if (!activity.getName().equals("") && activity.getName() != null &&
-			!activity.getDescr().equals("") && activity.getDescr() != null &&
-			activity.getStart() != null &&
-			activity.getDeadline() != null
+			!activity.getDescr().equals("") && activity.getDescr() != null
 			)
 		{		
 			String sql;				
@@ -783,15 +769,12 @@ public class MainController {
 				rs = pst.executeQuery();
 				int x = rs.getInt(1);
 				x++;		
-				sql = "insert into Activities (PID,Number,Name,Description,StartDate,Deadline,ProjectedLength)values(?,?,?,?,?,?,?)";
+				sql = "insert into Activities (PID,Number,Name,Description)values(?,?,?,?)";
 				pst = conn.prepareStatement(sql);
 				pst.setInt(1, currentProject.getProjectID());
 				pst.setInt(2, x);
 				pst.setString(3, activity.getName());
 				pst.setString(4, activity.getDescr());
-				pst.setString(5, df.format(activity.getStart()));
-				pst.setString(6, df.format(activity.getDeadline()));
-				pst.setString(7, String.valueOf(activity.getLength()));
 				pst.execute();
 				pst.close();
 				activity.setProjectID(currentProject.getProjectID());
@@ -814,23 +797,17 @@ public class MainController {
 	public boolean UpdateActivity(Activity activity)
 	{		
 		if (!activity.getName().equals("") && activity.getName() != null &&
-			!activity.getDescr().equals("") && activity.getDescr() != null &&
-			activity.getStart() != null &&
-			activity.getDeadline() != null &&
-			activity.getProjectID() != 0
+			!activity.getDescr().equals("") && activity.getDescr() != null //&&
 			)
 		{
 			String sql;			
-			sql = "update Activities set Name=?,Description=?,StartDate=?,Deadline=?,ProjectedLength=? where PID = ? and Number = ?";
+			sql = "update Activities set Name=?,Description=? where PID = ? and Number = ?";
 			try{
 				pst = conn.prepareStatement(sql);
 				pst.setString(1, activity.getName());
 				pst.setString(2, activity.getDescr());
-				pst.setString(3, df.format(activity.getStart()));
-				pst.setString(4, df.format(activity.getDeadline()));
-				pst.setInt(5, activity.getLength());
-				pst.setInt(6, activity.getProjectID());
-				pst.setInt(7, activity.getNumber());
+				pst.setInt(3, activity.getProjectID());
+				pst.setInt(4, activity.getNumber());
 				pst.execute();
 				pst.close();
 				/*int x=0;

@@ -60,16 +60,16 @@ public class TestMainController {
 			Date d2 = sdf.parse("31-JUL-2014");
 			// Project
 
-			validProject = new Project(1, "Valid Project", "This is a valid testing project", d1, d2, 8);
-			blankProject = new Project(0, "", "", null, null, 0);
-			invalidDatesProject = new Project(1, "Invalid Dates Project", "This is an invalid testing project", d2, d1, 8);
-			deleteProject = new Project(1, "Delete Project", "This is a delete-testing project", d1, d2, 6);
-			activityProject = new Project(1, "Activity Project", "This is an activity-testing project", d1, d2, 6);
-
-			// Activity
-			validActivity = new Activity(1, "Valid Activity", "This is a valid testing activity", d1, d2, 6);
-			blankActivity = new Activity(0, "", "", null, null, 0);
-			invalidDatesActivity = new Activity(1, "Invalid Activity", "this is an invalid testing activity", d2, d1, 8);
+//			validProject = new Project(1, "Valid Project", "This is a valid testing project", d1, d2, 8);
+//			blankProject = new Project(0, "", "", null, null, 0);
+//			invalidDatesProject = new Project(1, "Invalid Dates Project", "This is an invalid testing project", d2, d1, 8);
+//			deleteProject = new Project(1, "Delete Project", "This is a delete-testing project", d1, d2, 6);
+//			activityProject = new Project(1, "Activity Project", "This is an activity-testing project", d1, d2, 6);
+//
+//			// Activity
+//			validActivity = new Activity(1, "Valid Activity", "This is a valid testing activity", d1, d2, 6);
+//			blankActivity = new Activity(0, "", "", null, null, 0);
+//			invalidDatesActivity = new Activity(1, "Invalid Activity", "this is an invalid testing activity", d2, d1, 8);
 
 		} catch (ParseException e) {
 			System.out.println("TestMainController: Improper Date Format");

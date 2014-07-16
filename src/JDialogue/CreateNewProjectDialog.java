@@ -32,9 +32,6 @@ public class CreateNewProjectDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txt_newProjectNameField;
-	private JTextField textField_length;
-	JDateChooser StartedDate;
-	JDateChooser Deadline;
 	private Project newPro = null;
 	private TextArea textArea_Description = new TextArea();
 	/**
@@ -54,7 +51,7 @@ public class CreateNewProjectDialog extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JLabel lblProjectName = new JLabel("Project Name:");
-			lblProjectName.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblProjectName.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 			lblProjectName.setBounds(44, 84, 123, 14);
 			contentPanel.add(lblProjectName);
 		}
@@ -66,7 +63,7 @@ public class CreateNewProjectDialog extends JDialog {
 		}
 		{
 			JLabel lblPleaseEnterNew = new JLabel("Please enter new project name:");
-			lblPleaseEnterNew.setFont(new Font("Verdana", Font.PLAIN, 13));
+			lblPleaseEnterNew.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 			lblPleaseEnterNew.setBounds(10, 25, 225, 14);
 			contentPanel.add(lblPleaseEnterNew);
 		}
@@ -74,37 +71,10 @@ public class CreateNewProjectDialog extends JDialog {
 		JLabel lblDescription = new JLabel("Description:");
 		lblDescription.setBounds(47, 126, 83, 14);
 		contentPanel.add(lblDescription);
-		{
-			JLabel lblStartedDate = new JLabel("Started Date:");
-			lblStartedDate.setBounds(44, 238, 86, 14);
-			contentPanel.add(lblStartedDate);
-		}
-
-		
-		JLabel lblEndedDate = new JLabel("Deadline:");
-		lblEndedDate.setBounds(47, 281, 66, 14);
-		contentPanel.add(lblEndedDate);
-		
-		JLabel lblProjectLength = new JLabel("Length (Days):");
-		lblProjectLength.setBounds(44, 317, 86, 14);
-		contentPanel.add(lblProjectLength);
-		
-		textField_length = new JTextField();
-		textField_length.setBounds(170, 314, 200, 20);
-		contentPanel.add(textField_length);
-		textField_length.setColumns(10);
 		
 
 		textArea_Description.setBounds(170, 110, 200, 119);
 		contentPanel.add(textArea_Description);
-		
-		StartedDate = new JDateChooser();
-		StartedDate.setBounds(170, 238, 200, 20);
-		contentPanel.add(StartedDate);
-		
-		Deadline = new JDateChooser();
-		Deadline.setBounds(170, 275, 200, 20);
-		contentPanel.add(Deadline);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -119,12 +89,9 @@ public class CreateNewProjectDialog extends JDialog {
 						int managerID = currentUser.getMemberID();
 						String name = txt_newProjectNameField.getText();
 						String description = textArea_Description.getText();
-						Date start = StartedDate.getDate();
-						Date deadline = Deadline.getDate();
-						int length = Integer.parseInt(textField_length.getText());
 						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());
 						
-						newPro = new Project(managerID, name, description, start, deadline, length);
+						newPro = new Project(managerID, name, description);
 						MainController.get().CreateProject(newPro);
 						MainController.get().OpenProject(newPro.getName());
 						dispose();

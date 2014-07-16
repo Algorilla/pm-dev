@@ -25,12 +25,9 @@ public class Project extends Manageable
 	 * @param managerID	Project Manager's ID
 	 * @param name Project name
 	 * @param description Project description
-	 * @param start Start date
-	 * @param deadline Deadline
-	 * @param length Projected length in days
 	 */
-	public Project(int managerID, String name, String description, Date start, Date deadline, int length) {
-		super(name, description, start, deadline, length);
+	public Project(int managerID, String name, String description) {
+		super(name, description);
 		this.managerID = managerID;
 		// TODO Ensure consistency between start date, deadline and projected length
 	}

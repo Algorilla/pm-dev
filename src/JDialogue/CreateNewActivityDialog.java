@@ -37,14 +37,16 @@ public class CreateNewActivityDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txt_newProjectNameField;
-	private JTextField textField_length;
-	JDateChooser StartedDate;
-	JDateChooser Deadline;
 	private Project newPro = null;
 	private TextArea textArea_Description = new TextArea();
 	private ArrayList<Activity> activities;
 	private ArrayList<Activity> selectedActivities;	
 	List listSelectedDependencies = new List();
+	private JTextField otc_textField;
+	private JTextField ptc_textField;
+	private JTextField mltc_textField;
+	private JTextField pv_textField;
+	private JTextField tcd_textField;
 	
 	public CreateNewActivityDialog() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -60,66 +62,37 @@ public class CreateNewActivityDialog extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JLabel lblProjectName = new JLabel("Activity Name:");
-			lblProjectName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblProjectName.setBounds(44, 84, 123, 14);
+			lblProjectName.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+			lblProjectName.setBounds(44, 58, 123, 14);
 			contentPanel.add(lblProjectName);
 		}
 		{
 			txt_newProjectNameField = new JTextField();
-			txt_newProjectNameField.setBounds(170, 82, 200, 20);
+			txt_newProjectNameField.setBounds(170, 56, 200, 20);
 			contentPanel.add(txt_newProjectNameField);
 			txt_newProjectNameField.setColumns(10);
 		}
 		{
 			JLabel lblPleaseEnterNew = new JLabel("Please enter new activity name:");
-			lblPleaseEnterNew.setFont(new Font("Verdana", Font.PLAIN, 13));
+			lblPleaseEnterNew.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 			lblPleaseEnterNew.setBounds(10, 25, 225, 14);
 			contentPanel.add(lblPleaseEnterNew);
 		}
 		
 		JLabel lblDescription = new JLabel("Description:");
-		lblDescription.setBounds(47, 126, 83, 14);
+		lblDescription.setBounds(47, 100, 83, 14);
 		contentPanel.add(lblDescription);
-		{
-			JLabel lblStartedDate = new JLabel("Started Date:");
-			lblStartedDate.setBounds(44, 238, 86, 14);
-			contentPanel.add(lblStartedDate);
-		}
-
-		
-		JLabel lblEndedDate = new JLabel("Deadline:");
-		lblEndedDate.setBounds(47, 281, 66, 14);
-		contentPanel.add(lblEndedDate);
-		
-		JLabel lblProjectLength = new JLabel("Length (Days):");
-		lblProjectLength.setBounds(44, 317, 86, 14);
-		contentPanel.add(lblProjectLength);
-		
-		textField_length = new JTextField();
-		textField_length.setBounds(170, 314, 200, 20);
-		contentPanel.add(textField_length);
-		textField_length.setColumns(10);
 		
 
-		textArea_Description.setBounds(170, 110, 200, 119);
+		textArea_Description.setBounds(170, 84, 200, 119);
 		contentPanel.add(textArea_Description);
 		
-		StartedDate = new JDateChooser();
-		StartedDate.setDate(new Date());
-		StartedDate.setBounds(170, 238, 200, 20);
-		contentPanel.add(StartedDate);
-		
-		Deadline = new JDateChooser();
-		Deadline.setDate(new Date());
-		Deadline.setBounds(170, 275, 200, 20);
-		contentPanel.add(Deadline);
-		
 		JLabel lblDependencies = new JLabel("Dependencies:");
-		lblDependencies.setBounds(44, 364, 107, 14);
+		lblDependencies.setBounds(44, 396, 107, 14);
 		contentPanel.add(lblDependencies);
 		
 		final JComboBox dependenciesComboBox = new JComboBox();
-		dependenciesComboBox.setBounds(170, 458, 200, 20);
+		dependenciesComboBox.setBounds(170, 490, 200, 20);
 		activities = MainController.get().getActivityListForCurrentProject();		
 		for (Activity activity : activities)
 			dependenciesComboBox.addItem(activity);		
@@ -133,11 +106,56 @@ public class CreateNewActivityDialog extends JDialog {
 				listSelectedDependencies.addItem(((Activity)dependenciesComboBox.getSelectedItem()).toString());
 			}
 		});
-		btnAddDependency.setBounds(376, 457, 58, 23);
+		btnAddDependency.setBounds(376, 489, 58, 23);
 		contentPanel.add(btnAddDependency);
 		
-				listSelectedDependencies.setBounds(170, 364, 200, 87);
+				listSelectedDependencies.setBounds(170, 396, 200, 87);
 				contentPanel.add(listSelectedDependencies);
+				
+				JLabel lblNewLabel = new JLabel("Optimistic Time to Completion");
+				lblNewLabel.setBounds(44, 275, 208, 42);
+				contentPanel.add(lblNewLabel);
+				
+				otc_textField = new JTextField();
+				otc_textField.setBounds(274, 282, 96, 28);
+				contentPanel.add(otc_textField);
+				otc_textField.setColumns(10);
+				
+				JLabel lblPessimisticTimeTo = new JLabel("Pessimistic Time to Completion");
+				lblPessimisticTimeTo.setBounds(44, 305, 208, 42);
+				contentPanel.add(lblPessimisticTimeTo);
+				
+				ptc_textField = new JTextField();
+				ptc_textField.setColumns(10);
+				ptc_textField.setBounds(274, 311, 96, 28);
+				contentPanel.add(ptc_textField);
+				
+				JLabel lblMostLikelyTime = new JLabel("Most Likely Time to Completion");
+				lblMostLikelyTime.setBounds(44, 244, 208, 42);
+				contentPanel.add(lblMostLikelyTime);
+				
+				mltc_textField = new JTextField();
+				mltc_textField.setColumns(10);
+				mltc_textField.setBounds(274, 251, 96, 28);
+				contentPanel.add(mltc_textField);
+				
+				JLabel lblPlannedValue = new JLabel("Planned Value");
+				lblPlannedValue.setBounds(44, 209, 208, 42);
+				contentPanel.add(lblPlannedValue);
+				
+				pv_textField = new JTextField();
+				pv_textField.setColumns(10);
+				pv_textField.setBounds(274, 216, 96, 28);
+				contentPanel.add(pv_textField);
+				
+				JLabel lblTargetCompletionDate = new JLabel("Target Completion Date");
+				lblTargetCompletionDate.setBounds(44, 340, 208, 42);
+				contentPanel.add(lblTargetCompletionDate);
+				
+				tcd_textField = new JTextField();
+				tcd_textField.setColumns(10);
+				tcd_textField.setBounds(274, 346, 96, 28);
+				contentPanel.add(tcd_textField);
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -151,17 +169,24 @@ public class CreateNewActivityDialog extends JDialog {
 						if (
 								!txt_newProjectNameField.getText().equals("") &&
 								!textArea_Description.getText().equals("") &&
-								!textField_length.getText().equals("") &&
-								Deadline.getDate().after(StartedDate.getDate()))
+								!otc_textField.getText().equals("") &&
+								!ptc_textField.getText().equals("") &&
+								!mltc_textField.getText().equals("") &&
+								!pv_textField.getText().equals("") &&
+								!tcd_textField.getText().equals("")
+								)
 						{
 							int pid = MainController.get().GetCurrentProject().getProjectID();
 							String name = txt_newProjectNameField.getText();
 							String description = textArea_Description.getText();
-							Date start = StartedDate.getDate();
-							Date deadline = Deadline.getDate();
-							int length = Integer.parseInt(textField_length.getText());
+							double otc = Double.parseDouble(otc_textField.getText());
+							double ptc = Double.parseDouble(ptc_textField.getText());
+							double mltc = Double.parseDouble(mltc_textField.getText());
+							double pv = Double.parseDouble(pv_textField.getText());
+							double tcd = Double.parseDouble(tcd_textField.getText());
+							
 							//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
-							Activity ac = new Activity(pid, name, description, start, deadline, length);
+							Activity ac = new Activity(pid, name, description, pv, mltc, otc, ptc, tcd);
 					        //table_1 = MainController.get().ProjectList(table_1);
 					        Activity ac2 = MainController.get().CreateActivity(ac);
 					        MainController.get().CreateActivityDependencies(ac2, selectedActivities);
