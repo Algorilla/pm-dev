@@ -11,10 +11,6 @@ import java.util.ArrayList;
  */
 public class ActivityOnNodeNetwork {
 	
-	// Singleton design pattern
-	private static ActivityOnNodeNetwork self = new ActivityOnNodeNetwork();
-    public static ActivityOnNodeNetwork get() { return self; }
-	
     // Data
 	private ArrayList<Activity> activities;
 	private ArrayList< ArrayList<Integer> > forwardGraph;
@@ -26,7 +22,7 @@ public class ActivityOnNodeNetwork {
 //	private Activity dummyEndNode;
 	
 	
-	ActivityOnNodeNetwork(){
+	public ActivityOnNodeNetwork(){
 		
 		activities = MainController.get().getActivityListForCurrentProject();
 		

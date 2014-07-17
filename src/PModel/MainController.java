@@ -57,12 +57,6 @@ public class MainController {
 	{
 		conn = SQLiteDBConnection.ConnectDb();
 		LoadData();
-		
-		// Sample usage:
-		//CreateMember(new Member("example user","manager","example","password"));
-		//CreateProject(new Project(1,"Project 1","Project 1",new Date(),new Date(),1));
-		
-//		CreateMemberActivity(new MemberActivity(1,1,1));	
 	}
 	
 	/**
