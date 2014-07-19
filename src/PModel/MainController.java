@@ -763,12 +763,21 @@ public class MainController {
 				rs = pst.executeQuery();
 				int x = rs.getInt(1);
 				x++;		
-				sql = "insert into Activities (PID,Number,Name,Description)values(?,?,?,?)";
+				sql = "insert into Activities " +
+					   "(PID,Number,Name,Description,PlannedValue,MostLikelyTimeToCompletion," +
+                        "OptimisticTimeToCompletion,PessimisticTimeToCompletion,TargetCompletionDate,Status)" +
+						"values(?,?,?,?,?,?,?,?,?,?)";
 				pst = conn.prepareStatement(sql);
 				pst.setInt(1, currentProject.getProjectID());
 				pst.setInt(2, x);
 				pst.setString(3, activity.getName());
 				pst.setString(4, activity.getDescr());
+				pst.setDouble(5, activity.getPlannedValue());
+				pst.setDouble(6, activity.getMostLikelyTimeToCompletion());
+				pst.setDouble(7, activity.getOptimisticTimeToCompletion());
+				pst.setDouble(8, activity.getPessimisticTimeToCompletion());
+				pst.setDouble(9, activity.getTargetCompletionDate());
+				pst.setBoolean(10, activity.getStatus());
 				pst.execute();
 				pst.close();
 				activity.setProjectID(currentProject.getProjectID());
@@ -945,16 +954,15 @@ public class MainController {
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		
 		try {
-			sql = 	"select DependantOnPID, DependantOnNumber " +
-					"from ActivityDependency" +
-					"where PID == ? AND Number == ?";
+			sql = 	"select DependantOnNumber " +
+					"from ActivityDependency " +
+					"where PID = ? and Number = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1,a.getProjectID());
 			pst.setInt(2,a.getNumber());
 			rs = pst.executeQuery();
 			
 			while(rs.next()){
-				temp.add(rs.getInt("DependantOnPID"));
 				temp.add(rs.getInt("DependantOnNumber"));
 			}
 		}catch(Exception ex){

@@ -20,8 +20,10 @@ import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
 import JDialogue.DeleteProjectDialog;
+import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
 import PModel.Activity;
+import PModel.ActivityOnNodeNetwork;
 import PModel.MainController;
 
 import java.awt.BorderLayout;
@@ -238,7 +240,22 @@ public class UserInterface extends InitialJFrame {
         });
         btnAddMem.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
         btnAddMem.setBounds(82, 376, 118, 23);
-        activity_update_panel.add(btnAddMem); 
+        activity_update_panel.add(btnAddMem);
+        
+        JButton btnGantt = new JButton("Create Gantt Chart");
+        btnGantt.setBackground(new Color(0, 153, 102));
+        btnGantt.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
+//        		String art  = aonn.toString();
+        		String art  = aonn.getGanttChart();
+        		GanttDisplay gantt = new GanttDisplay(art);
+        		gantt.setVisible(true);
+        	};
+        });
+        btnGantt.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
+        btnGantt.setBounds(82, 306, 118, 23);
+        activity_update_panel.add(btnGantt);
         
         JButton btnSave = new JButton("Save");
         btnSave.setBackground(new Color(0, 153, 102));

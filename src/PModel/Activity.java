@@ -16,8 +16,8 @@ public class Activity extends Manageable
 	public static final int DURATION_DIVISOR = 6;
 	
 	// User entered and DB stored attributes
-	private int projectID;	
-	private int activityNumber;
+	private int    projectID;	
+	private int    activityNumber;
 	private double mostLikelyTimeToCompletion;
 	private double optimisticTimeToCompletion;
 	private double pessimisticTimeToCompletion;
@@ -59,6 +59,7 @@ public class Activity extends Manageable
 		
 		setPlannedValue(plannedValue);
 		setDuration();
+		setStatus(false);
 		
 	}
 	/**
@@ -79,6 +80,7 @@ public class Activity extends Manageable
 		setDuration();
 		
 	}
+	
 	/**
 	 * Set the single duration value for the activity, calculated for estimated entries.
 	 * */
@@ -274,7 +276,7 @@ public class Activity extends Manageable
 	
 	@Override
     public String toString(){
-      return projectID + "-" + activityNumber + "-" + getName();
+      return getName();
     }
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)

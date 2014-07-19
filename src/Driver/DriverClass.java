@@ -1,12 +1,14 @@
 package Driver;
 import java.awt.EventQueue;
 import java.sql.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import JFrames.Login_Frame;
 import PModel.MainController;
-
+import PModel.Project;
+import PModel.Activity;
 /**
  * Main Driver Class for Project Management Software 
  * @author COMP354 Team B
@@ -18,7 +20,10 @@ public class DriverClass {
 	 * @param args
 	 */
 	
+	public static final boolean DEBUG = true;
+	
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -32,5 +37,6 @@ public class DriverClass {
 			}
 		});		
 	}
+	
 
 }
