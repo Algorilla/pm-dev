@@ -906,7 +906,7 @@ public class MainController {
 	}
 	
 	
-	public MemberActivity CreateMemberActivity (MemberActivity ma)
+	public MemberActivity InitializeMemberActivity (MemberActivity ma)
 	{
 		if (
 				ma.getMemberID() > 0 &&  ma.getProjectID () > 0 && ma.getNumber() > 0 
