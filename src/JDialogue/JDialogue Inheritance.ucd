@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="JDialogue1" size="1472,840" id="JDialogue" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302050726F6A6563744D616E61676572">
+  <children xsi:type="editmodel:ClassEditModel" name="AddTeamMember" location="50,345" size="154,67" id="JDialogue/AddTeamMember">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="112,18">
+      <children xsi:type="editmodel:MethodEditModel" name="AddTeamMember" id="JDialogue/AddTeamMember#AddTeamMember(LPModel.Activity;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="CreateNewActivityDialog" location="50,240" size="199,85" id="JDialogue/CreateNewActivityDialog">
+    <children xsi:type="editmodel:CompartmentEditModel" size="166,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="listSelectedDependencies" id="JDialogue/CreateNewActivityDialog#listSelectedDependencies"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="150,18">
+      <children xsi:type="editmodel:MethodEditModel" name="CreateNewActivityDialog" id="JDialogue/CreateNewActivityDialog#CreateNewActivityDialog()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="CreateNewProjectDialog" location="270,240" size="198,67" id="JDialogue/CreateNewProjectDialog">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="147,18">
+      <children xsi:type="editmodel:MethodEditModel" name="CreateNewProjectDialog" id="JDialogue/CreateNewProjectDialog#CreateNewProjectDialog()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="DeleteProjectDialog" location="270,50" size="169,157" id="JDialogue/DeleteProjectDialog">
+    <children xsi:type="editmodel:CompartmentEditModel" size="132,90">
+      <children xsi:type="editmodel:AttributeEditModel" name="conn" id="JDialogue/DeleteProjectDialog#conn"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectList" id="JDialogue/DeleteProjectDialog#projectList"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectName" id="JDialogue/DeleteProjectDialog#projectName"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pst" id="JDialogue/DeleteProjectDialog#pst"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="rs" id="JDialogue/DeleteProjectDialog#rs"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="122,18">
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteProjectDialog" id="JDialogue/DeleteProjectDialog#DeleteProjectDialog()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="GanttDisplay" location="270,360" size="122,67" id="JDialogue/GanttDisplay">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="91,18">
+      <children xsi:type="editmodel:MethodEditModel" name="GanttDisplay" id="JDialogue/GanttDisplay#GanttDisplay(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="OpenProjectListDialog" location="50,50" size="184,157" id="JDialogue/OpenProjectListDialog">
+    <children xsi:type="editmodel:CompartmentEditModel" size="132,90">
+      <children xsi:type="editmodel:AttributeEditModel" name="conn" id="JDialogue/OpenProjectListDialog#conn"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectList" id="JDialogue/OpenProjectListDialog#projectList"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectName" id="JDialogue/OpenProjectListDialog#projectName"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pst" id="JDialogue/OpenProjectListDialog#pst"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="rs" id="JDialogue/OpenProjectListDialog#rs"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="135,18">
+      <children xsi:type="editmodel:MethodEditModel" name="OpenProjectListDialog" id="JDialogue/OpenProjectListDialog#OpenProjectListDialog()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

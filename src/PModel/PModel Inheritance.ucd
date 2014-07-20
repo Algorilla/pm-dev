@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="PModel2" size="1470,1001" id="PModel" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302050726F6A6563744D616E61676572">
+  <children xsi:type="editmodel:ClassEditModel" name="ActivityOnNodeNetwork" location="965,50" size="191,139" id="PModel/ActivityOnNodeNetwork">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="145,90">
+      <children xsi:type="editmodel:MethodEditModel" name="ActivityOnNodeNetwork" id="PModel/ActivityOnNodeNetwork#ActivityOnNodeNetwork()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="copy" id="PModel/ActivityOnNodeNetwork#copy(Ljava.util.ArrayList;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createString" id="PModel/ActivityOnNodeNetwork#createString(IC)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getGanttChart" id="PModel/ActivityOnNodeNetwork#getGanttChart()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="PModel/ActivityOnNodeNetwork#toString()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="ErrorController" location="990,210" size="136,139" id="PModel/ErrorController">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="100,90">
+      <children xsi:type="editmodel:MethodEditModel" name="AddError" id="PModel/ErrorController#AddError(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DisplayErrors" id="PModel/ErrorController#DisplayErrors()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="ErrorController" id="PModel/ErrorController#ErrorController()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="ErrorsExist" id="PModel/ErrorController#ErrorsExist()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="get" id="PModel/ErrorController#get()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="MainController" location="473,50" size="246,679" id="PModel/MainController">
+    <children xsi:type="editmodel:CompartmentEditModel" size="132,72">
+      <children xsi:type="editmodel:AttributeEditModel" name="conn" id="PModel/MainController#conn"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="df" id="PModel/MainController#df"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pst" id="PModel/MainController#pst"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="rs" id="PModel/MainController#rs"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="223,558">
+      <children xsi:type="editmodel:MethodEditModel" name="CloseCurrentProject" id="PModel/MainController#CloseCurrentProject()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CreateActivity" id="PModel/MainController#CreateActivity(LPModel.Activity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CreateActivityDependencies" id="PModel/MainController#CreateActivityDependencies(LPModel.Activity;Ljava.util.ArrayList;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CreateMember" id="PModel/MainController#CreateMember(LPModel.Member;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteActivity" id="PModel/MainController#DeleteActivity(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteMember" id="PModel/MainController#DeleteMember(LPModel.Member;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteMember" id="PModel/MainController#DeleteMember(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteProject" id="PModel/MainController#DeleteProject(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteProject" id="PModel/MainController#DeleteProject(LPModel.Project;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="DeleteProject" id="PModel/MainController#DeleteProject(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Fillcombo" id="PModel/MainController#Fillcombo(Ljavax.swing.JComboBox;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GetActivityFromID" id="PModel/MainController#GetActivityFromID(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GetCurrentProject" id="PModel/MainController#GetCurrentProject()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GetCurrentUser" id="PModel/MainController#GetCurrentUser()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GetMemberListForAddMemberToActivity" id="PModel/MainController#GetMemberListForAddMemberToActivity()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GetProjectList" id="PModel/MainController#GetProjectList()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="InitializeMemberActivity" id="PModel/MainController#InitializeMemberActivity(LPModel.MemberActivity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="InitializeProject" id="PModel/MainController#InitializeProject(LPModel.Project;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="LoadData" id="PModel/MainController#LoadData()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Login" id="PModel/MainController#Login(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="MainController" id="PModel/MainController#MainController()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="OpenProject" id="PModel/MainController#OpenProject(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="UpdateActivity" id="PModel/MainController#UpdateActivity(LPModel.Activity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="UpdateMember" id="PModel/MainController#UpdateMember(LPModel.Member;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="UpdateProject" id="PModel/MainController#UpdateProject(LPModel.Project;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="get" id="PModel/MainController#get()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getActivityList" id="PModel/MainController#getActivityList(Ljavax.swing.JTable;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getActivityListForCurrentProject" id="PModel/MainController#getActivityListForCurrentProject()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getActivityListForCurrentTeamMember" id="PModel/MainController#getActivityListForCurrentTeamMember(Ljavax.swing.JTable;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDependantActivities" id="PModel/MainController#getDependantActivities(LPModel.Activity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="mouseClickTable" id="PModel/MainController#mouseClickTable(Ljavax.swing.JTable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Member" location="769,50" size="146,229" id="PModel/Member">
+    <children xsi:type="editmodel:CompartmentEditModel" size="123,108">
+      <children xsi:type="editmodel:AttributeEditModel" name="activity" id="PModel/Member#activity"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="memberID" id="PModel/Member#memberID"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="name" id="PModel/Member#name"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="password" id="PModel/Member#password"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="project" id="PModel/Member#project"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="type" id="PModel/Member#type"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="95,72">
+      <children xsi:type="editmodel:MethodEditModel" name="Member" id="PModel/Member#Member(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getUserName" id="PModel/Member#getUserName()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setUserName" id="PModel/Member#setUserName(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="PModel/Member#toString()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="MemberActivity" location="1206,50" size="140,157" id="PModel/MemberActivity">
+    <children xsi:type="editmodel:CompartmentEditModel" size="72,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="number" id="PModel/MemberActivity#number"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="104,90">
+      <children xsi:type="editmodel:MethodEditModel" name="MemberActivity" id="PModel/MemberActivity#MemberActivity(III)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMemberID" id="PModel/MemberActivity#getMemberID()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getProjectID" id="PModel/MemberActivity#getProjectID()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setMemberID" id="PModel/MemberActivity#setMemberID(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setProjectID" id="PModel/MemberActivity#setProjectID(I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Project" location="298,365" size="125,139" id="PModel/Project">
+    <children xsi:type="editmodel:CompartmentEditModel" size="87,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="managerID" id="PModel/Project#managerID"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectID" id="PModel/Project#projectID"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="102,54">
+      <children xsi:type="editmodel:MethodEditModel" name="Project" id="PModel/Project#Project(ILjava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addActivity" id="PModel/Project#addActivity(LPModel.Activity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeActivity" id="PModel/Project#removeActivity(LPModel.Activity;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="PModel/Manageable&lt;-PModel/Project" source="//@children.5" target="//@children.6/@sourceConnections.0" targetEnd="//@children.5/@sourceConnections.0/@children.1" sourceEnd="//@children.5/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="62,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Activity" location="50,365" size="218,427" id="PModel/Activity">
+    <children xsi:type="editmodel:CompartmentEditModel" size="195,270">
+      <children xsi:type="editmodel:AttributeEditModel" name="dURATION_DIVISOR" id="PModel/Activity#dURATION_DIVISOR"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dURATION_SCALAR" id="PModel/Activity#dURATION_SCALAR"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="duration" id="PModel/Activity#duration"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="durationFloat" id="PModel/Activity#durationFloat"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="durationStandardDevitation" id="PModel/Activity#durationStandardDevitation"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="earliestFinish" id="PModel/Activity#earliestFinish"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="earliestStart" id="PModel/Activity#earliestStart"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="latestFinish" id="PModel/Activity#latestFinish"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="latestStart" id="PModel/Activity#latestStart"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="maximumPossibleDuration" id="PModel/Activity#maximumPossibleDuration"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mostLikelyTimeToCompletion" id="PModel/Activity#mostLikelyTimeToCompletion"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="optimisticTimeToCompletion" id="PModel/Activity#optimisticTimeToCompletion"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pessimisticTimeToCompletion" id="PModel/Activity#pessimisticTimeToCompletion"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectID" id="PModel/Activity#projectID"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="targetCompletionDate" id="PModel/Activity#targetCompletionDate"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="82,108">
+      <children xsi:type="editmodel:MethodEditModel" name="Activity" id="PModel/Activity#Activity(ILjava.lang.String;Ljava.lang.String;DDDDD)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Activity" id="PModel/Activity#Activity(LPModel.Activity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="equals" id="PModel/Activity#equals(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNumber" id="PModel/Activity#getNumber()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setNumber" id="PModel/Activity#setNumber(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="PModel/Activity#toString()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.5/@sourceConnections.0" autoLocated="true" id="PModel/Manageable&lt;-PModel/Activity" source="//@children.6" target="//@children.7" targetEnd="//@children.6/@sourceConnections.0/@children.1" sourceEnd="//@children.6/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="109,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="84,265" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.0" name="Manageable" location="175,50" size="169,265" id="PModel/Manageable">
+    <children xsi:type="editmodel:CompartmentEditModel" size="146,72">
+      <children xsi:type="editmodel:AttributeEditModel" name="memberList" id="PModel/Manageable#memberList"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="name" id="PModel/Manageable#name"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="plannedValue" id="PModel/Manageable#plannedValue"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="status" id="PModel/Manageable#status"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="104,144">
+      <children xsi:type="editmodel:MethodEditModel" name="Manageable" id="PModel/Manageable#Manageable(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addMember" id="PModel/Manageable#addMember(LPModel.Member;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDescr" id="PModel/Manageable#getDescr()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMemberList" id="PModel/Manageable#getMemberList()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getStatus" id="PModel/Manageable#getStatus()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeMember" id="PModel/Manageable#removeMember(LPModel.Member;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setDescr" id="PModel/Manageable#setDescr(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="PModel/Manageable#toString()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

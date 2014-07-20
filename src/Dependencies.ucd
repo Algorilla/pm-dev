@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="Dependencies" size="1472,840" id="." metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302050726F6A6563744D616E61676572">
+  <children xsi:type="editmodel:PackageEditModel" name="Driver" location="790,50" size="80,60" id="Driver"/>
+  <children xsi:type="editmodel:PackageEditModel" name="testDatabaseConnect" location="427,50" size="168,60" id="testDatabaseConnect"/>
+  <children xsi:type="editmodel:PackageEditModel" name="testDriver" location="645,50" size="95,60" id="testDriver"/>
+  <children xsi:type="editmodel:PackageEditModel" name="JDialogue" location="278,197" size="99,60" id="JDialogue">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="JDialogue->DatabaseConnect*JDialogue->DatabaseConnect" source="//@children.3" target="//@children.4" targetEnd="//@children.3/@sourceConnections.0/@children.2" label="//@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="28,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="117,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="JDialogue->PModel*JDialogue-Soyatec::Import->PModel*JDialogue->PModel" source="//@children.3" target="//@children.6" targetEnd="//@children.3/@sourceConnections.1/@children.2" label="//@children.3/@sourceConnections.1/@children.0" sourceEnd="//@children.3/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,22" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,37"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.6/@sourceConnections.0 //@children.7/@sourceConnections.0 //@children.3/@sourceConnections.0" name="DatabaseConnect" location="189,306" size="146,60" id="DatabaseConnect"/>
+  <children xsi:type="editmodel:PackageEditModel" name="testPModel" location="66,50" size="105,60" id="testPModel">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="testPModel->PModel*testPModel->PModel*testPModel-Soyatec::Import->PModel*testPModel->PModel*testPModel->PModel" source="//@children.5" target="//@children.6" targetEnd="//@children.5/@sourceConnections.0/@children.2" label="//@children.5/@sourceConnections.0/@children.0" sourceEnd="//@children.5/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="20,0"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.5/@sourceConnections.0 //@children.7/@sourceConnections.1 //@children.3/@sourceConnections.1" name="PModel" location="129,182" size="83,60" id="PModel">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect*PModel->DatabaseConnect" source="//@children.6" target="//@children.4" targetEnd="//@children.6/@sourceConnections.0/@children.2" label="//@children.6/@sourceConnections.0/@children.0" sourceEnd="//@children.6/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="71,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="11,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="PModel->JFrames*PModel->JFrames*PModel-Soyatec::Import->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames*PModel->JFrames" source="//@children.6" target="//@children.7" targetEnd="//@children.6/@sourceConnections.1/@children.2" label="//@children.6/@sourceConnections.1/@children.0" sourceEnd="//@children.6/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="0,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="4,60" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,0"/>
+    </sourceConnections>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" targetConnections="//@children.6/@sourceConnections.1" name="JFrames" location="50,307" size="89,60" id="JFrames">
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect*JFrames->DatabaseConnect" source="//@children.7" target="//@children.4" targetEnd="//@children.7/@sourceConnections.0/@children.2" label="//@children.7/@sourceConnections.0/@children.0" sourceEnd="//@children.7/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="89,29" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,30"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="JFrames->PModel*JFrames-Soyatec::Import->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel*JFrames->PModel" source="//@children.7" target="//@children.6" targetEnd="//@children.7/@sourceConnections.1/@children.2" label="//@children.7/@sourceConnections.1/@children.0" sourceEnd="//@children.7/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="63,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,45"/>
+    </sourceConnections>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" interactive="false" properties="wireOptions=4;Product=eUML2;displayOptions=1"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+</editmodel:ClassDiagramEditModel>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" size="1508,823" id="JFrames" metadata="uml2-1.0" initialized="true" tag="10" key="32303037303533312D31302050726F6A6563744D616E61676572">
+  <children xsi:type="editmodel:ClassEditModel" name="InitialJFrame" location="705,50" size="126,103" id="JFrames/InitialJFrame" runTimeClassModel="initialFrame(IIIILjava.lang.String;),InitialJFrame(IIIILjava.lang.String;Ljava.lang.String;),InitialJFrame()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="88,54">
+      <children xsi:type="editmodel:MethodEditModel" name="InitialJFrame" id="JFrames/InitialJFrame#InitialJFrame()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="InitialJFrame" id="JFrames/InitialJFrame#InitialJFrame(IIIILjava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="initialFrame" id="JFrames/InitialJFrame#initialFrame(IIIILjava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="Login_Frame" location="500,50" size="155,139" id="JFrames/Login_Frame" runTimeClassModel="conn,pst,close(),rs,Login_Frame()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="132,54">
+      <children xsi:type="editmodel:AttributeEditModel" name="conn" id="JFrames/Login_Frame#conn"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pst" id="JFrames/Login_Frame#pst"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="rs" id="JFrames/Login_Frame#rs"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="92,36">
+      <children xsi:type="editmodel:MethodEditModel" name="Login_Frame" id="JFrames/Login_Frame#Login_Frame()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="close" id="JFrames/Login_Frame#close()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="TeamMemberView" location="881,50" size="161,67" id="JFrames/TeamMemberView" runTimeClassModel="TeamMemberView()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="119,18">
+      <children xsi:type="editmodel:MethodEditModel" name="TeamMemberView" id="JFrames/TeamMemberView#TeamMemberView()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.4/@sourceConnections.0" name="Activity" location="232,50" size="218,441" id="PModel/Activity" runTimeClassModel="Activity(ILjava.lang.String;Ljava.lang.String;DDDDD),latestFinish,dURATION_DIVISOR,pessimisticTimeToCompletion,maximumPossibleDuration,getNumber(),targetCompletionDate,setNumber(I),earliestStart,Activity(LPModel.Activity;),earliestFinish,optimisticTimeToCompletion,toString(),latestStart,projectID,duration,durationStandardDevitation,durationFloat,mostLikelyTimeToCompletion,equals(Ljava.lang.Object;),dURATION_SCALAR">
+    <children xsi:type="editmodel:CompartmentEditModel" size="195,270">
+      <children xsi:type="editmodel:AttributeEditModel" name="dURATION_DIVISOR" id="PModel/Activity#dURATION_DIVISOR"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dURATION_SCALAR" id="PModel/Activity#dURATION_SCALAR"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="duration" id="PModel/Activity#duration"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="durationFloat" id="PModel/Activity#durationFloat"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="durationStandardDevitation" id="PModel/Activity#durationStandardDevitation"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="earliestFinish" id="PModel/Activity#earliestFinish"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="earliestStart" id="PModel/Activity#earliestStart"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="latestFinish" id="PModel/Activity#latestFinish"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="latestStart" id="PModel/Activity#latestStart"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="maximumPossibleDuration" id="PModel/Activity#maximumPossibleDuration"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mostLikelyTimeToCompletion" id="PModel/Activity#mostLikelyTimeToCompletion"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="optimisticTimeToCompletion" id="PModel/Activity#optimisticTimeToCompletion"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="pessimisticTimeToCompletion" id="PModel/Activity#pessimisticTimeToCompletion"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="projectID" id="PModel/Activity#projectID"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="targetCompletionDate" id="PModel/Activity#targetCompletionDate"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="82,108">
+      <children xsi:type="editmodel:MethodEditModel" name="Activity" id="PModel/Activity#Activity(ILjava.lang.String;Ljava.lang.String;DDDDD)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="Activity" id="PModel/Activity#Activity(LPModel.Activity;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="equals" id="PModel/Activity#equals(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getNumber" id="PModel/Activity#getNumber()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setNumber" id="PModel/Activity#setNumber(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="PModel/Activity#toString()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="UserInterface" location="50,50" size="126,85" id="JFrames/UserInterface" runTimeClassModel="UserInterface(IIIILjava.lang.String;Ljava.lang.String;),resetFrame()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="96,36">
+      <children xsi:type="editmodel:MethodEditModel" name="UserInterface" id="JFrames/UserInterface#UserInterface(IIIILjava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="resetFrame" id="JFrames/UserInterface#resetFrame()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="PModel/Activity@activity+JFrames/UserInterface@" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.0/@children.2" label="//@children.4/@sourceConnections.0/@children.0" sourceEnd="//@children.4/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="118,42" id="PModel/Activity@activity+JFrames/UserInterface@|JFrames/UserInterface#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="activity" location="0,42" id="PModel/Activity@activity+JFrames/UserInterface@|PModel/Activity#activity" multiplicityLabel="//@children.4/@sourceConnections.0/@children.2/@children.1" roleLabel="//@children.4/@sourceConnections.0/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - activity" location="181,71" size="44,14" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="207,99" size="18,14" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=2;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>
