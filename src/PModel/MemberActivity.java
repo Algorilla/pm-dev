@@ -2,13 +2,25 @@ package PModel;
 
 
 
+/**
+ * @author  Lee
+ */
 public class MemberActivity 
 
 {
  //  MID ( Member ID ) and Project-Activity ( Project ID, Number (of activity) )
+    /**
+	 * @uml.property  name="mID"
+	 */
     private int MID;
     
+    /**
+	 * @uml.property  name="pID"
+	 */
     private int PID ;
+    /**
+	 * @uml.property  name="number"
+	 */
     private int Number;
  
      public MemberActivity(int MID, int PID, int Number)
@@ -56,18 +68,20 @@ public class MemberActivity
    
     
     /**
-   	 * Sets a new Project ID to an existing project
-   	 * @param newProjectID New Project ID
-   	 */
+	 * Sets a new Project ID to an existing project
+	 * @param newProjectID   New Project ID
+	 * @uml.property  name="number"
+	 */
    	public int getNumber () 
    	{   		
    		return Number ;
    	}
    	
    	/**
-   	 * Sets new Project Manager via their ID	
-   	 * @param newManagerID New Manager's ID
-   	 */
+	 * Sets new Project Manager via their ID	
+	 * @param newManagerID   New Manager's ID
+	 * @uml.property  name="number"
+	 */
    	public void setNumber(int Number) {
    		this.Number = Number;
    	}

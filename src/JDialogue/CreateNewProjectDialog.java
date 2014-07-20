@@ -24,15 +24,29 @@ import java.awt.TextArea;
 import com.toedter.calendar.JDateChooser;
 /**
  * A dialogue used to create new project.
- * @author team B
- *
+ * @author  team B
  */
 // TODO: Add fields necessary to use CreateProject function in MainController
 public class CreateNewProjectDialog extends JDialog {
 
+	/**
+	 * @uml.property  name="contentPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private final JPanel contentPanel = new JPanel();
+	/**
+	 * @uml.property  name="txt_newProjectNameField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField txt_newProjectNameField;
+	/**
+	 * @uml.property  name="newPro"
+	 * @uml.associationEnd  
+	 */
 	private Project newPro = null;
+	/**
+	 * @uml.property  name="textArea_Description"
+	 */
 	private TextArea textArea_Description = new TextArea();
 	/**
 	 * Create the dialog.

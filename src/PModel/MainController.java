@@ -21,9 +21,8 @@ import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
 
 /**
- * Main Controller class for Project Management Software, following MVC design pattern. 
- * Controls all manipulation of data in database, and reflects changes via Swing GUI.
- * @author  Robert Wolfstein
+ * Main Controller class for Project Management Software, following MVC design pattern.  Controls all manipulation of data in database, and reflects changes via Swing GUI.
+ * @author   Robert Wolfstein
  */
 public class MainController {
 
@@ -32,21 +31,57 @@ public class MainController {
     public static MainController get() { return self; }
 	
     // Data
+    /**
+	 * @uml.property  name="members"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="PModel.Member"
+	 */
     private ArrayList<Member> Members = new ArrayList<Member>();
+    /**
+	 * @uml.property  name="projects"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="PModel.Project"
+	 */
     private ArrayList<Project> Projects = new ArrayList<Project>();
+    /**
+	 * @uml.property  name="activities"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="PModel.Activity"
+	 */
     private ArrayList<Activity> Activities = new ArrayList<Activity>();
+    /**
+	 * @uml.property  name="memberActivities"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="PModel.MemberActivity"
+	 */
     private ArrayList<MemberActivity> MemberActivities = new ArrayList<MemberActivity>();
     
     // SQLite DB connection data
+	/**
+	 * @uml.property  name="conn"
+	 */
 	Connection conn = null;
+	/**
+	 * @uml.property  name="rs"
+	 */
 	ResultSet rs = null;
+	/**
+	 * @uml.property  name="pst"
+	 */
 	PreparedStatement pst = null;
 	
 	// Session variables
+	/**
+	 * @uml.property  name="currentUser"
+	 * @uml.associationEnd  
+	 */
 	Member currentUser;
+	/**
+	 * @uml.property  name="currentProject"
+	 * @uml.associationEnd  
+	 */
 	Project currentProject;
 	
 	// Date format
+	/**
+	 * @uml.property  name="df"
+	 */
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 		
 	/**

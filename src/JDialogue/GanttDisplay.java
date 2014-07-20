@@ -16,9 +16,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 
 /**
- *
+ * @author  Lee
  */
 public class GanttDisplay extends JDialog{
+	/**
+	 * @uml.property  name="contentPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private final JPanel contentPanel = new JPanel();
 	
 	public GanttDisplay(String theArtWork) {

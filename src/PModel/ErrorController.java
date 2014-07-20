@@ -3,9 +3,8 @@ package PModel;
 import javax.swing.JOptionPane;
 
 /**
- * Error Controller class for Project Management Software, following MVC design pattern. 
- * Controls all error handling.
- * @author  Robert Wolfstein
+ * Error Controller class for Project Management Software, following MVC design pattern.  Controls all error handling.
+ * @author   Robert Wolfstein
  */
 public class ErrorController {
 
@@ -16,6 +15,9 @@ public class ErrorController {
     public static ErrorController get() { return self; }
     
     // Error list to be appended to gradually
+    /**
+	 * @uml.property  name="errors"
+	 */
     private String errors;
     
     /**

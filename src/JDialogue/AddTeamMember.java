@@ -35,13 +35,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 /**
  * A dialogue used to create new activity of the project
- * @author Administrator
- *
+ * @author  Administrator
  */
 public class AddTeamMember extends JDialog {
 
+	/**
+	 * @uml.property  name="contentPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private final JPanel contentPanel = new JPanel();
+	/**
+	 * @uml.property  name="activity"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Activity activity;
+	/**
+	 * @uml.property  name="teamMembers"
+	 */
 	private ArrayList<Member> teamMembers;
 	
 	public AddTeamMember(Activity a) {

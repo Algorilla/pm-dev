@@ -5,9 +5,8 @@ import java.util.HashSet;
 
 
 /**
- * Activities derive from Manageable Class, and are identified by a Project
- * ID, as well as an activity number.
- * @author Alex Huot
+ * Activities derive from Manageable Class, and are identified by a Project ID, as well as an activity number.
+ * @author  Alex Huot
  */
 
 public class Activity extends Manageable
@@ -16,23 +15,69 @@ public class Activity extends Manageable
 	public static final int DURATION_DIVISOR = 6;
 	
 	// User entered and DB stored attributes
+	/**
+	 * @uml.property  name="projectID"
+	 */
 	private int    projectID;	
+	/**
+	 * @uml.property  name="activityNumber"
+	 */
 	private int    activityNumber;
+	/**
+	 * @uml.property  name="mostLikelyTimeToCompletion"
+	 */
 	private double mostLikelyTimeToCompletion;
+	/**
+	 * @uml.property  name="optimisticTimeToCompletion"
+	 */
 	private double optimisticTimeToCompletion;
+	/**
+	 * @uml.property  name="pessimisticTimeToCompletion"
+	 */
 	private double pessimisticTimeToCompletion;
+	/**
+	 * @uml.property  name="targetCompletionDate"
+	 */
 	private double targetCompletionDate;
 	
 	// Calculated attributes
+	/**
+	 * @uml.property  name="duration"
+	 */
 	private double duration;
+	/**
+	 * @uml.property  name="durationFloat"
+	 */
 	private double durationFloat;
+	/**
+	 * @uml.property  name="durationStandardDevitation"
+	 */
 	private double durationStandardDevitation;
+	/**
+	 * @uml.property  name="maximumPossibleDuration"
+	 */
 	private double maximumPossibleDuration;
+	/**
+	 * @uml.property  name="earliestStart"
+	 */
 	private double earliestStart;
+	/**
+	 * @uml.property  name="earliestFinish"
+	 */
 	private double earliestFinish;
+	/**
+	 * @uml.property  name="latestStart"
+	 */
 	private double latestStart;
+	/**
+	 * @uml.property  name="latestFinish"
+	 */
 	private double latestFinish;
 	
+	/**
+	 * @uml.property  name="project"
+	 * @uml.associationEnd  
+	 */
 	private Project project; //TODO Use me
 
 	/**
@@ -94,7 +139,8 @@ public class Activity extends Manageable
 	
 	////////////////////////////// SETTERS AND GETTERS //////////////////////////////
 	/**
-	 * @param projectID the projectID to set
+	 * @param projectID   the projectID to set
+	 * @uml.property  name="projectID"
 	 */
 	public void setProjectID(int projectID) {
 		this.projectID = projectID;
@@ -106,85 +152,99 @@ public class Activity extends Manageable
 		this.activityNumber = activityNumber;
 	}
 	/**
-	 * @param mostLikelyTimeToCompletion the mostLikelyTimeToCompletion to set
+	 * @param mostLikelyTimeToCompletion   the mostLikelyTimeToCompletion to set
+	 * @uml.property  name="mostLikelyTimeToCompletion"
 	 */
 	public void setMostLikelyTimeToCompletion(double mostLikelyTimeToCompletion) {
 		this.mostLikelyTimeToCompletion = mostLikelyTimeToCompletion;
 	}
 	/**
-	 * @param optimisticTimeToCompletion the optimisticTimeToCompletion to set
+	 * @param optimisticTimeToCompletion   the optimisticTimeToCompletion to set
+	 * @uml.property  name="optimisticTimeToCompletion"
 	 */
 	public void setOptimisticTimeToCompletion(double optimisticTimeToCompletion) {
 		this.optimisticTimeToCompletion = optimisticTimeToCompletion;
 	}
 	/**
-	 * @param pessimisticTimeToCompletion the pessimisticTimeToCompletion to set
+	 * @param pessimisticTimeToCompletion   the pessimisticTimeToCompletion to set
+	 * @uml.property  name="pessimisticTimeToCompletion"
 	 */
 	public void setPessimisticTimeToCompletion(double pessimisticTimeToCompletion) {
 		this.pessimisticTimeToCompletion = pessimisticTimeToCompletion;
 	}
 	/**
-	 * @param targetCompletionDate the targetCompletionDate to set
+	 * @param targetCompletionDate   the targetCompletionDate to set
+	 * @uml.property  name="targetCompletionDate"
 	 */
 	public void setTargetCompletionDate(double targetCompletionDate) {
 		this.targetCompletionDate = targetCompletionDate;
 	}
 	/**
-	 * @param duration the duration to set
+	 * @param duration   the duration to set
+	 * @uml.property  name="duration"
 	 */
 	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 	/**
-	 * @param durationFloat the durationFloat to set
+	 * @param durationFloat   the durationFloat to set
+	 * @uml.property  name="durationFloat"
 	 */
 	public void setDurationFloat(double durationFloat) {
 		this.durationFloat = durationFloat;
 	}
 	/**
-	 * @param durationStandardDevitation the durationStandardDevitation to set
+	 * @param durationStandardDevitation   the durationStandardDevitation to set
+	 * @uml.property  name="durationStandardDevitation"
 	 */
 	public void setDurationStandardDevitation(double durationStandardDevitation) {
 		this.durationStandardDevitation = durationStandardDevitation;
 	}
 	/**
-	 * @param maximumPossibleDuration the maximumPossibleDuration to set
+	 * @param maximumPossibleDuration   the maximumPossibleDuration to set
+	 * @uml.property  name="maximumPossibleDuration"
 	 */
 	public void setMaximumPossibleDuration(double maximumPossibleDuration) {
 		this.maximumPossibleDuration = maximumPossibleDuration;
 	}
 	/**
-	 * @param earliestStart the earliestStart to set
+	 * @param earliestStart   the earliestStart to set
+	 * @uml.property  name="earliestStart"
 	 */
 	public void setEarliestStart(double earliestStart) {
 		this.earliestStart = earliestStart;
 	}
 	/**
-	 * @param earliestFinish the earliestFinish to set
+	 * @param earliestFinish   the earliestFinish to set
+	 * @uml.property  name="earliestFinish"
 	 */
 	public void setEarliestFinish(double earliestFinish) {
 		this.earliestFinish = earliestFinish;
 	}
 	/**
-	 * @param latestStart the latestStart to set
+	 * @param latestStart   the latestStart to set
+	 * @uml.property  name="latestStart"
 	 */
 	public void setLatestStart(double latestStart) {
 		this.latestStart = latestStart;
 	}
 	/**
-	 * @param latestFinish the latestFinish to set
+	 * @param latestFinish   the latestFinish to set
+	 * @uml.property  name="latestFinish"
 	 */
 	public void setLatestFinish(double latestFinish) {
 		this.latestFinish = latestFinish;
 	}
 	/**
-	 * @param project the project to set
+	 * @param project   the project to set
+	 * @uml.property  name="project"
 	 */
 	public void setProject(Project project) {
 		this.project = project;
 	}
 	/**
-	 * @return the projectID
+	 * @return   the projectID
+	 * @uml.property  name="projectID"
 	 */
 	public int getProjectID() {
 		return projectID;
@@ -196,79 +256,92 @@ public class Activity extends Manageable
 		return activityNumber;
 	}
 	/**
-	 * @return the mostLikelyTimeToCompletion
+	 * @return   the mostLikelyTimeToCompletion
+	 * @uml.property  name="mostLikelyTimeToCompletion"
 	 */
 	public double getMostLikelyTimeToCompletion() {
 		return mostLikelyTimeToCompletion;
 	}
 	/**
-	 * @return the optimisticTimeToCompletion
+	 * @return   the optimisticTimeToCompletion
+	 * @uml.property  name="optimisticTimeToCompletion"
 	 */
 	public double getOptimisticTimeToCompletion() {
 		return optimisticTimeToCompletion;
 	}
 	/**
-	 * @return the pessimisticTimeToCompletion
+	 * @return   the pessimisticTimeToCompletion
+	 * @uml.property  name="pessimisticTimeToCompletion"
 	 */
 	public double getPessimisticTimeToCompletion() {
 		return pessimisticTimeToCompletion;
 	}
 	/**
-	 * @return the targetCompletionDate
+	 * @return   the targetCompletionDate
+	 * @uml.property  name="targetCompletionDate"
 	 */
 	public double getTargetCompletionDate() {
 		return targetCompletionDate;
 	}
 	/**
-	 * @return the duration
+	 * @return   the duration
+	 * @uml.property  name="duration"
 	 */
 	public double getDuration() {
 		return duration;
 	}
 	/**
-	 * @return the durationFloat
+	 * @return   the durationFloat
+	 * @uml.property  name="durationFloat"
 	 */
 	public double getDurationFloat() {
 		return durationFloat;
 	}
 	/**
-	 * @return the durationStandardDevitation
+	 * @return   the durationStandardDevitation
+	 * @uml.property  name="durationStandardDevitation"
 	 */
 	public double getDurationStandardDevitation() {
 		return durationStandardDevitation;
 	}
 	/**
-	 * @return the maximumPossibleDuration
+	 * @return   the maximumPossibleDuration
+	 * @uml.property  name="maximumPossibleDuration"
 	 */
 	public double getMaximumPossibleDuration() {
 		return maximumPossibleDuration;
 	}
 	/**
-	 * @return the earliestStart
+	 * @return   the earliestStart
+	 * @uml.property  name="earliestStart"
 	 */
 	public double getEarliestStart() {
 		return earliestStart;
 	}
 	/**
-	 * @return the earliestFinish
+	 * @return   the earliestFinish
+	 * @uml.property  name="earliestFinish"
 	 */
 	public double getEarliestFinish() {
 		return earliestFinish;
 	}
 	/**
-	 * @return the latestStart
+	 * @return   the latestStart
+	 * @uml.property  name="latestStart"
 	 */
 	public double getLatestStart() {
 		return latestStart;
 	}
 	/**
-	 * @return the latestFinish
+	 * @return   the latestFinish
+	 * @uml.property  name="latestFinish"
 	 */
 	public double getLatestFinish() {
 		return latestFinish;
 	}
 	/**
-	 * @return the project
+	 * @return   the project
+	 * @uml.property  name="project"
 	 */
 	public Project getProject() {
 		return project;

@@ -58,17 +58,43 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 /**
  * A class used to manipulate projects and activities. This is the main interface of the software.
- * @author Team B
- *
+ * @author  Team B
  */
 public class UserInterface extends InitialJFrame {
 	
+	/**
+	 * @uml.property  name="nameLabel"
+	 * @uml.associationEnd  
+	 */
 	private JLabel nameLabel;
+	/**
+	 * @uml.property  name="activity_update_panel"
+	 * @uml.associationEnd  
+	 */
 	JPanel activity_update_panel;
+    /**
+	 * @uml.property  name="panel_projectlist"
+	 * @uml.associationEnd  
+	 */
     JPanel panel_projectlist;
+    /**
+	 * @uml.property  name="textArea_description"
+	 */
     private  TextArea textArea_description;
+    /**
+	 * @uml.property  name="textField_ActivityName"
+	 * @uml.associationEnd  
+	 */
     private JTextField textField_ActivityName;
+    /**
+	 * @uml.property  name="table_1"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     final JTable table_1 = new JTable();
+    /**
+	 * @uml.property  name="activity"
+	 * @uml.associationEnd  
+	 */
     private Activity activity;
 	/**
 	 * Create the frame.

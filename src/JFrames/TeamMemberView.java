@@ -58,13 +58,24 @@ import javax.swing.BoxLayout;
 import javax.swing.JTextArea;
 /**
  * A class used to manipulate projects and activities. This is the main interface of the software.
- * @author Team B
- *
+ * @author  Team B
  */
 public class TeamMemberView extends InitialJFrame {
 	
+	/**
+	 * @uml.property  name="nameLabel"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	private JLabel nameLabel;
+    /**
+	 * @uml.property  name="panel_activitylist"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     JPanel panel_activitylist;
+    /**
+	 * @uml.property  name="table_1"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     final JTable table_1 = new JTable();
 	
 	public TeamMemberView() {

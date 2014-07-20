@@ -15,11 +15,14 @@ import DatabaseConnect.SQLiteDBConnection;
 import java.awt.Color;
 /**
  * a base frame to initial frame
- * @author Administrator
- *
+ * @author  Administrator
  */
 public class InitialJFrame extends JFrame {
 
+	/**
+	 * @uml.property  name="contentPane"
+	 * @uml.associationEnd  
+	 */
 	public JPanel contentPane;
 	/**
 	 * Create the frame.

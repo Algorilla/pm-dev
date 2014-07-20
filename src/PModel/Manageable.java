@@ -7,17 +7,31 @@ import java.util.Date;
 
 
 /**
- * The abstract class from which all manageable objects are derived,
- * including Projects and Activities.
- * @author Alex Huot
+ * The abstract class from which all manageable objects are derived, including Projects and Activities.
+ * @author  Alex Huot
  */
 public abstract class Manageable
 {
 
+	/**
+	 * @uml.property  name="name"
+	 */
 	private String name;
+	/**
+	 * @uml.property  name="description"
+	 */
 	private String description;
+	/**
+	 * @uml.property  name="plannedValue"
+	 */
 	private double plannedValue;
+	/**
+	 * @uml.property  name="status"
+	 */
 	private boolean status;
+	/**
+	 * @uml.property  name="memberList"
+	 */
 	private Set<Member> memberList;
 
 	/**
@@ -34,7 +48,8 @@ public abstract class Manageable
 	
 	/**
 	 * Sets Manageable's name
-	 * @param newName New name
+	 * @param newName   New name
+	 * @uml.property  name="name"
 	 */
 	public void setName(String newName) {
 		name = newName;
@@ -49,22 +64,25 @@ public abstract class Manageable
 	}
 	/**
 	 * Sets Planned Value of the Manageable Entity
-	 * @param newPlannedValue New Planned Value
-	 *  */
+	 * @param newPlannedValue   New Planned Value
+	 * @uml.property  name="plannedValue"
+	 */
 	public void setPlannedValue(double newPlannedValue) {
 		this.plannedValue = newPlannedValue;
 	}
-	/** 
+	/**
 	 * Sets the status of the Manageable
-	 * @param newStatus Updated Status value
-	 * */
+	 * @param newStatus   Updated Status value
+	 * @uml.property  name="status"
+	 */
 	public void setStatus(boolean newStatus) {
 		status = newStatus;
 	}
 	
 	/**
 	 * Returns Manageable's name
-	 * @return Manageable's name
+	 * @return   Manageable's name
+	 * @uml.property  name="name"
 	 */
 	public String getName() {
 		return name;
@@ -78,7 +96,9 @@ public abstract class Manageable
 	}
 	/**
 	 * Returns the PlannedValue (projected budget) of the Manageable entity
-	 * @return Manageable's Planned Value*/
+	 * @return   Manageable's Planned Value
+	 * @uml.property  name="plannedValue"
+	 */
 	public double getPlannedValue() {
 		return plannedValue;
 	}

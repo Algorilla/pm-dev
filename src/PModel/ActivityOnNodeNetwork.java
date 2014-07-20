@@ -11,16 +11,32 @@ import java.util.TreeMap;
 
 
 /**
- * 
- *
+ * @author  Lee
  */
 public class ActivityOnNodeNetwork {
 	
     // Data
+	/**
+	 * @uml.property  name="pID"
+	 */
 	private int PID = MainController.get().GetCurrentProject().getProjectID();
+	/**
+	 * @uml.property  name="scale"
+	 */
 	private double scale;
+	/**
+	 * @uml.property  name="activities"
+	 */
 	private ArrayList<Activity> activities;
+	/**
+	 * @uml.property  name="forwardGraph"
+	 * @uml.associationEnd  qualifier="valueOf:java.lang.Integer java.util.ArrayList"
+	 */
 	private TreeMap<Integer, ArrayList<Integer> >  forwardGraph;
+	/**
+	 * @uml.property  name="backwardGraph"
+	 * @uml.associationEnd  qualifier="i:java.lang.Integer java.util.ArrayList"
+	 */
 	private TreeMap<Integer, ArrayList<Integer> > backwardGraph;
 	
 	public ActivityOnNodeNetwork(){

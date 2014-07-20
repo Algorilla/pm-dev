@@ -21,19 +21,41 @@ import java.sql.ResultSet;
 import java.awt.List;
 /**
  * a dialouge used to delete project from list.
- * @author Administrator
- *
+ * @author  Administrator
  */
 public class DeleteProjectDialog extends JDialog {
 
+	/**
+	 * @uml.property  name="contentPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private final JPanel contentPanel = new JPanel();
+	/**
+	 * @uml.property  name="projectList"
+	 */
 	List projectList = new List();
+	/**
+	 * @uml.property  name="projectName"
+	 */
 	String projectName = null;
 	
+	/**
+	 * @uml.property  name="conn"
+	 */
 	Connection conn = null;
+	/**
+	 * @uml.property  name="rs"
+	 */
 	ResultSet rs = null;
+	/**
+	 * @uml.property  name="pst"
+	 */
 	PreparedStatement pst = null;
 
+	/**
+	 * @return
+	 * @uml.property  name="projectName"
+	 */
 	public String getProjectName()
 	{
 		return projectName;

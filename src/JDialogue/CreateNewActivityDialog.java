@@ -30,22 +30,65 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 /**
  * A dialogue used to create new activity of the project
- * @author Administrator
- *
+ * @author  Administrator
  */
 public class CreateNewActivityDialog extends JDialog {
 
+	/**
+	 * @uml.property  name="contentPanel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private final JPanel contentPanel = new JPanel();
+	/**
+	 * @uml.property  name="txt_newProjectNameField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField txt_newProjectNameField;
+	/**
+	 * @uml.property  name="newPro"
+	 * @uml.associationEnd  
+	 */
 	private Project newPro = null;
+	/**
+	 * @uml.property  name="textArea_Description"
+	 */
 	private TextArea textArea_Description = new TextArea();
+	/**
+	 * @uml.property  name="activities"
+	 */
 	private ArrayList<Activity> activities;
+	/**
+	 * @uml.property  name="selectedActivities"
+	 */
 	private ArrayList<Activity> selectedActivities;	
+	/**
+	 * @uml.property  name="listSelectedDependencies"
+	 */
 	List listSelectedDependencies = new List();
+	/**
+	 * @uml.property  name="otc_textField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField otc_textField;
+	/**
+	 * @uml.property  name="ptc_textField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField ptc_textField;
+	/**
+	 * @uml.property  name="mltc_textField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField mltc_textField;
+	/**
+	 * @uml.property  name="pv_textField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField pv_textField;
+	/**
+	 * @uml.property  name="tcd_textField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField tcd_textField;
 	
 	public CreateNewActivityDialog() {

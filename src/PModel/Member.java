@@ -4,20 +4,40 @@ import java.util.HashSet;
 
 
 /**
- * Activities derive from Manageable Class, and are identified by a Project
- * ID, as well as an activity number.
- * @author Alex Huot
+ * Activities derive from Manageable Class, and are identified by a Project ID, as well as an activity number.
+ * @author  Alex Huot
  */
 public class Member
 {
 
+	/**
+	 * @uml.property  name="memberID"
+	 */
 	private int memberID;
+	/**
+	 * @uml.property  name="name"
+	 */
 	private String name;
+	/**
+	 * @uml.property  name="type"
+	 */
 	private String type;
+	/**
+	 * @uml.property  name="project"
+	 */
 	public Set<Project> project;
+	/**
+	 * @uml.property  name="activity"
+	 */
 	public Set<Activity> activity;
 	
+	/**
+	 * @uml.property  name="username"
+	 */
 	private String username;
+	/**
+	 * @uml.property  name="password"
+	 */
 	private String password;
 
 	/**
@@ -37,7 +57,8 @@ public class Member
 	
 	/**
 	 * Set Member's ID
-	 * @param newID New Member ID
+	 * @param newID   New Member ID
+	 * @uml.property  name="memberID"
 	 */
 	public void setMemberID(int newID) {
 		memberID = newID;
@@ -45,7 +66,8 @@ public class Member
 	
 	/**
 	 * Sets Member's Name	
-	 * @param newName New Member name
+	 * @param newName   New Member name
+	 * @uml.property  name="name"
 	 */
 	public void setName(String newName) {
 		name = newName;	
@@ -53,7 +75,8 @@ public class Member
 	
 	/**
 	 * Sets Member's Type
-	 * @param newType New Member Type
+	 * @param newType   New Member Type
+	 * @uml.property  name="type"
 	 */
 	public void setType(String newType) {
 		type = newType;
@@ -69,7 +92,8 @@ public class Member
 	
 	/**
 	 * Sets	Member's password
-	 * @param newPassword New password
+	 * @param newPassword   New password
+	 * @uml.property  name="password"
 	 */
 	public void setPassword(String newPassword) {
 		password = newPassword;
@@ -77,7 +101,8 @@ public class Member
 	
 	/**
 	 * Returns Member ID
-	 * @return Member ID
+	 * @return   Member ID
+	 * @uml.property  name="memberID"
 	 */
 	public int getMemberID() {
 		return memberID;
@@ -85,7 +110,8 @@ public class Member
 	
 	/**
 	 * Returns Member name
-	 * @return Member name
+	 * @return   Member name
+	 * @uml.property  name="name"
 	 */
 	public String getName() {
 		return name;
@@ -93,7 +119,8 @@ public class Member
 	
 	/**
 	 * Returns Member type
-	 * @return Member type
+	 * @return   Member type
+	 * @uml.property  name="type"
 	 */
 	public String getType() {
 		return type;
@@ -109,7 +136,8 @@ public class Member
 	
 	/**
 	 * Returns Member password
-	 * @return Member password
+	 * @return   Member password
+	 * @uml.property  name="password"
 	 */	
 	public String getPassword() {
 		return password;

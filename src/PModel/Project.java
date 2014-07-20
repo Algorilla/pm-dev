@@ -5,17 +5,23 @@ import java.util.HashSet;
 
 
 /**
- * Projects derive from Manageable Class, and are identified by a Project
- * ID, as well as the Project Manager's ID, which is that Member's ID.
- * 
- * <p>Project's can also contain a list of activities.
- * @author Alex Huot
+ * Projects derive from Manageable Class, and are identified by a Project ID, as well as the Project Manager's ID, which is that Member's ID. <p>Project's can also contain a list of activities.
+ * @author  Alex Huot
  */
 public class Project extends Manageable
 {
 
+	/**
+	 * @uml.property  name="projectID"
+	 */
 	private int projectID;
+	/**
+	 * @uml.property  name="managerID"
+	 */
 	private int managerID;
+	/**
+	 * @uml.property  name="activityList"
+	 */
 	private Set<Activity> activityList;	
 
 	/**
@@ -34,7 +40,8 @@ public class Project extends Manageable
 	
 	/**
 	 * Sets a new Project ID to an existing project
-	 * @param newProjectID New Project ID
+	 * @param newProjectID   New Project ID
+	 * @uml.property  name="projectID"
 	 */
 	public void setProjectID(int newProjectID) {
 		projectID = newProjectID;
@@ -43,7 +50,8 @@ public class Project extends Manageable
 	
 	/**
 	 * Sets new Project Manager via their ID	
-	 * @param newManagerID New Manager's ID
+	 * @param newManagerID   New Manager's ID
+	 * @uml.property  name="managerID"
 	 */
 	public void setManagerID(int newManagerID) {
 		managerID = newManagerID;
@@ -51,7 +59,8 @@ public class Project extends Manageable
 	
 	/**
 	 * Returns Project ID
-	 * @return Project ID
+	 * @return   Project ID
+	 * @uml.property  name="projectID"
 	 */
 	public int getProjectID() {
 		return projectID;
@@ -59,7 +68,8 @@ public class Project extends Manageable
 	
 	/**
 	 * Returns Manager's ID
-	 * @return Manager's ID
+	 * @return   Manager's ID
+	 * @uml.property  name="managerID"
 	 */
 	public int getManagerID() {
 		return managerID;

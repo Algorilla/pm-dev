@@ -13,17 +13,37 @@ import DatabaseConnect.SQLiteDBConnection;
 import PModel.MainController;
 /**
  * user login authentication
- * @author Administrator
- *
+ * @author  Administrator
  */
 public class Login_Frame extends JFrame {
 	
+	/**
+	 * @uml.property  name="conn"
+	 */
 	Connection conn = null;
+	/**
+	 * @uml.property  name="rs"
+	 */
 	ResultSet rs = null;
+	/**
+	 * @uml.property  name="pst"
+	 */
 	PreparedStatement pst = null;
 	
+	/**
+	 * @uml.property  name="contentPane"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JPanel contentPane;
+	/**
+	 * @uml.property  name="txt_username"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private  JTextField txt_username;
+	/**
+	 * @uml.property  name="txt_passwordField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private  JPasswordField txt_passwordField;
 
 	private void initComponents(){
