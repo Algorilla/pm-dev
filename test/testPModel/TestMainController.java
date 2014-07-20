@@ -76,7 +76,7 @@ public class TestMainController {
 		}
 
 		controller.Login("acttest", "acttest");
-		assertEquals(activityProject, controller.CreateProject(activityProject));
+		assertEquals(activityProject, controller.InitializeProject(activityProject));
 	}
 
 	@AfterClass
@@ -153,26 +153,26 @@ public class TestMainController {
 		// ensure that project does not already exist
 		deleteValidProject("testCreateProjectValid");
 
-		assertEquals(validProject, controller.CreateProject(validProject));
+		assertEquals(validProject, controller.InitializeProject(validProject));
 	}
 
 	@Test
 	public void testCreateProjectBlankProject() {
-		assertNull(controller.CreateProject(blankProject));
+		assertNull(controller.InitializeProject(blankProject));
 	}
 
 	@Test
 	public void testCreateProjectDuplicate() {
 		deleteValidProject("testCreateProjectDuplicate");
 
-		assertEquals(validProject, controller.CreateProject(validProject));
-		assertNull(controller.CreateProject(validProject));
+		assertEquals(validProject, controller.InitializeProject(validProject));
+		assertNull(controller.InitializeProject(validProject));
 	}
 
 	@Test
 	public void testCreateProjectInvalidDates() {
 		//project has start date after deadline date
-		assertNull(controller.CreateProject(invalidDatesProject));
+		assertNull(controller.InitializeProject(invalidDatesProject));
 	}
 
 	@Ignore
@@ -183,7 +183,7 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteProjectByIDValid() {
-		assertNotNull(controller.CreateProject(deleteProject));
+		assertNotNull(controller.InitializeProject(deleteProject));
 		assertTrue(controller.DeleteProject(deleteProject.getProjectID()));
 	}
 
@@ -194,7 +194,7 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteProjectByNameValid() {
-		assertNotNull(controller.CreateProject(deleteProject));
+		assertNotNull(controller.InitializeProject(deleteProject));
 		assertTrue(controller.DeleteProject(deleteProject.getName()));
 	}
 

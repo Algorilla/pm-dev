@@ -503,7 +503,7 @@ public class MainController {
 	* @param project Project object to create
 	* @return Created project
 	*/	
-	public Project CreateProject(Project project)
+	public Project InitializeProject(Project project)
 	{
 		if (!project.getName().equals("") && project.getName() != null &&
 			!project.getDescr().equals("") && project.getDescr() != null
