@@ -503,7 +503,7 @@ public class MainController {
 	* @param project Project object to create
 	* @return Created project
 	*/	
-	public Project CreateProject(Project project)
+	public Project InitializeProject(Project project)
 	{
 		if (!project.getName().equals("") && project.getName() != null &&
 			!project.getDescr().equals("") && project.getDescr() != null
@@ -872,6 +872,19 @@ public class MainController {
 			    else
 			    	x++;				
 			Activities.remove(x);
+			
+			sql = "delete from ActivityDependency where PID = ? and Number = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,PID);
+			pst.setInt(2,number);
+			pst.execute();
+			
+			sql = "delete from ActivityDependency where DependantOnPID = ? and DependantOnNumber = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,PID);
+			pst.setInt(2,number);
+			pst.execute();
+			
 			return true;
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null,ex+ "dde");	
@@ -906,7 +919,7 @@ public class MainController {
 	}
 	
 	
-	public MemberActivity CreateMemberActivity (MemberActivity ma)
+	public MemberActivity InitializeMemberActivity (MemberActivity ma)
 	{
 		if (
 				ma.getMemberID() > 0 &&  ma.getProjectID () > 0 && ma.getNumber() > 0 

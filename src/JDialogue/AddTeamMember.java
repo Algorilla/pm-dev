@@ -91,7 +91,7 @@ public class AddTeamMember extends JDialog {
 				MemberActivity ma = new MemberActivity(((Member)membersComboBox.getSelectedItem()).getMemberID(),
 						activity.getProjectID(),
 						activity.getNumber());
-				MainController.get().CreateMemberActivity(ma);
+				MainController.get().InitializeMemberActivity(ma);
 			}
 		});
 		btnAdd.setBounds(265, 366, 117, 29);

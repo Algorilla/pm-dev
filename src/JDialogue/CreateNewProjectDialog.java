@@ -92,7 +92,7 @@ public class CreateNewProjectDialog extends JDialog {
 						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());
 						
 						newPro = new Project(managerID, name, description);
-						MainController.get().CreateProject(newPro);
+						MainController.get().InitializeProject(newPro);
 						MainController.get().OpenProject(newPro.getName());
 						dispose();
 					}

@@ -58,8 +58,18 @@ public class TestMainController {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 			Date d1 = sdf.parse("31-JUN-2014");
 			Date d2 = sdf.parse("31-JUL-2014");
+			
 			// Project
+			validProject = new Project(1, "Valid Project", "This is a valid testing project");
+			blankProject = new Project(0, "", "");
+			deleteProject = new Project(1, "Delete Project", "This is a delete-testing project");
+			activityProject = new Project(1, "Activity Project", "This is an activity-testing project");
 
+			// Activity
+			validActivity = new Activity(1, "Valid Activity", "This is a valid testing activity",0,0,0,0,0);
+			blankActivity = new Activity(0, "", "",0,0,0,0,0);
+			
+			// Old objects before overhaul
 //			validProject = new Project(1, "Valid Project", "This is a valid testing project", d1, d2, 8);
 //			blankProject = new Project(0, "", "", null, null, 0);
 //			invalidDatesProject = new Project(1, "Invalid Dates Project", "This is an invalid testing project", d2, d1, 8);
@@ -76,7 +86,7 @@ public class TestMainController {
 		}
 
 		controller.Login("acttest", "acttest");
-		assertEquals(activityProject, controller.CreateProject(activityProject));
+		assertEquals(activityProject, controller.InitializeProject(activityProject));
 	}
 
 	@AfterClass
@@ -84,7 +94,7 @@ public class TestMainController {
 		deleteJohnDoe("");
 		deleteValidProject("");
 		controller.DeleteProject(blankProject);
-		controller.DeleteProject(invalidDatesProject);
+		//controller.DeleteProject(invalidDatesProject);
 		controller.DeleteProject(deleteProject);
 		controller.DeleteProject(activityProject);
 		controller.DeleteMember(activityTestMember);
@@ -153,27 +163,27 @@ public class TestMainController {
 		// ensure that project does not already exist
 		deleteValidProject("testCreateProjectValid");
 
-		assertEquals(validProject, controller.CreateProject(validProject));
+		assertEquals(validProject, controller.InitializeProject(validProject));
 	}
 
 	@Test
 	public void testCreateProjectBlankProject() {
-		assertNull(controller.CreateProject(blankProject));
+		assertNull(controller.InitializeProject(blankProject));
 	}
 
 	@Test
 	public void testCreateProjectDuplicate() {
 		deleteValidProject("testCreateProjectDuplicate");
 
-		assertEquals(validProject, controller.CreateProject(validProject));
-		assertNull(controller.CreateProject(validProject));
+		assertEquals(validProject, controller.InitializeProject(validProject));
+		assertNull(controller.InitializeProject(validProject));
 	}
 
-	@Test
+	/*@Test
 	public void testCreateProjectInvalidDates() {
 		//project has start date after deadline date
-		assertNull(controller.CreateProject(invalidDatesProject));
-	}
+		assertNull(controller.InitializeProject(invalidDatesProject));
+	}*/
 
 	@Ignore
 	@Test
@@ -183,7 +193,7 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteProjectByIDValid() {
-		assertNotNull(controller.CreateProject(deleteProject));
+		assertNotNull(controller.InitializeProject(deleteProject));
 		assertTrue(controller.DeleteProject(deleteProject.getProjectID()));
 	}
 
@@ -194,7 +204,7 @@ public class TestMainController {
 
 	@Test
 	public void testDeleteProjectByNameValid() {
-		assertNotNull(controller.CreateProject(deleteProject));
+		assertNotNull(controller.InitializeProject(deleteProject));
 		assertTrue(controller.DeleteProject(deleteProject.getName()));
 	}
 
@@ -215,11 +225,11 @@ public class TestMainController {
 		assertNull(controller.CreateActivity(blankActivity));	
 	}
 
-	@Test
+	/*@Test
 	public void testCreateActivityInvalid() {
 		loginToTestActivity();
 		assertNull(controller.CreateActivity(invalidDatesActivity));	
-	}
+	}*/
 
 	@Ignore
 	@Test
