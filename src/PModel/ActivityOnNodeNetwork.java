@@ -1,25 +1,22 @@
-/**
- * 
- */
 package PModel;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-
 /**
- * 
+ * Activity On Node Networks are used to perform Critical Path Analysis.
+ * Critical Paths are used in the generation of Gantt Charts.
  *
  */
 public class ActivityOnNodeNetwork {
 	
     // Data
 	private int PID = MainController.get().GetCurrentProject().getProjectID();
-	private double scale;
+
 	private ArrayList<Activity> activities;
+	
 	private TreeMap<Integer, ArrayList<Integer> >  forwardGraph;
 	private TreeMap<Integer, ArrayList<Integer> > backwardGraph;
 	
@@ -178,30 +175,17 @@ public class ActivityOnNodeNetwork {
 	 */
 	public String getGanttChart() {
 		
-		scale = 1.5;
+		double scale = 2.5;
 		String artWork = "";
 		String name, spaces, dashes, stars, intermediate;
-		int nameLen, activityLength;//, aMid, nMid;
+		int nameLen, activityLength;
 		int offset = 0;
 		
 		for(Activity a : activities){
 			activityLength = (int)(a.getDuration() * scale);
-//			if (activityLength % 2 == 0){
-//				aMid = activityLength/2 + 1;
-//			}
-//			else{
-//				aMid = activityLength/2;
-//			}
 			
 			name = " " + a.getName() + " ";
 			nameLen = name.length();
-			
-//			if(nameLen%2 == 0){
-//				nMid = nameLen/2 + 1;
-//			}
-//			else{
-//				nMid = nameLen/2;
-//			}
 			
 			offset = (int)(a.getEarliestStart() * scale);
 			
@@ -224,7 +208,7 @@ public class ActivityOnNodeNetwork {
 	@Override
 	public String toString(){
 		String out = "";
-		out += String.format("%-10s", "test");
+
 		Activity temp;
 		for (Entry<Integer, ArrayList<Integer>> l : forwardGraph.entrySet()){
 			temp = MainController.get().GetActivityFromID(PID, l.getKey());
