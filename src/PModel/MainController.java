@@ -872,6 +872,19 @@ public class MainController {
 			    else
 			    	x++;				
 			Activities.remove(x);
+			
+			sql = "delete from ActivityDependency where PID = ? and Number = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,PID);
+			pst.setInt(2,number);
+			pst.execute();
+			
+			sql = "delete from ActivityDependency where DependantOnPID = ? and DependantOnNumber = ?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1,PID);
+			pst.setInt(2,number);
+			pst.execute();
+			
 			return true;
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null,ex+ "dde");	
