@@ -40,6 +40,7 @@ public class Activity extends Manageable
 	 * @param ProjectID Associated Project's ID
 	 * @param name Activity name
 	 * @param description Activity Description
+	 * @param plannedValue Activity PlannedValue
 	 */
 	public Activity(int ProjectID, 
 					String name, 

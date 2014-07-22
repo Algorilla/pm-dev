@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Scrollbar;
 
 /**
  *
@@ -38,6 +39,7 @@ public class GanttDisplay extends JDialog{
 		
 		
 		getContentPane().add(contentPanel);
+		
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Menlo", Font.PLAIN, 13));
