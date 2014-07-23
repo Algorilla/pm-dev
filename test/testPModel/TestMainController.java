@@ -15,6 +15,7 @@ import org.junit.Test;
 import PModel.Activity;
 import PModel.MainController;
 import PModel.Member;
+import PModel.MemberActivity;
 import PModel.Project;
 
 public class TestMainController {
@@ -44,6 +45,7 @@ public class TestMainController {
 	public static void setup() {
 
 		controller = PModel.MainController.get();
+		PModel.ErrorController.get().SetShowErrors(false);
 
 		validMemeber = new Member("John Doe", "member", "JDoe", "password123");
 		blankMember = new Member("", "", "", "");
@@ -276,6 +278,19 @@ public class TestMainController {
 				System.out.println(callingMethod + " deleted validProject prior to test");
 			}
 		}
+	}
+	
+	@Test public void testInitializeMemberActivity()
+	{
+		Member memberActivityMember = controller.CreateMember(new Member("MemberActivity", "member", "MemberActivityMember", "password123"));
+		loginToTestActivity();
+		Activity memberActivityActivity = controller.CreateActivity(new Activity(controller.GetCurrentProject().getProjectID(), "MemberActivityActivity", "This is a valid testing activity",0,0,0,0,0) );
+		
+		MemberActivity validMemberActivity = new MemberActivity(memberActivityMember.getMemberID(),memberActivityActivity.getProjectID(),memberActivityActivity.getNumber());
+		assertNotNull(controller.InitializeMemberActivity(validMemberActivity));
+		
+		controller.DeleteActivity(memberActivityActivity.getProjectID(),memberActivityActivity.getNumber());
+		controller.DeleteMember(memberActivityMember);
 	}
 
 	private static void loginToTestActivity() {

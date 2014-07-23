@@ -186,7 +186,9 @@ public class MainController {
 				}
 		    }			
 		}
-		JOptionPane.showMessageDialog(null, "Username and password combination is not correct.");	
+		//JOptionPane.showMessageDialog(null, "Username and password combination is not correct.");	
+		ErrorController.get().AddError("Username and password combination is not correct.");
+		ErrorController.get().DisplayErrors();
 		return false;
 	}
 	
@@ -709,6 +711,7 @@ public class MainController {
 	{
 		String sql = "delete from Activities where PID = ?";
 		String sql2 = "delete from ActivityDependency where PID = ?";
+		String sql3 = "delete from MemberActivities where PID = ?";
 		try{
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1,project.getProjectID());
@@ -720,6 +723,11 @@ public class MainController {
 			pst.execute();
 			pst.close();
 			
+			pst = conn.prepareStatement(sql3);
+			pst.setInt(1,project.getProjectID());
+			pst.execute();
+			pst.close();
+						
 			for (int x=0;x<Activities.size();x++)
 			{
 			   if (Activities.get(x).getProjectID() == project.getProjectID())
