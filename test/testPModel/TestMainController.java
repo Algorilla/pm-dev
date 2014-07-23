@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.AfterClass;
@@ -13,6 +14,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import PModel.Activity;
+import PModel.ActivityOnNodeNetwork;
 import PModel.MainController;
 import PModel.Member;
 import PModel.MemberActivity;
@@ -291,6 +293,44 @@ public class TestMainController {
 		
 		controller.DeleteActivity(memberActivityActivity.getProjectID(),memberActivityActivity.getNumber());
 		controller.DeleteMember(memberActivityMember);
+	}
+	
+	@Test public void testGetDependantActivities()
+	{
+		loginToTestActivity();
+		Activity firstActivity = new Activity(controller.GetCurrentProject().getProjectID(), "First Activity", "This is a valid testing activity",10,14,14,14,14);
+		Activity secondActivity = new Activity(controller.GetCurrentProject().getProjectID(), "First Activity", "This is a valid testing activity",10,14,14,14,14);
+		Activity dependantActivity = new Activity(controller.GetCurrentProject().getProjectID(), "Dependant Activity", "This is a valid testing activity",5,5,5,5,19);
+		ArrayList<Activity> dependantActivities = new ArrayList<Activity>();
+		dependantActivities.add(firstActivity);
+		dependantActivities.add(secondActivity);
+		
+		controller.CreateActivity(firstActivity);
+		controller.CreateActivity(secondActivity);
+		controller.CreateActivity(dependantActivity);
+		controller.CreateActivityDependencies(dependantActivity, dependantActivities);
+		
+		ArrayList<Integer> retrievedDependantActivities = controller.getDependantActivities(dependantActivity);
+		assertEquals(2,retrievedDependantActivities.size());
+		assertEquals(1,retrievedDependantActivities.get(0).intValue());
+		assertEquals(2,retrievedDependantActivities.get(1).intValue());
+		
+		controller.DeleteActivity(firstActivity.getProjectID(),firstActivity.getNumber());
+		controller.DeleteActivity(secondActivity.getProjectID(),secondActivity.getNumber());
+		controller.DeleteActivity(dependantActivity.getProjectID(),dependantActivity.getNumber());
+	}
+	
+	@Test public void testGetDependantActivitiesWhenThereAreNone()
+	{
+		loginToTestActivity();
+		Activity firstActivity = new Activity(controller.GetCurrentProject().getProjectID(), "First Activity", "This is a valid testing activity",10,14,14,14,14);
+		
+		controller.CreateActivity(firstActivity);
+		
+		ArrayList<Integer> retrievedDependantActivities = controller.getDependantActivities(firstActivity);
+		assertEquals(0,retrievedDependantActivities.size());
+		
+		controller.DeleteActivity(firstActivity.getProjectID(),firstActivity.getNumber());
 	}
 
 	private static void loginToTestActivity() {
