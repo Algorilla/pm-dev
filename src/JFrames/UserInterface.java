@@ -247,8 +247,8 @@ public class UserInterface extends InitialJFrame {
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
-        		String art  = aonn.toString();
-//        		String art  = aonn.getGanttChart();
+//        		String art  = aonn.toString();
+        		String art  = aonn.getGanttChart();
         		GanttDisplay gantt = new GanttDisplay(art);
         		gantt.setVisible(true);
         	};
