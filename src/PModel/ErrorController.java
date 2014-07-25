@@ -18,12 +18,20 @@ public class ErrorController {
     // Error list to be appended to gradually
     private String errors;
     
+    private boolean showErrors;
+    
     /**
      * Initializes error controller by setting error list to none
      */
     ErrorController()
     {
     	errors = "";
+    	showErrors = true;
+    }
+    
+    public void SetShowErrors(boolean show)
+    {
+    	showErrors = show;
     }
     
     /**
@@ -40,7 +48,8 @@ public class ErrorController {
      */
     void DisplayErrors()
     {
-		JOptionPane.showMessageDialog(null,"The following errors occured:\n\n"+errors);	
+    	if (showErrors)
+    		JOptionPane.showMessageDialog(null,"The following errors occured:\n\n"+errors);	
     	errors = "";
     }
     

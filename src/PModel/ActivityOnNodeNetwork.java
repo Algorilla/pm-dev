@@ -250,13 +250,24 @@ public class ActivityOnNodeNetwork {
 		Arrays.fill(chars, ch);
 		return new String(chars);
 	}
-	
+	private double calculateScale(){
+		double scale = 0;
+		double lf;
+		for(Activity a : activities){
+			lf = a.getLatestFinish();
+			if(lf > scale){
+				scale = lf;
+			}
+		}
+		
+		return 965 / (8* scale);
+	}
 	/**
 	 * @return
 	 */
 	public String getGanttChart() {
 		
-		double scale = 3.5;
+		double scale = calculateScale();
 		String artWork = "";
 		String name, spaces, dashes, stars, intermediate;
 		int nameLen, activityLength;
@@ -289,12 +300,17 @@ public class ActivityOnNodeNetwork {
 	@Override
 	public String toString(){
 		String out = "";
-
+		int dummyStart = 0;
+		int dummyEnd = forwardGraph.lastKey();
+		int number;
 		Activity temp;
 		for (Entry<Integer, ArrayList<Integer>> l : forwardGraph.entrySet()){
-			temp = MainController.get().GetActivityFromID(PID, l.getKey());
-			out += temp.getName() + "\t --> ES(" + temp.getEarliestStart() + ") Duration(" + temp.getDuration() + ") EF(" + temp.getEarliestFinish() + ")\n"
+			number = l.getKey();
+			if(number != dummyStart && number != dummyEnd){
+				temp = MainController.get().GetActivityFromID(PID, number);
+				out += temp.getName() + "\t --> ES(" + temp.getEarliestStart() + ") Duration(" + temp.getDuration() + ") EF(" + temp.getEarliestFinish() + ")\n"
 					+ "\t --> LS(" + temp.getLatestStart() + ") Duration(" + temp.getDuration() + ") LF(" + temp.getLatestFinish() + ")\n";
+			}
 		}
 		return out;
 	}
