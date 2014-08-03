@@ -13,7 +13,10 @@ import PModel.Activity;
  */
 public class RegularNode implements Comparable{
 
-	Integer name;
+	private Integer name;
+	private double 	targetDate;
+	private double 	expectedDate;
+	private double 	standardDeviation;
 
 	private ArrayList<Activity> inArrows;
 	private ArrayList<Activity> outArrows;
@@ -90,6 +93,69 @@ public class RegularNode implements Comparable{
 	 */
 	public void setOutArrows(ArrayList<Activity> outArrows) {
 		this.outArrows = outArrows;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public Integer getName() {
+		return name;
+	}
+
+	/**
+	 * @return the targetDate
+	 */
+	public double getTargetDate() {
+		return targetDate;
+	}
+
+	/**
+	 * @return the expectedDate
+	 */
+	public double getExpectedDate() {
+		return expectedDate;
+	}
+
+	/**
+	 * @return the standardDeviation
+	 */
+	public double getStandardDeviation() {
+		return standardDeviation;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(Integer name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param targetDate the targetDate to set
+	 */
+	public void setTargetDate(double targetDate) {
+		this.targetDate = targetDate;
+	}
+
+	/**
+	 * @param expectedDate the expectedDate to set
+	 */
+	public void setExpectedDate(double expectedDate) {
+		this.expectedDate = expectedDate;
+	}
+
+	/**
+	 * @param standardDeviation the standardDeviation to set
+	 */
+	public void setStandardDeviation(double standardDeviation) {
+		this.standardDeviation = standardDeviation;
+	}
+	
+	public void addPrecedent(RegularNode n){
+		this.precedents.add(n);
+	}
+	public void addDependent(RegularNode n){
+		this.dependents.add(n);
 	}
 
 	@Override

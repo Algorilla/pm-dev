@@ -68,6 +68,7 @@ public class Activity extends Manageable
 		setPlannedValue(plannedValue);
 		setDuration();
 		setStatus(false);
+		this.setStandardDevitation();
 		
 	}
 
@@ -85,11 +86,21 @@ public class Activity extends Manageable
 		this.pessimisticTimeToCompletion	= a.getPessimisticTimeToCompletion();
 		this.targetCompletionDate			= a.getTargetCompletionDate();
 		
-		setPlannedValue(a.getPlannedValue());
-		setDuration();
+		this.setPlannedValue(a.getPlannedValue());
+		this.setDuration();
+		this.setStandardDevitation();
 		
 	}
 	
+	/**
+	 * 
+	 */
+	private void setStandardDevitation() {
+		double numerator = this.pessimisticTimeToCompletion - this.optimisticTimeToCompletion;
+		this.durationStandardDevitation = numerator / DURATION_DIVISOR;
+		
+	}
+
 	/**
 	 * Set the single duration value for the activity, calculated for estimated entries.
 	 * */

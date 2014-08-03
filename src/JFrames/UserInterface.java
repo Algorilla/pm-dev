@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Analysis.Analyzer;
+import Analysis.PertNetwork;
 import DatabaseConnect.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
@@ -266,15 +267,13 @@ public class UserInterface extends InitialJFrame {
         btnPert.setBackground(new Color(0, 153, 102));
         btnPert.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-//        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
-//        		String art  = aonn.toString();
-//        		String art  = aonn.getGanttChart();
-//        		GanttDisplay gantt = new GanttDisplay(art);
-//        		gantt.setVisible(true);
-//        		Analyzer a = Analyzer.Analyzer(MainController.get().getActivityListForCurrentProject());
         		
-        		PertDisplay p = new PertDisplay(a.getForwardArrowNetwork().toString());
-        		p.setVisible(true);
+        		PertNetwork p = a.getPertNetwork();
+        		String art = p.toString();
+        		
+        		PertDisplay pd = new PertDisplay(art);
+        		
+        		pd.setVisible(true);
         		
         	};
         });
@@ -287,7 +286,7 @@ public class UserInterface extends InitialJFrame {
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		String art  = a.getForwardActivityNetwork().toString();
+        		String art  = a.getGanttNetwork().toString();
         		GanttDisplay gantt = new GanttDisplay(art);
         		gantt.setVisible(true);
         	};

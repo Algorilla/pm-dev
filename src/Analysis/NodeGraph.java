@@ -28,10 +28,26 @@ public class NodeGraph {
 		if(!nodes.get(v).contains(w)){
 			nodes.get(v).add(w);
 		}
+		if(!v.getDependents().contains(w)){
+			v.addDependent(w);
+		}
+		if(!w.getPrecedents().contains(v)){
+			w.addPrecedent(v);
+		}
 	}
 	
 	public boolean hasNode(RegularNode node){
 		return nodes.containsKey(node);
+	}
+	
+	public RegularNode getPreviousNode(RegularNode n){
+		
+		for(RegularNode node : this.nodes.keySet()){
+			if(this.nodes.get(node).contains(n)){
+				return node;
+			}
+		}
+		return null;
 	}
 
 

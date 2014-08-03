@@ -16,8 +16,8 @@ public class Analyzer {
 	private ArrayList<Activity> activities;
 	MainController mc = MainController.get();
 	
-	private ArrowNetwork 	arrowNetwork;
-	private ActivityNetwork activityNetwork;
+	private PertNetwork 	pertNetwork;
+	private GanttNetwork 	ganttNetwork;
 	 
 	public Analyzer(ArrayList<Activity> activities){
 		
@@ -28,22 +28,23 @@ public class Analyzer {
 			a.setPrecedents(mc.getPrecedantActivities(a));
 		}
 		
-		this.arrowNetwork 	 = ArrowNetwork.getArrowNetwork(this.activities);
-		this.activityNetwork = ActivityNetwork.getActivityNetwork(this.activities);
+
+		this.ganttNetwork = GanttNetwork.getActivityNetwork(this.activities);
+		this.pertNetwork  = PertNetwork.getArrowNetwork(this.activities);
 	}
 
 	/**
 	 * @return the forwardActivityNetwork
 	 */
-	public ActivityNetwork getForwardActivityNetwork() {
-		return activityNetwork;
+	public GanttNetwork getGanttNetwork() {
+		return ganttNetwork;
 	}
 
 	/**
-	 * @return the forwardArrowNetwork
+	 * @return the pertNetwork
 	 */
-	public ArrowNetwork getForwardArrowNetwork() {
-		return arrowNetwork;
+	public PertNetwork getPertNetwork() {
+		return pertNetwork;
 	}
 
 }

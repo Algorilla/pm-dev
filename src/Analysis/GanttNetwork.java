@@ -10,14 +10,14 @@ import PModel.Activity;
 /**
  *
  */
-public class ActivityNetwork {
+public class GanttNetwork {
 	
 	private ArrayList<Activity> activities;
 	private Activity	 		start;
 	private Activity	 		finish;
 //	private ActivityGraph 		graph;
 	
-	public ActivityNetwork(ArrayList<Activity> activities){
+	public GanttNetwork(ArrayList<Activity> activities){
 		
 		this.activities = activities;
 		this.start 		= Activity.makeDummyStart();
@@ -26,9 +26,9 @@ public class ActivityNetwork {
 				
 	}
 	
-	public static ActivityNetwork getActivityNetwork(ArrayList<Activity> activities){
+	public static GanttNetwork getActivityNetwork(ArrayList<Activity> activities){
 		
-		ActivityNetwork fnn = new ActivityNetwork(activities);
+		GanttNetwork fnn = new GanttNetwork(activities);
 		
 		for(Activity a : fnn.getActivities()){
 			if(a.getPrecedents().size() == 0){
