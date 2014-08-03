@@ -82,7 +82,7 @@ public class ActivityOnNodeNetwork {
 	/**
 	 * 
 	 * */
-	private void findUnconditionedActivitiesAndSetEarliestStartAndFinish() {
+	private void setEarliestStartAndFinish() {
 		ArrayList<Integer> tempDeps;
 		for(Activity a : activities){
 			tempDeps = MainController.get().getDependantActivities(a);
@@ -96,8 +96,7 @@ public class ActivityOnNodeNetwork {
 	/**
 	 * 
 	 * */
-	private void findActivitiesWithoutDependantsAndSetLatestStartAndFinish() {
-		ArrayList<Integer> tempDeps;
+	private void setLatestStartAndFinish() {
 		boolean found = false;
 		int number;
 		
@@ -120,7 +119,7 @@ public class ActivityOnNodeNetwork {
 	 * 
 	 * */
 	private void forwardPass(){
-		findUnconditionedActivitiesAndSetEarliestStartAndFinish();
+		setEarliestStartAndFinish();
 		Activity temp;
 		double longestWait, wait;
 		
@@ -142,7 +141,7 @@ public class ActivityOnNodeNetwork {
 	 * 
 	 */
 	private void backwardPass() {
-		findActivitiesWithoutDependantsAndSetLatestStartAndFinish();
+		setLatestStartAndFinish();
 		Activity temp, constrainer;
 		double latestStart, start;
 		

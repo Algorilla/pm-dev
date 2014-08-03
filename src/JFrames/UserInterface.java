@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -24,6 +25,9 @@ import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
 import PModel.Activity;
 import PModel.ActivityOnNodeNetwork;
+import PModel.GanttCalculate;
+import PModel.GanttActivities;
+import PModel.GanttChart;
 import PModel.MainController;
 
 import java.awt.BorderLayout;
@@ -56,6 +60,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.border.TitledBorder;
+
+import org.jfree.ui.RefineryUtilities;
 /**
  * A class used to manipulate projects and activities. This is the main interface of the software.
  * @author  Team B
@@ -272,11 +278,14 @@ public class UserInterface extends InitialJFrame {
         btnGantt.setBackground(new Color(0, 153, 102));
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
-//        		String art  = aonn.toString();
-        		String art  = aonn.getGanttChart();
-        		GanttDisplay gantt = new GanttDisplay(art);
-        		gantt.setVisible(true);
+        		GanttCalculate calcGantt = new GanttCalculate(MainController.get().getActivityListForCurrentProject());
+        		ArrayList<GanttActivities> ganttActivityList = new ArrayList<GanttActivities>();
+        		ganttActivityList = calcGantt.calcDates();
+        		
+        		final GanttChart GANTT = new GanttChart("GANTT CHART", ganttActivityList);
+        		GANTT.pack();
+        		RefineryUtilities.centerFrameOnScreen(GANTT);
+        		GANTT.setVisible(true);
         	};
         });
         btnGantt.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
