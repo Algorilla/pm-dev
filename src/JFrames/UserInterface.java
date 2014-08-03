@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import Analysis.Analyzer;
 import DatabaseConnect.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
@@ -22,6 +23,7 @@ import JDialogue.CreateNewProjectDialog;
 import JDialogue.DeleteProjectDialog;
 import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
+import JDialogue.PertDisplay;
 import PModel.Activity;
 import PModel.ActivityOnNodeNetwork;
 import PModel.MainController;
@@ -208,7 +210,10 @@ public class UserInterface extends InitialJFrame {
 	/**
 	 * a panel used to update activity of project.
 	 */
-	private void updateActivity(){       
+	private void updateActivity(){   
+		
+		final Analyzer a = new Analyzer(MainController.get().getActivityListForCurrentProject());
+		
         JLabel lblActivityName = new JLabel("Activity Name: ");
         lblActivityName.setBounds(20, 87, 101, 14);
         activity_update_panel.add(lblActivityName);
@@ -242,13 +247,47 @@ public class UserInterface extends InitialJFrame {
         btnAddMem.setBounds(82, 376, 118, 23);
         activity_update_panel.add(btnAddMem);
         
+        JButton btnEVA = new JButton("Earned Value Analysis");
+        btnEVA.setBackground(new Color(0, 153, 102));
+        btnEVA.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+//        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
+////        		String art  = aonn.toString();
+//        		String art  = aonn.getGanttChart();
+//        		GanttDisplay gantt = new GanttDisplay(art);
+//        		gantt.setVisible(true);
+        	};
+        });
+        btnEVA.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
+        btnEVA.setBounds(82, 246, 118, 23);
+        activity_update_panel.add(btnEVA);
+        
+        JButton btnPert = new JButton("Pert Analysis");
+        btnPert.setBackground(new Color(0, 153, 102));
+        btnPert.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+//        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
+//        		String art  = aonn.toString();
+//        		String art  = aonn.getGanttChart();
+//        		GanttDisplay gantt = new GanttDisplay(art);
+//        		gantt.setVisible(true);
+//        		Analyzer a = Analyzer.Analyzer(MainController.get().getActivityListForCurrentProject());
+        		
+        		PertDisplay p = new PertDisplay(a.getForwardArrowNetwork().toString());
+        		p.setVisible(true);
+        		
+        	};
+        });
+        btnPert.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
+        btnPert.setBounds(82, 276, 118, 23);
+        activity_update_panel.add(btnPert);
+        
         JButton btnGantt = new JButton("Create Gantt Chart");
         btnGantt.setBackground(new Color(0, 153, 102));
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
-//        		String art  = aonn.toString();
-        		String art  = aonn.getGanttChart();
+        		
+        		String art  = a.getForwardActivityNetwork().toString();
         		GanttDisplay gantt = new GanttDisplay(art);
         		gantt.setVisible(true);
         	};

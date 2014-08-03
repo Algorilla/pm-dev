@@ -1,4 +1,5 @@
 package PModel;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
@@ -33,7 +34,10 @@ public class Activity extends Manageable
 	private double latestStart;
 	private double latestFinish;
 	
-	private Project project; //TODO Use me
+	private ArrayList<Activity> precedents;
+	private ArrayList<Activity> dependents;
+	
+	public Project project; //TODO Use me
 
 	/**
 	 * Constructor for an Activity.
@@ -58,11 +62,15 @@ public class Activity extends Manageable
 		this.pessimisticTimeToCompletion	= pessimisticTimeToCompletion;
 		this.targetCompletionDate			= targetCompletionDate;
 		
+		this.dependents = new ArrayList<Activity>();
+		this.precedents = new ArrayList<Activity>();
+		
 		setPlannedValue(plannedValue);
 		setDuration();
 		setStatus(false);
 		
 	}
+
 	/**
 	 * Copy Constructor for Activity
 	 * @param a An Activity Object
@@ -275,6 +283,39 @@ public class Activity extends Manageable
 		return project;
 	}
 	
+	/**
+	 * @return the precedents
+	 */
+	public ArrayList<Activity> getPrecedents() {
+		return precedents;
+	}
+	/**
+	 * @return the dependents
+	 */
+	public ArrayList<Activity> getDependents() {
+		return dependents;
+	}
+	/**
+	 * @param precedents the precedents to set
+	 */
+	public void setPrecedents(ArrayList<Activity> precedents) {
+		this.precedents = precedents;
+	}
+
+	/**
+	 * @param dependents the dependents to set
+	 */
+	public void setDependents(ArrayList<Activity> dependents) {
+		this.dependents = dependents;
+	}
+
+	public void addDependent(Activity dep){
+		this.dependents.add(dep);
+	}
+	
+	public void addPrecedent(Activity pre){
+		this.precedents.add(pre);
+	}
 	@Override
     public String toString(){
       return getName();
@@ -296,6 +337,22 @@ public class Activity extends Manageable
 		if (projectID != other.projectID)
 			return false;
 		return true;
+	}
+
+	/**
+	 * @return
+	 */
+	public static Activity makeDummyStart() {
+		Activity temp = new Activity(0,"DummyStart","",0,0,0,0,0);
+		return temp;
+	}
+
+	/**
+	 * @return
+	 */
+	public static Activity makeDummyFinish() {
+		Activity temp = new Activity(Integer.MAX_VALUE,"DummyFinish","",0,0,0,0,0);
+		return temp;
 	}
 	
 	

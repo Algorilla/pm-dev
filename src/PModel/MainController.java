@@ -975,24 +975,65 @@ public class MainController {
 	}
 	/**
 	 * @param a An Activity Object
-	 * @return temp An ArrayList of Integers representing the PID and Number pairs of those Activities that depend on the Activity passed.
+	 * @return temp An ArrayList of Activities depend on the Activity passed.
 	 * */
-	public ArrayList<Integer> getDependantActivities(Activity a){
+	public ArrayList<Activity> getDependantActivities(Activity a){
 		
-		String sql;
+		ArrayList<Activity> temp = new ArrayList<Activity>();
+
+		for(Integer i : this.getRelatedActivities(a, "dependent")){
+			for(Activity dep : MainController.get().getActivityListForCurrentProject()){
+				if(dep.getNumber() == i){
+					temp.add(dep);
+				}
+			}
+		}
+		return temp;
+	}
+	
+	/**
+	 * @param a An Activity Object
+	 * @return temp An ArrayList of Activities depend on the Activity passed.
+	 * */
+	public ArrayList<Activity> getPrecedantActivities(Activity a){
+		
+		ArrayList<Activity> temp = new ArrayList<Activity>();
+
+		for(Integer i : this.getRelatedActivities(a, "precedent")){
+			for(Activity pre : MainController.get().getActivityListForCurrentProject()){
+				if(pre.getNumber() == i){
+					temp.add(pre);
+				}
+			}
+		}
+		return temp;
+	}
+	public ArrayList<Integer> getRelatedActivities(Activity a, String type){
+		
+		String sql, get;
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		
-		try {
+		if(type.equals("dependent")){
+			sql = 	"select Number " +
+					"from ActivityDependency " +
+					"where DependantOnPID = ? and DependantOnNumber = ? and PID = ?";
+			get = "Number";
+		}else{
 			sql = 	"select DependantOnNumber " +
 					"from ActivityDependency " +
-					"where PID = ? and Number = ?";
+					"where PID = ? and Number = ? and DependantOnPID = ?";
+			get = "DependantOnNumber";
+		}
+		
+		try {
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1,a.getProjectID());
 			pst.setInt(2,a.getNumber());
+			pst.setInt(3, a.getProjectID());
 			rs = pst.executeQuery();
 			
 			while(rs.next()){
-				temp.add(rs.getInt("DependantOnNumber"));
+				temp.add(rs.getInt(get));
 			}
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null,ex);	
@@ -1002,8 +1043,6 @@ public class MainController {
 				pst.close();			
 			}catch(Exception e){}
 		}
-		temp.trimToSize();
 		return temp;
-			
 	}
 }
