@@ -259,6 +259,27 @@ public class PertNetwork {
 		
 	}
 
+	/**
+	 * @return the activities
+	 */
+	public ArrayList<Activity> getActivities() {
+		return activities;
+	}
+
+	/**
+	 * @return the graph
+	 */
+	public NodeGraph getGraph() {
+		return graph;
+	}
+
+	/**
+	 * @return the normalDist
+	 */
+	public static NormalDistribution getNormalDist() {
+		return normalDist;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

@@ -269,9 +269,9 @@ public class UserInterface extends InitialJFrame {
         	public void actionPerformed(ActionEvent e) {
         		
         		PertNetwork p = a.getPertNetwork();
-        		String art = p.toString();
+//        		String art = p.toString();
         		
-        		PertDisplay pd = new PertDisplay(art);
+        		PertDisplay pd = new PertDisplay(p);
         		
         		pd.setVisible(true);
         		

@@ -160,15 +160,31 @@ public class RegularNode implements Comparable{
 
 	@Override
 	public String toString() {
-		String pres = "";
-		String deps = "";
-		for(RegularNode n : precedents){
-			pres += n.name + " ";
+		return this.getName().toString();
+	}
+	
+	public String toStringVerbose() {
+		
+		String id = "Milestone " + Integer.toString(name) + ":\n";
+		
+		String  iAs = "Activities to Complete by this Milestone:\n", 
+				oAs = "Activities to Available to start after this Milestone:\n";
+		
+		for(Activity a : this.inArrows){
+			iAs += a.getName() + ", ";
 		}
-		for(RegularNode n : dependents){
-			deps += n.name + " ";
+		if(iAs.length() > 2){
+			iAs = iAs.substring(0, iAs.length()-2) + "\n";
 		}
-		return Integer.toString(name) ;//+ ": pres[" + pres + "],\tdeps[" + deps + "]\n";
+		
+		for(Activity a : this.outArrows){
+			oAs += a.getName() + ", ";
+		}
+		if(oAs.length() > 2){
+			oAs = oAs.substring(0, oAs.length()-2) + "\n";
+		}
+		
+		return id + iAs + oAs;
 	}
 
 	
