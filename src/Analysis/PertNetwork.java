@@ -5,6 +5,8 @@ package Analysis;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
+
 import PModel.Activity;
 
 /**
@@ -18,6 +20,8 @@ public class PertNetwork {
 	private RegularNode 		start;
 	private RegularNode 		finish;
 	private NodeGraph			graph;
+	
+	private static NormalDistribution normalDist;
 
 	
 	public PertNetwork(ArrayList<Activity> activities){
@@ -26,6 +30,8 @@ public class PertNetwork {
 		this.start 		= new RegularNode(index++);
 		this.finish 	= new RegularNode(Integer.MAX_VALUE);
 		this.graph 		= new NodeGraph();
+		
+		this.normalDist =  new NormalDistribution();
 		
 		this.removeDummies();
 				
@@ -292,6 +298,7 @@ public class PertNetwork {
 //			}
 //			nodeString += "}\n";
 //		}
+
 		
 		return nodeString;
 	}
