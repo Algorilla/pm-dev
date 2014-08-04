@@ -23,6 +23,7 @@ public class Activity extends Manageable
 	private double optimisticTimeToCompletion;
 	private double pessimisticTimeToCompletion;
 	private double targetCompletionDate;
+	private double percentComplete;
 	
 	// Calculated attributes
 	private double duration;
@@ -327,6 +328,20 @@ public class Activity extends Manageable
 	public void addPrecedent(Activity pre){
 		this.precedents.add(pre);
 	}
+	/**
+	 * @return the percentComplete
+	 */
+	public double getPercentComplete() {
+		return percentComplete;
+	}
+
+	/**
+	 * @param percentComplete the percentComplete to set
+	 */
+	public void setPercentComplete(double percentComplete) {
+		this.percentComplete = percentComplete;
+	}
+
 	@Override
     public String toString(){
       return getName();

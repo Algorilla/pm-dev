@@ -40,6 +40,8 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 /**
  * A dialogue used to create new activity of the project
  * @author Administrator
@@ -82,36 +84,23 @@ public class PertDisplay extends JDialog {
 		lblMembers.setBounds(92, 62, 61, 16);
 		contentPanel.add(lblMembers);
 		
+		final JTextArea nodeDesc = new JTextArea();
+		nodeDesc.setBounds(35, 90, 407, 111);
+		contentPanel.add(nodeDesc);
+		
 		final JComboBox nodeComboBox = new JComboBox();
+		nodeComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				activeNode = (RegularNode) nodeComboBox.getSelectedItem();
+				nodeDesc.setText(activeNode.toStringVerbose());
+			}
+		});
 		nodeComboBox.setBounds(189, 58, 193, 27);
 		
 		for(RegularNode n : pertNetwork.getGraph().getNodes().keySet()){
 			nodeComboBox.addItem(n);
 		}
 		contentPanel.add(nodeComboBox);
-		
-		final JTextArea nodeDesc = new JTextArea();
-		nodeDesc.setBounds(35, 90, 407, 111);
-		contentPanel.add(nodeDesc);
-		
-		JButton btnPick = new JButton("Pick");
-		btnPick.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				activeNode = (RegularNode) nodeComboBox.getSelectedItem();
-			
-				
-				nodeDesc.setText(activeNode.toStringVerbose());
-//				int v = ((Member)membersComboBox.getSelectedItem()).getMemberID();
-//				
-//				MemberActivity ma = new MemberActivity(((Member)membersComboBox.getSelectedItem()).getMemberID(),
-//						activity.getProjectID(),
-//						activity.getNumber());
-//				MainController.get().InitializeMemberActivity(ma);
-			}
-		});
-		btnPick.setBounds(265, 229, 117, 29);
-		contentPanel.add(btnPick);
 		
 		
 		JLabel lblTargetDate = new JLabel("Target Date");
@@ -126,12 +115,12 @@ public class PertDisplay extends JDialog {
 		newTargetDate = new JTextField();
 		newTargetDate.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
+				
 				double d = Integer.parseInt(newTargetDate.getText());
 				
-				double diff = Math.abs(activeNode.getExpectedDate() - d);
+				double diff = d - activeNode.getExpectedDate();
 				double diffOverStd = diff/activeNode.getStandardDeviation();
-				double prob = pertNetwork.getNormalDist().cumulativeProbability(diffOverStd);
-				
+				double prob = PertNetwork.getNormalDist().cumulativeProbability(diffOverStd);
 				
 				newChance.setText(Double.toString(prob));
 			}
@@ -140,8 +129,6 @@ public class PertDisplay extends JDialog {
 		newTargetDate.setBounds(170, 327, 134, 28);
 		contentPanel.add(newTargetDate);
 		newTargetDate.setColumns(10);
-		
-
 				
 
 		{

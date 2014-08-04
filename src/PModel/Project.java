@@ -16,6 +16,19 @@ public class Project extends Manageable
 
 	private int projectID;
 	private int managerID;
+	
+	private double budgetAtCompletion;
+	private double percentComplete;
+	private double percentScheduledForCompletion;
+	private double actualCost;
+	private double earnedValue;
+	private double costVariance;
+	private double scheduleVariance;
+	private double costPerformanceIndex;
+	private double schedulePerformanceIndex;
+	private double estimateAtCompletion;
+	private double estimateToComplete;
+	
 	private Set<Activity> activityList;	
 
 	/**
@@ -79,6 +92,161 @@ public class Project extends Manageable
 	 */
 	public void removeActivity(Activity activity) {
 		// TODO implement me	
+	}
+
+	/**
+	 * @return the budgetAtCompletion
+	 */
+	public double getBudgetAtCompletion() {
+		return budgetAtCompletion;
+	}
+
+	/**
+	 * @param budgetAtCompletion the budgetAtCompletion to set
+	 */
+	public void setBudgetAtCompletion(double budgetAtCompletion) {
+		this.budgetAtCompletion = budgetAtCompletion;
+	}
+
+	/**
+	 * @return the percentComplete
+	 */
+	public double getPercentComplete() {
+		return percentComplete;
+	}
+
+	/**
+	 * @param percentComplete the percentComplete to set
+	 */
+	public void setPercentComplete(double percentComplete) {
+		this.percentComplete = percentComplete;
+	}
+
+	/**
+	 * @return the percentScheduledForCompletion
+	 */
+	public double getPercentScheduledForCompletion() {
+		return percentScheduledForCompletion;
+	}
+
+	/**
+	 * @param percentScheduledForCompletion the percentScheduledForCompletion to set
+	 */
+	public void setPercentScheduledForCompletion(
+			double percentScheduledForCompletion) {
+		this.percentScheduledForCompletion = percentScheduledForCompletion;
+	}
+
+	/**
+	 * @return the actualCost
+	 */
+	public double getActualCost() {
+		return actualCost;
+	}
+
+	/**
+	 * @param actualCost the actualCost to set
+	 */
+	public void setActualCost(double actualCost) {
+		this.actualCost = actualCost;
+	}
+
+	/**
+	 * @return the earnedValue
+	 */
+	public double getEarnedValue() {
+		return earnedValue;
+	}
+
+	/**
+	 * @param earnedValue the earnedValue to set
+	 */
+	public void setEarnedValue(double earnedValue) {
+		this.earnedValue = earnedValue;
+	}
+
+	/**
+	 * @return the costVariance
+	 */
+	public double getCostVariance() {
+		return costVariance;
+	}
+
+	/**
+	 * @param costVariance the costVariance to set
+	 */
+	public void setCostVariance(double costVariance) {
+		this.costVariance = costVariance;
+	}
+
+	/**
+	 * @return the scheduleVariance
+	 */
+	public double getScheduleVariance() {
+		return scheduleVariance;
+	}
+
+	/**
+	 * @param scheduleVariance the scheduleVariance to set
+	 */
+	public void setScheduleVariance(double scheduleVariance) {
+		this.scheduleVariance = scheduleVariance;
+	}
+
+	/**
+	 * @return the costPerformanceIndex
+	 */
+	public double getCostPerformanceIndex() {
+		return costPerformanceIndex;
+	}
+
+	/**
+	 * @param costPerformanceIndex the costPerformanceIndex to set
+	 */
+	public void setCostPerformanceIndex(double costPerformanceIndex) {
+		this.costPerformanceIndex = costPerformanceIndex;
+	}
+
+	/**
+	 * @return the schedulePerformanceIndex
+	 */
+	public double getSchedulePerformanceIndex() {
+		return schedulePerformanceIndex;
+	}
+
+	/**
+	 * @param schedulePerformanceIndex the schedulePerformanceIndex to set
+	 */
+	public void setSchedulePerformanceIndex(double schedulePerformanceIndex) {
+		this.schedulePerformanceIndex = schedulePerformanceIndex;
+	}
+
+	/**
+	 * @return the estimateAtCompletion
+	 */
+	public double getEstimateAtCompletion() {
+		return estimateAtCompletion;
+	}
+
+	/**
+	 * @param estimateAtCompletion the estimateAtCompletion to set
+	 */
+	public void setEstimateAtCompletion(double estimateAtCompletion) {
+		this.estimateAtCompletion = estimateAtCompletion;
+	}
+
+	/**
+	 * @return the estimateToComplete
+	 */
+	public double getEstimateToComplete() {
+		return estimateToComplete;
+	}
+
+	/**
+	 * @param estimateToComplete the estimateToComplete to set
+	 */
+	public void setEstimateToComplete(double estimateToComplete) {
+		this.estimateToComplete = estimateToComplete;
 	}
 	
 }
