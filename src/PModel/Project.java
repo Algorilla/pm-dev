@@ -17,8 +17,10 @@ public class Project extends Manageable
 	private int projectID;
 	private int managerID;
 	
-	private double budgetAtCompletion;
+	private Date startDate;
+	
 	private double percentComplete;
+	private double budgetAtCompletion;
 	private double percentScheduledForCompletion;
 	private double actualCost;
 	private double earnedValue;
