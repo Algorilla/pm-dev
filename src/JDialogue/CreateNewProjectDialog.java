@@ -78,12 +78,19 @@ public class CreateNewProjectDialog extends JDialog {
 		lblDescription.setBounds(47, 126, 83, 14);
 		contentPanel.add(lblDescription);
 		
-		StartedDate.setBounds(170, 238, 200, 20);
-		contentPanel.add(StartedDate);
-		
-		
 		textArea_Description.setBounds(170, 110, 200, 119);
 		contentPanel.add(textArea_Description);
+		
+		StartedDate = new JDateChooser();
+		StartedDate.setBounds(170, 238, 200, 20);
+		contentPanel.add(StartedDate);
+		{
+			JLabel lblStartDate = new JLabel("Start Date");
+			lblStartDate.setBounds(44, 242, 86, 16);
+			contentPanel.add(lblStartDate);
+		}
+		
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
