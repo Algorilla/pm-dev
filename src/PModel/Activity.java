@@ -54,7 +54,10 @@ public class Activity extends Manageable
 					double mostLikelyTimeToCompletion,
 					double optimisticTimeToCompletion,
 					double pessimisticTimeToCompletion,
-					double targetCompletionDate) {
+					double targetCompletionDate,
+					double percentComplete,
+					boolean status
+					) {
 		
 		super(name, description);
 		this.projectID 						= ProjectID;
@@ -62,13 +65,14 @@ public class Activity extends Manageable
 		this.optimisticTimeToCompletion 	= optimisticTimeToCompletion;
 		this.pessimisticTimeToCompletion	= pessimisticTimeToCompletion;
 		this.targetCompletionDate			= targetCompletionDate;
+		this.percentComplete				= percentComplete;
 		
 		this.dependents = new ArrayList<Activity>();
 		this.precedents = new ArrayList<Activity>();
 		
+		setStatus(status);
 		setPlannedValue(plannedValue);
 		setDuration();
-		setStatus(false);
 		this.setStandardDevitation();
 		
 	}
@@ -86,8 +90,10 @@ public class Activity extends Manageable
 		this.optimisticTimeToCompletion 	= a.getOptimisticTimeToCompletion();
 		this.pessimisticTimeToCompletion	= a.getPessimisticTimeToCompletion();
 		this.targetCompletionDate			= a.getTargetCompletionDate();
+		this.percentComplete				= a.getPercentComplete();
 		
 		this.setPlannedValue(a.getPlannedValue());
+		this.setStatus(a.getStatus());
 		this.setDuration();
 		this.setStandardDevitation();
 		
@@ -369,7 +375,7 @@ public class Activity extends Manageable
 	 * @return
 	 */
 	public static Activity makeDummyStart() {
-		Activity temp = new Activity(0,"DummyStart","",0,0,0,0,0);
+		Activity temp = new Activity(0,"DummyStart","",0,0,0,0,0,0,false);
 		return temp;
 	}
 
@@ -377,7 +383,7 @@ public class Activity extends Manageable
 	 * @return
 	 */
 	public static Activity makeDummyFinish() {
-		Activity temp = new Activity(Integer.MAX_VALUE,"DummyFinish","",0,0,0,0,0);
+		Activity temp = new Activity(Integer.MAX_VALUE,"DummyFinish","",0,0,0,0,0,0,false);
 		return temp;
 	}
 	

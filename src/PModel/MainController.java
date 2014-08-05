@@ -89,7 +89,19 @@ public class MainController {
 				Project project = new Project(
 						rs.getInt("ManagerID"),
 						rs.getString("Name"),
-						rs.getString("Description")
+						rs.getString("Description"),
+						rs.getDate("StartDate"),
+						rs.getDouble("PercentComplete"),
+						rs.getDouble("BudgetAtCompletion"),
+						rs.getDouble("PercentScheduledForCompletion"),
+						rs.getDouble("ActualCost"),
+						rs.getDouble("EarnedValue"),
+						rs.getDouble("CostVariance"),
+						rs.getDouble("ScheduleVariance"),
+						rs.getDouble("CostPerformanceIndex"),
+						rs.getDouble("SchedulePerformanceIndex"),
+						rs.getDouble("EstimateAtCompletion"),
+						rs.getDouble("EstimateToComplete")
 						);
 				project.setProjectID(rs.getInt("PID"));
 				Projects.add(project);
@@ -98,6 +110,7 @@ public class MainController {
 			pst.close();
 			pst = conn.prepareStatement(sqlActivities);
 			rs = pst.executeQuery();
+			
 			while(rs.next()){
 				Activity activity = new Activity(
 						rs.getInt("PID"),
@@ -107,7 +120,9 @@ public class MainController {
 						rs.getDouble("MostLikelyTimeToCompletion"),
 						rs.getDouble("OptimisticTimeToCompletion"),
 						rs.getDouble("PessimisticTimeToCompletion"),
-						rs.getDouble("TargetCompletionDate")
+						rs.getDouble("TargetCompletionDate"),
+						rs.getDouble("PercentComplete"),
+						rs.getBoolean("Status")
 						);
 				activity.setProjectID(rs.getInt("PID"));
 				activity.setNumber(rs.getInt("Number"));

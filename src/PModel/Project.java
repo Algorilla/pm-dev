@@ -33,6 +33,7 @@ public class Project extends Manageable
 	
 	private Set<Activity> activityList;	
 
+	
 	/**
 	 * Sole constructor for Project ID. Project ID is automatically assigned
 	 * based on existing project IDs in the database.
@@ -41,9 +42,38 @@ public class Project extends Manageable
 	 * @param name Project name
 	 * @param description Project description
 	 */
-	public Project(int managerID, String name, String description) {
+	public Project(int managerID, 
+				   String name, 
+				   String description,
+				   Date   startDate, 
+				   double percentComplete, 
+				   double budgetAtCompletion,
+				   double percentScheduledForCompletion, 
+				   double actualCost, 
+				   double earnedValue,
+				   double costVariance, 
+				   double scheduleVariance, 
+				   double costPerformanceIndex,
+				   double schedulePerformanceIndex,
+				   double estimateAtCompletion, 
+				   double estimateToComplete
+				   ) {
 		super(name, description);
-		this.managerID = managerID;
+		
+		this.managerID 						= managerID;
+		this.startDate			 			= startDate;
+		this.percentComplete				= percentComplete;
+		this.budgetAtCompletion				= budgetAtCompletion;
+		this.percentScheduledForCompletion 	= percentScheduledForCompletion;
+		this.actualCost						= actualCost;
+		this.earnedValue					= earnedValue;
+		this.costVariance					= costVariance;
+		this.scheduleVariance				= scheduleVariance;
+		this.costPerformanceIndex			= costPerformanceIndex;
+		this.schedulePerformanceIndex		= schedulePerformanceIndex;
+		this.estimateAtCompletion			= estimateAtCompletion;
+		this.estimateToComplete				= estimateToComplete;
+		
 		// TODO Ensure consistency between start date, deadline and projected length
 	}
 	

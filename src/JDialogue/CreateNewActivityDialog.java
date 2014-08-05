@@ -186,7 +186,7 @@ public class CreateNewActivityDialog extends JDialog {
 							double tcd = Double.parseDouble(tcd_textField.getText());
 							
 							//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
-							Activity ac = new Activity(pid, name, description, pv, mltc, otc, ptc, tcd);
+							Activity ac = new Activity(pid, name, description, pv, mltc, otc, ptc, tcd, 0, false);
 					        //table_1 = MainController.get().ProjectList(table_1);
 					        Activity ac2 = MainController.get().CreateActivity(ac);
 					        MainController.get().CreateActivityDependencies(ac2, selectedActivities);

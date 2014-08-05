@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 
 import javax.swing.JTextField;
@@ -18,9 +19,11 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import java.awt.TextArea;
+
 import com.toedter.calendar.JDateChooser;
 /**
  * A dialogue used to create new project.
@@ -34,6 +37,9 @@ public class CreateNewProjectDialog extends JDialog {
 	private JTextField txt_newProjectNameField;
 	private Project newPro = null;
 	private TextArea textArea_Description = new TextArea();
+	JDateChooser StartedDate;
+	private DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -72,7 +78,10 @@ public class CreateNewProjectDialog extends JDialog {
 		lblDescription.setBounds(47, 126, 83, 14);
 		contentPanel.add(lblDescription);
 		
-
+		StartedDate.setBounds(170, 238, 200, 20);
+		contentPanel.add(StartedDate);
+		
+		
 		textArea_Description.setBounds(170, 110, 200, 119);
 		contentPanel.add(textArea_Description);
 		{
@@ -90,8 +99,10 @@ public class CreateNewProjectDialog extends JDialog {
 						String name = txt_newProjectNameField.getText();
 						String description = textArea_Description.getText();
 						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());
+						String startDate = sdf.format(StartedDate.getDate()); //date from JDateChooser
 						
-						newPro = new Project(managerID, name, description);
+						newPro = new Project(managerID, name, description,
+								StartedDate.getDate(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 						MainController.get().InitializeProject(newPro);
 						MainController.get().OpenProject(newPro.getName());
 						dispose();
