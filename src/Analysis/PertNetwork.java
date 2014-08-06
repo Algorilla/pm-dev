@@ -158,8 +158,6 @@ public class PertNetwork {
 				}
 			}
 			
-			
-			
 			n.setExpectedDate(expectedDate);
 			n.setStandardDeviation(maxStdDev);
 		}

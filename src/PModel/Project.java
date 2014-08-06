@@ -1,4 +1,5 @@
 package PModel;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
@@ -31,7 +32,9 @@ public class Project extends Manageable
 	private double estimateAtCompletion;
 	private double estimateToComplete;
 	
-	private Set<Activity> activityList;	
+	private ArrayList<Activity> activityList;
+	
+	MainController mc;
 
 	
 	/**
@@ -75,6 +78,7 @@ public class Project extends Manageable
 		this.estimateToComplete				= estimateToComplete;
 		
 		// TODO Ensure consistency between start date, deadline and projected length
+
 	}
 	
 	/**
@@ -279,6 +283,28 @@ public class Project extends Manageable
 	 */
 	public void setEstimateToComplete(double estimateToComplete) {
 		this.estimateToComplete = estimateToComplete;
+	}
+
+	/**
+	 * @return the activityList
+	 */
+	public ArrayList<Activity> getActivityList() {
+		return activityList;
+	}
+
+	/**
+	 * @param activityList the activityList to set
+	 */
+	public void setActivityList(ArrayList<Activity> activityList) {
+		this.activityList = activityList;
+	}
+
+	/**
+	 * @return
+	 */
+	public java.sql.Date getStartDate() {
+	    java.sql.Date sqlDate = new java.sql.Date(this.startDate.getTime());
+		return (java.sql.Date) sqlDate;
 	}
 	
 }

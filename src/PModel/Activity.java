@@ -24,6 +24,7 @@ public class Activity extends Manageable
 	private double pessimisticTimeToCompletion;
 	private double targetCompletionDate;
 	private double percentComplete;
+	private double actualCost;
 	
 	// Calculated attributes
 	private double duration;
@@ -56,6 +57,7 @@ public class Activity extends Manageable
 					double pessimisticTimeToCompletion,
 					double targetCompletionDate,
 					double percentComplete,
+					double actualCost,
 					boolean status
 					) {
 		
@@ -66,6 +68,7 @@ public class Activity extends Manageable
 		this.pessimisticTimeToCompletion	= pessimisticTimeToCompletion;
 		this.targetCompletionDate			= targetCompletionDate;
 		this.percentComplete				= percentComplete;
+		this.actualCost 					= actualCost;
 		
 		this.dependents = new ArrayList<Activity>();
 		this.precedents = new ArrayList<Activity>();
@@ -91,6 +94,7 @@ public class Activity extends Manageable
 		this.pessimisticTimeToCompletion	= a.getPessimisticTimeToCompletion();
 		this.targetCompletionDate			= a.getTargetCompletionDate();
 		this.percentComplete				= a.getPercentComplete();
+		this.actualCost						= a.getActualCost();
 		
 		this.setPlannedValue(a.getPlannedValue());
 		this.setStatus(a.getStatus());
@@ -209,6 +213,18 @@ public class Activity extends Manageable
 	 */
 	public void setProject(Project project) {
 		this.project = project;
+	}
+	/**
+	 * @param actualCost the actualCost to set
+	 */
+	public void setActualCost(double actualCost) {
+		this.actualCost = actualCost;
+	}
+	/**
+	 * @return the actualCost
+	 */
+	public double getActualCost() {
+		return actualCost;
 	}
 	/**
 	 * @return the projectID
@@ -375,7 +391,7 @@ public class Activity extends Manageable
 	 * @return
 	 */
 	public static Activity makeDummyStart() {
-		Activity temp = new Activity(0,"DummyStart","",0,0,0,0,0,0,false);
+		Activity temp = new Activity(0,"DummyStart","",0,0,0,0,0,0,0,false);
 		return temp;
 	}
 
@@ -383,7 +399,7 @@ public class Activity extends Manageable
 	 * @return
 	 */
 	public static Activity makeDummyFinish() {
-		Activity temp = new Activity(Integer.MAX_VALUE,"DummyFinish","",0,0,0,0,0,0,false);
+		Activity temp = new Activity(Integer.MAX_VALUE,"DummyFinish","",0,0,0,0,0,0,0,false);
 		return temp;
 	}
 	

@@ -22,12 +22,14 @@ import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
 import JDialogue.DeleteProjectDialog;
+import JDialogue.EarnedValueDisplay;
 import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
 import JDialogue.PertDisplay;
 import PModel.Activity;
 import PModel.ActivityOnNodeNetwork;
 import PModel.MainController;
+import PModel.Project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -213,7 +215,7 @@ public class UserInterface extends InitialJFrame {
 	 */
 	private void updateActivity(){   
 		
-		final Analyzer a = new Analyzer(MainController.get().getActivityListForCurrentProject());
+		final Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), 0);
 		
         JLabel lblActivityName = new JLabel("Activity Name: ");
         lblActivityName.setBounds(20, 87, 101, 14);
@@ -252,6 +254,9 @@ public class UserInterface extends InitialJFrame {
         btnEVA.setBackground(new Color(0, 153, 102));
         btnEVA.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		Project cp = MainController.get().GetCurrentProject();
+        		EarnedValueDisplay evd = new EarnedValueDisplay(cp);
+        		evd.setVisible(true);
 //        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
 ////        		String art  = aonn.toString();
 //        		String art  = aonn.getGanttChart();

@@ -122,6 +122,7 @@ public class MainController {
 						rs.getDouble("PessimisticTimeToCompletion"),
 						rs.getDouble("TargetCompletionDate"),
 						rs.getDouble("PercentComplete"),
+						rs.getDouble("ActualCost"),
 						rs.getBoolean("Status")
 						);
 				activity.setProjectID(rs.getInt("PID"));
@@ -549,12 +550,29 @@ public class MainController {
 					ErrorController.get().DisplayErrors();
 					return null;
 				}	
-				sql = "insert into Projects (Name,Description,ManagerID)values(?,?,?)";				
+				sql = "insert into Projects (Name,Description,StartDate,PercentComplete,BudgetAtCompletion," +
+											"PercentScheduledForCompletion,ActualCost,EarnedValue,CostVariance," +
+											"ScheduleVariance,CostPerformanceIndex,SchedulePerformanceIndex," +
+											"EstimateAtCompletion,EstimateToComplete,ManagerID"
+											 +")values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";				
 				try{
 					pst = conn.prepareStatement(sql);
-					pst.setString(1, project.getName());
-					pst.setString(2, project.getDescr());
-					pst.setInt(3, project.getManagerID());
+					pst.setString(1,  project.getName());
+					pst.setString(2,  project.getDescr());
+					pst.setDate(  3,  project.getStartDate());
+					pst.setDouble(4,  project.getPercentComplete());
+					pst.setDouble(5,  project.getBudgetAtCompletion());
+					pst.setDouble(6,  project.getPercentScheduledForCompletion());
+					pst.setDouble(7,  project.getActualCost());
+					pst.setDouble(8,  project.getEarnedValue());
+					pst.setDouble(9,  project.getCostVariance());
+					pst.setDouble(10, project.getScheduleVariance());
+					pst.setDouble(11, project.getCostPerformanceIndex());
+					pst.setDouble(12, project.getSchedulePerformanceIndex());
+					pst.setDouble(13, project.getEstimateAtCompletion());
+					pst.setDouble(14, project.getEstimateToComplete());
+					pst.setInt(   15, project.getManagerID());
+					
 					pst.execute();
 					pst.close();
 					sql = "select max(PID) from Projects";
@@ -568,6 +586,8 @@ public class MainController {
 				}
 			}		
 			return null;
+
+			
 	}
 	
 	/**
@@ -612,13 +632,29 @@ public class MainController {
 				ErrorController.get().DisplayErrors();
 				return false;
 			}			
-			sql = "update Projects set Name=?,Description=?,ManagerID=? where PID = ?";
+			sql = "update Projects set Name=?,Description=?,StartDate=?,PercentComplete=?,BudgetAtCompletion=?," +
+											"PercentScheduledForCompletion=?,ActualCost=?,EarnedValue=?," +
+											"CostVariance=?,ScheduleVariance=?,CostPerformanceIndex=?,SchedulePerformanceIndex=?," +
+											"EstimateAtCompletion=?,EstimateToComplete=?,ManagerID=? where PID = ?";
 			try{
 				pst = conn.prepareStatement(sql);
-				pst.setString(1, project.getName());
-				pst.setString(2, project.getDescr());
-				pst.setInt(3, project.getManagerID());
-				pst.setInt(4,project.getProjectID());
+				pst.setString(1,  project.getName());
+				pst.setString(2,  project.getDescr());
+				pst.setDate(  3,  project.getStartDate());
+				pst.setDouble(4,  project.getPercentComplete());
+				pst.setDouble(5,  project.getBudgetAtCompletion());
+				pst.setDouble(6,  project.getPercentScheduledForCompletion());
+				pst.setDouble(7,  project.getActualCost());
+				pst.setDouble(8,  project.getEarnedValue());
+				pst.setDouble(9,  project.getCostVariance());
+				pst.setDouble(10, project.getScheduleVariance());
+				pst.setDouble(11, project.getCostPerformanceIndex());
+				pst.setDouble(12, project.getSchedulePerformanceIndex());
+				pst.setDouble(13, project.getEstimateAtCompletion());
+				pst.setDouble(14, project.getEstimateToComplete());
+				pst.setInt(   15, project.getManagerID());
+				pst.setInt(   16,project.getProjectID());
+				
 				pst.execute();
 				pst.close();
 				/*int x=0;
@@ -799,15 +835,15 @@ public class MainController {
                         "OptimisticTimeToCompletion,PessimisticTimeToCompletion,TargetCompletionDate,Status)" +
 						"values(?,?,?,?,?,?,?,?,?,?)";
 				pst = conn.prepareStatement(sql);
-				pst.setInt(1, currentProject.getProjectID());
-				pst.setInt(2, x);
-				pst.setString(3, activity.getName());
-				pst.setString(4, activity.getDescr());
-				pst.setDouble(5, activity.getPlannedValue());
-				pst.setDouble(6, activity.getMostLikelyTimeToCompletion());
-				pst.setDouble(7, activity.getOptimisticTimeToCompletion());
-				pst.setDouble(8, activity.getPessimisticTimeToCompletion());
-				pst.setDouble(9, activity.getTargetCompletionDate());
+				pst.setInt(   1,   currentProject.getProjectID());
+				pst.setInt(   2,   x);
+				pst.setString(3,   activity.getName());
+				pst.setString(4,   activity.getDescr());
+				pst.setDouble(5,   activity.getPlannedValue());
+				pst.setDouble(6,   activity.getMostLikelyTimeToCompletion());
+				pst.setDouble(7,   activity.getOptimisticTimeToCompletion());
+				pst.setDouble(8,   activity.getPessimisticTimeToCompletion());
+				pst.setDouble(9,   activity.getTargetCompletionDate());
 				pst.setBoolean(10, activity.getStatus());
 				pst.execute();
 				pst.close();
