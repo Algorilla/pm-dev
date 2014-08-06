@@ -97,7 +97,7 @@ public class Activity extends Manageable
 		this.actualCost						= a.getActualCost();
 		
 		this.setPlannedValue(a.getPlannedValue());
-		this.setStatus(a.getStatus());
+		this.updateStatus();
 		this.setDuration();
 		this.setStandardDevitation();
 		
@@ -121,9 +121,15 @@ public class Activity extends Manageable
 		this.duration = numerator / DURATION_DIVISOR;
 	}
 	
-	
-	
 	////////////////////////////// SETTERS AND GETTERS //////////////////////////////
+	public void updateStatus(){
+		if(this.getPercentComplete() > 0.999){
+			this.setStatus(true);
+		}
+		else{
+			this.setStatus(false);
+		}
+	}
 	/**
 	 * @param projectID the projectID to set
 	 */
