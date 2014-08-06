@@ -832,8 +832,8 @@ public class MainController {
 				x++;		
 				sql = "insert into Activities " +
 					   "(PID,Number,Name,Description,PlannedValue,MostLikelyTimeToCompletion," +
-                        "OptimisticTimeToCompletion,PessimisticTimeToCompletion,TargetCompletionDate,Status)" +
-						"values(?,?,?,?,?,?,?,?,?,?)";
+                        "OptimisticTimeToCompletion,PessimisticTimeToCompletion,TargetCompletionDate,Status,ActualCost,PercentComplete)" +
+						"values(?,?,?,?,?,?,?,?,?,?,?,?)";
 				pst = conn.prepareStatement(sql);
 				pst.setInt(   1,   currentProject.getProjectID());
 				pst.setInt(   2,   x);
@@ -845,6 +845,8 @@ public class MainController {
 				pst.setDouble(8,   activity.getPessimisticTimeToCompletion());
 				pst.setDouble(9,   activity.getTargetCompletionDate());
 				pst.setBoolean(10, activity.getStatus());
+				pst.setDouble(11,  activity.getActualCost());
+				pst.setDouble(12,  activity.getPercentComplete());
 				pst.execute();
 				pst.close();
 				activity.setProjectID(currentProject.getProjectID());
@@ -871,13 +873,24 @@ public class MainController {
 			)
 		{
 			String sql;			
-			sql = "update Activities set Name=?,Description=? where PID = ? and Number = ?";
+			sql = "update Activities set Name=?,Description=?,PlannedValue=?,MostLikelyTimeToCompletion=?," +
+                        "OptimisticTimeToCompletion=?,PessimisticTimeToCompletion=?,TargetCompletionDate=?,Status=?,ActualCost=?,PercentComplete=?" 
+			
+					+" where PID = ? and Number = ?";
 			try{
 				pst = conn.prepareStatement(sql);
-				pst.setString(1, activity.getName());
-				pst.setString(2, activity.getDescr());
-				pst.setInt(3, activity.getProjectID());
-				pst.setInt(4, activity.getNumber());
+				pst.setString( 1, activity.getName());
+				pst.setString( 2, activity.getDescr());
+				pst.setDouble( 3, activity.getPlannedValue());
+				pst.setDouble( 4, activity.getMostLikelyTimeToCompletion());
+				pst.setDouble( 5, activity.getOptimisticTimeToCompletion());
+				pst.setDouble( 6, activity.getPessimisticTimeToCompletion());
+				pst.setDouble( 7, activity.getTargetCompletionDate());
+				pst.setBoolean(8, activity.getStatus());
+				pst.setDouble( 9, activity.getActualCost());
+				pst.setDouble(10, activity.getPercentComplete());
+				pst.setInt(   11, activity.getProjectID());
+				pst.setInt(   12, activity.getNumber());
 				pst.execute();
 				pst.close();
 				/*int x=0;
