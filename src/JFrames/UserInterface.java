@@ -29,10 +29,13 @@ import JDialogue.PertDisplay;
 import PModel.Activity;
 import PModel.ActivityOnNodeNetwork;
 import PModel.MainController;
+import PModel.Member;
+import PModel.MemberActivity;
 import PModel.Project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
@@ -61,6 +64,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.border.TitledBorder;
+
+import com.toedter.calendar.JDateChooser;
 /**
  * A class used to manipulate projects and activities. This is the main interface of the software.
  * @author Team B
@@ -69,10 +74,11 @@ import javax.swing.border.TitledBorder;
 public class UserInterface extends InitialJFrame {
 	
 	private JLabel nameLabel;
+//	private ProjectPanel projectPanel;
 	JPanel activity_update_panel;
     JPanel panel_projectlist;
     private  TextArea textArea_description;
-    private JTextField textField_ActivityName;
+    private JTextField textField_ActivityName, textField_PercentComplete, textField_ActualCost;
     final JTable table_1 = new JTable();
     private Activity activity;
 	/**
@@ -83,6 +89,7 @@ public class UserInterface extends InitialJFrame {
 		addMenuBar();
 		addImage();
 		//projectPanel();
+//		projectPanel = new ProjectPanel();
 	}
 
 	private void addToolBar(){
@@ -95,24 +102,24 @@ public class UserInterface extends InitialJFrame {
 	 */
 	private void projectPanel(){
         getContentPane().setLayout(null);
-		
+        
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 153, 204));
         panel.setBorder(new TitledBorder(null, "Project", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setBounds(10, 11, 961, 519);
+        panel.setBounds(10, 11, 1179, 649);
         getContentPane().add(panel);
         panel.setLayout(null);
         
 		activity_update_panel = new JPanel();
 		activity_update_panel.setBackground(Color.WHITE);
 		activity_update_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        activity_update_panel.setBounds(10, 30, 305, 425);
+        activity_update_panel.setBounds(10, 30, 505, 575);
         panel.add(activity_update_panel);
         
         panel_projectlist = new JPanel();
         panel_projectlist.setBackground(Color.WHITE);
         panel_projectlist.setBorder(new LineBorder(new Color(0, 0, 0)));
-        panel_projectlist.setBounds(325, 30, 615, 425);
+        panel_projectlist.setBounds(545, 30, 615, 575);
         panel.add(panel_projectlist);
         panel_projectlist.setLayout(null);
         
@@ -171,9 +178,11 @@ public class UserInterface extends InitialJFrame {
         		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
         		activity = MainController.get().GetActivityFromID(PID, number);
         		String name = table_1.getModel().getValueAt(row, 2).toString();
-        		textField_ActivityName.setText(name);        		
+        		textField_ActivityName.setText(name);  
+//        		textArea_description.s
         		String des = table_1.getModel().getValueAt(row, 3).toString();
-        		textArea_description.setText(des);      		
+        		textArea_description.setText(des); 
+//        		textArea_description.lineWrap(true);
         	}
         });
         headingInfo();
@@ -222,7 +231,7 @@ public class UserInterface extends InitialJFrame {
         activity_update_panel.add(lblActivityName);
         
         textField_ActivityName = new JTextField();
-        textField_ActivityName.setBounds(131, 84, 143, 20);
+        textField_ActivityName.setBounds(131, 84, 343, 20);
         activity_update_panel.add(textField_ActivityName);
         textField_ActivityName.setColumns(10);
         
@@ -230,26 +239,59 @@ public class UserInterface extends InitialJFrame {
         labelDesription.setBounds(20, 124, 83, 14);
         activity_update_panel.add(labelDesription);
         
-        textArea_description = new TextArea();
-        textArea_description.setBounds(131, 121, 143, 54);
+        textArea_description = new TextArea();	
+        textArea_description.setBounds(131, 121, 343, 154);
         activity_update_panel.add(textArea_description);
         
-        JLabel lblStartedDate = new JLabel("Started Date:");
-        lblStartedDate.setBounds(20, 202, 74, 14);
-        activity_update_panel.add(lblStartedDate);
+		JDateChooser StartedDate = new JDateChooser();
+		StartedDate.setBounds(170, 282, 200, 20);
+		activity_update_panel.add(StartedDate);
+		{
+			JLabel lblStartDate = new JLabel("Start Date");
+			lblStartDate.setBounds(20, 282, 86, 16);
+			activity_update_panel.add(lblStartDate);
+		}
         
-        JButton btnAddMem = new JButton("Add Team Member");
-        btnAddMem.setBackground(new Color(0, 153, 102));
-        btnAddMem.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		AddTeamMember teamWindow = new AddTeamMember(activity);
-        		teamWindow.setVisible(true);
-        	};
-        });
-        btnAddMem.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
-        btnAddMem.setBounds(82, 376, 118, 23);
-        activity_update_panel.add(btnAddMem);
+        JLabel lblPercentComplete = new JLabel("Percent Complete: ");
+        lblPercentComplete.setBounds(20, 332, 101, 14);
+        activity_update_panel.add(lblPercentComplete);
         
+        textField_PercentComplete = new JTextField();
+        textField_PercentComplete.setBounds(131, 332, 143, 20);
+        activity_update_panel.add(textField_PercentComplete);
+        textField_PercentComplete.setColumns(10);
+        
+        JButton btnUpdatePC = new JButton("Update");
+        btnUpdatePC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				double percentComplete = Double.parseDouble(textField_PercentComplete.getText());
+				activity.setPercentComplete(percentComplete);
+			}
+		});
+        btnUpdatePC.setBounds(305, 332, 117, 29);
+        activity_update_panel.add(btnUpdatePC);
+        
+        JLabel lblActualCost = new JLabel("Actual Cost: ");
+        lblActualCost.setBounds(20, 362, 101, 14);
+        activity_update_panel.add(lblActualCost);
+        
+        textField_ActualCost = new JTextField();
+        textField_ActualCost.setBounds(131, 362, 143, 20);
+        activity_update_panel.add(textField_ActualCost);
+        textField_ActualCost.setColumns(10);
+        
+        JButton btnUpdateAC = new JButton("Update");
+        btnUpdateAC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				double actualCost = Double.parseDouble(textField_ActualCost.getText());
+				activity.setActualCost(actualCost);
+			}
+		});
+        btnUpdateAC.setBounds(305, 362, 117, 29);
+        activity_update_panel.add(btnUpdateAC);
+		
         JButton btnEVA = new JButton("Earned Value Analysis");
         btnEVA.setBackground(new Color(0, 153, 102));
         btnEVA.addActionListener(new ActionListener() {
@@ -257,15 +299,10 @@ public class UserInterface extends InitialJFrame {
         		Project cp = MainController.get().GetCurrentProject();
         		EarnedValueDisplay evd = new EarnedValueDisplay(cp);
         		evd.setVisible(true);
-//        		ActivityOnNodeNetwork aonn = new ActivityOnNodeNetwork();
-////        		String art  = aonn.toString();
-//        		String art  = aonn.getGanttChart();
-//        		GanttDisplay gantt = new GanttDisplay(art);
-//        		gantt.setVisible(true);
         	};
         });
         btnEVA.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
-        btnEVA.setBounds(82, 246, 118, 23);
+        btnEVA.setBounds(336, 496, 150, 30);
         activity_update_panel.add(btnEVA);
         
         JButton btnPert = new JButton("Pert Analysis");
@@ -283,7 +320,7 @@ public class UserInterface extends InitialJFrame {
         	};
         });
         btnPert.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
-        btnPert.setBounds(82, 276, 118, 23);
+        btnPert.setBounds(174, 496, 150, 30);
         activity_update_panel.add(btnPert);
         
         JButton btnGantt = new JButton("Create Gantt Chart");
@@ -297,7 +334,7 @@ public class UserInterface extends InitialJFrame {
         	};
         });
         btnGantt.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
-        btnGantt.setBounds(82, 306, 118, 23);
+        btnGantt.setBounds(12, 496, 150, 30);
         activity_update_panel.add(btnGantt);
         
         JButton btnSave = new JButton("Save");
@@ -321,8 +358,20 @@ public class UserInterface extends InitialJFrame {
         	}
         });
         btnSave.setIcon(new ImageIcon("./resources/img/icon/save-icon.png"));
-        btnSave.setBounds(82, 336, 118, 23);
-        activity_update_panel.add(btnSave);               
+        btnSave.setBounds(82, 536, 150, 30);
+        activity_update_panel.add(btnSave);  
+        
+        JButton btnAddMem = new JButton("Add Team Member");
+        btnAddMem.setBackground(new Color(0, 153, 102));
+        btnAddMem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		AddTeamMember teamWindow = new AddTeamMember(activity);
+        		teamWindow.setVisible(true);
+        	};
+        });
+        btnAddMem.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
+        btnAddMem.setBounds(275, 536, 150, 30);
+        activity_update_panel.add(btnAddMem);
 	}
 	/**
 	 * add image to index page of the software
@@ -439,7 +488,7 @@ public class UserInterface extends InitialJFrame {
 	  */
 		public void resetFrame(){
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 1000, 600);
+			setBounds(100, 100, 1200, 700);
 	        setTitle("");
 	        setLocationRelativeTo(null);
 	        
