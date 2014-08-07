@@ -55,6 +55,8 @@ public class GanttNetwork {
 		fnn.forwardPass(fnn.getStart());
 		fnn.backwardPass(fnn.getFinish());
 		
+		fnn.setFloats();
+		
 		return fnn;
 	}
 
@@ -152,6 +154,13 @@ public class GanttNetwork {
 		
 		
 	}
+	
+	public void setFloats(){
+		for(Activity a : activities){
+			a.setDurationFloat(a.getLatestFinish() - a.getEarliestFinish());
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -161,7 +170,7 @@ public class GanttNetwork {
 		
 		for(Activity a : this.activities){
 			output += a.getName() + " {Start: " + a.getEarliestStart() + "/" + a.getLatestStart() +
-					"\tFinish: " +a.getEarliestFinish() + "/" + a.getLatestFinish() + "}\n";
+					"\tFinish: " +a.getEarliestFinish() + "/" + a.getLatestFinish() + "\t Float: " + a.getDurationFloat()+"}\n";
 			
 		}
 		return output;
