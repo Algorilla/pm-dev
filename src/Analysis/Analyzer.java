@@ -31,6 +31,7 @@ public class Analyzer {
 		for(Activity a : activities){
 			a.setDependents(mc.getDependantActivities(a));
 			a.setPrecedents(mc.getPrecedantActivities(a));
+			a.setProject(project);
 		}
 		
 

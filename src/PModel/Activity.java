@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
 
+import org.jfree.data.time.TimePeriod;
+
 
 /**
  * Activities derive from Manageable Class, and are identified by a Project
@@ -11,7 +13,7 @@ import java.util.HashSet;
  * @author Alex Huot
  */
 
-public class Activity extends Manageable
+public class Activity extends Manageable implements TimePeriod
 {
 	public static final int DURATION_SCALAR  = 4;
 	public static final int DURATION_DIVISOR = 6;
@@ -35,12 +37,12 @@ public class Activity extends Manageable
 	private double earliestFinish;
 	private double latestStart;
 	private double latestFinish;
+	private Date   ES, EF, LS, LF;
 	
 	private ArrayList<Activity> precedents;
 	private ArrayList<Activity> dependents;
 	
-	public Project project; //TODO Use me
-
+	private Project project;
 	/**
 	 * Constructor for an Activity.
 	 * @param ProjectID Associated Project's ID
@@ -72,6 +74,11 @@ public class Activity extends Manageable
 		
 		this.dependents = new ArrayList<Activity>();
 		this.precedents = new ArrayList<Activity>();
+		
+		this.ES = new Date();
+		this.LS = new Date();
+		this.EF = new Date();
+		this.LF = new Date();
 		
 		setStatus(status);
 		setPlannedValue(plannedValue);
@@ -370,6 +377,62 @@ public class Activity extends Manageable
 		this.percentComplete = percentComplete;
 	}
 
+	/**
+	 * @return the eS
+	 */
+	public Date getES() {
+		return ES;
+	}
+
+	/**
+	 * @param eS the eS to set
+	 */
+	public void setES(Date eS) {
+		ES = eS;
+	}
+
+	/**
+	 * @return the eF
+	 */
+	public Date getEF() {
+		return EF;
+	}
+
+	/**
+	 * @param eF the eF to set
+	 */
+	public void setEF(Date eF) {
+		EF = eF;
+	}
+
+	/**
+	 * @return the lS
+	 */
+	public Date getLS() {
+		return LS;
+	}
+
+	/**
+	 * @param lS the lS to set
+	 */
+	public void setLS(Date lS) {
+		LS = lS;
+	}
+
+	/**
+	 * @return the lF
+	 */
+	public Date getLF() {
+		return LF;
+	}
+
+	/**
+	 * @param lF the lF to set
+	 */
+	public void setLF(Date lF) {
+		LF = lF;
+	}
+
 	@Override
     public String toString(){
       return getName();
@@ -407,6 +470,31 @@ public class Activity extends Manageable
 	public static Activity makeDummyFinish() {
 		Activity temp = new Activity(Integer.MAX_VALUE,"DummyFinish","",0,0,0,0,0,0,0,false);
 		return temp;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Object o) {
+		Activity other = (Activity)o;
+		return this.getStart().compareTo(other.getStart());
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jfree.data.time.TimePeriod#getEnd()
+	 */
+	@Override
+	public Date getEnd() {
+		return EF;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jfree.data.time.TimePeriod#getStart()
+	 */
+	@Override
+	public Date getStart() {
+		return ES;
 	}
 	
 	

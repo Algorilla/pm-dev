@@ -4,6 +4,8 @@
 package Analysis;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import PModel.Activity;
 
@@ -55,11 +57,46 @@ public class GanttNetwork {
 		fnn.forwardPass(fnn.getStart());
 		fnn.backwardPass(fnn.getFinish());
 		
+		fnn.setDates();
 		fnn.setFloats();
 		
 		return fnn;
 	}
 
+
+	/**
+	 * 
+	 */
+	private void setDates() {
+		
+		Date projectStart = activities.get(1).getProject().getStartDate();
+		Calendar c = Calendar.getInstance();
+		Date eS, eF, lS, lF;
+		
+		for(Activity a : activities){
+			
+			c.setTime(projectStart);
+			c.add(Calendar.DATE, (int)a.getEarliestStart());
+			eS = c.getTime();
+			a.setES(eS);
+			
+			c.setTime(projectStart);
+			c.add(Calendar.DATE, (int)a.getEarliestFinish());
+			eF = c.getTime();
+			a.setEF(eF);
+			
+			c.setTime(projectStart);
+			c.add(Calendar.DATE, (int)a.getLatestStart());
+			lS = c.getTime();
+			a.setLS(lS);
+			
+			c.setTime(projectStart);
+			c.add(Calendar.DATE, (int)a.getLatestFinish());
+			lF = c.getTime();
+			a.setLF(lF);
+		}
+		
+	}
 
 	/**
 	 * @return the activities

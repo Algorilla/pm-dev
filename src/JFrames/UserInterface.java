@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Analysis.Analyzer;
+import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
 import DatabaseConnect.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
@@ -321,9 +322,12 @@ public class UserInterface extends InitialJFrame {
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
+        		String projectName = MainController.get().GetCurrentProject().getName();
+        		GanttNetwork gn = a.getGanttNetwork();
         		String art  = a.getGanttNetwork().toString();
-        		GanttDisplay gantt = new GanttDisplay(art);
+        		GanttDisplay gantt = new GanttDisplay(projectName, gn);
         		gantt.setVisible(true);
+        		gantt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         	};
         });
         btnGantt.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));

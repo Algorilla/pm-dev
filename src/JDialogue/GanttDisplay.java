@@ -13,11 +13,9 @@ import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Scrollbar;
-
-package PModel;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,16 +30,60 @@ import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.ui.ApplicationFrame;
 
+import Analysis.GanttNetwork;
+import PModel.Activity;
+
 /**
  *
  */
-public class GanttDisplay extends JDialog{
+public class GanttDisplay extends JDialog {
 	
+	GanttNetwork ganttNetwork;
+	String title;
 	
+	public GanttDisplay(final String title, GanttNetwork ganttNetwork) {
+		
+		this.ganttNetwork = ganttNetwork;
+		this.title = title;
+			
+		final IntervalCategoryDataset dataset = createDataset();
+		final JFreeChart chart = createGraph(dataset);
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(1080, 720));
+		setContentPane(chartPanel);
+		this.setBounds(20, 20, 1000, 800);
+		
+	}
 	
+	public IntervalCategoryDataset createDataset(){
+		final TaskSeries series = new TaskSeries("Activities Scheduled");
+		final TaskSeries criticalPath = new TaskSeries("Critical Path");
+		
+		double zero = new Double(0);
+		Task temp;
+		
+		for(Activity a : ganttNetwork.getActivities()){
+			temp = new Task(a.getName(), a);
+			
+			if(((Double)(a.getDurationFloat())).equals(zero)){
+				criticalPath.add(temp);
+			}
+			else{
+				series.add(temp);
+			}
+		}
+		
+		final TaskSeriesCollection collection = new TaskSeriesCollection();
+		
+		collection.add(criticalPath);
+		collection.add(series);
+		return collection;
+	}
 	
-	
-	
+    private JFreeChart createGraph(final IntervalCategoryDataset dataset){
+    	final JFreeChart chart = ChartFactory.createGanttChart(title, "Tasks", "Date", dataset, true, true, false);
+		return chart;
+    }
 	
 //	private final JPanel contentPanel = new JPanel();
 //	
