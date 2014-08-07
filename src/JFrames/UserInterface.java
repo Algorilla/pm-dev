@@ -243,14 +243,7 @@ public class UserInterface extends InitialJFrame {
         textArea_description.setBounds(131, 121, 343, 154);
         activity_update_panel.add(textArea_description);
         
-		JDateChooser StartedDate = new JDateChooser();
-		StartedDate.setBounds(170, 282, 200, 20);
-		activity_update_panel.add(StartedDate);
-		{
-			JLabel lblStartDate = new JLabel("Start Date");
-			lblStartDate.setBounds(20, 282, 86, 16);
-			activity_update_panel.add(lblStartDate);
-		}
+
         
         JLabel lblPercentComplete = new JLabel("Percent Complete: ");
         lblPercentComplete.setBounds(20, 332, 101, 14);
