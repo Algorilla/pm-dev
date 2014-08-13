@@ -95,7 +95,9 @@ public class EarnedValue {
 				ac += a.getActualCost();
 			}
 			else{
-				ac += a.getActualCost() * a.getPercentComplete();
+				if(a.getPercentComplete() > 0){
+					ac += a.getActualCost() / a.getPercentComplete();
+				}
 			}
 		}
 		
