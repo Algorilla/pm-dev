@@ -37,7 +37,7 @@ public class Analyzer {
 
 		this.ganttNetwork = GanttNetwork.getActivityNetwork(this.activities);
 		this.pertNetwork  = PertNetwork.getArrowNetwork(this.activities);
-		this.earnedValue  = new EarnedValue(project, 0.0);
+		this.earnedValue  = new EarnedValue(project, daysSinceStart);
 	}
 
 	/**

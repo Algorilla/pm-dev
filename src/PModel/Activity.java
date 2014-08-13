@@ -375,6 +375,9 @@ public class Activity extends Manageable implements TimePeriod
 	 */
 	public void setPercentComplete(double percentComplete) {
 		this.percentComplete = percentComplete;
+		if(this.percentComplete > 0.99){
+			this.setStatus(true);
+		}
 	}
 
 	/**

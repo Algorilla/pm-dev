@@ -18,6 +18,7 @@ import java.awt.Font;
 import java.awt.Scrollbar;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import org.jfree.chart.ChartFactory;
@@ -77,6 +78,7 @@ public class GanttDisplay extends JDialog {
 		
 		collection.add(criticalPath);
 		collection.add(series);
+		
 		return collection;
 	}
 	

@@ -225,7 +225,7 @@ public class UserInterface extends InitialJFrame {
 	 */
 	private void updateActivity(){   
 		
-		final Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), 0);
+//		final 
 		
         JLabel lblActivityName = new JLabel("Activity Name: ");
         lblActivityName.setBounds(20, 87, 101, 14);
@@ -290,8 +290,18 @@ public class UserInterface extends InitialJFrame {
         btnEVA.setBackground(new Color(0, 153, 102));
         btnEVA.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		
+
         		Project cp = MainController.get().GetCurrentProject();
-        		EarnedValueDisplay evd = new EarnedValueDisplay(cp);
+        		
+        		Date today = new Date();
+        		Date start = cp.getStartDate();
+
+        		int daysSinceStart = daysBetween(today, start);
+        		
+        		Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), Math.abs(daysSinceStart));
+        		
+        		EarnedValueDisplay evd = new EarnedValueDisplay(cp);//cp);
         		evd.setVisible(true);
         	};
         });
@@ -303,6 +313,15 @@ public class UserInterface extends InitialJFrame {
         btnPert.setBackground(new Color(0, 153, 102));
         btnPert.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		
+        		Project cp = MainController.get().GetCurrentProject();
+        		
+        		Date today = new Date();
+        		Date start = cp.getStartDate();
+
+        		int daysSinceStart = daysBetween(today, start);
+        		
+        		Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), daysSinceStart);
         		
         		PertNetwork p = a.getPertNetwork();
 //        		String art = p.toString();
@@ -322,6 +341,7 @@ public class UserInterface extends InitialJFrame {
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
+        		Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), 161);
         		String projectName = MainController.get().GetCurrentProject().getName();
         		GanttNetwork gn = a.getGanttNetwork();
         		String art  = a.getGanttNetwork().toString();
@@ -495,4 +515,8 @@ public class UserInterface extends InitialJFrame {
 			setContentPane(contentPane);		
 			getContentPane().setBackground(Color.WHITE);					
 		}
+		
+		public static int daysBetween(Date d1, Date d2){
+            return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    }
 }

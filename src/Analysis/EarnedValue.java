@@ -94,6 +94,9 @@ public class EarnedValue {
 			if(a.getStatus()){
 				ac += a.getActualCost();
 			}
+			else{
+				ac += a.getActualCost() * a.getPercentComplete();
+			}
 		}
 		
 		project.setActualCost(ac);
