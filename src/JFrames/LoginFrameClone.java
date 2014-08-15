@@ -71,7 +71,7 @@ public class LoginFrameClone extends JFrame {
 		});
 		JLabel imageLabel = new JLabel("");
 		//TODO: make it relative!
-		imageLabel.setIcon(new ImageIcon("C:\\Users\\dmitri\\Documents\\git\\soen\\pm-dev\\resources\\img\\banner-Process.jpg"));
+		imageLabel.setIcon(new ImageIcon("./resources/img/banner-Process.jpg"));
 		imageLabel.setBounds(10, 0, 964, 551);
 		getContentPane().add(imageLabel);
 	

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import PModel.Activity;
 import PModel.Member;
 import PModel.Project;
 
@@ -28,14 +29,14 @@ public class DataDeleter {
 			mc.pst.setInt(1, member.getMemberID());
 			mc.rs = mc.pst.executeQuery();
 			if (mc.rs.getInt(1) == 0) {
-				ErrorController.get().AddError(
+				ErrorController.get().addError(
 						"Member with ID " + member.getMemberID()
 								+ " does not exist.");
 			}
 		} catch (SQLException ex) {
 		}
-		if (ErrorController.get().ErrorsExist()) {
-			ErrorController.get().DisplayErrors();
+		if (ErrorController.get().errorsExist()) {
+			ErrorController.get().displayErrors();
 			return false;
 		}
 		sql = "delete from Members where MID = ?";
@@ -72,15 +73,15 @@ public class DataDeleter {
 			mc.pst.setString(1, project.getName());
 			mc.rs = mc.pst.executeQuery();
 			if (mc.rs.getInt(1) == 0) {
-				ErrorController.get().AddError(
+				ErrorController.get().addError(
 						"Project with name " + project.getName()
 								+ " does not exist.");
 			}
 		} catch (SQLException ex) {
 		}
 
-		if (ErrorController.get().ErrorsExist()) {
-			ErrorController.get().DisplayErrors();
+		if (ErrorController.get().errorsExist()) {
+			ErrorController.get().displayErrors();
 			return false;
 		}
 		sql = "delete from Projects where Name = ?";
@@ -103,6 +104,7 @@ public class DataDeleter {
 		}
 		return false;
 	}
+
 	/**
 	 * Deletes all activities associated with a project.
 	 * 
@@ -135,7 +137,8 @@ public class DataDeleter {
 			mc.pst.close();
 
 			for (int x = 0; x < mc.activities.size(); x++) {
-				if (mc.activities.get(x).getProjectID() == project.getProjectID()) {
+				if (mc.activities.get(x).getProjectID() == project
+						.getProjectID()) {
 					mc.activities.remove(x);
 					x--;
 				}
@@ -145,6 +148,78 @@ public class DataDeleter {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex);
 		}
+		return false;
+	}
+
+	/**
+	 * @param mc
+	 * @param PID
+	 * @param number
+	 * @return
+	 */
+	public boolean deleteActivity(MainController mc, int PID, int number) {
+		String sql;
+		try {
+			sql = "select count(*) from Activities where PID = ? and Number = ?";
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, PID);
+			mc.pst.setInt(2, number);
+			mc.rs = mc.pst.executeQuery();
+			if (mc.rs.getInt(1) == 0) {
+				ErrorController.get().addError(
+						"Activity with PID " + PID + " and name " + number
+								+ " does not exist.");
+			}
+		} catch (SQLException ex) {
+		} finally {
+			try {
+				mc.rs.close();
+				mc.pst.close();
+			} catch (Exception e) {
+			}
+		}
+		if (ErrorController.get().errorsExist()) {
+			ErrorController.get().displayErrors();
+			return false;
+		}
+		sql = "delete from Activities where PID = ? and Number = ?";
+		try {
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, PID);
+			mc.pst.setInt(2, number);
+			mc.pst.execute();
+			int x = 0;
+			for (Activity oldActivity : mc.activities)
+				if (oldActivity.getProjectID() == PID
+						&& oldActivity.getNumber() == number)
+					break;
+				else
+					x++;
+			mc.activities.remove(x);
+
+			sql = "delete from ActivityDependency where PID = ? and Number = ?";
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, PID);
+			mc.pst.setInt(2, number);
+			mc.pst.execute();
+
+			sql = "delete from ActivityDependency where DependantOnPID = ? and DependantOnNumber = ?";
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, PID);
+			mc.pst.setInt(2, number);
+			mc.pst.execute();
+
+			return true;
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex + "dde");
+		} finally {
+			try {
+				mc.rs.close();
+				mc.pst.close();
+			} catch (Exception e) {
+			}
+		}
+
 		return false;
 	}
 

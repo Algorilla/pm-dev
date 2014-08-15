@@ -1,7 +1,8 @@
 package Controller;
 
-import java.sql.*;
-import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 
 /**
  * A class used to connect with sqlite db.
@@ -29,7 +30,7 @@ public class SQLiteDBConnection {
 			// "DATABASE Connection Established!");
 			return conn;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e + "inrrcd");
+//			JOptionPane.showMessageDialog(null, e + "inrrcd");// DMITRI (MC shouldn't be taking to the GUI)
 		}
 		return null;
 	}

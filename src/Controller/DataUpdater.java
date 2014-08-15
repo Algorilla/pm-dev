@@ -4,11 +4,13 @@
 package Controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import PModel.Activity;
 import PModel.Member;
+import PModel.MemberActivity;
 import PModel.Project;
 
 /**
@@ -26,11 +28,11 @@ public class DataUpdater {
 
 			for (Member theMember : mc.members)
 				if (theMember.getUserName().equals(member.getUserName()))
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Member with Username " + theMember.getUserName()
 									+ " already exists.");
-			if (ErrorController.get().ErrorsExist()) {
-				ErrorController.get().DisplayErrors();
+			if (ErrorController.get().errorsExist()) {
+				ErrorController.get().displayErrors();
 				return null;
 			}
 			String sql = "insert into Members (Name,Type,Username,Password)values(?,?,?,?)";
@@ -49,7 +51,8 @@ public class DataUpdater {
 				mc.members.add(member);
 				return member;
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
+//				JOptionPane.showMessageDialog(null, ex);
+				
 			}
 		}
 		return null;
@@ -69,14 +72,14 @@ public class DataUpdater {
 				mc.pst.setInt(1, member.getMemberID());
 				mc.rs = mc.pst.executeQuery();
 				if (mc.rs.getInt(1) == 0) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Member with ID " + member.getMemberID()
 									+ " does not exist.");
 				}
 			} catch (SQLException ex) {
 			}
-			if (ErrorController.get().ErrorsExist()) {
-				ErrorController.get().DisplayErrors();
+			if (ErrorController.get().errorsExist()) {
+				ErrorController.get().displayErrors();
 				return false;
 			}
 			sql = "update Members set name=?,type=?,username=?,password=? where MID = ?";
@@ -91,7 +94,7 @@ public class DataUpdater {
 				mc.pst.close();
 				return true;
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
+//				JOptionPane.showMessageDialog(null, ex);// DMITRI (MC shouldn't be taking to the GUI)
 			}
 		}
 		return false;
@@ -118,7 +121,7 @@ public class DataUpdater {
 				count++;
 			}
 		if (count > 1) {
-			ErrorController.get().AddError(
+			ErrorController.get().addError(
 					"Member with Username " + member.getUserName()
 							+ " already exists.");
 			return false;
@@ -140,7 +143,7 @@ public class DataUpdater {
 				mc.pst.setInt(1, project.getProjectID());
 				mc.rs = mc.pst.executeQuery();
 				if (mc.rs.getInt(1) == 0) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Project with ID " + project.getProjectID()
 									+ " does not exist.");
 				}
@@ -149,7 +152,7 @@ public class DataUpdater {
 				mc.pst.setInt(1, project.getManagerID());
 				mc.rs = mc.pst.executeQuery();
 				if (mc.rs.getInt(1) == 0) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Manager with ID " + project.getManagerID()
 									+ " does not exist.");
 				}
@@ -159,15 +162,15 @@ public class DataUpdater {
 				mc.pst.setInt(2, project.getProjectID());
 				mc.rs = mc.pst.executeQuery();
 				if (mc.rs.getInt(1) != 0) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Another project with the Name "
 									+ project.getName() + " already exists.");
 				}
 
 			} catch (SQLException ex) {
 			}
-			if (ErrorController.get().ErrorsExist()) {
-				ErrorController.get().DisplayErrors();
+			if (ErrorController.get().errorsExist()) {
+				ErrorController.get().displayErrors();
 				return false;
 			}
 			sql = "update Projects set Name=?,Description=?,StartDate=?,PercentComplete=?,BudgetAtCompletion=?,"
@@ -198,7 +201,7 @@ public class DataUpdater {
 
 				return true;
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
+//				JOptionPane.showMessageDialog(null, ex);// DMITRI (MC shouldn't be taking to the GUI)
 			}
 		}
 		return false;
@@ -220,19 +223,17 @@ public class DataUpdater {
 	 * @param project
 	 * @return
 	 */
-	public Project initializeProject(MainController mc,
-			Project project) {
+	public Project initializeProject(MainController mc, Project project) {
 		if (validProject(mc, project)) {
 			String sql;
 			try {
-				// TODO: Change to use local memory rather than DB
 
 				sql = "select * from Projects where Name = ?";
 				mc.pst = mc.conn.prepareStatement(sql);
 				mc.pst.setString(1, project.getName());
 				mc.rs = mc.pst.executeQuery();
 				while (mc.rs.next()) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Project with Name \"" + project.getName()
 									+ "\" already exists.");
 				}
@@ -241,16 +242,13 @@ public class DataUpdater {
 				mc.pst.setInt(1, project.getManagerID());
 				mc.rs = mc.pst.executeQuery();
 				if (mc.rs.getInt(1) == 0) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Manager with ID " + project.getManagerID()
 									+ " does not exist.");
 				}
 			} catch (SQLException ex) {
 			}
-			if (ErrorController.get().ErrorsExist()) {
-				ErrorController.get().DisplayErrors();
-				return null;
-			}
+
 			sql = "insert into Projects (Name,Description,StartDate,PercentComplete,BudgetAtCompletion,"
 					+ "PercentScheduledForCompletion,ActualCost,EarnedValue,CostVariance,"
 					+ "ScheduleVariance,CostPerformanceIndex,SchedulePerformanceIndex,"
@@ -283,7 +281,8 @@ public class DataUpdater {
 				mc.projects.add(project);
 				return project;
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
+//				JOptionPane.showMessageDialog(null, ex);
+				mc.ec.addError(ex.getLocalizedMessage());
 			}
 		}
 		return null;
@@ -294,6 +293,7 @@ public class DataUpdater {
 	 * @param activity
 	 */
 	public Activity createActivity(MainController mc, Activity activity) {
+
 		if (!activity.getName().equals("") && activity.getName() != null
 				&& !activity.getDescr().equals("")
 				&& activity.getDescr() != null) {
@@ -305,15 +305,15 @@ public class DataUpdater {
 				mc.pst.setInt(2, activity.getNumber());
 				mc.rs = mc.pst.executeQuery();
 				if (mc.rs.getInt(1) == 1) {
-					ErrorController.get().AddError(
+					ErrorController.get().addError(
 							"Activity with PID " + activity.getProjectID()
 									+ " and Number " + activity.getNumber()
 									+ " already exists.");
 				}
 			} catch (SQLException ex) {
 			}
-			if (ErrorController.get().ErrorsExist()) {
-				ErrorController.get().DisplayErrors();
+			if (mc.ec.errorsExist()) {
+				mc.ec.displayErrors();
 				return null;
 			}
 			try {
@@ -349,11 +349,11 @@ public class DataUpdater {
 				mc.activities.add(activity);
 				return activity;
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
+//				JOptionPane.showMessageDialog(null, ex);// DMITRI (MC shouldn't be taking to the GUI)
 			}
 		}
 		return null;
-		
+
 	}
 
 	/**
@@ -361,12 +361,10 @@ public class DataUpdater {
 	 * @param activity
 	 * @return
 	 */
-	public boolean updateActivity(MainController mc,
-			Activity activity) {
+	public boolean updateActivity(MainController mc, Activity activity) {
 		if (!activity.getName().equals("") && activity.getName() != null
 				&& !activity.getDescr().equals("")
-				&& activity.getDescr() != null // &&
-		) {
+				&& activity.getDescr() != null) {
 			String sql;
 			sql = "update Activities set Name=?,Description=?,PlannedValue=?,MostLikelyTimeToCompletion=?,"
 					+ "OptimisticTimeToCompletion=?,PessimisticTimeToCompletion=?,TargetCompletionDate=?,Status=?,ActualCost=?,PercentComplete=?"
@@ -388,13 +386,77 @@ public class DataUpdater {
 				mc.pst.setInt(12, activity.getNumber());
 				mc.pst.execute();
 				mc.pst.close();
-//				JOptionPane.showMessageDialog(null, "Data saved.");
+//				 JOptionPane.showMessageDialog(null, "Data saved."); // DMITRI (MC shouldn't be taking to the GUI)
 				return true;
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
+//				JOptionPane.showMessageDialog(null, ex); // DMITRI
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param mc
+	 * @param activity
+	 * @param activities
+	 * @return
+	 */
+	public boolean createActivityDependencies(MainController mc,
+			Activity activity, ArrayList<Activity> activities) {
+		String sql;
+		try {
+			for (Activity dependantActivity : activities) {
+				sql = "insert into ActivityDependency(PID,Number,DependantOnPID,DependantOnNumber) values(?,?,?,?)";
+				mc.pst = mc.conn.prepareStatement(sql);
+				mc.pst.setInt(1, activity.getProjectID());
+				mc.pst.setInt(2, activity.getNumber());
+				mc.pst.setInt(3, dependantActivity.getProjectID());
+				mc.pst.setInt(4, dependantActivity.getNumber());
+				mc.pst.execute();
+				mc.pst.close();
+			}
+			return true;
+		} catch (SQLException ex) {
+			
+		}
+		return false;
+	}
+
+	/**
+	 * @param mc
+	 * @param ma
+	 * @return
+	 */
+	public MemberActivity initializeMemberActivity(
+			MainController mc, MemberActivity ma) {
+		if (ma.getMemberID() > 0 && ma.getProjectID() > 0 && ma.getNumber() > 0) {
+			for (MemberActivity theMemberActivity : mc.memberActivities)
+				if (theMemberActivity.getMemberID() == ma.getMemberID()
+						&& theMemberActivity.getProjectID() == ma
+								.getProjectID()
+						&& theMemberActivity.getNumber() == ma.getNumber()) {
+					ErrorController.get().addError(
+							"Member is already assigned to that activity");
+				}
+			if (ErrorController.get().errorsExist()) {
+				ErrorController.get().displayErrors();
+				return null;
+			}
+			String sql = "insert into MemberActivities (MID,PID,Number) values(?,?,?)";
+			try {
+				mc.pst = mc.conn.prepareStatement(sql);
+				mc.pst.setInt(1, ma.getMemberID());
+				mc.pst.setInt(2, ma.getProjectID());
+				mc.pst.setInt(3, ma.getNumber());
+				mc.pst.execute();
+				mc.pst.close();
+				mc.memberActivities.add(ma);
+				return ma;
+			} catch (Exception ex) {
+//				JOptionPane.showMessageDialog(null, ex);//DMITRI
+			}
+		}
+		return null;
 	}
 
 }

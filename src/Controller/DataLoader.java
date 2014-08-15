@@ -3,6 +3,8 @@
  */
 package Controller;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import PModel.Activity;
@@ -93,6 +95,51 @@ public class DataLoader {
 			JOptionPane.showMessageDialog(null, ex);
 		}
 
+	}
+
+	/**
+	 * @param mc
+	 * @param a
+	 * @param type
+	 * @return
+	 */
+	public ArrayList<Integer> getRelatedActivities(MainController mc,
+			Activity a, String type) {
+
+		String sql, get;
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+
+		if (type.equals("dependent")) {
+			sql = "select Number "
+					+ "from ActivityDependency "
+					+ "where DependantOnPID = ? and DependantOnNumber = ? and PID = ?";
+			get = "Number";
+		} else {
+			sql = "select DependantOnNumber " + "from ActivityDependency "
+					+ "where PID = ? and Number = ? and DependantOnPID = ?";
+			get = "DependantOnNumber";
+		}
+
+		try {
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, a.getProjectID());
+			mc.pst.setInt(2, a.getNumber());
+			mc.pst.setInt(3, a.getProjectID());
+			mc.rs = mc.pst.executeQuery();
+
+			while (mc.rs.next()) {
+				temp.add(mc.rs.getInt(get));
+			}
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		} finally {
+			try {
+				mc.rs.close();
+				mc.pst.close();
+			} catch (Exception e) {
+			}
+		}
+		return temp;
 	}
 
 }
