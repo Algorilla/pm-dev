@@ -356,4 +356,45 @@ public class DataUpdater {
 		
 	}
 
+	/**
+	 * @param mc
+	 * @param activity
+	 * @return
+	 */
+	public boolean updateActivity(MainController mc,
+			Activity activity) {
+		if (!activity.getName().equals("") && activity.getName() != null
+				&& !activity.getDescr().equals("")
+				&& activity.getDescr() != null // &&
+		) {
+			String sql;
+			sql = "update Activities set Name=?,Description=?,PlannedValue=?,MostLikelyTimeToCompletion=?,"
+					+ "OptimisticTimeToCompletion=?,PessimisticTimeToCompletion=?,TargetCompletionDate=?,Status=?,ActualCost=?,PercentComplete=?"
+
+					+ " where PID = ? and Number = ?";
+			try {
+				mc.pst = mc.conn.prepareStatement(sql);
+				mc.pst.setString(1, activity.getName());
+				mc.pst.setString(2, activity.getDescr());
+				mc.pst.setDouble(3, activity.getPlannedValue());
+				mc.pst.setDouble(4, activity.getMostLikelyTimeToCompletion());
+				mc.pst.setDouble(5, activity.getOptimisticTimeToCompletion());
+				mc.pst.setDouble(6, activity.getPessimisticTimeToCompletion());
+				mc.pst.setDouble(7, activity.getTargetCompletionDate());
+				mc.pst.setBoolean(8, activity.getStatus());
+				mc.pst.setDouble(9, activity.getActualCost());
+				mc.pst.setDouble(10, activity.getPercentComplete());
+				mc.pst.setInt(11, activity.getProjectID());
+				mc.pst.setInt(12, activity.getNumber());
+				mc.pst.execute();
+				mc.pst.close();
+//				JOptionPane.showMessageDialog(null, "Data saved.");
+				return true;
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+		return false;
+	}
+
 }

@@ -404,44 +404,7 @@ public class MainController {
 	 * @return Update status ( success or fail )
 	 */
 	public boolean updateActivity(Activity activity) {
-		if (!activity.getName().equals("") && activity.getName() != null
-				&& !activity.getDescr().equals("")
-				&& activity.getDescr() != null // &&
-		) {
-			String sql;
-			sql = "update Activities set Name=?,Description=?,PlannedValue=?,MostLikelyTimeToCompletion=?,"
-					+ "OptimisticTimeToCompletion=?,PessimisticTimeToCompletion=?,TargetCompletionDate=?,Status=?,ActualCost=?,PercentComplete=?"
-
-					+ " where PID = ? and Number = ?";
-			try {
-				pst = conn.prepareStatement(sql);
-				pst.setString(1, activity.getName());
-				pst.setString(2, activity.getDescr());
-				pst.setDouble(3, activity.getPlannedValue());
-				pst.setDouble(4, activity.getMostLikelyTimeToCompletion());
-				pst.setDouble(5, activity.getOptimisticTimeToCompletion());
-				pst.setDouble(6, activity.getPessimisticTimeToCompletion());
-				pst.setDouble(7, activity.getTargetCompletionDate());
-				pst.setBoolean(8, activity.getStatus());
-				pst.setDouble(9, activity.getActualCost());
-				pst.setDouble(10, activity.getPercentComplete());
-				pst.setInt(11, activity.getProjectID());
-				pst.setInt(12, activity.getNumber());
-				pst.execute();
-				pst.close();
-				/*
-				 * int x=0; for (Activity oldActivity : Activities) if
-				 * (oldActivity.getProjectID() == activity.getProjectID() &&
-				 * oldActivity.getNumber() == activity.getNumber()) break; else
-				 * x++; Activities.set(x,activity);
-				 */
-				JOptionPane.showMessageDialog(null, "Data saved.");
-				return true;
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
-			}
-		}
-		return false;
+		return dataUpdater.updateActivity(this, activity);
 	}
 
 	/**
