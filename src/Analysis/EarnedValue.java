@@ -50,7 +50,7 @@ public class EarnedValue {
 		double scheduledValue = 0;
 		
 		for(Activity a : project.getActivityList()){
-			if(a.getLatestFinish() <= daysSinceStart){
+			if(a.getEarliestFinish() <= daysSinceStart){
 				scheduledValue += a.getPlannedValue();
 			}
 			else if(a.getLatestStart() < daysSinceStart){
@@ -70,7 +70,7 @@ public class EarnedValue {
 		double ev = 0;
 		
 		for(Activity a : project.getActivityList()){
-			ev += a.getPlannedValue() * a.getPercentComplete();
+			ev += (a.getPlannedValue() * a.getPercentComplete());
 		}
 		
 		project.setEarnedValue(ev);
@@ -96,7 +96,7 @@ public class EarnedValue {
 			}
 			else{
 				if(a.getPercentComplete() > 0){
-					ac += a.getActualCost() / a.getPercentComplete();
+					ac += a.getActualCost() * a.getPercentComplete();
 				}
 			}
 		}
