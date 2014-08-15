@@ -27,7 +27,7 @@ public class DriverClass {
 			public void run() {
 				try {
 					
-					launch();
+					launchApplication();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class DriverClass {
 		});		
 	}
 	
-	private static void launch(){
+	private static void launchApplication(){
 		Login_Frame frame = new Login_Frame();
 		frame.setSize(1000, 600);
 		frame.setVisible(true);	
