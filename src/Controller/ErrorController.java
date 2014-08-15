@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
  */
 public class ErrorController {
 
-	// TODO: Change to use string buffer to manage memory more efficiently
 	
 	// Singleton design pattern
 	private static ErrorController self = new ErrorController();
