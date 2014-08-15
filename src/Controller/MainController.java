@@ -35,10 +35,10 @@ public class MainController {
     public static MainController get() { return self; }
 	
     // Data
-    private ArrayList<Member> Members = new ArrayList<Member>();
-    private ArrayList<Project> Projects = new ArrayList<Project>();
-    private ArrayList<Activity> Activities = new ArrayList<Activity>();
-    private ArrayList<MemberActivity> MemberActivities = new ArrayList<MemberActivity>();
+    ArrayList<Member> Members = new ArrayList<Member>();
+    ArrayList<Project> Projects = new ArrayList<Project>();
+    ArrayList<Activity> Activities = new ArrayList<Activity>();
+    ArrayList<MemberActivity> MemberActivities = new ArrayList<MemberActivity>();
     
     // SQLite DB connection data
 	Connection conn = null;
@@ -53,7 +53,7 @@ public class MainController {
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 	
 	// Assisting Objects
-	
+	DataLoader dl = new DataLoader();
 	
 		
 	/**
@@ -63,123 +63,10 @@ public class MainController {
 	private MainController()
 	{
 		conn = SQLiteDBConnection.ConnectDb();
-		loadData();
+		dl.loadData(this);
 	}
 	
-	/**
-	* Loads Database into local memory.
-	*/
-	public void loadData()
-	{
-		String sqlMembers = "select * from Members";
-		String sqlProjects = "select * from Projects";
-		String sqlActivities = "select * from Activities";
-		String sqlMemberActivities = "select * from MemberActivities";
-		try{
-			pst = conn.prepareStatement(sqlMembers);
-			rs = pst.executeQuery();
-			while(rs.next()){
-				Member member = new Member(
-						rs.getString("Name"),
-						rs.getString("Type"),
-						rs.getString("username"),
-						rs.getString("password")						
-						);
-				member.setMemberID(rs.getInt("MID"));
-				Members.add(member);
-			}									
-			rs.close();
-			pst.close();
-			pst = conn.prepareStatement(sqlProjects);
-			rs = pst.executeQuery();
-			while(rs.next()){
-				Project project = new Project(
-						rs.getInt("ManagerID"),
-						rs.getString("Name"),
-						rs.getString("Description"),
-						rs.getDate("StartDate"),
-						rs.getDouble("PercentComplete"),
-						rs.getDouble("BudgetAtCompletion"),
-						rs.getDouble("PercentScheduledForCompletion"),
-						rs.getDouble("ActualCost"),
-						rs.getDouble("EarnedValue"),
-						rs.getDouble("CostVariance"),
-						rs.getDouble("ScheduleVariance"),
-						rs.getDouble("CostPerformanceIndex"),
-						rs.getDouble("SchedulePerformanceIndex"),
-						rs.getDouble("EstimateAtCompletion"),
-						rs.getDouble("EstimateToComplete")
-						);
-				project.setProjectID(rs.getInt("PID"));
-				Projects.add(project);
-			}									
-			rs.close();
-			pst.close();
-			pst = conn.prepareStatement(sqlActivities);
-			rs = pst.executeQuery();
-			
-			while(rs.next()){
-				Activity activity = new Activity(
-						rs.getInt("PID"),
-						rs.getString("Name"),
-						rs.getString("Description"),
-						rs.getDouble("PlannedValue"),
-						rs.getDouble("MostLikelyTimeToCompletion"),
-						rs.getDouble("OptimisticTimeToCompletion"),
-						rs.getDouble("PessimisticTimeToCompletion"),
-						rs.getDouble("TargetCompletionDate"),
-						rs.getDouble("PercentComplete"),
-						rs.getDouble("ActualCost"),
-						rs.getBoolean("Status")
-						);
-				activity.setProjectID(rs.getInt("PID"));
-				activity.setNumber(rs.getInt("Number"));
-				Activities.add(activity);
-			}									
-			rs.close();
-			pst.close();			
-			pst = conn.prepareStatement(sqlMemberActivities);
-			rs = pst.executeQuery();
-			while(rs.next()){
-            MemberActivity ma = new  MemberActivity(
-						rs.getInt("MID"),
-						rs.getInt("PID"),
-						rs.getInt("Number")
-						);				
-            	MemberActivities.add(ma);
-			}									
-			rs.close();
-			pst.close();	
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null,ex);	
-		}
-	}
-	
-	/**
-	* Returns a reference to the current user.
-	*
-	* @return The current program user
-	*/
-	public Member getCurrentUser()
-	{
-		return currentUser;
-	}
-	
-	/**
-	* Returns a reference to the current project.
-	*
-	* @return The currently loaded project
-	*/
-	public Project getCurrentProject()
-	{
-		return currentProject;	
-	}
-	
-	public void closeCurrentProject()
-	{
-		currentProject = null;
-	}
+
 	
 	/**
 	* Logs the user in.
@@ -1118,5 +1005,30 @@ public class MainController {
 			}catch(Exception e){}
 		}
 		return temp;
+	}
+	
+	/**
+	* Returns a reference to the current user.
+	*
+	* @return The current program user
+	*/
+	public Member getCurrentUser()
+	{
+		return currentUser;
+	}
+	
+	/**
+	* Returns a reference to the current project.
+	*
+	* @return The currently loaded project
+	*/
+	public Project getCurrentProject()
+	{
+		return currentProject;	
+	}
+	
+	public void closeCurrentProject()
+	{
+		currentProject = null;
 	}
 }
