@@ -8,8 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import DatabaseConnect.SQLiteDBConnection;
-import PModel.MainController;
+import Controller.MainController;
+import Controller.SQLiteDBConnection;
 
 import javax.swing.JLabel;
 
@@ -53,7 +53,7 @@ public class DeleteProjectDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		projectList = MainController.get().GetProjectList();
+		projectList = MainController.get().getProjectList();
 		projectList.setBounds(44, 46, 329, 108);
 		contentPanel.add(projectList);
 		
@@ -69,7 +69,7 @@ public class DeleteProjectDialog extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				projectName = projectList.getSelectedItem().toString();
-				MainController.get().DeleteProject(projectName);
+				MainController.get().deleteProject(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Deleted");	
 				dispose();
 			}

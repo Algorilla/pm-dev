@@ -1,7 +1,7 @@
 package JDialogue;
 
-import DatabaseConnect.SQLiteDBConnection;
-import PModel.MainController;
+import Controller.MainController;
+import Controller.SQLiteDBConnection;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -47,7 +47,7 @@ public class OpenProjectListDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		projectList = MainController.get().GetProjectList();
+		projectList = MainController.get().getProjectList();
 		projectList.setBounds(44, 46, 329, 108);
 		contentPanel.add(projectList);
 		
@@ -63,7 +63,7 @@ public class OpenProjectListDialog extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String projectName = projectList.getSelectedItem().toString();
-				MainController.get().OpenProject(projectName);
+				MainController.get().openProject(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
 				dispose();
 			}

@@ -1,5 +1,5 @@
 package JDialogue;
-import PModel.MainController;
+import Controller.MainController;
 import PModel.Member;
 import PModel.Project;
 
@@ -101,7 +101,7 @@ public class CreateNewProjectDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//newPro = new Project();
-						Member currentUser = MainController.get().GetCurrentUser();
+						Member currentUser = MainController.get().getCurrentUser();
 						int managerID = currentUser.getMemberID();
 						String name = txt_newProjectNameField.getText();
 						String description = textArea_Description.getText();
@@ -110,8 +110,8 @@ public class CreateNewProjectDialog extends JDialog {
 						
 						newPro = new Project(managerID, name, description,
 								StartedDate.getDate(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-						MainController.get().InitializeProject(newPro);
-						MainController.get().OpenProject(newPro.getName());
+						MainController.get().initializeProject(newPro);
+						MainController.get().openProject(newPro.getName());
 						dispose();
 					}
 				});

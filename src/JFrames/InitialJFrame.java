@@ -11,7 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import DatabaseConnect.SQLiteDBConnection;
+import Controller.SQLiteDBConnection;
+
 import java.awt.Color;
 /**
  * a base frame to initial frame

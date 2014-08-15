@@ -18,7 +18,8 @@ import java.util.GregorianCalendar;
 import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
-import DatabaseConnect.SQLiteDBConnection;
+import Controller.MainController;
+import Controller.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
@@ -29,7 +30,6 @@ import JDialogue.OpenProjectListDialog;
 import JDialogue.PertDisplay;
 import PModel.Activity;
 import PModel.ActivityOnNodeNetwork;
-import PModel.MainController;
 import PModel.Member;
 import PModel.MemberActivity;
 import PModel.Project;
@@ -152,7 +152,7 @@ public class UserInterface extends InitialJFrame {
 	        		int row = table_1.getSelectedRow();
 	        		int PID = (int) table_1.getModel().getValueAt(row, 0);
 	        		int number = (int) table_1.getModel().getValueAt(row, 1);
-	        		 MainController.get().DeleteActivity(PID,number);
+	        		 MainController.get().deleteActivity(PID,number);
 		        		resetFrame();
 		        		//projectPanel();
 		        		addImage();
@@ -177,7 +177,7 @@ public class UserInterface extends InitialJFrame {
         		int row = table_1.getSelectedRow();
         		int PID =  Integer.parseInt(table_1.getModel().getValueAt(row, 0).toString());
         		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
-        		activity = MainController.get().GetActivityFromID(PID, number);
+        		activity = MainController.get().getActivityFromID(PID, number);
         		String name = table_1.getModel().getValueAt(row, 2).toString();
         		textField_ActivityName.setText(name);  
 //        		textArea_description.s
@@ -204,7 +204,7 @@ public class UserInterface extends InitialJFrame {
 		
 
 		activity_update_panel.add(nameLabel);
-		nameLabel.setText(MainController.get().GetCurrentUser().getName());		
+		nameLabel.setText(MainController.get().getCurrentUser().getName());		
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 69, 285, 2);
@@ -217,7 +217,7 @@ public class UserInterface extends InitialJFrame {
 		JLabel projectName = new JLabel("");
 		projectName.setBounds(163, 47, 81, 14);
 		activity_update_panel.add(projectName);
-		projectName.setText(MainController.get().GetCurrentProject().getName());
+		projectName.setText(MainController.get().getCurrentProject().getName());
 						
 	}
 	/**
@@ -292,14 +292,14 @@ public class UserInterface extends InitialJFrame {
         	public void actionPerformed(ActionEvent e) {
         		
 
-        		Project cp = MainController.get().GetCurrentProject();
+        		Project cp = MainController.get().getCurrentProject();
         		
         		Date today = new Date();
         		Date start = cp.getStartDate();
 
         		int daysSinceStart = daysBetween(today, start);
         		
-        		Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), Math.abs(daysSinceStart));
+        		Analyzer a = new Analyzer(MainController.get().getCurrentProject(), Math.abs(daysSinceStart));
         		
         		EarnedValueDisplay evd = new EarnedValueDisplay(cp);//cp);
         		evd.setVisible(true);
@@ -314,14 +314,14 @@ public class UserInterface extends InitialJFrame {
         btnPert.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		Project cp = MainController.get().GetCurrentProject();
+        		Project cp = MainController.get().getCurrentProject();
         		
         		Date today = new Date();
         		Date start = cp.getStartDate();
 
         		int daysSinceStart = daysBetween(today, start);
         		
-        		Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), daysSinceStart);
+        		Analyzer a = new Analyzer(MainController.get().getCurrentProject(), daysSinceStart);
         		
         		PertNetwork p = a.getPertNetwork();
 //        		String art = p.toString();
@@ -341,8 +341,8 @@ public class UserInterface extends InitialJFrame {
         btnGantt.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		Analyzer a = new Analyzer(MainController.get().GetCurrentProject(), 161);
-        		String projectName = MainController.get().GetCurrentProject().getName();
+        		Analyzer a = new Analyzer(MainController.get().getCurrentProject(), 161);
+        		String projectName = MainController.get().getCurrentProject().getName();
         		GanttNetwork gn = a.getGanttNetwork();
         		String art  = a.getGanttNetwork().toString();
         		GanttDisplay gantt = new GanttDisplay(projectName, gn);
@@ -359,14 +359,14 @@ public class UserInterface extends InitialJFrame {
         btnSave.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-				int pid = MainController.get().GetCurrentProject().getProjectID();
+				int pid = MainController.get().getCurrentProject().getProjectID();
 				String name = textField_ActivityName.getText();
 				String description = textArea_description.getText();
 				
 				activity.setName(name);
 				activity.setDescr(description);
 
-		        MainController.get().UpdateActivity(activity);
+		        MainController.get().updateActivity(activity);
         		resetFrame();
         		projectPanel();
         	    validate();
@@ -448,10 +448,10 @@ public class UserInterface extends InitialJFrame {
 	        		DeleteProjectDialog list = new DeleteProjectDialog();
 	        		list.setVisible(true);
 	        		String test = list.getProjectName();
-	        		if (	MainController.get().GetCurrentProject() != null &&
-	        				list.getProjectName().equals(MainController.get().GetCurrentProject().getName()))
+	        		if (	MainController.get().getCurrentProject() != null &&
+	        				list.getProjectName().equals(MainController.get().getCurrentProject().getName()))
 	        		{
-	        			MainController.get().CloseCurrentProject();
+	        			MainController.get().closeCurrentProject();
 		        		resetFrame();
 		        		//projectPanel();
 		        		//addImage();

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import Controller.MainController;
 import JFrames.Login_Frame;
-import PModel.MainController;
 import PModel.Project;
 import PModel.Activity;
 /**
@@ -19,17 +19,15 @@ public class DriverClass {
 	 * Main driver
 	 * @param args
 	 */
-	
-	public static final boolean DEBUG = true;
+	MainController mc = MainController.get();
 	
 	public static void main(String[] args) {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login_Frame frame = new Login_Frame();
-					frame.setSize(1000, 600);
-					frame.setVisible(true);					
+					
+					launch();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,5 +36,10 @@ public class DriverClass {
 		});		
 	}
 	
+	private static void launch(){
+		Login_Frame frame = new Login_Frame();
+		frame.setSize(1000, 600);
+		frame.setVisible(true);	
+	}
 
 }

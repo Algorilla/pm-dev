@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import Controller.MainController;
 import PModel.Activity;
-import PModel.MainController;
 import PModel.Member;
 import PModel.MemberActivity;
 import PModel.Project;
@@ -47,7 +47,7 @@ public class AddTeamMember extends JDialog {
 	public AddTeamMember(Activity a) {
 		
 		activity = a;
-		teamMembers = MainController.get().GetMemberListForAddMemberToActivity();
+		teamMembers = MainController.get().getMemberListForAddMemberToActivity();
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 	    setTitle("Add Team Member");
@@ -91,7 +91,7 @@ public class AddTeamMember extends JDialog {
 				MemberActivity ma = new MemberActivity(((Member)membersComboBox.getSelectedItem()).getMemberID(),
 						activity.getProjectID(),
 						activity.getNumber());
-				MainController.get().InitializeMemberActivity(ma);
+				MainController.get().initializeMemberActivity(ma);
 			}
 		});
 		btnAdd.setBounds(265, 366, 117, 29);

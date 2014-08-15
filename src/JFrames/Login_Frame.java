@@ -9,8 +9,8 @@ import java.awt.event.*;
 import javax.swing.UIManager;
 import javax.swing.border.*;
 
-import DatabaseConnect.SQLiteDBConnection;
-import PModel.MainController;
+import Controller.MainController;
+import Controller.SQLiteDBConnection;
 /**
  * user login authentication
  * @author Administrator
@@ -67,7 +67,7 @@ public class Login_Frame extends JFrame {
 		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (MainController.get().Login(txt_username.getText(), txt_passwordField.getText()))
+				if (MainController.get().login(txt_username.getText(), txt_passwordField.getText()))
 					close();
 			}
 		});

@@ -1,4 +1,4 @@
-package PModel;
+package Controller;
 
 import javax.swing.JOptionPane;
 

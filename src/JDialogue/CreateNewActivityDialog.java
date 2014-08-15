@@ -20,12 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import Controller.MainController;
 import PModel.Activity;
-import PModel.MainController;
 import PModel.Member;
 import PModel.Project;
 
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JComboBox;
 import javax.swing.JList;
 /**
@@ -176,7 +177,7 @@ public class CreateNewActivityDialog extends JDialog {
 								!tcd_textField.getText().equals("")
 								)
 						{
-							int pid = MainController.get().GetCurrentProject().getProjectID();
+							int pid = MainController.get().getCurrentProject().getProjectID();
 							String name = txt_newProjectNameField.getText();
 							String description = textArea_Description.getText();
 							double otc = Double.parseDouble(otc_textField.getText());
@@ -188,8 +189,8 @@ public class CreateNewActivityDialog extends JDialog {
 							//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
 							Activity ac = new Activity(pid, name, description, pv, mltc, otc, ptc, tcd, 0, 0, false);
 					        //table_1 = MainController.get().ProjectList(table_1);
-					        Activity ac2 = MainController.get().CreateActivity(ac);
-					        MainController.get().CreateActivityDependencies(ac2, selectedActivities);
+					        Activity ac2 = MainController.get().createActivity(ac);
+					        MainController.get().createActivityDependencies(ac2, selectedActivities);
 							dispose();
 						}
 						else

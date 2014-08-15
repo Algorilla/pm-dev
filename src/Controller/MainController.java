@@ -1,8 +1,11 @@
-package PModel;
+package Controller;
 
-import DatabaseConnect.SQLiteDBConnection;
 import JFrames.TeamMemberView;
 import JFrames.UserInterface;
+import PModel.Activity;
+import PModel.Member;
+import PModel.MemberActivity;
+import PModel.Project;
 
 import java.awt.List;
 import java.sql.Connection;
@@ -48,21 +51,25 @@ public class MainController {
 	
 	// Date format
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+	
+	// Assisting Objects
+	
+	
 		
 	/**
 	* Initializes controller by connecting 
 	* to the DB and loading the data into memory.
 	*/
-	MainController()
+	private MainController()
 	{
 		conn = SQLiteDBConnection.ConnectDb();
-		LoadData();
+		loadData();
 	}
 	
 	/**
 	* Loads Database into local memory.
 	*/
-	public void LoadData()
+	public void loadData()
 	{
 		String sqlMembers = "select * from Members";
 		String sqlProjects = "select * from Projects";
@@ -154,7 +161,7 @@ public class MainController {
 	*
 	* @return The current program user
 	*/
-	public Member GetCurrentUser()
+	public Member getCurrentUser()
 	{
 		return currentUser;
 	}
@@ -164,12 +171,12 @@ public class MainController {
 	*
 	* @return The currently loaded project
 	*/
-	public Project GetCurrentProject()
+	public Project getCurrentProject()
 	{
 		return currentProject;	
 	}
 	
-	public void CloseCurrentProject()
+	public void closeCurrentProject()
 	{
 		currentProject = null;
 	}
@@ -181,7 +188,7 @@ public class MainController {
 	* @param password Password
 	* @return Login status ( success or fail )
 	*/
-	public boolean Login(String username,String password)
+	public boolean login(String username,String password)
 	{
 		for (Member member : Members)
 		{
@@ -213,7 +220,7 @@ public class MainController {
 	*
 	* @return A list of projects for the currently signed in user.
 	*/	
-	public List GetProjectList()
+	public List getProjectList()
 	{
 		final List projectList = new List();	
 		for (Project project : Projects)
@@ -227,7 +234,7 @@ public class MainController {
 	*
 	* @param name Name of project to open
 	*/	
-	public void OpenProject(String name)
+	public void openProject(String name)
 	{
 		for (Project project : Projects)
 		    if (project.getName() == name)
@@ -290,6 +297,9 @@ public class MainController {
 				activityList.add(activity);
 		return activityList;	
 	}
+	
+	
+	//TODO: put this some place more appropriate
 	/**
 	 * Fills comboBox
 	 * @param comboBox comboBox to fill
@@ -312,7 +322,7 @@ public class MainController {
 			//JOptionPane.showMessageDialog(null,ex);	
 		}					
 	}
-	
+	//TODO: put this some place more appropriate
 	/**
 	 * MouseClickTable (Description to be filled)
 	 * @param table A JTable
@@ -345,7 +355,7 @@ public class MainController {
 	* @param number Activity Number
 	* @return A reference to an activity in local memory
 	*/	
-	public Activity GetActivityFromID(int PID,int number)
+	public Activity getActivityFromID(int PID,int number)
 	{
 		for (Activity activity : Activities)
 		    if (activity.getProjectID() == PID && activity.getNumber() == number)
@@ -359,7 +369,7 @@ public class MainController {
 	* @param member Member object from which to create user
 	* @return The created user
 	*/	
-	public Member CreateMember(Member member)
+	public Member createMember(Member member)
 	{
 		if (!member.getName().equals("") && member.getName() != null &&
 			!member.getType().equals("") && member.getType() != null &&
@@ -402,7 +412,7 @@ public class MainController {
 	* @param member The Member to update
 	* @return Update status ( success or fail )
 	*/	
-	public boolean UpdateMember(Member member)
+	public boolean updateMember(Member member)
 	{
 		if (!member.getName().equals("") && member.getName() != null &&
 			!member.getType().equals("") && member.getType() != null &&
@@ -462,7 +472,7 @@ public class MainController {
 	* @return Deletion status ( success or fail )
 	*/	
 	// TODO: Ensure referential integrity such that objects in other relations do not refer to deleted Users
-	public boolean DeleteMember(int MID) 
+	public boolean deleteMember(int MID) 
 	{
 		int x = 0;
 		for (Member member : Members)
@@ -470,7 +480,7 @@ public class MainController {
 				break;
 		    else
 		    	x++;
-		return DeleteMember(Members.get(x));
+		return deleteMember(Members.get(x));
 	}
 	
 	/**
@@ -479,7 +489,7 @@ public class MainController {
 	 * @param member Member object to delete
 	 * @return Deletion status ( success or fail )
 	 */
-	public boolean DeleteMember(Member member)
+	public boolean deleteMember(Member member)
 	{
 		String sql;
 		try {
@@ -521,7 +531,7 @@ public class MainController {
 	* @param project Project object to create
 	* @return Created project
 	*/	
-	public Project InitializeProject(Project project)
+	public Project initializeProject(Project project)
 	{
 		if (!project.getName().equals("") && project.getName() != null &&
 			!project.getDescr().equals("") && project.getDescr() != null
@@ -596,7 +606,7 @@ public class MainController {
 	* @param project Project object o update
 	* @return Update status ( success or fail )
 	*/	
-	public boolean UpdateProject(Project project)
+	public boolean updateProject(Project project)
 	{		
 		if (!project.getName().equals("") && project.getName() != null &&
 			!project.getDescr().equals("") && project.getDescr() != null
@@ -640,7 +650,7 @@ public class MainController {
 				pst = conn.prepareStatement(sql);
 				pst.setString(1,  project.getName());
 				pst.setString(2,  project.getDescr());
-				pst.setDate(  3,  project.getStartDate());
+				pst.setDate  (3,  project.getStartDate());
 				pst.setDouble(4,  project.getPercentComplete());
 				pst.setDouble(5,  project.getBudgetAtCompletion());
 				pst.setDouble(6,  project.getPercentScheduledForCompletion());
@@ -652,8 +662,8 @@ public class MainController {
 				pst.setDouble(12, project.getSchedulePerformanceIndex());
 				pst.setDouble(13, project.getEstimateAtCompletion());
 				pst.setDouble(14, project.getEstimateToComplete());
-				pst.setInt(   15, project.getManagerID());
-				pst.setInt(   16,project.getProjectID());
+				pst.setInt   (15, project.getManagerID());
+				pst.setInt   (16,project.getProjectID());
 				
 				pst.execute();
 				pst.close();
@@ -678,7 +688,7 @@ public class MainController {
 	* @param PID Project's ID
 	* @return Deletion status ( success or fail )
 	*/	
-	public boolean DeleteProject(int PID) 
+	public boolean deleteProject(int PID) 
 	{
 		int x = 0;
 		for (Project project : Projects)
@@ -686,7 +696,7 @@ public class MainController {
 				break;
 		    else
 		    	x++;
-		return DeleteProject(Projects.get(x));
+		return deleteProject(Projects.get(x));
 	}
 	
 	/**
@@ -695,7 +705,7 @@ public class MainController {
 	 * @param projectName Project's name
 	 * @return Deletion status ( success or fail )
 	 */
-	public boolean DeleteProject(String projectName) 
+	public boolean deleteProject(String projectName) 
 	{
 		int x = 0;
 		for (Project project : Projects)
@@ -703,7 +713,7 @@ public class MainController {
 				break;
 		    else
 		    	x++;
-		return DeleteProject(Projects.get(x));
+		return deleteProject(Projects.get(x));
 	}
 	
 	/**
@@ -712,7 +722,7 @@ public class MainController {
 	 * @param project Project object
 	 * @return Deletion status ( success or fail )
 	 */
-	public boolean DeleteProject(Project project)
+	public boolean deleteProject(Project project)
 	{
 		String sql;
 		try {
@@ -731,7 +741,7 @@ public class MainController {
 		}		
 		sql = "delete from Projects where Name = ?";
 		try{
-			DeleteProjectActivities(project);
+			deleteProjectActivities(project);
 			pst = conn.prepareStatement(sql);
 			pst.setString(1,project.getName());
 			pst.execute();
@@ -758,7 +768,7 @@ public class MainController {
 	*/
 	// TODO: Where this is done will most likely change as the project progresses.
 	// TODO: Where this is done will most likely change as project development goes on
-	private boolean DeleteProjectActivities(Project project)
+	private boolean deleteProjectActivities(Project project)
 	{
 		String sql = "delete from Activities where PID = ?";
 		String sql2 = "delete from ActivityDependency where PID = ?";
@@ -779,7 +789,7 @@ public class MainController {
 			pst.execute();
 			pst.close();
 						
-			for (int x=0;x<Activities.size();x++)
+			for (int x=0; x < Activities.size(); x++)
 			{
 			   if (Activities.get(x).getProjectID() == project.getProjectID())
 			    {
@@ -801,7 +811,7 @@ public class MainController {
 	* @param activity Activity object to create
 	* @return The created Activity
 	*/	
-	public Activity CreateActivity(Activity activity)
+	public Activity createActivity(Activity activity)
 	{		
 		if (!activity.getName().equals("") && activity.getName() != null &&
 			!activity.getDescr().equals("") && activity.getDescr() != null
@@ -835,18 +845,18 @@ public class MainController {
                         "OptimisticTimeToCompletion,PessimisticTimeToCompletion,TargetCompletionDate,Status,ActualCost,PercentComplete)" +
 						"values(?,?,?,?,?,?,?,?,?,?,?,?)";
 				pst = conn.prepareStatement(sql);
-				pst.setInt(   1,   currentProject.getProjectID());
-				pst.setInt(   2,   x);
-				pst.setString(3,   activity.getName());
-				pst.setString(4,   activity.getDescr());
-				pst.setDouble(5,   activity.getPlannedValue());
-				pst.setDouble(6,   activity.getMostLikelyTimeToCompletion());
-				pst.setDouble(7,   activity.getOptimisticTimeToCompletion());
-				pst.setDouble(8,   activity.getPessimisticTimeToCompletion());
-				pst.setDouble(9,   activity.getTargetCompletionDate());
+				pst.setInt    (1,  currentProject.getProjectID());
+				pst.setInt    (2,  x);
+				pst.setString (3,  activity.getName());
+				pst.setString (4,  activity.getDescr());
+				pst.setDouble (5,  activity.getPlannedValue());
+				pst.setDouble (6,  activity.getMostLikelyTimeToCompletion());
+				pst.setDouble (7,  activity.getOptimisticTimeToCompletion());
+				pst.setDouble (8,  activity.getPessimisticTimeToCompletion());
+				pst.setDouble (9,  activity.getTargetCompletionDate());
 				pst.setBoolean(10, activity.getStatus());
-				pst.setDouble(11,  activity.getActualCost());
-				pst.setDouble(12,  activity.getPercentComplete());
+				pst.setDouble (11, activity.getActualCost());
+				pst.setDouble (12, activity.getPercentComplete());
 				pst.execute();
 				pst.close();
 				activity.setProjectID(currentProject.getProjectID());
@@ -866,7 +876,7 @@ public class MainController {
 	* @param activity Activity to update
 	* @return Update status ( success or fail )
 	*/	
-	public boolean UpdateActivity(Activity activity)
+	public boolean updateActivity(Activity activity)
 	{		
 		if (!activity.getName().equals("") && activity.getName() != null &&
 			!activity.getDescr().equals("") && activity.getDescr() != null //&&
@@ -916,7 +926,7 @@ public class MainController {
 	* @param number Activity's number
 	* @return Deletion status ( success or fail )
 	*/	
-	public boolean DeleteActivity(int PID,int number)
+	public boolean deleteActivity(int PID,int number)
 	{
 		String sql;
 		try {
@@ -978,7 +988,7 @@ public class MainController {
 		return false;
 	}
 	
-	public boolean CreateActivityDependencies(Activity activity,ArrayList<Activity> activities)
+	public boolean createActivityDependencies(Activity activity,ArrayList<Activity> activities)
 	{
 		String sql;				
 		try {
@@ -999,7 +1009,7 @@ public class MainController {
 	}
 	
 	
-	public MemberActivity InitializeMemberActivity (MemberActivity ma)
+	public MemberActivity initializeMemberActivity (MemberActivity ma)
 	{
 		if (
 				ma.getMemberID() > 0 &&  ma.getProjectID () > 0 && ma.getNumber() > 0 
@@ -1033,7 +1043,7 @@ public class MainController {
 		return null;
 	}
 	
-	public ArrayList<Member> GetMemberListForAddMemberToActivity()
+	public ArrayList<Member> getMemberListForAddMemberToActivity()
 	{
 		return Members;
 	}
@@ -1081,18 +1091,18 @@ public class MainController {
 			sql = 	"select Number " +
 					"from ActivityDependency " +
 					"where DependantOnPID = ? and DependantOnNumber = ? and PID = ?";
-			get = "Number";
+			get =   "Number";
 		}else{
 			sql = 	"select DependantOnNumber " +
 					"from ActivityDependency " +
 					"where PID = ? and Number = ? and DependantOnPID = ?";
-			get = "DependantOnNumber";
+			get =   "DependantOnNumber";
 		}
 		
 		try {
 			pst = conn.prepareStatement(sql);
-			pst.setInt(1,a.getProjectID());
-			pst.setInt(2,a.getNumber());
+			pst.setInt(1, a.getProjectID());
+			pst.setInt(2, a.getNumber());
 			pst.setInt(3, a.getProjectID());
 			rs = pst.executeQuery();
 			

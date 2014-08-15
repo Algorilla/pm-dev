@@ -15,14 +15,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import DatabaseConnect.SQLiteDBConnection;
+import Controller.MainController;
+import Controller.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
 import JDialogue.DeleteProjectDialog;
 import JDialogue.OpenProjectListDialog;
 import PModel.Activity;
-import PModel.MainController;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -118,7 +118,7 @@ public class TeamMemberView extends InitialJFrame {
         		int PID =  Integer.parseInt(table_1.getModel().getValueAt(row, 0).toString());
         		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
         		
-        		activity = MainController.get().GetActivityFromID(PID, number);
+        		activity = MainController.get().getActivityFromID(PID, number);
         		
         		textArea_description.setText(activity.getDescr());
         	}

@@ -22,8 +22,8 @@ import javax.swing.border.EmptyBorder;
 
 import Analysis.PertNetwork;
 import Analysis.RegularNode;
+import Controller.MainController;
 import PModel.Activity;
-import PModel.MainController;
 import PModel.Member;
 import PModel.MemberActivity;
 import PModel.Project;
@@ -35,11 +35,15 @@ import javax.swing.JList;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JTextArea;
+
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
+
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 /**

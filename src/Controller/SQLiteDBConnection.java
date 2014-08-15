@@ -1,4 +1,4 @@
-package DatabaseConnect;
+package Controller;
 
 import java.sql.*;
 import javax.swing.*;

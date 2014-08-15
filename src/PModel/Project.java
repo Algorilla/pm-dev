@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
 
+import Controller.MainController;
+
 
 /**
  * Projects derive from Manageable Class, and are identified by a Project
