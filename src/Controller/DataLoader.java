@@ -19,31 +19,27 @@ public class DataLoader {
 	 * @param mc
 	 */
 	public void loadData(MainController mc) {
-		
+
 		String sqlMembers = "select * from Members";
 		String sqlProjects = "select * from Projects";
 		String sqlActivities = "select * from Activities";
 		String sqlMemberActivities = "select * from MemberActivities";
-		try{
+		try {
 			mc.pst = mc.conn.prepareStatement(sqlMembers);
 			mc.rs = mc.pst.executeQuery();
-			while(mc.rs.next()){
-				Member member = new Member(
-						mc.rs.getString("Name"),
-						mc.rs.getString("Type"),
-						mc.rs.getString("username"),
-						mc.rs.getString("password")						
-						);
+			while (mc.rs.next()) {
+				Member member = new Member(mc.rs.getString("Name"),
+						mc.rs.getString("Type"), mc.rs.getString("username"),
+						mc.rs.getString("password"));
 				member.setMemberID(mc.rs.getInt("MID"));
-				mc.Members.add(member);
-			}									
+				mc.members.add(member);
+			}
 			mc.rs.close();
 			mc.pst.close();
 			mc.pst = mc.conn.prepareStatement(sqlProjects);
 			mc.rs = mc.pst.executeQuery();
-			while(mc.rs.next()){
-				Project project = new Project(
-						mc.rs.getInt("ManagerID"),
+			while (mc.rs.next()) {
+				Project project = new Project(mc.rs.getInt("ManagerID"),
 						mc.rs.getString("Name"),
 						mc.rs.getString("Description"),
 						mc.rs.getDate("StartDate"),
@@ -57,19 +53,17 @@ public class DataLoader {
 						mc.rs.getDouble("CostPerformanceIndex"),
 						mc.rs.getDouble("SchedulePerformanceIndex"),
 						mc.rs.getDouble("EstimateAtCompletion"),
-						mc.rs.getDouble("EstimateToComplete")
-						);
+						mc.rs.getDouble("EstimateToComplete"));
 				project.setProjectID(mc.rs.getInt("PID"));
-				mc.Projects.add(project);
-			}									
+				mc.projects.add(project);
+			}
 			mc.rs.close();
 			mc.pst.close();
 			mc.pst = mc.conn.prepareStatement(sqlActivities);
 			mc.rs = mc.pst.executeQuery();
-			
-			while(mc.rs.next()){
-				Activity activity = new Activity(
-						mc.rs.getInt("PID"),
+
+			while (mc.rs.next()) {
+				Activity activity = new Activity(mc.rs.getInt("PID"),
 						mc.rs.getString("Name"),
 						mc.rs.getString("Description"),
 						mc.rs.getDouble("PlannedValue"),
@@ -79,32 +73,26 @@ public class DataLoader {
 						mc.rs.getDouble("TargetCompletionDate"),
 						mc.rs.getDouble("PercentComplete"),
 						mc.rs.getDouble("ActualCost"),
-						mc.rs.getBoolean("Status")
-						);
+						mc.rs.getBoolean("Status"));
 				activity.setProjectID(mc.rs.getInt("PID"));
 				activity.setNumber(mc.rs.getInt("Number"));
-				mc.Activities.add(activity);
-			}									
+				mc.activities.add(activity);
+			}
 			mc.rs.close();
-			mc.pst.close();			
+			mc.pst.close();
 			mc.pst = mc.conn.prepareStatement(sqlMemberActivities);
 			mc.rs = mc.pst.executeQuery();
-			while(mc.rs.next()){
-            MemberActivity ma = new  MemberActivity(
-            							mc.rs.getInt("MID"),
-            							mc.rs.getInt("PID"),
-            							mc.rs.getInt("Number")
-									);				
-            	mc.MemberActivities.add(ma);
-			}									
+			while (mc.rs.next()) {
+				MemberActivity ma = new MemberActivity(mc.rs.getInt("MID"),
+						mc.rs.getInt("PID"), mc.rs.getInt("Number"));
+				mc.memberActivities.add(ma);
+			}
 			mc.rs.close();
-			mc.pst.close();	
+			mc.pst.close();
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
 		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null,ex);	
-		}
-		
+
 	}
 
-	
 }
