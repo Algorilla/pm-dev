@@ -22,13 +22,13 @@ public class ErrorController {
     /**
      * Initializes error controller by setting error list to none
      */
-    ErrorController()
+    private ErrorController()
     {
     	errors = "";
     	showErrors = true;
     }
     
-    public void SetShowErrors(boolean show)
+    public void setShowErrors(boolean show)
     {
     	showErrors = show;
     }
@@ -37,7 +37,7 @@ public class ErrorController {
      * Appends an error to the error list
      * @param error New error for error list
      */
-    void AddError(String error)
+    void addError(String error)
     {
     	errors+=error+"\n";
     }
@@ -45,7 +45,7 @@ public class ErrorController {
     /**
      *  Displays all current errors and then empties the list
      */
-    void DisplayErrors()
+    void displayErrors()
     {
     	if (showErrors)
     		JOptionPane.showMessageDialog(null,"The following errors occured:\n\n"+errors);	
@@ -56,7 +56,7 @@ public class ErrorController {
      * Checks to see if any errors currently exist
      * @return The existence of any errors
      */
-    boolean ErrorsExist()
+    boolean errorsExist()
     {
     	return errors!="";    	
     }

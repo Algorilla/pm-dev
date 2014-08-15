@@ -58,9 +58,12 @@ public class MainController {
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
 	// Assisting Objects
-	DataLoader dataLoader   = new DataLoader();
+	DataLoader dataLoader = new DataLoader();
 	DataUpdater dataUpdater = new DataUpdater();
 	DataDeleter dataDeleter = new DataDeleter();
+
+	// Error Controller Instance
+	ErrorController ec = ErrorController.get();
 
 	/**
 	 * Initializes controller by connecting to the DB and loading the data into
@@ -80,7 +83,8 @@ public class MainController {
 	 *            Password
 	 * @return Login status ( success or fail )
 	 */
-	public boolean login(String username, String password) {
+	public boolean login(String username, String password) {// DMITRI all this
+															// garbage
 		for (Member member : members) {
 			if (member.getUserName().equals(username)
 					&& member.getPassword().equals(password)) {
@@ -99,9 +103,8 @@ public class MainController {
 		}
 		// JOptionPane.showMessageDialog(null,
 		// "Username and password combination is not correct.");
-		ErrorController.get().AddError(
-				"Username and password combination is not correct.");
-		ErrorController.get().DisplayErrors();
+		ec.addError("Username and password combination is not correct.");
+		ec.displayErrors();
 		return false;
 	}
 
@@ -136,7 +139,7 @@ public class MainController {
 	 * @param table
 	 */
 	public void getActivityList(JTable table) {
-		//TODO: put this in a more appropriate place
+		// TODO: put this in a more appropriate place - DMITRI
 		int pid = currentProject.getProjectID();
 		String sql = "select * from Activities  where PID = ?";
 		try {
@@ -149,6 +152,7 @@ public class MainController {
 		} catch (Exception ex) {
 			// JOptionPane.showMessageDialog(null,ex);
 			// TODO: error controller
+			ec.addError(ex.getLocalizedMessage());
 		}
 	}
 
@@ -159,7 +163,7 @@ public class MainController {
 	 *            The JTable into which the results are stored
 	 */
 	public void getActivityListForCurrentTeamMember(JTable table) {
-		//TODO: put this in a more appropriate place
+		// TODO: put this in a more appropriate place - DMITRI
 		int mid = currentUser.getMemberID();
 		String sql = "select Activities.PID, Activities.Number, Activities.Name"
 				+ " from Activities, MemberActivities"
@@ -196,7 +200,7 @@ public class MainController {
 	 *            comboBox to fill
 	 */
 	public void Fillcombo(JComboBox comboBox) {
-		//TODO: put this in a more appropriate place
+		// TODO: put this in a more appropriate place - DMITRI
 		int pid = currentProject.getProjectID();
 		String sql = "select * from Activities  where PID = ?";
 		try {
@@ -222,7 +226,7 @@ public class MainController {
 	 *            A JTable
 	 */
 	public void mouseClickTable(JTable table) {
-		//TODO: put this in a more appropriate place
+		// TODO: put this in a more appropriate place - DMITRI
 		int row = table.getSelectedRow();
 		int pid = currentProject.getProjectID();
 		try {
@@ -238,7 +242,7 @@ public class MainController {
 			pst.execute();
 			pst.close();
 		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(null,ex);
+			// JOptionPane.showMessageDialog(null,ex); DMITRI
 		}
 
 	}
@@ -383,8 +387,6 @@ public class MainController {
 		return dataDeleter.deleteProject(this, project);
 	}
 
-	
-
 	/**
 	 * Creates an activity
 	 * 
@@ -417,120 +419,17 @@ public class MainController {
 	 * @return Deletion status ( success or fail )
 	 */
 	public boolean deleteActivity(int PID, int number) {
-		String sql;
-		try {
-			sql = "select count(*) from Activities where PID = ? and Number = ?";
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, PID);
-			pst.setInt(2, number);
-			rs = pst.executeQuery();
-			if (rs.getInt(1) == 0) {
-				ErrorController.get().AddError(
-						"Activity with PID " + PID + " and name " + number
-								+ " does not exist.");
-			}
-		} catch (SQLException ex) {
-		} finally {
-			try {
-				rs.close();
-				pst.close();
-			} catch (Exception e) {
-			}
-		}
-		if (ErrorController.get().ErrorsExist()) {
-			ErrorController.get().DisplayErrors();
-			return false;
-		}
-		sql = "delete from Activities where PID = ? and Number = ?";
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, PID);
-			pst.setInt(2, number);
-			pst.execute();
-			int x = 0;
-			for (Activity oldActivity : activities)
-				if (oldActivity.getProjectID() == PID
-						&& oldActivity.getNumber() == number)
-					break;
-				else
-					x++;
-			activities.remove(x);
-
-			sql = "delete from ActivityDependency where PID = ? and Number = ?";
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, PID);
-			pst.setInt(2, number);
-			pst.execute();
-
-			sql = "delete from ActivityDependency where DependantOnPID = ? and DependantOnNumber = ?";
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, PID);
-			pst.setInt(2, number);
-			pst.execute();
-
-			return true;
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex + "dde");
-		} finally {
-			try {
-				rs.close();
-				pst.close();
-			} catch (Exception e) {
-			}
-		}
-
-		return false;
+		return dataDeleter.deleteActivity(this, PID, number);
 	}
 
 	public boolean createActivityDependencies(Activity activity,
 			ArrayList<Activity> activities) {
-		String sql;
-		try {
-			for (Activity dependantActivity : activities) {
-				sql = "insert into ActivityDependency(PID,Number,DependantOnPID,DependantOnNumber) values(?,?,?,?)";
-				pst = conn.prepareStatement(sql);
-				pst.setInt(1, activity.getProjectID());
-				pst.setInt(2, activity.getNumber());
-				pst.setInt(3, dependantActivity.getProjectID());
-				pst.setInt(4, dependantActivity.getNumber());
-				pst.execute();
-				pst.close();
-			}
-			return true;
-		} catch (SQLException ex) {
-		}
-		return false;
+		return dataUpdater.createActivityDependencies(this, activity,
+				activities);
 	}
 
 	public MemberActivity initializeMemberActivity(MemberActivity ma) {
-		if (ma.getMemberID() > 0 && ma.getProjectID() > 0 && ma.getNumber() > 0) {
-			for (MemberActivity theMemberActivity : memberActivities)
-				if (theMemberActivity.getMemberID() == ma.getMemberID()
-						&& theMemberActivity.getProjectID() == ma
-								.getProjectID()
-						&& theMemberActivity.getNumber() == ma.getNumber()) {
-					ErrorController.get().AddError(
-							"Member is already assigned to that activity");
-				}
-			if (ErrorController.get().ErrorsExist()) {
-				ErrorController.get().DisplayErrors();
-				return null;
-			}
-			String sql = "insert into MemberActivities (MID,PID,Number) values(?,?,?)";
-			try {
-				pst = conn.prepareStatement(sql);
-				pst.setInt(1, ma.getMemberID());
-				pst.setInt(2, ma.getProjectID());
-				pst.setInt(3, ma.getNumber());
-				pst.execute();
-				pst.close();
-				memberActivities.add(ma);
-				return ma;
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, ex);
-			}
-		}
-		return null;
+		return dataUpdater.initializeMemberActivity(this, ma);
 	}
 
 	public ArrayList<Member> getMemberListForAddMemberToActivity() {
@@ -547,8 +446,7 @@ public class MainController {
 		ArrayList<Activity> temp = new ArrayList<Activity>();
 
 		for (Integer i : this.getRelatedActivities(a, "dependent")) {
-			for (Activity dep : MainController.get()
-					.getActivityListForCurrentProject()) {
+			for (Activity dep : getActivityListForCurrentProject()) {
 				if (dep.getNumber() == i) {
 					temp.add(dep);
 				}
@@ -567,8 +465,7 @@ public class MainController {
 		ArrayList<Activity> temp = new ArrayList<Activity>();
 
 		for (Integer i : this.getRelatedActivities(a, "precedent")) {
-			for (Activity pre : MainController.get()
-					.getActivityListForCurrentProject()) {
+			for (Activity pre : getActivityListForCurrentProject()) {
 				if (pre.getNumber() == i) {
 					temp.add(pre);
 				}
@@ -579,40 +476,7 @@ public class MainController {
 
 	public ArrayList<Integer> getRelatedActivities(Activity a, String type) {
 
-		String sql, get;
-		ArrayList<Integer> temp = new ArrayList<Integer>();
-
-		if (type.equals("dependent")) {
-			sql = "select Number "
-					+ "from ActivityDependency "
-					+ "where DependantOnPID = ? and DependantOnNumber = ? and PID = ?";
-			get = "Number";
-		} else {
-			sql = "select DependantOnNumber " + "from ActivityDependency "
-					+ "where PID = ? and Number = ? and DependantOnPID = ?";
-			get = "DependantOnNumber";
-		}
-
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, a.getProjectID());
-			pst.setInt(2, a.getNumber());
-			pst.setInt(3, a.getProjectID());
-			rs = pst.executeQuery();
-
-			while (rs.next()) {
-				temp.add(rs.getInt(get));
-			}
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex);
-		} finally {
-			try {
-				rs.close();
-				pst.close();
-			} catch (Exception e) {
-			}
-		}
-		return temp;
+		return dataLoader.getRelatedActivities(this, a, type);
 	}
 
 	/**
