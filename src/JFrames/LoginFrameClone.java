@@ -16,12 +16,12 @@ public class LoginFrameClone extends JFrame {
 	private JPasswordField passwordField;
 
 	public LoginFrameClone() {
-		setBounds(new Rectangle(0, 0, 980, 400));
+		setBounds(new Rectangle(0, 0, 1000, 600));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setForeground(Color.YELLOW);
 		getContentPane().setLayout(null);
-		getContentPane().setBounds(new Rectangle(100, 100, 1000, 600));
+		getContentPane().setBounds(new Rectangle(0, 0, 1000, 600));
 
 		JPanel loginPanel = new JPanel();
 		loginPanel.setBackground(new Color(255, 250, 205));
@@ -61,8 +61,8 @@ public class LoginFrameClone extends JFrame {
 				DisplayController.get().login(textUserNameField.getText(),
 						new String(passwordField.getPassword()));
 			}
-
 		});
+
 		JLabel imageLabel = new JLabel("");
 		imageLabel.setIcon(new ImageIcon("./resources/img/banner-Process.jpg"));
 		imageLabel.setBounds(10, 0, 964, 551);

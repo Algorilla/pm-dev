@@ -1,15 +1,19 @@
 package Controller;
 
 import JFrames.LoginFrameClone;
+import JFrames.UserInterfaceClone;
+import PModel.Project;
 
 public class DisplayController {
 	private static DisplayController self = null;
 	private MainController mc = MainController.get();
+	private Project currentProject = null;
+
 	private LoginFrameClone loginFrame;
+	private UserInterfaceClone userInterface;
 
 	private DisplayController() {
 		loginFrame = new LoginFrameClone();
-		loginFrame.setSize(1000, 600);
 		loginFrame.setVisible(true);
 	}
 
@@ -24,19 +28,21 @@ public class DisplayController {
 
 	public void login(String username, String password) {
 		if (username.isEmpty()) {
-			//TODO: ErrorController -> username cannot be blank
+			//TODO: ErrorController display pop-up: username cannot be blank
 			return;
 		} else if (password.isEmpty()) {
-			//TODO: ErrorController -> password cannot be blank
+			//TODO: ErrorController display pop-up: password cannot be blank
 			return;
 		} else {
 			if (mc.login(username, password)) {
-				//TODO: launch application frame
-				loginFrame.close();
+				if (userInterface == null) {
+					userInterface = new UserInterfaceClone();
+				}
+				userInterface.setVisible(true);
+				loginFrame.setVisible(false);
 			} else {
-				//TODO: ErrorController -> invalid log in
+				//TODO: ErrorController display pop-up invalid log in
 			}
 		}
-
 	}
 }
