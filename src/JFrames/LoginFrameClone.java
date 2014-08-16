@@ -17,7 +17,7 @@ public class LoginFrameClone extends JFrame {
 
 	public LoginFrameClone() {
 		setBounds(new Rectangle(0, 0, 1000, 600));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setForeground(Color.YELLOW);
 		getContentPane().setLayout(null);
