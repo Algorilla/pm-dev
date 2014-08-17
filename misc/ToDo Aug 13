@@ -1,0 +1,12 @@
+===============
+  PM-DEV ToDo
+===============
+
+- 	Login Frame
+	-	Driver should instantiate MainController, afterwhich Login Frame is loaded and run
+
+- 	Garbage input
+	-	No one is checking nothin'
+
+-	Activity analyzer
+	-	Keeps getting recreated
