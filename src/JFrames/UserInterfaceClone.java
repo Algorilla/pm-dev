@@ -47,20 +47,20 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnProject = new JMenu("Project");
-		menuBar.add(mnProject);
+		JMenu mnProjectOptions = new JMenu("Options");
+		menuBar.add(mnProjectOptions);
 
 		JMenuItem mntmNew = new JMenuItem("New");
-		mnProject.add(mntmNew);
+		mnProjectOptions.add(mntmNew);
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
-		mnProject.add(mntmOpen);
+		mnProjectOptions.add(mntmOpen);
 
 		JMenuItem mntmDelete = new JMenuItem("Delete");
-		mnProject.add(mntmDelete);
+		mnProjectOptions.add(mntmDelete);
 
 		JMenuItem mntmExit = new JMenuItem("Exit");
-		mnProject.add(mntmExit);
+		mnProjectOptions.add(mntmExit);
 
 		// menu event handlers
 		mntmNew.addActionListener(new ActionListener() {
@@ -77,7 +77,8 @@ public class UserInterfaceClone extends InitialJFrameClone {
 
 		mntmDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().deleteProject();
+				if (DisplayController.get().deleteProject()) {
+				}
 			}
 		});
 
@@ -173,7 +174,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 								.toString());
 					}
 				} catch (NumberFormatException numFormatException) {
-					// TODO: ErrorController display pop-up
+					// TODO: ErrorController display pop-up cannot parse number
 				}
 			}
 		});
@@ -193,15 +194,13 @@ public class UserInterfaceClone extends InitialJFrameClone {
 			public void mouseClicked(MouseEvent e) {
 				Double actualCost;
 				try {
-					actualCost = Double
-							.parseDouble(textFieldPercentComplete.getText());
-					if (DisplayController.get().updateActualCost(
-							actualCost)) {
-						textFieldPercentComplete.setText(actualCost
-								.toString());
+					actualCost = Double.parseDouble(textFieldPercentComplete
+							.getText());
+					if (DisplayController.get().updateActualCost(actualCost)) {
+						textFieldPercentComplete.setText(actualCost.toString());
 					}
 				} catch (NumberFormatException numFormatException) {
-					// TODO: ErrorController display pop-up
+					// TODO: ErrorController display pop-up cannot parse number
 				}
 			}
 		});
@@ -302,53 +301,37 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		btnDeleteActivity.setBounds(289, 386, 195, 23);
 		activitiesPanel.add(btnDeleteActivity);
 
-		btnDeleteActivity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO: fix this
-				// int row = table_1.getSelectedRow();
-				// int PID = (int) table_1.getModel().getValueAt(row, 0);
-				// int number = (int) table_1.getModel().getValueAt(row, 1);
-				// MainController.get().deleteActivity(PID,number);
-				// resetFrame();
-				// //projectPanel();
-				// addImage();
-				// validate();
-				// repaint();
+		activitiesTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = activitiesTable.getSelectedRow();
+				int PID = Integer.parseInt(activitiesTable.getModel()
+						.getValueAt(row, 0).toString());
+				int number = Integer.parseInt(activitiesTable.getModel()
+						.getValueAt(row, 1).toString());
+				if (DisplayController.get().selectActivity(PID, number)) {
+					String name = activitiesTable.getModel().getValueAt(row, 2)
+							.toString();
+					String des = activitiesTable.getModel().getValueAt(row, 3)
+							.toString();
+					textFieldActivityName.setText(name);
+					textAreaDescription.setText(des);
+				}
 			}
 		});
 
 		btnCreateNewActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: fix this
-				// i CreateNewActivityDialog newActivity = new
-				// CreateNewActivityDialog();
-				// newActivity.setVisible(true);
-				// resetFrame();
-				// projectPanel();
-				// validate();
-				// repaint();
+				DisplayController.get().createNewActivity(activitiesTable);
 			}
 		});
 
-		activitiesTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// int row = table_1.getSelectedRow();
-				// int PID = Integer.parseInt(table_1.getModel().getValueAt(row,
-				// 0).toString());
-				// int number =
-				// Integer.parseInt(table_1.getModel().getValueAt(row,
-				// 1).toString());
-				// activity = MainController.get().getActivityFromID(PID,
-				// number);
-				// String name = table_1.getModel().getValueAt(row,
-				// 2).toString();
-				// textField_ActivityName.setText(name);
-				// // textArea_description.s
-				// String des = table_1.getModel().getValueAt(row,
-				// 3).toString();
-				// textArea_description.setText(des);
-				// // textArea_description.lineWrap(true);
+		btnDeleteActivity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = activitiesTable.getSelectedRow();
+				int PID = (int) activitiesTable.getModel().getValueAt(row, 0);
+				int number = (int) activitiesTable.getModel().getValueAt(row, 1);
+				DisplayController.get().deleteActivity(PID, number, activitiesTable);
 			}
 		});
 	}
@@ -359,5 +342,14 @@ public class UserInterfaceClone extends InitialJFrameClone {
 
 	public void setProjectName(String name) {
 		projectName.setText(name);
+	}
+
+	public void resetActivityNameAndDescription(boolean isCurrentProjectDeleted) {
+		if (isCurrentProjectDeleted) {
+			textFieldActivityName.setText("");
+		} else {
+			textFieldActivityName.setText("Please select an activity");
+		}
+		textAreaDescription.setText("");
 	}
 }
