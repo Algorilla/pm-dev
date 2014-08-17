@@ -223,7 +223,7 @@ public class EarnedValueDisplay extends JDialog {
 		setVisible(true);
 		setSize(900,900);
 //		setLayout(new FlowLayout());
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 //		
 //		
 

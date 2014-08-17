@@ -54,6 +54,7 @@ public class AddTeamMember extends JDialog {
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 		setBounds(100, 100, 477, 593);
+		setVisible(true);
 		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(204, 255, 204));
