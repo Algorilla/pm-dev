@@ -53,6 +53,7 @@ public class GanttDisplay extends JDialog {
 		chartPanel.setPreferredSize(new java.awt.Dimension(1080, 720));
 		setContentPane(chartPanel);
 		this.setBounds(20, 20, 1000, 800);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	
