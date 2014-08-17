@@ -1,6 +1,8 @@
 package JDialogue;
 
+import Controller.DisplayController;
 import Controller.MainController;
+import Controller.PModelChange;
 import Controller.SQLiteDBConnection;
 
 import java.awt.BorderLayout;
@@ -64,6 +66,7 @@ public class OpenProjectListDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String projectName = projectList.getSelectedItem().toString();
 				MainController.get().openProject(projectName);
+				MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
 				dispose();
 			}
@@ -72,5 +75,4 @@ public class OpenProjectListDialog extends JDialog {
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);			
 	}
-
 }

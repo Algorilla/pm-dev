@@ -1,5 +1,7 @@
 package JDialogue;
+import Controller.DisplayController;
 import Controller.MainController;
+import Controller.PModelChange;
 import PModel.Member;
 import PModel.Project;
 
@@ -112,6 +114,7 @@ public class CreateNewProjectDialog extends JDialog {
 								StartedDate.getDate(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 						MainController.get().initializeProject(newPro);
 						MainController.get().openProject(newPro.getName());
+						MainController.get().notifyDisplayController(PModelChange.CREATED_PROJECT);
 						dispose();
 					}
 				});
