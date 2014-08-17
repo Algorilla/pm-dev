@@ -120,7 +120,7 @@ public class PertDisplay extends JDialog {
 		newTargetDate.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				
-				double d = Integer.parseInt(newTargetDate.getText());
+				double d = Double.parseDouble(newTargetDate.getText());
 				
 				double diff = d - activeNode.getExpectedDate();
 				double diffOverStd = diff/activeNode.getStandardDeviation();
@@ -152,6 +152,7 @@ public class PertDisplay extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
+	setVisible(true);
 	}
 }
 

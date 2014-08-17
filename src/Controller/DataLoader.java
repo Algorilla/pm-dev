@@ -6,7 +6,9 @@ package Controller;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
+import net.proteanit.sql.DbUtils;
 import PModel.Activity;
 import PModel.Member;
 import PModel.MemberActivity;
@@ -140,6 +142,28 @@ public class DataLoader {
 			}
 		}
 		return temp;
+	}
+
+	/**
+	 * Display project and its data in the GUI
+	 * 
+	 * @param table
+	 */
+	public void getTableFormattedActivityList(MainController mc, JTable table) {
+		int pid = mc.getCurrentProject().getProjectID();
+		String sql = "select * from Activities  where PID = ?";
+		try {
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, pid);
+			mc.rs = mc.pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(mc.rs));
+			mc.pst.execute();
+			mc.pst.close();
+		} catch (Exception ex) {
+			// JOptionPane.showMessageDialog(null,ex);
+			// TODO: move to ErrorController
+			// ec.addError(ex.getLocalizedMessage());
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package Controller;
 
+import Driver.DriverClass;
 import JFrames.TeamMemberView;
 import JFrames.UserInterface;
 import PModel.Activity;
@@ -35,7 +36,7 @@ public class MainController {
 	// Singleton design pattern
 	private static MainController self = new MainController();
 
-	public static MainController get() {
+	public synchronized static MainController get() {
 		return self;
 	}
 
@@ -83,29 +84,38 @@ public class MainController {
 	 *            Password
 	 * @return Login status ( success or fail )
 	 */
-	public boolean login(String username, String password) {// DMITRI all this
-															// garbage
+	public boolean login(String username, String password) {
+		boolean ret = false;
 		for (Member member : members) {
 			if (member.getUserName().equals(username)
 					&& member.getPassword().equals(password)) {
 				currentUser = member;
 				if (currentUser.getType().equals("manager")) {
-					UserInterface userAccount = new UserInterface(100, 100,
-							1000, 600, "", username);
-					userAccount.setVisible(true);
-					return true;
+					// TODO: remove this when newGui replaces old
+					if (!DriverClass.newGui) {
+						UserInterface userAccount = new UserInterface(100, 100,
+								1000, 600, "", username);
+						userAccount.setVisible(true);
+					}
+					ret = true;
+					break;
 				} else {
-					TeamMemberView memberView = new TeamMemberView();
-					memberView.setVisible(true);
-					return true;
+					// TODO: once memberView is refactored, this should be gone
+					if (!DriverClass.newGui) {
+						TeamMemberView memberView = new TeamMemberView();
+						memberView.setVisible(true);
+					}
+					ret = true;
+					break;
 				}
 			}
 		}
 		// JOptionPane.showMessageDialog(null,
 		// "Username and password combination is not correct.");
-		ec.addError("Username and password combination is not correct.");
-		ec.displayErrors();
-		return false;
+		// TODO: move logic to DisplayController
+		// ec.addError("Username and password combination is not correct.");
+		// ec.displayErrors();
+		return ret;
 	}
 
 	/**
@@ -133,27 +143,8 @@ public class MainController {
 				currentProject = project;
 	}
 
-	/**
-	 * Display project and its data in the GUI
-	 * 
-	 * @param table
-	 */
-	public void getActivityList(JTable table) {
-		// TODO: put this in a more appropriate place - DMITRI
-		int pid = currentProject.getProjectID();
-		String sql = "select * from Activities  where PID = ?";
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, pid);
-			rs = pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-			pst.execute();
-			pst.close();
-		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(null,ex);
-			// TODO: error controller
-			ec.addError(ex.getLocalizedMessage());
-		}
+	public void getActivitiesListForCurrentProject(JTable table) {
+		dataLoader.getTableFormattedActivityList(this, table);
 	}
 
 	/**
@@ -163,7 +154,8 @@ public class MainController {
 	 *            The JTable into which the results are stored
 	 */
 	public void getActivityListForCurrentTeamMember(JTable table) {
-		// TODO: put this in a more appropriate place - DMITRI
+		// TODO: this should be moved to DataLoader
+		// See getTableFormattedActivityList for example
 		int mid = currentUser.getMemberID();
 		String sql = "select Activities.PID, Activities.Number, Activities.Name"
 				+ " from Activities, MemberActivities"
@@ -200,7 +192,8 @@ public class MainController {
 	 *            comboBox to fill
 	 */
 	public void Fillcombo(JComboBox comboBox) {
-		// TODO: put this in a more appropriate place - DMITRI
+		// TODO: this should be moved to DataLoader
+		// See getTableFormattedActivityList for example
 		int pid = currentProject.getProjectID();
 		String sql = "select * from Activities  where PID = ?";
 		try {
@@ -226,7 +219,8 @@ public class MainController {
 	 *            A JTable
 	 */
 	public void mouseClickTable(JTable table) {
-		// TODO: put this in a more appropriate place - DMITRI
+		// TODO: put this in a more appropriate place 
+		// TODO: DMITRI: I'm not actually sure what to do with this one
 		int row = table.getSelectedRow();
 		int pid = currentProject.getProjectID();
 		try {
@@ -242,7 +236,8 @@ public class MainController {
 			pst.execute();
 			pst.close();
 		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(null,ex); DMITRI
+			// TODO: move to ErroController
+			// JOptionPane.showMessageDialog(null,ex); 
 		}
 
 	}
@@ -499,5 +494,9 @@ public class MainController {
 
 	public void closeCurrentProject() {
 		currentProject = null;
+	}
+
+	public void notifyDisplayController(PModelChange updateType) {
+		DisplayController.get().notifyChange(updateType);
 	}
 }

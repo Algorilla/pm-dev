@@ -8,7 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controller.DisplayController;
 import Controller.MainController;
+import Controller.PModelChange;
 import Controller.SQLiteDBConnection;
 
 import javax.swing.JLabel;
@@ -70,6 +72,8 @@ public class DeleteProjectDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				projectName = projectList.getSelectedItem().toString();
 				MainController.get().deleteProject(projectName);
+				MainController.get().notifyDisplayController(PModelChange.DELETED_PROJECT);
+				DisplayController.get().setDeletedProjectName(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Deleted");	
 				dispose();
 			}
@@ -78,5 +82,4 @@ public class DeleteProjectDialog extends JDialog {
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);			
 	}
-
 }

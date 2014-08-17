@@ -20,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import Controller.DisplayController;
 import Controller.MainController;
+import Controller.PModelChange;
 import PModel.Activity;
 import PModel.Member;
 import PModel.Project;
@@ -191,6 +193,7 @@ public class CreateNewActivityDialog extends JDialog {
 					        //table_1 = MainController.get().ProjectList(table_1);
 					        Activity ac2 = MainController.get().createActivity(ac);
 					        MainController.get().createActivityDependencies(ac2, selectedActivities);
+					        MainController.get().notifyDisplayController(PModelChange.CREATED_ACTIVITY);
 							dispose();
 						}
 						else

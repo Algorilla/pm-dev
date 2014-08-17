@@ -136,7 +136,7 @@ public class UserInterface extends InitialJFrame {
         scrollPane.setViewportView(table_1);
         table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table_1.setBorder(null);
-        MainController.get().getActivityList(table_1);
+        MainController.get().getActivitiesListForCurrentProject(table_1);
         
         JButton btnCreateNewActivity = new JButton("Create New Activity");
         btnCreateNewActivity.setBackground(new Color(0, 153, 102));

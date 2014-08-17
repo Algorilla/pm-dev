@@ -9,10 +9,12 @@ import javax.swing.JOptionPane;
  */
 public class ErrorController {
 
+	// DEV/TEST: refactor ErrorController: it should be the sole object to display
+	// message pop-ups
 	
 	// Singleton design pattern
 	private static ErrorController self = new ErrorController();
-    public static ErrorController get() { return self; }
+    public static synchronized ErrorController get() { return self; }
     
     // Error list to be appended to gradually
     private String errors;

@@ -25,6 +25,7 @@ public class DriverClass {
 	 * @param args
 	 */
 	MainController mc = MainController.get();
+	public static boolean newGui = true;
 
 	public static void main(String[] args) {
 
@@ -42,7 +43,6 @@ public class DriverClass {
 	}
 
 	private static void launchApplication() {
-		boolean newGui = true;
 		if (newGui) {
 			DisplayController.get();
 		} else {
