@@ -55,7 +55,6 @@ public class GanttDisplay extends JDialog {
 		this.setBounds(20, 20, 1000, 800);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
-		
 	}
 	
 	public IntervalCategoryDataset createDataset(){

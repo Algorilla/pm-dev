@@ -30,9 +30,9 @@ public class UserInterfaceClone extends InitialJFrameClone {
 
 	// Elements that get updated in project (left-hand) panel
 	private JLabel lblName;
-	private JLabel lblActivityName;
+	private JLabel projectName;
+	private final JTextField textFieldActivityName;
 	private TextArea textAreaDescription;
-	private JTextField textFieldActivityName;
 	private final JTextField textFieldPercentComplete;
 	private JTextField textFieldActualCost;
 
@@ -65,13 +65,13 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		// menu event handlers
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().createNewProject();
+				DisplayController.get().createNewProject(activitiesTable);
 			}
 		});
 
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().openProject();
+				DisplayController.get().openProject(activitiesTable);
 			}
 		});
 
@@ -112,20 +112,14 @@ public class UserInterfaceClone extends InitialJFrameClone {
 
 		lblName = new JLabel("");
 		lblName.setBounds(131, 14, 364, 14);
-		// TODO: add user name
-		// lblName.setText(MainController.get().getCurrentUser().getName());
-		lblName.setText("DMITRI");
 		projectPanel.add(lblName);
 
-		JLabel lblCurrentProject = new JLabel("Current Project");
-		lblCurrentProject.setBounds(10, 48, 170, 14);
+		JLabel lblCurrentProject = new JLabel("Current Project:");
+		lblCurrentProject.setBounds(10, 48, 111, 14);
 		projectPanel.add(lblCurrentProject);
 
-		JLabel projectName = new JLabel("");
+		projectName = new JLabel("");
 		projectName.setBounds(131, 48, 364, 14);
-		// TODO: add current project
-		// projectName.setText(MainController.get().getCurrentProject().getName());
-		projectName.setText("DMITRI");
 		projectPanel.add(projectName);
 
 		JSeparator separator = new JSeparator();
@@ -136,7 +130,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		lblActivityName.setBounds(20, 84, 101, 14);
 		projectPanel.add(lblActivityName);
 
-		JTextField textFieldActivityName = new JTextField();
+		textFieldActivityName = new JTextField();
 		textFieldActivityName.setBounds(131, 84, 364, 20);
 		textFieldActivityName.setColumns(10);
 		projectPanel.add(textFieldActivityName);
@@ -145,7 +139,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		labelDesription.setBounds(20, 121, 101, 14);
 		projectPanel.add(labelDesription);
 
-		TextArea textAreaDescription = new TextArea();
+		textAreaDescription = new TextArea();
 		textAreaDescription.setBounds(131, 121, 364, 154);
 		projectPanel.add(textAreaDescription);
 
@@ -169,10 +163,18 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		btnUpdatePercentComplete.addMouseListener(new MouseAdapter() {
 			// @Override
 			public void mouseClicked(MouseEvent e) {
-				double percentComplete = Double
-						.parseDouble(textFieldPercentComplete.getText());
-				// TODO: Fix this
-				// activity.setPercentComplete(percentComplete);
+				Double percentComplete;
+				try {
+					percentComplete = Double
+							.parseDouble(textFieldPercentComplete.getText());
+					if (DisplayController.get().updatePercentComplete(
+							percentComplete)) {
+						textFieldPercentComplete.setText(percentComplete
+								.toString());
+					}
+				} catch (NumberFormatException numFormatException) {
+					// TODO: ErrorController display pop-up
+				}
 			}
 		});
 
@@ -189,10 +191,18 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		btnUpdateActualCost.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				double actualCost = Double.parseDouble(textFieldActualCost
-						.getText());
-				// TODO: fix this
-				// activity.setActualCost(actualCost);
+				Double actualCost;
+				try {
+					actualCost = Double
+							.parseDouble(textFieldPercentComplete.getText());
+					if (DisplayController.get().updateActualCost(
+							actualCost)) {
+						textFieldPercentComplete.setText(actualCost
+								.toString());
+					}
+				} catch (NumberFormatException numFormatException) {
+					// TODO: ErrorController display pop-up
+				}
 			}
 		});
 		btnUpdateActualCost.setBounds(343, 360, 88, 25);
@@ -228,90 +238,35 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		btnAddMem.setBounds(254, 445, 195, 30);
 		projectPanel.add(btnAddMem);
 
-		// register analysis bottons event handles
-		btnEVA.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO: fix this
-				// Project cp = MainController.get().getCurrentProject();
-				//
-				// Date today = new Date();
-				// Date start = cp.getStartDate();
-				//
-				// int daysSinceStart = daysBetween(today, start);
-				//
-				// Analyzer a = new
-				// Analyzer(MainController.get().getCurrentProject(),
-				// Math.abs(daysSinceStart));
-				//
-				// EarnedValueDisplay evd = new EarnedValueDisplay(cp);//cp);
-				// evd.setVisible(true);
-			};
-		});
-
-		btnPert.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// //TODO: fix this
-				// Project cp = MainController.get().getCurrentProject();
-				//
-				// Date today = new Date();
-				// Date start = cp.getStartDate();
-				//
-				// int daysSinceStart = daysBetween(today, start);
-				//
-				// Analyzer a = new
-				// Analyzer(MainController.get().getCurrentProject(),
-				// daysSinceStart);
-				//
-				// PertNetwork p = a.getPertNetwork();
-				// // String art = p.toString();
-				//
-				// PertDisplay pd = new PertDisplay(p);
-				//
-				// pd.setVisible(true);
-				//
-			};
-		});
-
+		// register analysis buttons event-handles
 		btnGantt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Fix this
-				// Analyzer a = new
-				// Analyzer(MainController.get().getCurrentProject(), 161);
-				// String projectName =
-				// MainController.get().getCurrentProject().getName();
-				// GanttNetwork gn = a.getGanttNetwork();
-				// String art = a.getGanttNetwork().toString();
-				// GanttDisplay gantt = new GanttDisplay(projectName, gn);
-				// gantt.setVisible(true);
-				// gantt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				DisplayController.get().createGantt();
+			};
+		});
+		btnPert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DisplayController.get().createPert();
+			};
+		});
+
+		btnEVA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DisplayController.get().createEVA();
 			};
 		});
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Fix this
-				// int pid =
-				// MainController.get().getCurrentProject().getProjectID();
-				// String name = textField_ActivityName.getText();
-				// String description = textArea_description.getText();
-				//
-				// activity.setName(name);
-				// activity.setDescr(description);
-				//
-				// MainController.get().updateActivity(activity);
-				// resetFrame();
-				// projectPanel();
-				// validate();
-				// repaint();
-				//
+				String activityName = textFieldActivityName.getText();
+				String description = textAreaDescription.getText();
+				DisplayController.get().save(activityName, description);
 			}
 		});
 
 		btnAddMem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: fix this
-				// AddTeamMember teamWindow = new AddTeamMember(activity);
-				// teamWindow.setVisible(true);
+				DisplayController.get().addTeamMember();
 			};
 		});
 
@@ -336,10 +291,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		activitiesPanel.add(scrollPane);
 
 		scrollPane.setViewportView(activitiesTable);
-		// TODO: fix this
-		// MainController.get().getActivityList(table_1);
 
-		
 		JButton btnCreateNewActivity = new JButton("Create New Activity");
 		btnCreateNewActivity.setBackground(new Color(0, 153, 102));
 		btnCreateNewActivity.setBounds(84, 386, 195, 23);
@@ -401,11 +353,11 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		});
 	}
 
-	public void loadProject() {
-		// getContentPane().removeAll();
-		// getContentPane().repaint();
-		// getContentPane().setLayout(null);
+	public void setUserName(String username) {
+		lblName.setText(username);
+	}
 
-		// mc.getActivityList(activitiesTable);
+	public void setProjectName(String name) {
+		projectName.setText(name);
 	}
 }

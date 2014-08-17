@@ -35,7 +35,7 @@ public class MainController {
 	// Singleton design pattern
 	private static MainController self = new MainController();
 
-	public static MainController get() {
+	public synchronized static MainController get() {
 		return self;
 	}
 
@@ -133,27 +133,8 @@ public class MainController {
 				currentProject = project;
 	}
 
-	/**
-	 * Display project and its data in the GUI
-	 * 
-	 * @param table
-	 */
-	public void getActivityList(JTable table) {
-		// TODO: put this in a more appropriate place - DMITRI
-		int pid = currentProject.getProjectID();
-		String sql = "select * from Activities  where PID = ?";
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, pid);
-			rs = pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-			pst.execute();
-			pst.close();
-		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(null,ex);
-			// TODO: error controller
-			ec.addError(ex.getLocalizedMessage());
-		}
+	public void getActivitiesListForCurrentProject(JTable table) {
+		dataLoader.getTableFormattedActivityList(this, table);
 	}
 
 	/**
