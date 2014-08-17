@@ -161,7 +161,7 @@ public class DataLoader {
 			mc.pst.close();
 		} catch (Exception ex) {
 			// JOptionPane.showMessageDialog(null,ex);
-			// TODO: error controller
+			// TODO: move to ErrorController
 			// ec.addError(ex.getLocalizedMessage());
 		}
 	}
