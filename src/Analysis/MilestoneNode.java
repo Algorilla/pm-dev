@@ -9,9 +9,10 @@ import PModel.Activity;
 
 
 /**
- *
+ * A MilestoneNode is part of an PertNetwork.
+ * Arrows come in and out of Nodes
  */
-public class RegularNode implements Comparable{
+public class MilestoneNode implements Comparable{
 
 	private Integer name;
 	private double 	targetDate;
@@ -21,15 +22,26 @@ public class RegularNode implements Comparable{
 	private ArrayList<Activity> inArrows;
 	private ArrayList<Activity> outArrows;
 	
-	private ArrayList<RegularNode> precedents;
-	private ArrayList<RegularNode> dependents;
+	private ArrayList<MilestoneNode> precedents;
+	private ArrayList<MilestoneNode> dependents;
 	
-	public RegularNode(int n){
+	public MilestoneNode(int n){
 		name = n;
 		inArrows   = new ArrayList<Activity>();
 		outArrows  = new ArrayList<Activity>();
-		precedents = new ArrayList<RegularNode>();
-		dependents = new ArrayList<RegularNode>();
+		precedents = new ArrayList<MilestoneNode>();
+		dependents = new ArrayList<MilestoneNode>();
+	}
+	
+	public void setTargetDate(){
+		double latestDate = 0;
+		
+		for(Activity a: inArrows){
+			if(a.getLatestFinish() > latestDate){
+				latestDate = a.getLatestFinish();
+			}
+		}
+		targetDate = latestDate;
 	}
 	
 	public void addOutArrow(Activity a){
@@ -42,28 +54,28 @@ public class RegularNode implements Comparable{
 	/**
 	 * @return the precedents
 	 */
-	public ArrayList<RegularNode> getPrecedents() {
+	public ArrayList<MilestoneNode> getPrecedents() {
 		return precedents;
 	}
 
 	/**
 	 * @return the dependents
 	 */
-	public ArrayList<RegularNode> getDependents() {
+	public ArrayList<MilestoneNode> getDependents() {
 		return dependents;
 	}
 
 	/**
 	 * @param precedents the precedents to set
 	 */
-	public void setPrecedents(ArrayList<RegularNode> precedents) {
+	public void setPrecedents(ArrayList<MilestoneNode> precedents) {
 		this.precedents = precedents;
 	}
 
 	/**
 	 * @param dependents the dependents to set
 	 */
-	public void setDependents(ArrayList<RegularNode> dependents) {
+	public void setDependents(ArrayList<MilestoneNode> dependents) {
 		this.dependents = dependents;
 	}
 
@@ -151,10 +163,10 @@ public class RegularNode implements Comparable{
 		this.standardDeviation = standardDeviation;
 	}
 	
-	public void addPrecedent(RegularNode n){
+	public void addPrecedent(MilestoneNode n){
 		this.precedents.add(n);
 	}
-	public void addDependent(RegularNode n){
+	public void addDependent(MilestoneNode n){
 		this.dependents.add(n);
 	}
 
@@ -165,23 +177,24 @@ public class RegularNode implements Comparable{
 	
 	public String toStringVerbose() {
 		
-		String id = "Milestone " + Integer.toString(name) + ":\n";
+		String id   = "Milestone " + Integer.toString(name) + ":\n";
 		
-		String  iAs = "Activities to Complete by this Milestone:\n", 
-				oAs = "Activities to Available to start after this Milestone:\n";
+		String  tgt = "Target Date for this Milestone: " + targetDate + "\n",
+				iAs = "Activities to Complete by this Milestone: ", 
+				oAs = "Activities to Available to start after this Milestone: ";
 		
 		for(Activity a : this.inArrows){
 			iAs += a.getName() + ", ";
 		}
 		if(iAs.length() > 2){
-			iAs = iAs.substring(0, iAs.length()-2) + "\n";
+			iAs = iAs.substring(0, iAs.length()-2) + "\n\n";
 		}
 		
 		for(Activity a : this.outArrows){
 			oAs += a.getName() + ", ";
 		}
 		if(oAs.length() > 2){
-			oAs = oAs.substring(0, oAs.length()-2) + "\n";
+			oAs = oAs.substring(0, oAs.length()-2) + "\n\n";
 		}
 		
 		return id + iAs + oAs;
@@ -194,12 +207,13 @@ public class RegularNode implements Comparable{
 	 */
 	@Override
 	public int compareTo(Object o) {
-		RegularNode other = (RegularNode)o;
+		//TODO: compare by latest start date for sorting. Priority low.
+		MilestoneNode other = (MilestoneNode)o;
 		return this.name.compareTo(other.name);
 	}
 	
 	/**
-	 * 
+	 * Milestone Nodes should have unique names(ids).
 	 * */
 	@Override
 	public boolean equals(Object obj) {
@@ -209,7 +223,7 @@ public class RegularNode implements Comparable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RegularNode other = (RegularNode) obj;
+		MilestoneNode other = (MilestoneNode) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

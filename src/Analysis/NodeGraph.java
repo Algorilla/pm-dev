@@ -12,18 +12,18 @@ import java.util.TreeMap;
  */
 public class NodeGraph {
 	
-	private TreeMap<RegularNode, ArrayList<RegularNode> > nodes;	
+	private TreeMap<MilestoneNode, ArrayList<MilestoneNode> > nodes;	
 	
 	public NodeGraph(){
-		nodes = new TreeMap<RegularNode, ArrayList<RegularNode> >();
+		nodes = new TreeMap<MilestoneNode, ArrayList<MilestoneNode> >();
 	}
 	
 	
 	
-	public void addEdge(RegularNode v, RegularNode w){
+	public void addEdge(MilestoneNode v, MilestoneNode w){
 		
 		if(!hasNode(v)){
-			nodes.put(v, new ArrayList<RegularNode>());
+			nodes.put(v, new ArrayList<MilestoneNode>());
 		}
 		if(!nodes.get(v).contains(w)){
 			nodes.get(v).add(w);
@@ -36,13 +36,13 @@ public class NodeGraph {
 		}
 	}
 	
-	public boolean hasNode(RegularNode node){
+	public boolean hasNode(MilestoneNode node){
 		return nodes.containsKey(node);
 	}
 	
-	public RegularNode getPreviousNode(RegularNode n){
+	public MilestoneNode getPreviousNode(MilestoneNode n){
 		
-		for(RegularNode node : this.nodes.keySet()){
+		for(MilestoneNode node : this.nodes.keySet()){
 			if(this.nodes.get(node).contains(n)){
 				return node;
 			}
@@ -55,7 +55,7 @@ public class NodeGraph {
 	/**
 	 * @return the nodes
 	 */
-	public TreeMap<RegularNode, ArrayList<RegularNode>> getNodes() {
+	public TreeMap<MilestoneNode, ArrayList<MilestoneNode>> getNodes() {
 		return nodes;
 	}
 }

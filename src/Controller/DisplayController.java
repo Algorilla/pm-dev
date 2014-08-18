@@ -51,7 +51,7 @@ public class DisplayController {
 	}
 
 	// TODO: ATTENTION: all of the ErrorController message assume that ErrorController is refactored
-	// TODO: DEV refactor all JDialogs so that they set own visiblity to true and notify 
+	// TODO: DEV refactor all JDialogs so that they set own visibility to true and notify 
 	// DisplayController once PModel elements actually change, when needed
 	// TODO: TEST can you guys give us all of the error-handling to be done in the different
 	// JDialogs? For example, to create a project, a data must be selected

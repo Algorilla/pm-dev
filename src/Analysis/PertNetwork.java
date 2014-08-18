@@ -17,8 +17,8 @@ public class PertNetwork {
 	static int index = 1;
 	
 	private ArrayList<Activity> activities;
-	private RegularNode 		start;
-	private RegularNode 		finish;
+	private MilestoneNode 		start;
+	private MilestoneNode 		finish;
 	private NodeGraph			graph;
 	
 	private static NormalDistribution normalDist;
@@ -27,16 +27,25 @@ public class PertNetwork {
 	public PertNetwork(ArrayList<Activity> activities){
 		index = 1;
 		this.activities = activities;
-		this.start 		= new RegularNode(index++);
-		this.finish 	= new RegularNode(Integer.MAX_VALUE);
+		this.start 		= new MilestoneNode(index++);
+		this.finish 	= new MilestoneNode(Integer.MAX_VALUE);
 		this.graph 		= new NodeGraph();
 		
-		this.normalDist =  new NormalDistribution();
-		
 		this.removeDummies();
+		this.setTargetDates();
 				
 	}
 	
+	/**
+	 * 
+	 */
+	private void setTargetDates() {
+		for(MilestoneNode n : graph.getNodes().keySet()){
+			n.setTargetDate();
+		}
+		
+	}
+
 	/**
 	 * 
 	 */
@@ -131,7 +140,7 @@ public class PertNetwork {
 				expectedSrdDev = 0,
 				maxStdDev = 0;
 		
-		for(RegularNode n : this.graph.getNodes().keySet()){
+		for(MilestoneNode n : this.graph.getNodes().keySet()){
 			
 			expectedDate = 0;
 			expectedSrdDev = 0;
@@ -147,7 +156,7 @@ public class PertNetwork {
 				
 				expectedSrdDev = Math.pow(a.getDurationStandardDevitation(), 2);
 				
-				for(RegularNode n1 : n.getPrecedents()){
+				for(MilestoneNode n1 : n.getPrecedents()){
 					if(n1.getOutArrows().contains(a)){
 						expectedSrdDev += Math.pow(n1.getStandardDeviation(), 2);
 					}
@@ -170,9 +179,9 @@ public class PertNetwork {
 	public void reverse() {
 		
 		ArrayList<Activity> tempActivities = null;
-		ArrayList<RegularNode> tempNodes   = null;
+		ArrayList<MilestoneNode> tempNodes   = null;
 		
-		for(RegularNode node : this.graph.getNodes().keySet()){
+		for(MilestoneNode node : this.graph.getNodes().keySet()){
 			tempActivities = node.getInArrows();
 			node.setInArrows(node.getOutArrows());
 			node.setOutArrows(tempActivities);
@@ -184,21 +193,21 @@ public class PertNetwork {
 	/**
 	 * @param node
 	 */
-	private void linkNodeForward(RegularNode node) {
+	private void linkNodeForward(MilestoneNode node) {
 		
 		boolean found = false;
 		
 		// Base case for recursive function
 		if(node.equals(this.finish)){
 			if(!this.graph.getNodes().keySet().contains(this.finish)){
-				this.graph.getNodes().put(finish, new ArrayList<RegularNode>());
+				this.graph.getNodes().put(finish, new ArrayList<MilestoneNode>());
 			}
 //			node.name=(index);
 			return;
 		}
 		
 		// Initialized to comfort the compiler
-		RegularNode tempNode = null;
+		MilestoneNode tempNode = null;
 		
 		// Arrows are Activities
 		for(Activity a : node.getOutArrows()){
@@ -206,7 +215,7 @@ public class PertNetwork {
 			
 			// Those activities depending on a may already be arrows out of some existing node.
 			for(Activity dep : a.getDependents()){
-				for(RegularNode n : this.graph.getNodes().keySet()){
+				for(MilestoneNode n : this.graph.getNodes().keySet()){
 					
 					// If one such node exists, add 'a' to its incoming arrow list
 					if(n.getOutArrows().contains(dep)){
@@ -242,7 +251,7 @@ public class PertNetwork {
 					
 				}else{
 					
-					tempNode =  new RegularNode(index++);
+					tempNode =  new MilestoneNode(index++);
 					tempNode.addInArrow(a);
 					
 					for(Activity out : a.getDependents()){
@@ -278,46 +287,19 @@ public class PertNetwork {
 		return normalDist;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * 
 	 */
 	@Override
 	public String toString() {
 		String nodeString = "";
 		
-		for(RegularNode n : this.graph.getNodes().keySet()){
+		for(MilestoneNode n : this.graph.getNodes().keySet()){
 			nodeString += n.toString() + "\tED: " + n.getExpectedDate()
 					+ "\tSTD: " + n.getStandardDeviation();
 			
 			nodeString += "\n";
 		}
-		
-//		for(Activity a : activities){
-//			nodeString += a.getName() + " EF " + a.getEarliestFinish() + "\n";
-//		}
-		
-//		for(RegularNode n : this.graph.getNodes().keySet()){
-//			nodeString += "{";
-//			for(Activity a : n.getInArrows()){
-//				nodeString += a.getName() + ", ";
-//			}
-//			if(nodeString.length() > 2){
-//				nodeString = nodeString.substring(0, nodeString.length() - 2);
-//			}
-//			
-//			nodeString += "} -> ";
-//			
-//			nodeString += "[" + Integer.toString(n.name) + "]";
-//			nodeString += " -> {";
-//			for(Activity a : n.getOutArrows()){
-//				nodeString += a.getName() + ", " ;
-//			}
-//			if(nodeString.charAt(nodeString.length() - 2) == ','){
-//				nodeString = nodeString.substring(0, nodeString.length() - 2);
-//			}
-//			nodeString += "}\n";
-//		}
-
 		
 		return nodeString;
 	}

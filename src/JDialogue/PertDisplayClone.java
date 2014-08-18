@@ -51,14 +51,14 @@ import java.awt.event.ItemEvent;
  * @author Administrator
  *
  */
-public class PertDisplay extends JDialog {
+public class PertDisplayClone extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private PertNetwork pertNetwork;
 	private JTextField newTargetDate;
 	private MilestoneNode activeNode;
 	
-	public PertDisplay(PertNetwork pn) {
+	public PertDisplayClone(PertNetwork pn) {
 		
 		MainController mc = MainController.get();
 		this.pertNetwork = pn;
