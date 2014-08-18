@@ -17,7 +17,7 @@ public class LoginFrameClone extends JFrame {
 	private JPasswordField textPasswordField;
 
 	public LoginFrameClone() {
-		setBounds(new Rectangle(0, 0, 1000, 600));
+		setBounds(new Rectangle(250, 100, 1000, 600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setForeground(Color.YELLOW);

@@ -74,7 +74,8 @@ public class DisplayController {
 			userInterface.setProjectName("Please select a project");
 			loginFrame.setVisible(false);
 		} else {
-			// TODO: ErrorController display pop-up invalid log in
+			ErrorController.get().showError("Invalid log in");
+
 		}
 	}
 
@@ -144,12 +145,13 @@ public class DisplayController {
 
 	public boolean updatePercentComplete(Double percentComplete) {
 		boolean ret = false;
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 
 		} else if (percentComplete < 0 || percentComplete > 100) {
-			// TODO: ErrorController display pop-up please enter valid values
+			ErrorController.get().showError("Please enter valid values");
+
 		} else {
 			currentActivity.setPercentComplete(percentComplete);
 			ret = true;
@@ -159,12 +161,12 @@ public class DisplayController {
 
 	public boolean updateActualCost(Double actualCost) {
 		boolean ret = false;
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 
 		} else if (actualCost < 0) {
-			// TODO: ErrorController display pop-up please enter valid values
+			ErrorController.get().showError("Please enter valid values");
 		} else {
 			currentActivity.setActualCost(actualCost);
 			ret = true;
@@ -175,7 +177,7 @@ public class DisplayController {
 	// Analysis logic
 	// TODO: DEV refactor GANTT, PERT, EARNED-VALUE?
 	public void createGantt() {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			Analyzer a = new Analyzer(currentProject, 161);
@@ -186,7 +188,7 @@ public class DisplayController {
 	}
 
 	public void createPert() {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			Date today = new Date();
@@ -200,7 +202,7 @@ public class DisplayController {
 
 	public void createEVA() {
 		// TODO: DEV DEBUG WHY FREEZE ON WINDOWS
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			Date today = new Date();
@@ -212,16 +214,15 @@ public class DisplayController {
 	}
 
 	public void save(String activityName, String description) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (checkNotNull(currentActivity,
+		} else if (isManageableNull(currentActivity,
 				"Please create/select an activity")) {
 			return;
 		} else if (activityName.isEmpty()) {
-			// TODO: ErrorController display pop-up activity name cannot be
-			// blank
+			ErrorController.get().showError("Activity name cannot be blank");
 		} else if (description.isEmpty()) {
-			// TODO: ErrorController display pop-up description cannot be blank
+			ErrorController.get().showError("Description cannot be blank");
 		} else {
 			currentActivity.setName(activityName);
 			currentActivity.setDescr(description);
@@ -230,15 +231,15 @@ public class DisplayController {
 				// TODO: DEV should we display a "successfully updated" pop-up?
 				// VALIDATE THAT THIS ACTUALLY WORKS
 			} else {
-				// TODO: ErrorController display pop-up update failed
+				ErrorController.get().showError("Update failed");
 			}
 		}
 	}
 
 	public void addTeamMember() {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 			return;
 		} else {
 			new AddTeamMember(currentActivity);
@@ -246,7 +247,7 @@ public class DisplayController {
 	}
 
 	public boolean selectActivity(int PID, int activityNumber) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return false;
 		} else {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
@@ -256,7 +257,7 @@ public class DisplayController {
 	}
 
 	public void createNewActivity(JTable activitiesTable) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			CreateNewActivityDialog newActivity = new CreateNewActivityDialog();
@@ -272,9 +273,9 @@ public class DisplayController {
 
 	public void deleteActivity(int PID, int activityNumber,
 			JTable activitiesTable) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 			return;
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
@@ -313,11 +314,11 @@ public class DisplayController {
 		deletedProjectName = name;
 	}
 
-	private boolean checkNotNull(Manageable manageable, String message) {
+	private boolean isManageableNull(Manageable manageable, String message) {
 		boolean ret = false;
 		if (manageable == null) {
 			ret = true;
-			// TODO: ErrorController should display a pop-up with this message
+			ErrorController.get().showError(message);
 		}
 		return ret;
 	}
