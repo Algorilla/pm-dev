@@ -308,7 +308,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 
 		btnCreateNewActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().createNewActivity(activitiesTable);
+				DisplayController.get().createNewActivity();
 			}
 		});
 
@@ -317,7 +317,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 				int row = activitiesTable.getSelectedRow();
 				int PID = (int) activitiesTable.getModel().getValueAt(row, 0);
 				int number = (int) activitiesTable.getModel().getValueAt(row, 1);
-				DisplayController.get().deleteActivity(PID, number, activitiesTable);
+				DisplayController.get().deleteActivity(PID, number);
 			}
 		});
 	}

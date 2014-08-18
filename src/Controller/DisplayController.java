@@ -40,6 +40,9 @@ public class DisplayController {
 
 	private String deletedProjectName;
 
+	// TODO: DMITRI: figure out interaction with TeamMember
+	private JTable activitesTable;
+
 	private DisplayController() {
 		loginFrame = new LoginFrameClone();
 		loginFrame.setVisible(true);
@@ -52,12 +55,11 @@ public class DisplayController {
 		return self;
 	}
 
-
 	// TODO: ATTENTION: all of the ErrorController message assume that
 	// ErrorController is refactored
 	// TODO: DEV refactor all JDialogs so that they set own visiblity to true
 	// and notify
-	
+
 	// DisplayController once PModel elements actually change, when needed
 	// TODO: TEST can you guys give us all of the error-handling to be done in
 	// the different
@@ -72,7 +74,8 @@ public class DisplayController {
 			// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
 			// TODO: the TeamMemeberView doesn't work as of now
 			// TODO: FIGURE out how to switch between login and userInteface:
-			// i.e. instead of exitin the whole program, how to reset login to visible
+			// i.e. instead of exitin the whole program, how to reset login too
+			// visible
 			userInterface.setVisible(true);
 			userInterface.setUserName(mc.getCurrentUser().getName());
 			userInterface.setProjectName("Please select a project");
@@ -95,7 +98,8 @@ public class DisplayController {
 		if (isProjectCreated) {
 			currentProject = mc.getCurrentProject();
 			currentActivity = null;
-			mc.getActivitiesListForCurrentProject(activitiesTable);
+			this.activitesTable = activitiesTable;
+			mc.getActivitiesListForCurrentProject();
 			userInterface.setProjectName(currentProject.getName());
 			userInterface.resetActivity(false);
 			isProjectCreated = false;
@@ -110,7 +114,8 @@ public class DisplayController {
 		if (isProjectOpen) {
 			currentProject = mc.getCurrentProject();
 			currentActivity = null;
-			mc.getActivitiesListForCurrentProject(activitiesTable);
+			this.activitesTable = activitiesTable;
+			mc.getActivitiesListForCurrentProject();
 			userInterface.setProjectName(currentProject.getName());
 			userInterface.resetActivity(false);
 			isProjectOpen = false;
@@ -150,7 +155,8 @@ public class DisplayController {
 	public void updatePercentComplete(Double percentComplete) {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
 			return;
 		} else if (percentComplete < 0 || percentComplete > 100) {
 			ec.showError("Please enter valid values");
@@ -164,7 +170,8 @@ public class DisplayController {
 	public void updateActualCost(Double actualCost) {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
 			return;
 		} else if (actualCost < 0) {
 			ec.showError("Please enter a non-negative value");
@@ -240,7 +247,8 @@ public class DisplayController {
 	public void addTeamMember() {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
 			return;
 		} else {
 			new AddTeamMember(currentActivity);
@@ -254,12 +262,13 @@ public class DisplayController {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
 			userInterface.setActivityName(currentActivity.getName());
 			userInterface.setActivityDescription(currentActivity.getDescr());
-			userInterface.setPercentComplete(currentActivity.getPercentComplete());
+			userInterface.setPercentComplete(currentActivity
+					.getPercentComplete());
 			userInterface.setActualCost(currentActivity.getActualCost());
 		}
 	}
 
-	public void createNewActivity(JTable activitiesTable) {
+	public void createNewActivity() {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
@@ -267,22 +276,22 @@ public class DisplayController {
 			// TODO: createNewActivtiy should set its visibility to true
 			newActivity.setVisible(true);
 			if (isActivityCreated) {
-				mc.getActivitiesListForCurrentProject(activitiesTable);
+				mc.getActivitiesListForCurrentProject();
 				isActivityCreated = false;
 				// TODO: ensure that ActivitiesTable gets updated
 			}
 		}
 	}
 
-	public void deleteActivity(int PID, int activityNumber,
-			JTable activitiesTable) {
+	public void deleteActivity(int PID, int activityNumber) {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
 			return;
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
-				mc.getActivitiesListForCurrentProject(activitiesTable);
+				mc.getActivitiesListForCurrentProject();
 				userInterface.resetActivity(false);
 				// TODO: SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE ACTIVITY
 				// TABLE!!!
@@ -312,6 +321,10 @@ public class DisplayController {
 			isActivityCreated = true;
 			break;
 		}
+	}
+
+	JTable getActivityTable() {
+		return activitesTable;
 	}
 
 	public void setDeletedProjectName(String name) {
