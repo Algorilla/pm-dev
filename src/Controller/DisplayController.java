@@ -50,35 +50,31 @@ public class DisplayController {
 		return self;
 	}
 
-	// TODO: ATTENTION: all of the ErrorController message assume that ErrorController is refactored
-	// TODO: DEV refactor all JDialogs so that they set own visiblity to true and notify 
+	// TODO: ATTENTION: all of the ErrorController message assume that
+	// ErrorController is refactored
+	// TODO: DEV refactor all JDialogs so that they set own visiblity to true
+	// and notify
 	// DisplayController once PModel elements actually change, when needed
-	// TODO: TEST can you guys give us all of the error-handling to be done in the different
+	// TODO: TEST can you guys give us all of the error-handling to be done in
+	// the different
 	// JDialogs? For example, to create a project, a data must be selected
 	// We will implement these once we refactor the JDialogs
 	public void login(String username, String password) {
-		if (username.isEmpty()) {
-			// TODO: ErrorController display pop-up: username cannot be blank
-			return;
-		} else if (password.isEmpty()) {
-			// TODO: ErrorController display pop-up: password cannot be blank
-			return;
-		} else {
-			if (mc.login(username, password)) {
-				if (userInterface == null) {
-					userInterface = new UserInterfaceClone();
-				}
-
-				// TODO: DEV check whether user is manager or team-member
-				// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
-				// TODO: the TeamMemeberView doesn't work as of now
-				userInterface.setVisible(true);
-				userInterface.setUserName(mc.getCurrentUser().getName());
-				userInterface.setProjectName("Please select a project");
-				loginFrame.setVisible(false);
-			} else {
-				// TODO: ErrorController display pop-up invalid log in
+		if (mc.login(username, password)) {
+			if (userInterface == null) {
+				userInterface = new UserInterfaceClone();
 			}
+			// TODO: DEV check whether user is manager or team-member
+			// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
+			// TODO: the TeamMemeberView doesn't work as of now
+			// TODO: FIGURE out how to switch between login and userInteface:
+			// i.e. instead of exitin the whole program, how to reset login to visible
+			userInterface.setVisible(true);
+			userInterface.setUserName(mc.getCurrentUser().getName());
+			userInterface.setProjectName("Please select a project");
+			loginFrame.setVisible(false);
+		} else {
+			// TODO: ErrorController display pop-up invalid log in
 		}
 	}
 
@@ -86,7 +82,8 @@ public class DisplayController {
 		// TODO: DEV refactor CreateNewProjectDialog
 		CreateNewProjectDialog newProjectDialog = new CreateNewProjectDialog();
 		// TODO: DEV CreateNewProjectDialog should set its visibility to true
-		// TODO: TEST add error handling to ensure no other identical project exists
+		// TODO: TEST add error handling to ensure no other identical project
+		// exists
 		// in newProjectDialog
 		newProjectDialog.setVisible(true);
 
@@ -129,7 +126,8 @@ public class DisplayController {
 				userInterface.setProjectName("Please select a project");
 				userInterface.resetActivityNameAndDescription(true);
 				projectDeletedIsCurrentProject = true;
-				// TODO: DEV/TEST SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE ACTIVITY
+				// TODO: DEV/TEST SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE
+				// ACTIVITY
 				// TABLE!!!
 				// TODO: also update mntmDelete
 			}
