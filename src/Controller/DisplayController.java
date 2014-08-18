@@ -50,35 +50,34 @@ public class DisplayController {
 		return self;
 	}
 
-	// TODO: ATTENTION: all of the ErrorController message assume that ErrorController is refactored
-	// TODO: DEV refactor all JDialogs so that they set own visibility to true and notify 
+
+	// TODO: ATTENTION: all of the ErrorController message assume that
+	// ErrorController is refactored
+	// TODO: DEV refactor all JDialogs so that they set own visiblity to true
+	// and notify
+	
 	// DisplayController once PModel elements actually change, when needed
-	// TODO: TEST can you guys give us all of the error-handling to be done in the different
+	// TODO: TEST can you guys give us all of the error-handling to be done in
+	// the different
 	// JDialogs? For example, to create a project, a data must be selected
 	// We will implement these once we refactor the JDialogs
 	public void login(String username, String password) {
-		if (username.isEmpty()) {
-			// TODO: ErrorController display pop-up: username cannot be blank
-			return;
-		} else if (password.isEmpty()) {
-			// TODO: ErrorController display pop-up: password cannot be blank
-			return;
-		} else {
-			if (mc.login(username, password)) {
-				if (userInterface == null) {
-					userInterface = new UserInterfaceClone();
-				}
-
-				// TODO: DEV check whether user is manager or team-member
-				// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
-				// TODO: the TeamMemeberView doesn't work as of now
-				userInterface.setVisible(true);
-				userInterface.setUserName(mc.getCurrentUser().getName());
-				userInterface.setProjectName("Please select a project");
-				loginFrame.setVisible(false);
-			} else {
-				// TODO: ErrorController display pop-up invalid log in
+		if (mc.login(username, password)) {
+			if (userInterface == null) {
+				userInterface = new UserInterfaceClone();
 			}
+			// TODO: DEV check whether user is manager or team-member
+			// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
+			// TODO: the TeamMemeberView doesn't work as of now
+			// TODO: FIGURE out how to switch between login and userInteface:
+			// i.e. instead of exitin the whole program, how to reset login to visible
+			userInterface.setVisible(true);
+			userInterface.setUserName(mc.getCurrentUser().getName());
+			userInterface.setProjectName("Please select a project");
+			loginFrame.setVisible(false);
+		} else {
+			ErrorController.get().showError("Invalid log in");
+
 		}
 	}
 
@@ -86,7 +85,8 @@ public class DisplayController {
 		// TODO: DEV refactor CreateNewProjectDialog
 		CreateNewProjectDialog newProjectDialog = new CreateNewProjectDialog();
 		// TODO: DEV CreateNewProjectDialog should set its visibility to true
-		// TODO: TEST add error handling to ensure no other identical project exists
+		// TODO: TEST add error handling to ensure no other identical project
+		// exists
 		// in newProjectDialog
 		newProjectDialog.setVisible(true);
 
@@ -129,7 +129,8 @@ public class DisplayController {
 				userInterface.setProjectName("Please select a project");
 				userInterface.resetActivityNameAndDescription(true);
 				projectDeletedIsCurrentProject = true;
-				// TODO: DEV/TEST SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE ACTIVITY
+				// TODO: DEV/TEST SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE
+				// ACTIVITY
 				// TABLE!!!
 				// TODO: also update mntmDelete
 			}
@@ -146,12 +147,13 @@ public class DisplayController {
 
 	public boolean updatePercentComplete(Double percentComplete) {
 		boolean ret = false;
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 
 		} else if (percentComplete < 0 || percentComplete > 100) {
-			// TODO: ErrorController display pop-up please enter valid values
+			ErrorController.get().showError("Please enter valid values");
+
 		} else {
 			currentActivity.setPercentComplete(percentComplete);
 			ret = true;
@@ -161,12 +163,12 @@ public class DisplayController {
 
 	public boolean updateActualCost(Double actualCost) {
 		boolean ret = false;
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 
 		} else if (actualCost < 0) {
-			// TODO: ErrorController display pop-up please enter valid values
+			ErrorController.get().showError("Please enter valid values");
 		} else {
 			currentActivity.setActualCost(actualCost);
 			ret = true;
@@ -177,7 +179,7 @@ public class DisplayController {
 	// Analysis logic
 	// TODO: DEV refactor GANTT, PERT, EARNED-VALUE?
 	public void createGantt() {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			Analyzer a = new Analyzer(currentProject, 161);
@@ -188,7 +190,7 @@ public class DisplayController {
 	}
 
 	public void createPert() {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			Date today = new Date();
@@ -202,7 +204,7 @@ public class DisplayController {
 
 	public void createEVA() {
 		// TODO: DEV DEBUG WHY FREEZE ON WINDOWS
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			Date today = new Date();
@@ -214,16 +216,15 @@ public class DisplayController {
 	}
 
 	public void save(String activityName, String description) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (checkNotNull(currentActivity,
+		} else if (isManageableNull(currentActivity,
 				"Please create/select an activity")) {
 			return;
 		} else if (activityName.isEmpty()) {
-			// TODO: ErrorController display pop-up activity name cannot be
-			// blank
+			ErrorController.get().showError("Activity name cannot be blank");
 		} else if (description.isEmpty()) {
-			// TODO: ErrorController display pop-up description cannot be blank
+			ErrorController.get().showError("Description cannot be blank");
 		} else {
 			currentActivity.setName(activityName);
 			currentActivity.setDescr(description);
@@ -232,15 +233,15 @@ public class DisplayController {
 				// TODO: DEV should we display a "successfully updated" pop-up?
 				// VALIDATE THAT THIS ACTUALLY WORKS
 			} else {
-				// TODO: ErrorController display pop-up update failed
+				ErrorController.get().showError("Update failed");
 			}
 		}
 	}
 
 	public void addTeamMember() {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 			return;
 		} else {
 			new AddTeamMember(currentActivity);
@@ -248,7 +249,7 @@ public class DisplayController {
 	}
 
 	public boolean selectActivity(int PID, int activityNumber) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return false;
 		} else {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
@@ -258,7 +259,7 @@ public class DisplayController {
 	}
 
 	public void createNewActivity(JTable activitiesTable) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
 			CreateNewActivityDialog newActivity = new CreateNewActivityDialog();
@@ -274,9 +275,9 @@ public class DisplayController {
 
 	public void deleteActivity(int PID, int activityNumber,
 			JTable activitiesTable) {
-		if (checkNotNull(currentProject, "Please select a project")) {
+		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (checkNotNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity, "Please select an activity")) {
 			return;
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
@@ -315,11 +316,11 @@ public class DisplayController {
 		deletedProjectName = name;
 	}
 
-	private boolean checkNotNull(Manageable manageable, String message) {
+	private boolean isManageableNull(Manageable manageable, String message) {
 		boolean ret = false;
 		if (manageable == null) {
 			ret = true;
-			// TODO: ErrorController should display a pop-up with this message
+			ErrorController.get().showError(message);
 		}
 		return ret;
 	}

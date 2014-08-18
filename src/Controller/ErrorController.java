@@ -1,5 +1,6 @@
 package Controller;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -61,5 +62,15 @@ public class ErrorController {
     boolean errorsExist()
     {
     	return errors!="";    	
+    }
+    
+    public void showError(String message){
+    	
+    	JOptionPane.showMessageDialog(null, message);
+    	 
+    	/*final JOptionPane pane = new JOptionPane(message);
+    	 final JDialog d = pane.createDialog(null, "Error");
+    	 d.setLocation(150,250);
+    	 d.setVisible(true);*/
     }
 }

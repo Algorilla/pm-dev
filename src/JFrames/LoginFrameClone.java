@@ -9,14 +9,15 @@ import javax.swing.UIManager;
 import javax.swing.border.*;
 
 import Controller.DisplayController;
+import Controller.ErrorController;
 
 public class LoginFrameClone extends JFrame {
 
 	private JTextField textUserNameField;
-	private JPasswordField passwordField;
+	private JPasswordField textPasswordField;
 
 	public LoginFrameClone() {
-		setBounds(new Rectangle(0, 0, 1000, 600));
+		setBounds(new Rectangle(250, 100, 1000, 600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setForeground(Color.YELLOW);
@@ -46,11 +47,11 @@ public class LoginFrameClone extends JFrame {
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setBounds(new Rectangle(53, 68, 76, 14));
 		loginPanel.add(lblPassword);
-		lblPassword.setLabelFor(passwordField);
+		lblPassword.setLabelFor(textPasswordField);
 
-		passwordField = new JPasswordField();
-		passwordField.setBounds(new Rectangle(141, 65, 86, 20));
-		loginPanel.add(passwordField);
+		textPasswordField = new JPasswordField();
+		textPasswordField.setBounds(new Rectangle(141, 65, 86, 20));
+		loginPanel.add(textPasswordField);
 
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(90, 110, 92, 23);
@@ -58,8 +59,15 @@ public class LoginFrameClone extends JFrame {
 
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().login(textUserNameField.getText(),
-						new String(passwordField.getPassword()));
+				String username = textUserNameField.getText();
+				String password = new String(textPasswordField.getPassword());
+				if (username.isEmpty()) {
+					ErrorController.get().showError("Please enter your user name");
+				} else if (password.isEmpty()) {
+					ErrorController.get().showError("Please enter your password");
+				} else {
+					DisplayController.get().login(username, password); 
+				}
 			}
 		});
 

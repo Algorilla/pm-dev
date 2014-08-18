@@ -25,6 +25,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import Controller.DisplayController;
+import Controller.ErrorController;
 
 public class UserInterfaceClone extends InitialJFrameClone {
 
@@ -41,7 +42,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 	private JTable activitiesTable;
 
 	public UserInterfaceClone() {
-		setBounds(0, 0, 1170, 650);
+		setBounds(250, 100, 1170, 650);
 
 		// ==================== menu and options ===============================
 		JMenuBar menuBar = new JMenuBar();
@@ -174,7 +175,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 								.toString());
 					}
 				} catch (NumberFormatException numFormatException) {
-					// TODO: ErrorController display pop-up cannot parse number
+					ErrorController.get().showError("Please enter a numerical value between 0.0 and 100.0");
 				}
 			}
 		});
@@ -200,7 +201,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 						textFieldPercentComplete.setText(actualCost.toString());
 					}
 				} catch (NumberFormatException numFormatException) {
-					// TODO: ErrorController display pop-up cannot parse number
+					ErrorController.get().showError("Please enter a monetary amount");
 				}
 			}
 		});
