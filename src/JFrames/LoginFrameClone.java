@@ -56,7 +56,8 @@ public class LoginFrameClone extends JFrame {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(90, 110, 92, 23);
 		loginPanel.add(btnSubmit);
-
+		loginPanel.getRootPane().setDefaultButton(btnSubmit);
+		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username = textUserNameField.getText();

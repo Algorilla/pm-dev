@@ -64,11 +64,16 @@ public class OpenProjectListDialog extends JDialog {
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String projectName = projectList.getSelectedItem().toString();
-				MainController.get().openProject(projectName);
-				MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
-				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
-				dispose();
+
+				if(projectList.getSelectedItem() == null){
+					//do nothing, no need for message box here
+				}else{
+					String projectName = projectList.getSelectedItem().toString();
+					MainController.get().openProject(projectName);
+					MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
+					//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
+					dispose();
+				}
 			}
 		});
 		okButton.setActionCommand("OK");

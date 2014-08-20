@@ -74,6 +74,7 @@ public class Login_Frame extends JFrame {
 		
 		btnSubmit.setBounds(90, 110, 92, 23);
 		loginPanel.add(btnSubmit);
+		loginPanel.getRootPane().setDefaultButton(btnSubmit);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setIcon(new ImageIcon("./resources/img/banner-Process.jpg"));

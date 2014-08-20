@@ -1,5 +1,6 @@
 package JDialogue;
 import Controller.DisplayController;
+import Controller.ErrorController;
 import Controller.MainController;
 import Controller.PModelChange;
 import PModel.Member;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.awt.TextArea;
 
@@ -102,20 +104,37 @@ public class CreateNewProjectDialog extends JDialog {
 				
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//newPro = new Project();
+						String projectName = txt_newProjectNameField.getText();
+
+						String projectDescription = textArea_Description.getText();
+						Date startDate = StartedDate.getDate(); //date from JDateChooser
+						
+						//Today's date for error checking
+						Calendar c = Calendar.getInstance();
+						c.set(Calendar.HOUR, 0);
+						c.set(Calendar.MINUTE, 0);
+						c.set(Calendar.SECOND, 0);
+						Date today = c.getTime();
+						
 						Member currentUser = MainController.get().getCurrentUser();
 						int managerID = currentUser.getMemberID();
-						String name = txt_newProjectNameField.getText();
-						String description = textArea_Description.getText();
-						//JOptionPane.showMessageDialog(null,currentUser.getMemberID());
-						String startDate = sdf.format(StartedDate.getDate()); //date from JDateChooser
 						
-						newPro = new Project(managerID, name, description,
-								StartedDate.getDate(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-						MainController.get().initializeProject(newPro);
-						MainController.get().openProject(newPro.getName());
-						MainController.get().notifyDisplayController(PModelChange.CREATED_PROJECT);
-						dispose();
+						if(projectName.isEmpty()){
+							ErrorController.get().showError("Please enter a project name");
+						}else if(projectDescription.isEmpty()){
+							ErrorController.get().showError("Please enter a project description");
+						}else if(startDate == null){
+							ErrorController.get().showError("Date enterned is null. Please enter correct date");
+						}else if(startDate.before(today)){
+							ErrorController.get().showError("Date entered is in the past");
+						}else{
+								newPro = new Project(managerID, projectName, projectDescription,
+										startDate, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+								MainController.get().initializeProject(newPro);
+								MainController.get().openProject(newPro.getName());
+								MainController.get().notifyDisplayController(PModelChange.CREATED_PROJECT);
+								dispose();
+						}
 					}
 				});
 				okButton.setActionCommand("OK");

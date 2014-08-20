@@ -18,6 +18,7 @@ import java.util.GregorianCalendar;
 import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
+import Controller.ErrorController;
 import Controller.MainController;
 import Controller.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
@@ -362,15 +363,21 @@ public class UserInterface extends InitialJFrame {
 				int pid = MainController.get().getCurrentProject().getProjectID();
 				String name = textField_ActivityName.getText();
 				String description = textArea_description.getText();
-				
-				activity.setName(name);
-				activity.setDescr(description);
-
-		        MainController.get().updateActivity(activity);
-        		resetFrame();
-        		projectPanel();
-        	    validate();
-        	    repaint();
+								
+				if(name.isEmpty()){
+					ErrorController.get().showError("Please enter an activity name");
+				}else if(description.isEmpty()){
+					ErrorController.get().showError("Please enter an activity description");
+				}else{
+					activity.setName(name);
+					activity.setDescr(description);
+	
+			        MainController.get().updateActivity(activity);
+	        		resetFrame();
+	        		projectPanel();
+	        	    validate();
+	        	    repaint();
+				}  		
         		        		
         	}
         });
