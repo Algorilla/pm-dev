@@ -220,17 +220,13 @@ public class EarnedValueDisplay extends JDialog {
 		model.addRow(data);
 		
 		add(pane);
-		setVisible(true);
-		setSize(900,900);
-//		setLayout(new FlowLayout());
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//		
-//		
+		setSize(900,900);
+		setVisible(true);
 
-//		
-	
-//		getContentPane().add(table_2, BorderLayout.CENTER);
-//		
+//		setLayout(new FlowLayout());
+
+		
 		
 	}
 
