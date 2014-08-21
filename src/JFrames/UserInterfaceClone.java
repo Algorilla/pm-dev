@@ -38,7 +38,6 @@ public class UserInterfaceClone extends InitialJFrameClone {
 	private JTextField textFieldActualCost;
 
 	// Elements that get updated in activities (right-hand) panel
-	private JPanel activitiesPanel;
 	private JTable activitiesTable;
 
 	public UserInterfaceClone() {
@@ -169,11 +168,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 				try {
 					percentComplete = Double
 							.parseDouble(textFieldPercentComplete.getText());
-					if (DisplayController.get().updatePercentComplete(
-							percentComplete)) {
-						textFieldPercentComplete.setText(percentComplete
-								.toString());
-					}
+					DisplayController.get().updatePercentComplete(percentComplete);
 				} catch (NumberFormatException numFormatException) {
 					ErrorController.get().showError("Please enter a numerical value between 0.0 and 100.0");
 				}
@@ -195,11 +190,8 @@ public class UserInterfaceClone extends InitialJFrameClone {
 			public void mouseClicked(MouseEvent e) {
 				Double actualCost;
 				try {
-					actualCost = Double.parseDouble(textFieldPercentComplete
-							.getText());
-					if (DisplayController.get().updateActualCost(actualCost)) {
-						textFieldPercentComplete.setText(actualCost.toString());
-					}
+					actualCost = Double.parseDouble(textFieldPercentComplete.getText());
+					DisplayController.get().updateActualCost(actualCost);
 				} catch (NumberFormatException numFormatException) {
 					ErrorController.get().showError("Please enter a monetary amount");
 				}
@@ -310,20 +302,13 @@ public class UserInterfaceClone extends InitialJFrameClone {
 						.getValueAt(row, 0).toString());
 				int number = Integer.parseInt(activitiesTable.getModel()
 						.getValueAt(row, 1).toString());
-				if (DisplayController.get().selectActivity(PID, number)) {
-					String name = activitiesTable.getModel().getValueAt(row, 2)
-							.toString();
-					String des = activitiesTable.getModel().getValueAt(row, 3)
-							.toString();
-					textFieldActivityName.setText(name);
-					textAreaDescription.setText(des);
-				}
+				DisplayController.get().selectActivity(PID, number);
 			}
 		});
 
 		btnCreateNewActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().createNewActivity(activitiesTable);
+				DisplayController.get().createNewActivity();
 			}
 		});
 
@@ -332,7 +317,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 				int row = activitiesTable.getSelectedRow();
 				int PID = (int) activitiesTable.getModel().getValueAt(row, 0);
 				int number = (int) activitiesTable.getModel().getValueAt(row, 1);
-				DisplayController.get().deleteActivity(PID, number, activitiesTable);
+				DisplayController.get().deleteActivity(PID, number);
 			}
 		});
 	}
@@ -345,12 +330,30 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		projectName.setText(name);
 	}
 
-	public void resetActivityNameAndDescription(boolean isCurrentProjectDeleted) {
+	public void setActivityName(String name) {
+		textFieldActivityName.setText(name);
+	}
+
+	public void setActivityDescription(String desc) {
+		textAreaDescription.setText(desc);
+	}
+
+	public void setPercentComplete(Double percentComplete) {
+		textFieldPercentComplete.setText(percentComplete.toString());
+	}
+
+	public void setActualCost(Double actualCost) {
+		textFieldActualCost.setText(actualCost.toString());
+	}
+
+	public void resetActivity(boolean isCurrentProjectDeleted) {
 		if (isCurrentProjectDeleted) {
 			textFieldActivityName.setText("");
 		} else {
 			textFieldActivityName.setText("Please select an activity");
 		}
 		textAreaDescription.setText("");
+		textFieldPercentComplete.setText("");
+		textFieldActualCost.setText("");
 	}
 }

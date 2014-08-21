@@ -143,8 +143,8 @@ public class MainController {
 				currentProject = project;
 	}
 
-	public void getActivitiesListForCurrentProject(JTable table) {
-		dataLoader.getTableFormattedActivityList(this, table);
+	public void getActivitiesListForCurrentProject() {
+		dataLoader.getTableFormattedActivityList(this);
 	}
 
 	/**

@@ -149,14 +149,15 @@ public class DataLoader {
 	 * 
 	 * @param table
 	 */
-	public void getTableFormattedActivityList(MainController mc, JTable table) {
+	public void getTableFormattedActivityList(MainController mc) {
 		int pid = mc.getCurrentProject().getProjectID();
 		String sql = "select * from Activities  where PID = ?";
 		try {
 			mc.pst = mc.conn.prepareStatement(sql);
 			mc.pst.setInt(1, pid);
 			mc.rs = mc.pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(mc.rs));
+			DisplayController.get().getActivityTable()
+					.setModel(DbUtils.resultSetToTableModel(mc.rs));
 			mc.pst.execute();
 			mc.pst.close();
 		} catch (Exception ex) {

@@ -26,6 +26,8 @@ public class DisplayController {
 	private static DisplayController self = null;
 
 	private MainController mc = MainController.get();
+	private ErrorController ec = ErrorController.get();
+
 	private Project currentProject = null;
 	private Activity currentActivity = null;
 
@@ -39,6 +41,9 @@ public class DisplayController {
 
 	private String deletedProjectName;
 
+	// TODO: DMITRI: figure out interaction with TeamMember
+	private JTable activitesTable;
+
 	private DisplayController() {
 		loginFrame = new LoginFrameClone();
 		loginFrame.setVisible(true);
@@ -51,12 +56,11 @@ public class DisplayController {
 		return self;
 	}
 
-
 	// TODO: ATTENTION: all of the ErrorController message assume that
 	// ErrorController is refactored
 	// TODO: DEV refactor all JDialogs so that they set own visiblity to true
 	// and notify
-	
+
 	// DisplayController once PModel elements actually change, when needed
 	// TODO: TEST can you guys give us all of the error-handling to be done in
 	// the different
@@ -71,13 +75,14 @@ public class DisplayController {
 			// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
 			// TODO: the TeamMemeberView doesn't work as of now
 			// TODO: FIGURE out how to switch between login and userInteface:
-			// i.e. instead of exitin the whole program, how to reset login to visible
+			// i.e. instead of exitin the whole program, how to reset login too
+			// visible
 			userInterface.setVisible(true);
 			userInterface.setUserName(mc.getCurrentUser().getName());
 			userInterface.setProjectName("Please select a project");
 			loginFrame.setVisible(false);
 		} else {
-			ErrorController.get().showError("Invalid log in");
+			ec.showError("Invalid log in");
 
 		}
 	}
@@ -94,9 +99,10 @@ public class DisplayController {
 		if (isProjectCreated) {
 			currentProject = mc.getCurrentProject();
 			currentActivity = null;
-			mc.getActivitiesListForCurrentProject(activitiesTable);
+			this.activitesTable = activitiesTable;
+			mc.getActivitiesListForCurrentProject();
 			userInterface.setProjectName(currentProject.getName());
-			userInterface.resetActivityNameAndDescription(false);
+			userInterface.resetActivity(false);
 			isProjectCreated = false;
 		}
 	}
@@ -109,9 +115,10 @@ public class DisplayController {
 		if (isProjectOpen) {
 			currentProject = mc.getCurrentProject();
 			currentActivity = null;
-			mc.getActivitiesListForCurrentProject(activitiesTable);
+			this.activitesTable = activitiesTable;
+			mc.getActivitiesListForCurrentProject();
 			userInterface.setProjectName(currentProject.getName());
-			userInterface.resetActivityNameAndDescription(false);
+			userInterface.resetActivity(false);
 			isProjectOpen = false;
 		}
 	}
@@ -128,7 +135,7 @@ public class DisplayController {
 					&& currentProjectName.equalsIgnoreCase(deletedProjectName)) {
 				currentProject = null;
 				userInterface.setProjectName("Please select a project");
-				userInterface.resetActivityNameAndDescription(true);
+				userInterface.resetActivity(true);
 				projectDeletedIsCurrentProject = true;
 				// TODO: DEV/TEST SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE
 				// ACTIVITY
@@ -146,35 +153,34 @@ public class DisplayController {
 		System.exit(0);
 	}
 
-	public boolean updatePercentComplete(Double percentComplete) {
-		boolean ret = false;
+	public void updatePercentComplete(Double percentComplete) {
 		if (isManageableNull(currentProject, "Please select a project")) {
-
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
-
+			return;
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
+			return;
 		} else if (percentComplete < 0 || percentComplete > 100) {
-			ErrorController.get().showError("Please enter valid values");
-
+			ec.showError("Please enter valid values");
+			return;
 		} else {
 			currentActivity.setPercentComplete(percentComplete);
-			ret = true;
+			userInterface.setPercentComplete(percentComplete);
 		}
-		return ret;
 	}
 
-	public boolean updateActualCost(Double actualCost) {
-		boolean ret = false;
+	public void updateActualCost(Double actualCost) {
 		if (isManageableNull(currentProject, "Please select a project")) {
-
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
-
+			return;
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
+			return;
 		} else if (actualCost < 0) {
-			ErrorController.get().showError("Please enter valid values");
+			ec.showError("Please enter a non-negative value");
+			return;
 		} else {
 			currentActivity.setActualCost(actualCost);
-			ret = true;
+			userInterface.setActualCost(actualCost);
 		}
-		return ret;
 	}
 
 	// Analysis logic
@@ -223,9 +229,9 @@ public class DisplayController {
 				"Please create/select an activity")) {
 			return;
 		} else if (activityName.isEmpty()) {
-			ErrorController.get().showError("Activity name cannot be blank");
+			ec.showError("Activity name cannot be blank");
 		} else if (description.isEmpty()) {
-			ErrorController.get().showError("Description cannot be blank");
+			ec.showError("Description cannot be blank");
 		} else {
 			currentActivity.setName(activityName);
 			currentActivity.setDescr(description);
@@ -234,7 +240,7 @@ public class DisplayController {
 				// TODO: DEV should we display a "successfully updated" pop-up?
 				// VALIDATE THAT THIS ACTUALLY WORKS
 			} else {
-				ErrorController.get().showError("Update failed");
+				ec.showError("Update failed");
 			}
 		}
 	}
@@ -242,24 +248,28 @@ public class DisplayController {
 	public void addTeamMember() {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
 			return;
 		} else {
 			new AddTeamMember(currentActivity);
 		}
 	}
 
-	public boolean selectActivity(int PID, int activityNumber) {
+	public void selectActivity(int PID, int activityNumber) {
 		if (isManageableNull(currentProject, "Please select a project")) {
-			return false;
+			return;
 		} else {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
-			// TODO: is there a chance that this might fail???
+			userInterface.setActivityName(currentActivity.getName());
+			userInterface.setActivityDescription(currentActivity.getDescr());
+			userInterface.setPercentComplete(currentActivity
+					.getPercentComplete());
+			userInterface.setActualCost(currentActivity.getActualCost());
 		}
-		return currentActivity != null;
 	}
 
-	public void createNewActivity(JTable activitiesTable) {
+	public void createNewActivity() {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else {
@@ -267,22 +277,23 @@ public class DisplayController {
 			// TODO: createNewActivtiy should set its visibility to true
 			newActivity.setVisible(true);
 			if (isActivityCreated) {
-				mc.getActivitiesListForCurrentProject(activitiesTable);
+				mc.getActivitiesListForCurrentProject();
 				isActivityCreated = false;
 				// TODO: ensure that ActivitiesTable gets updated
 			}
 		}
 	}
 
-	public void deleteActivity(int PID, int activityNumber,
-			JTable activitiesTable) {
+	public void deleteActivity(int PID, int activityNumber) {
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else if (isManageableNull(currentActivity, "Please select an activity")) {
+		} else if (isManageableNull(currentActivity,
+				"Please select an activity")) {
 			return;
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
-				mc.getActivitiesListForCurrentProject(activitiesTable);
+				mc.getActivitiesListForCurrentProject();
+				userInterface.resetActivity(false);
 				// TODO: SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE ACTIVITY
 				// TABLE!!!
 				// TODO: also update btnDeleteActivity
@@ -313,6 +324,10 @@ public class DisplayController {
 		}
 	}
 
+	JTable getActivityTable() {
+		return activitesTable;
+	}
+
 	public void setDeletedProjectName(String name) {
 		deletedProjectName = name;
 	}
@@ -321,7 +336,7 @@ public class DisplayController {
 		boolean ret = false;
 		if (manageable == null) {
 			ret = true;
-			ErrorController.get().showError(message);
+			ec.showError(message);
 		}
 		return ret;
 	}

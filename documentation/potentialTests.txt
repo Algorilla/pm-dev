@@ -1,0 +1,11 @@
+Potential Functions for Test Iterations 
+=======================================
+
+- EarnedValue::calculatePlannedValue()
+- EarnedValue::calculateActualCost()
+- 
+
+To keep robert happy:
+=====================
+
+- DisplayController::updateActualCost()

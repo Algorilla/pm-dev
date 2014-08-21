@@ -18,6 +18,7 @@ import java.util.GregorianCalendar;
 import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
+import Controller.ErrorController;
 import Controller.MainController;
 import Controller.SQLiteDBConnection;
 import JDialogue.AddTeamMember;
@@ -137,7 +138,7 @@ public class UserInterface extends InitialJFrame {
         scrollPane.setViewportView(table_1);
         table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table_1.setBorder(null);
-        MainController.get().getActivitiesListForCurrentProject(table_1);
+//        MainController.get().getActivitiesListForCurrentProject(table_1);
         
         JButton btnCreateNewActivity = new JButton("Create New Activity");
         btnCreateNewActivity.setBackground(new Color(0, 153, 102));
@@ -363,15 +364,21 @@ public class UserInterface extends InitialJFrame {
 				int pid = MainController.get().getCurrentProject().getProjectID();
 				String name = textField_ActivityName.getText();
 				String description = textArea_description.getText();
-				
-				activity.setName(name);
-				activity.setDescr(description);
-
-		        MainController.get().updateActivity(activity);
-        		resetFrame();
-        		projectPanel();
-        	    validate();
-        	    repaint();
+								
+				if(name.isEmpty()){
+					ErrorController.get().showError("Please enter an activity name");
+				}else if(description.isEmpty()){
+					ErrorController.get().showError("Please enter an activity description");
+				}else{
+					activity.setName(name);
+					activity.setDescr(description);
+	
+			        MainController.get().updateActivity(activity);
+	        		resetFrame();
+	        		projectPanel();
+	        	    validate();
+	        	    repaint();
+				}  		
         		        		
         	}
         });
