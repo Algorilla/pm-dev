@@ -14,12 +14,18 @@ public class NodeGraph {
 	
 	private TreeMap<MilestoneNode, ArrayList<MilestoneNode> > nodes;	
 	
+	/**
+	 * Constructor must initialize the inner TreeMap
+	 */
 	public NodeGraph(){
 		nodes = new TreeMap<MilestoneNode, ArrayList<MilestoneNode> >();
 	}
 	
-	
-	
+	/**
+	 * 
+	 * @param v MilestoneNode
+	 * @param w MilestoneNode
+	 */
 	public void addEdge(MilestoneNode v, MilestoneNode w){
 		
 		if(!hasNode(v)){
@@ -35,11 +41,20 @@ public class NodeGraph {
 			w.addPrecedent(v);
 		}
 	}
-	
+	/**
+	 * 
+	 * @param node MileStoneNode
+	 * @return true if there is at least one nod in the TreeMap
+	 */
 	public boolean hasNode(MilestoneNode node){
 		return nodes.containsKey(node);
 	}
 	
+	/**
+	 * 
+	 * @param n
+	 * @return
+	 */
 	public MilestoneNode getPreviousNode(MilestoneNode n){
 		
 		for(MilestoneNode node : this.nodes.keySet()){
