@@ -248,6 +248,8 @@ public class EarnedValueDisplay extends JDialog {
 				new Double(project.getEstimateToComplete())
 									   };
 		
+		for (Object d : data) System.out.println(d);
+		
 		return data;
 	}
 }

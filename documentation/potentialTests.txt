@@ -2,10 +2,9 @@ Potential Functions for Test Iterations
 =======================================
 
 - EarnedValue::calculatePlannedValue()
-- EarnedValue::calculateActualCost()
-- 
 
-To keep robert happy:
+
+To keep Robert happy:
 =====================
 
 - DisplayController::updateActualCost()
