@@ -4,7 +4,9 @@
 package Analysis;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import Controller.ErrorController;
 import PModel.Activity;
 
 
@@ -15,7 +17,7 @@ import PModel.Activity;
 public class MilestoneNode implements Comparable{
 
 	private Integer name;
-	private double 	targetDate;
+	private Date 	targetDate;
 	private double 	expectedDate;
 	private double 	standardDeviation;
 
@@ -24,6 +26,8 @@ public class MilestoneNode implements Comparable{
 	
 	private ArrayList<MilestoneNode> precedents;
 	private ArrayList<MilestoneNode> dependents;
+	
+	private ErrorController ec = ErrorController.get();
 	
 	public MilestoneNode(int n){
 		name = n;
@@ -35,13 +39,14 @@ public class MilestoneNode implements Comparable{
 	
 	public void setTargetDate(){
 		double latestDate = 0;
-		
+		Activity latest = null;
 		for(Activity a: inArrows){
 			if(a.getLatestFinish() > latestDate){
 				latestDate = a.getLatestFinish();
+				latest = a;
 			}
 		}
-		targetDate = latestDate;
+		targetDate = latest.getLF();
 	}
 	
 	public void addOutArrow(Activity a){
@@ -117,7 +122,7 @@ public class MilestoneNode implements Comparable{
 	/**
 	 * @return the targetDate
 	 */
-	public double getTargetDate() {
+	public Date getTargetDate() {
 		return targetDate;
 	}
 
@@ -145,7 +150,7 @@ public class MilestoneNode implements Comparable{
 	/**
 	 * @param targetDate the targetDate to set
 	 */
-	public void setTargetDate(double targetDate) {
+	public void setTargetDate(Date targetDate) {
 		this.targetDate = targetDate;
 	}
 
@@ -172,35 +177,73 @@ public class MilestoneNode implements Comparable{
 
 	@Override
 	public String toString() {
-		return this.getName().toString();
+		return "Milestone " + this.getName().toString() + "\n";
 	}
 	
-	public String toStringVerbose() {
+	public String toStringArrows(String type) {
 		
-		String id   = "Milestone " + Integer.toString(name) + ":\n";
+		String  arrowString = "";
+		ArrayList<Activity> arrows;
 		
-		String  tgt = "Target Date for this Milestone: " + targetDate + "\n",
-				iAs = "Activities to Complete by this Milestone: ", 
-				oAs = "Activities to Available to start after this Milestone: ";
-		
-		for(Activity a : this.inArrows){
-			iAs += a.getName() + ", ";
+		if(type.equals("in")){
+			arrowString = "Activities to Complete by this Milestone: "; 
+			if(this.hasInArrows()){
+				arrows = this.getInArrows();
+			}
+			else{
+				arrows = new ArrayList<Activity>();
+				return "No in arrows";
+			}
+			
+		} else if(type.equals("out")){
+			arrowString  = "Activities to Available to start after this Milestone: ";
+			if(this.hasOutArrows()){
+				arrows = this.getOutArrows();
+			}
+			else{
+				arrows = new ArrayList<Activity>();
+				return "No out arrows";
+			}
+			
+		} else {
+			ec.showError("You didn't enter 'in' or 'out' when you should've.");
+			return null;
 		}
-		if(iAs.length() > 2){
-			iAs = iAs.substring(0, iAs.length()-2) + "\n\n";
-		}
 		
-		for(Activity a : this.outArrows){
-			oAs += a.getName() + ", ";
+		for(Activity a : arrows){
+			arrowString += a.getName() + ", ";
 		}
-		if(oAs.length() > 2){
-			oAs = oAs.substring(0, oAs.length()-2) + "\n\n";
+		if(arrowString.endsWith(", ")){
+			arrowString = arrowString.substring(0, arrowString.length()-2) + "\n\n";
 		}
-		
-		return id + iAs + oAs;
+	
+		return arrowString;
+	}
+	
+	/**
+	 * @return
+	 */
+	private boolean hasOutArrows() {
+		return inArrows.size() != 0;
 	}
 
+	/**
+	 * @return
+	 */
+	private boolean hasInArrows() {
+		return outArrows.size() != 0;
+	}
+
+	public String toStringTargetDate(){
+		if(this.hasTargetDate()){
+			return targetDate.toString();
+		}
+		return "No Target Date";
+	}
 	
+	public boolean hasTargetDate(){
+		return targetDate != null;
+	}
 	
 	/**
 	 * 

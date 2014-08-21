@@ -80,9 +80,9 @@ public class Activity extends Manageable implements TimePeriod
 		this.EF = new Date();
 		this.LF = new Date();
 		
-		setStatus(status);
-		setPlannedValue(plannedValue);
-		setDuration();
+		this.setStatus(status);
+		this.setPlannedValue(plannedValue);
+		this.setDuration();
 		this.setStandardDevitation();
 		
 	}

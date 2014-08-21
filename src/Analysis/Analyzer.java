@@ -16,7 +16,7 @@ public class Analyzer {
 	
 	private Project 				project;
 	private ArrayList<Activity> 	activities;
-	MainController 					mc = MainController.get();;
+	private MainController 			mc = MainController.get();;
 	
 	private PertNetwork 			pertNetwork;
 	private GanttNetwork 			ganttNetwork;
@@ -34,7 +34,6 @@ public class Analyzer {
 			a.setProject(project);
 		}
 		
-
 		this.ganttNetwork = GanttNetwork.getActivityNetwork(this.activities);
 		this.pertNetwork  = PertNetwork.getArrowNetwork(this.activities);
 		this.earnedValue  = new EarnedValue(project, daysSinceStart);

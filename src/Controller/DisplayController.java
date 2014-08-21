@@ -14,7 +14,8 @@ import JDialogue.DeleteProjectDialog;
 import JDialogue.EarnedValueDisplay;
 import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
-import JDialogue.PertDisplay;
+//import JDialogue.PertDisplay;
+import JDialogue.PertDisplayClone;
 import JFrames.LoginFrameClone;
 import JFrames.UserInterfaceClone;
 import PModel.Activity;
@@ -198,7 +199,7 @@ public class DisplayController {
 			int daysSinceStart = daysBetween(today, start);
 			Analyzer a = new Analyzer(currentProject, daysSinceStart);
 			PertNetwork p = a.getPertNetwork();
-			new PertDisplay(p);
+			new PertDisplayClone(p);
 		}
 	}
 

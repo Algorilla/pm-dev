@@ -36,7 +36,7 @@ public class Project extends Manageable
 	
 	private ArrayList<Activity> activityList;
 	
-	MainController mc;
+	private MainController mc;
 
 	
 	/**

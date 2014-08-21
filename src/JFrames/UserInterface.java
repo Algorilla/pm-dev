@@ -27,7 +27,8 @@ import JDialogue.DeleteProjectDialog;
 import JDialogue.EarnedValueDisplay;
 import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
-import JDialogue.PertDisplay;
+//import JDialogue.PertDisplay;
+import JDialogue.PertDisplayClone;
 import PModel.Activity;
 import PModel.ActivityOnNodeNetwork;
 import PModel.Member;
@@ -326,7 +327,7 @@ public class UserInterface extends InitialJFrame {
         		PertNetwork p = a.getPertNetwork();
 //        		String art = p.toString();
         		
-        		PertDisplay pd = new PertDisplay(p);
+        		PertDisplayClone pd = new PertDisplayClone(p);
         		
         		pd.setVisible(true);
         		
