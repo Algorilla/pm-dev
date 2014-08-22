@@ -63,8 +63,7 @@ public class MainController {
 	DataUpdater dataUpdater = new DataUpdater();
 	DataDeleter dataDeleter = new DataDeleter();
 
-	// Error Controller Instance
-	ErrorController ec = ErrorController.get();
+	ErrorController ec;
 
 	/**
 	 * Initializes controller by connecting to the DB and loading the data into
@@ -73,6 +72,7 @@ public class MainController {
 	private MainController() {
 		conn = SQLiteDBConnection.ConnectDb();
 		dataLoader.loadData(this);
+		ec = ErrorController.get();
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class MainController {
 	 *            A JTable
 	 */
 	public void mouseClickTable(JTable table) {
-		// TODO: put this in a more appropriate place 
+		// TODO: put this in a more appropriate place
 		// TODO: DMITRI: I'm not actually sure what to do with this one
 		int row = table.getSelectedRow();
 		int pid = currentProject.getProjectID();
@@ -237,7 +237,7 @@ public class MainController {
 			pst.close();
 		} catch (Exception ex) {
 			// TODO: move to ErroController
-			// JOptionPane.showMessageDialog(null,ex); 
+			// JOptionPane.showMessageDialog(null,ex);
 		}
 
 	}
@@ -320,8 +320,23 @@ public class MainController {
 	 *            Project object to create
 	 * @return Created project
 	 */
-	public Project initializeProject(Project project) {
-		return dataUpdater.initializeProject(this, project);
+	void initializeProject(Project newProject) {
+		boolean projectNameAlreadyExists = false;
+
+		for (Project project : projects) {
+			if (project.getManagerID() == newProject.getManagerID()
+					&& project.getName().equalsIgnoreCase(
+							newProject.getName())) {
+				projectNameAlreadyExists = true;
+			}
+		}
+
+		if (projectNameAlreadyExists) {
+			ec.showError("Project with same name already exists");
+		} else if (dataUpdater.initializeProject(this, newProject)) {
+			currentProject = newProject;
+			DisplayController.get().notifyChange(PModelChange.CREATED_PROJECT);
+		}
 	}
 
 	/**
