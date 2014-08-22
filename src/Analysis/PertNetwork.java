@@ -43,7 +43,6 @@ public class PertNetwork {
 		for(MilestoneNode n : graph.getNodes().keySet()){
 			n.setTargetDate();
 		}
-		
 	}
 
 	/**
@@ -179,7 +178,7 @@ public class PertNetwork {
 	public void reverse() {
 		
 		ArrayList<Activity> tempActivities = null;
-		ArrayList<MilestoneNode> tempNodes   = null;
+		ArrayList<MilestoneNode> tempNodes = null;
 		
 		for(MilestoneNode node : this.graph.getNodes().keySet()){
 			tempActivities = node.getInArrows();

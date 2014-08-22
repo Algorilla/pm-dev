@@ -17,15 +17,12 @@ public class GanttNetwork {
 	private ArrayList<Activity> activities;
 	private Activity	 		start;
 	private Activity	 		finish;
-//	private ActivityGraph 		graph;
 	
 	public GanttNetwork(ArrayList<Activity> activities){
 		
 		this.activities = activities;
 		this.start 		= Activity.makeDummyStart();
 		this.finish 	= Activity.makeDummyFinish();
-//		this.graph 		= new ActivityGraph();
-				
 	}
 	
 	public static GanttNetwork getActivityNetwork(ArrayList<Activity> activities){
@@ -95,7 +92,6 @@ public class GanttNetwork {
 			lF = c.getTime();
 			a.setLF(lF);
 		}
-		
 	}
 
 	/**
@@ -180,7 +176,6 @@ public class GanttNetwork {
 			activity.setLatestStart(constrainer.getLatestStart() - activity.getDuration());
 		}
 		
-		
 		if(activity.equals(this.getStart())){
 			return;
 		}
@@ -198,8 +193,8 @@ public class GanttNetwork {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * 
 	 */
 	@Override
 	public String toString() {
