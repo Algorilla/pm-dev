@@ -3,7 +3,6 @@ package PModel;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import org.jfree.data.time.TimePeriod;
 
 import Controller.ErrorController;
@@ -121,7 +120,9 @@ public class Activity extends Manageable implements TimePeriod {
 	 * @param pessimistic
 	 * @return
 	 */
-	private boolean areValidTimes(double mostLikely, double optimistic,
+	// TODO: This is public only during testing, for production it must revert
+	// to private
+	public boolean areValidTimes(double mostLikely, double optimistic,
 			double pessimistic, double targetCompletionDate) {
 
 		if (mostLikely < 0 || optimistic < 0 || pessimistic < 0
@@ -150,7 +151,9 @@ public class Activity extends Manageable implements TimePeriod {
 	 * @param actualCost
 	 * @return
 	 */
-	private boolean areValidPercentAndCost(double percentComplete,
+	// TODO: This is public only during testing, for production it must revert
+	// to private
+	public boolean areValidPercentAndCost(double percentComplete,
 			double actualCost) {
 
 		if (percentComplete < 0 || 1 < percentComplete) {
