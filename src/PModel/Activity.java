@@ -83,7 +83,7 @@ public class Activity extends Manageable implements TimePeriod {
 			
 
 		} else {
-			ec.showError("DMITRI");// DMITRI
+			//ec.showError("DMITRI");// DMITRI
 			return;
 		}
 		
@@ -95,7 +95,7 @@ public class Activity extends Manageable implements TimePeriod {
 			this.actualCost = actualCost;
 
 		} else {
-			ec.showError("DMITRI");// DMITRI
+			//ec.showError("DMITRI");// DMITRI
 			return;
 		}
 
