@@ -75,19 +75,20 @@ public class Activity extends Manageable implements TimePeriod {
 		this.projectID = ProjectID;
 
 		if (areValidTimes(mostLikelyTimeToCompletion,
-				optimisticTimeToCompletion, pessimisticTimeToCompletion,
-				targetCompletionDate)) {
+				optimisticTimeToCompletion, pessimisticTimeToCompletion)) {
 
 			this.mostLikelyTimeToCompletion = mostLikelyTimeToCompletion;
 			this.optimisticTimeToCompletion = optimisticTimeToCompletion;
 			this.pessimisticTimeToCompletion = pessimisticTimeToCompletion;
-			this.targetCompletionDate = targetCompletionDate;
+			
 
 		} else {
 			ec.showError("DMITRI");// DMITRI
 			return;
 		}
-
+		
+		this.targetCompletionDate = targetCompletionDate;
+		
 		if (areValidPercentAndCost(percentComplete, actualCost)) {
 
 			this.percentComplete = percentComplete;
@@ -123,22 +124,18 @@ public class Activity extends Manageable implements TimePeriod {
 	// TODO: This is public only during testing, for production it must revert
 	// to private
 	public boolean areValidTimes(double mostLikely, double optimistic,
-			double pessimistic, double targetCompletionDate) {
+			double pessimistic) {
 
-		if (mostLikely < 0 || optimistic < 0 || pessimistic < 0
-				|| targetCompletionDate < 0) {
+		if (mostLikely < 0 || optimistic < 0 || pessimistic < 0) {
 			return false;
 		}
 
 		if (mostLikely > MAX_DURATION || optimistic > MAX_DURATION
-				|| pessimistic > MAX_DURATION
-				|| targetCompletionDate > MAX_DURATION) {
+				|| pessimistic > MAX_DURATION) {
 			return false;
 		}
 
-		if (mostLikely > pessimistic || mostLikely < optimistic
-				|| targetCompletionDate > pessimistic
-				|| targetCompletionDate < optimistic) {
+		if (mostLikely > pessimistic || mostLikely < optimistic) {
 			return false;
 		}
 

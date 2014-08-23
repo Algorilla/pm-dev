@@ -27,10 +27,10 @@ public class TestActivity {
 	
 	@Test
 	public void testAreValidTimes(){
-		double 	mostLikelyMin, mostLikelyMinPlus, mostLikelyNominal, mostLikelyMaxMinus, mostLikelyMax,   
-				optimisticMin, optimisticMinPlus, optimisticNominal, optimisticMaxMinus, optimisticMax,
-				pessimisticMin, pessimisticMinPlus, pessimisticNominal, pessimisticMaxMinus,  
-				targetCompletionDate
+//		double 	mostLikelyMin, mostLikelyMinPlus, mostLikelyNominal, mostLikelyMaxMinus, mostLikelyMax,   
+//				optimisticMin, optimisticMinPlus, optimisticNominal, optimisticMaxMinus, optimisticMax,
+//				pessimisticMin, pessimisticMinPlus, pessimisticNominal, pessimisticMaxMinus,  
+//				targetCompletionDate
 	}
 
 	@Test
