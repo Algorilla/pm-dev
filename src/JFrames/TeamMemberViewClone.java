@@ -1,64 +1,102 @@
 package JFrames;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.TextArea;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-
-import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
-public class TeamMemberViewClone extends InitialJFrameClone {
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-	public TeamMemberViewClone() {
-		setBounds(250, 100, 1170, 650);
+import Controller.DisplayController;
+import javax.swing.JButton;
+
+public class TeamMemberViewClone extends UserInterfaceView {
+
+	private TextArea textAreaDescription;
+
+	public TeamMemberViewClone(final JTable activitiesTable) {
+		setBounds(250, 100, 1170, 668);
 
 		// ======================== main panel ================================
 		// contains both activities & description panel
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(0, 153, 204));
-		mainPanel.setBorder(new TitledBorder(null, "Activities",
+
+		mainPanel.setBorder(new TitledBorder(null, "Team Member",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mainPanel.setBounds(0, 0, 1150, 590);
-		getContentPane().add(mainPanel, BorderLayout.CENTER);
+		getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 
-		// ======================== activities panel ==============================
+		// ====================== activity panel ===============================
 		JPanel activitiesPanel = new JPanel();
-		activitiesPanel.setPreferredSize(new Dimension(505, 560));
 		activitiesPanel.setBackground(Color.WHITE);
 		activitiesPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		activitiesPanel.setBounds(10, 30, 650, 550);
+		activitiesPanel.setBounds(20, 30, 615, 550);
 		mainPanel.add(activitiesPanel);
 		activitiesPanel.setLayout(null);
+		
+		JLabel lblActivities = new JLabel("Activity List:");
+		lblActivities.setBounds(10, 14, 80, 14);
+		activitiesPanel.add(lblActivities);
 
-		JLabel lblWelcome = new JLabel("Activities");
-		lblWelcome.setBounds(10, 14, 80, 14);
-		activitiesPanel.add(lblWelcome);
+		activitiesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		activitiesTable.setBorder(null);
 
-		// ====================== activity panel ===============================
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 35, 595, 491);
+		activitiesPanel.add(scrollPane);
+
+		scrollPane.setViewportView(activitiesTable);
+
+		activitiesTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = activitiesTable.getSelectedRow();
+				int PID = Integer.parseInt(activitiesTable.getModel()
+						.getValueAt(row, 0).toString());
+				int number = Integer.parseInt(activitiesTable.getModel()
+						.getValueAt(row, 1).toString());
+				DisplayController.get().selectActivity(PID, number, false);;
+			}
+		});
+		
+		// ====================== description panel ===============================
 		JPanel descriptionPanel = new JPanel();
 		descriptionPanel.setBackground(Color.WHITE);
 		descriptionPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		descriptionPanel.setBounds(670, 30, 470, 550);
+		descriptionPanel.setBounds(645, 30, 495, 550);
 		mainPanel.add(descriptionPanel);
 		descriptionPanel.setLayout(null);
 
-		JLabel lblProjectAndActivity = new JLabel("Description");
-		lblProjectAndActivity.setBounds(10, 14, 80, 14);
-		descriptionPanel.add(lblProjectAndActivity);
-		
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 36, 450, 503);
-		descriptionPanel.add(scrollPane);
+		JLabel lblDescription = new JLabel("Description");
+		lblDescription.setBounds(10, 14, 80, 14);
+		descriptionPanel.add(lblDescription);
+		textAreaDescription = new TextArea();
+		textAreaDescription.setBounds(10, 34, 475, 489);
+		descriptionPanel.add(textAreaDescription);
 
-		//scrollPane.setViewportView(activitiesTable);
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.setBounds(1051, 591, 89, 23);
+		mainPanel.add(btnLogout);
+
+		btnLogout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DisplayController.get().logout();
+			}
+		});
+	}
+
+	public void setDescription(String desc){
+		textAreaDescription.setText(desc);
 	}
 }

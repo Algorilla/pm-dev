@@ -5,13 +5,12 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-public class InitialJFrameClone extends JFrame
+public class UserInterfaceView extends JFrame
 {
-	public InitialJFrameClone()
+	public UserInterfaceView()
 	{
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

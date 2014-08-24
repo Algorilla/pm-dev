@@ -27,7 +27,7 @@ import javax.swing.border.TitledBorder;
 import Controller.DisplayController;
 import Controller.ErrorController;
 
-public class UserInterfaceClone extends InitialJFrameClone {
+public class ManagerView extends UserInterfaceView {
 
 	// Elements that get updated in project (left-hand) panel
 	private JLabel lblName;
@@ -40,7 +40,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 	// Elements that get updated in activities (right-hand) panel
 	private JTable activitiesTable;
 
-	public UserInterfaceClone() {
+	public ManagerView() {
 		setBounds(250, 100, 1170, 650);
 
 		// ==================== menu and options ===============================
@@ -50,17 +50,17 @@ public class UserInterfaceClone extends InitialJFrameClone {
 		JMenu mnProjectOptions = new JMenu("Options");
 		menuBar.add(mnProjectOptions);
 
-		JMenuItem mntmNew = new JMenuItem("New");
+		JMenuItem mntmNew = new JMenuItem("New Project");
 		mnProjectOptions.add(mntmNew);
 
-		JMenuItem mntmOpen = new JMenuItem("Open");
+		JMenuItem mntmOpen = new JMenuItem("Open Project");
 		mnProjectOptions.add(mntmOpen);
 
-		JMenuItem mntmDelete = new JMenuItem("Delete");
+		JMenuItem mntmDelete = new JMenuItem("Delete Project");
 		mnProjectOptions.add(mntmDelete);
 
-		JMenuItem mntmExit = new JMenuItem("Exit");
-		mnProjectOptions.add(mntmExit);
+		JMenuItem mntmLogout = new JMenuItem("Logout");
+		mnProjectOptions.add(mntmLogout);
 
 		// menu event handlers
 		mntmNew.addActionListener(new ActionListener() {
@@ -81,9 +81,9 @@ public class UserInterfaceClone extends InitialJFrameClone {
 			}
 		});
 
-		mntmExit.addActionListener(new ActionListener() {
+		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayController.get().exit();
+				DisplayController.get().logout();
 			}
 		});
 
@@ -169,7 +169,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 							.parseDouble(textFieldPercentComplete.getText());
 					DisplayController.get().updatePercentComplete(percentComplete);
 				} catch (NumberFormatException numFormatException) {
-					ErrorController.get().showError("Please enter a numerical value between 0.0 and 100.0");
+					ErrorController.get().showError("Please enter a value between 0.0 and 1.0");
 				}
 			}
 		});
@@ -301,7 +301,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 						.getValueAt(row, 0).toString());
 				int number = Integer.parseInt(activitiesTable.getModel()
 						.getValueAt(row, 1).toString());
-				DisplayController.get().selectActivity(PID, number);
+				DisplayController.get().selectActivity(PID, number, true);
 			}
 		});
 
@@ -348,7 +348,6 @@ public class UserInterfaceClone extends InitialJFrameClone {
 	public void resetActivity(boolean isCurrentProjectDeleted) {
 		if (isCurrentProjectDeleted) {
 			textFieldActivityName.setText("");
-			activitiesTable.updateUI();
 		} else {
 			textFieldActivityName.setText("Please select an activity");
 		}

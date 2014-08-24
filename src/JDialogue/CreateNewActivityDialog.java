@@ -96,7 +96,7 @@ public class CreateNewActivityDialog extends JDialog {
 		
 		final JComboBox dependenciesComboBox = new JComboBox();
 		dependenciesComboBox.setBounds(170, 490, 200, 20);
-		activities = MainController.get().getActivityListForCurrentProject();		
+//		activities = MainController.get().getActivityListForCurrentProject();		
 		for (Activity activity : activities)
 			dependenciesComboBox.addItem(activity);		
 		contentPanel.add(dependenciesComboBox);
