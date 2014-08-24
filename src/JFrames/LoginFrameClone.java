@@ -67,6 +67,8 @@ public class LoginFrameClone extends JFrame {
 				} else if (password.isEmpty()) {
 					ErrorController.get().showError("Please enter your password");
 				} else {
+					textUserNameField.setText("");
+					textPasswordField.setText("");
 					DisplayController.get().login(username, password); 
 				}
 			}
