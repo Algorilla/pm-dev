@@ -3,7 +3,12 @@
  */
 package TestAnalysis;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
+
+import Analysis.EarnedValue;
+import PModel.Activity;
 
 /**
  *
@@ -11,7 +16,8 @@ import org.junit.Test;
 public class TestEarnedValue {
 	
 	@Test
-	public void testGetActivityScheduleValue(){
+	public void testNothing(){
+		assertTrue(true);
 		
 	}
 

@@ -33,11 +33,11 @@ public class TestProject {
 				minValue3, minPlusValue3, nominalValue3, maxMinusValue3, maxValue3;
 		
 		
-		minValue1 = minValue2= minValue3 = 0.0;
-		minPlusValue1 = minPlusValue2 = minPlusValue3 = 0.01;
-		nominalValue1 = nominalValue2 = nominalValue3 = 0.5;
-		maxMinusValue1 = maxMinusValue2 = maxMinusValue3 = 0.99;
-		maxValue1 = maxValue2 = maxValue3 = 1.0;
+		minValue1 = minValue2 = minValue3 = 0.0;
+		minPlusValue1 = minPlusValue2 = minPlusValue3 = 1.0;
+		nominalValue1 = nominalValue2 = nominalValue3 = 1000;
+		maxMinusValue1 = maxMinusValue2 = maxMinusValue3 = Project.MAX_COST - 1.0;
+		maxValue1 = maxValue2 = maxValue3 = Project.MAX_COST;
 		
 		double [] values1 = { minValue1, minPlusValue1, nominalValue1, maxMinusValue1, maxValue1};
 		double [] values2 = { minValue2, minPlusValue2, nominalValue2, maxMinusValue2, maxValue2};

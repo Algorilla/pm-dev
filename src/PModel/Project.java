@@ -19,7 +19,7 @@ import Controller.MainController;
  */
 public class Project extends Manageable {
 
-	private static final double MAX_COST = 10000000; // Ten Mill!?! High rollers
+	public static final double MAX_COST = 10000000; // Ten Mill!?! High rollers
 														// must buy the premium
 														// version.
 

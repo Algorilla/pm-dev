@@ -113,6 +113,31 @@ public class Activity extends Manageable implements TimePeriod {
 		this.setStandardDevitation();
 
 	}
+	
+	/**
+	 * Copy Constructor for Activity
+	 * 
+	 * @param a
+	 *            An Activity Object
+	 * */
+	public Activity(Activity a) {
+
+		super(a.getName(), a.getDescr());
+
+		this.projectID = a.getProjectID();
+		this.mostLikelyTimeToCompletion = a.getMostLikelyTimeToCompletion();
+		this.optimisticTimeToCompletion = a.getOptimisticTimeToCompletion();
+		this.pessimisticTimeToCompletion = a.getPessimisticTimeToCompletion();
+		this.targetCompletionDate = a.getTargetCompletionDate();
+		this.percentComplete = a.getPercentComplete();
+		this.actualCost = a.getActualCost();
+
+		this.setPlannedValue(a.getPlannedValue());
+		this.updateStatus();
+		this.setDuration();
+		this.setStandardDevitation();
+
+	}
 
 	/**
 	 * 
@@ -160,31 +185,6 @@ public class Activity extends Manageable implements TimePeriod {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * Copy Constructor for Activity
-	 * 
-	 * @param a
-	 *            An Activity Object
-	 * */
-	public Activity(Activity a) {
-
-		super(a.getName(), a.getDescr());
-
-		this.projectID = a.getProjectID();
-		this.mostLikelyTimeToCompletion = a.getMostLikelyTimeToCompletion();
-		this.optimisticTimeToCompletion = a.getOptimisticTimeToCompletion();
-		this.pessimisticTimeToCompletion = a.getPessimisticTimeToCompletion();
-		this.targetCompletionDate = a.getTargetCompletionDate();
-		this.percentComplete = a.getPercentComplete();
-		this.actualCost = a.getActualCost();
-
-		this.setPlannedValue(a.getPlannedValue());
-		this.updateStatus();
-		this.setDuration();
-		this.setStandardDevitation();
-
 	}
 
 	/**
