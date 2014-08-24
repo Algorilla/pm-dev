@@ -60,8 +60,6 @@ public class MainController {
 				return true;
 			}
 		}
-
-		ec.showError("Incorrect username and/or password");
 		return false;
 	}
 

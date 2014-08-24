@@ -1,6 +1,5 @@
 package Controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JTable;
@@ -22,8 +21,6 @@ import JFrames.TeamMemberViewClone;
 import JFrames.ManagerView;
 import PModel.Activity;
 import PModel.Manageable;
-import PModel.Member;
-import PModel.MemberActivity;
 import PModel.Project;
 
 public class DisplayController {
@@ -65,8 +62,10 @@ public class DisplayController {
 		if (mc.login(username, password)) {
 			if (mc.currentUser.getType().equals("manager")) {
 				userInterface = new ManagerView();
-				((ManagerView)userInterface).setUserName(mc.getCurrentUser().getName());
-				((ManagerView)userInterface).setProjectName("Please select a project");
+				((ManagerView) userInterface).setUserName(mc.getCurrentUser()
+						.getName());
+				((ManagerView) userInterface)
+						.setProjectName("Please select a project");
 			} else {
 				activitiesTable = new JTable();
 				userInterface = new TeamMemberViewClone(activitiesTable);
@@ -74,7 +73,7 @@ public class DisplayController {
 			userInterface.setVisible(true);
 			loginFrame.setVisible(false);
 		} else {
-			ec.showError("Invalid log in");
+			ec.showError("Incorrect username and/or password");
 		}
 	}
 
@@ -87,10 +86,11 @@ public class DisplayController {
 
 		if (isProjectCreated) {
 			currentProject = mc.getCurrentProject();
-			((ManagerView)userInterface).setProjectName(currentProject.getName());
+			((ManagerView) userInterface).setProjectName(currentProject
+					.getName());
 
 			currentActivity = null;
-			((ManagerView)userInterface).resetActivity(false);
+			((ManagerView) userInterface).resetActivity(false);
 
 			this.activitiesTable = activitiesTable;
 			mc.getActivitiesListForCurrentProject();
@@ -109,10 +109,11 @@ public class DisplayController {
 
 		if (isProjectOpen) {
 			currentProject = mc.getCurrentProject();
-			((ManagerView)userInterface).setProjectName(currentProject.getName());
+			((ManagerView) userInterface).setProjectName(currentProject
+					.getName());
 
 			currentActivity = null;
-			((ManagerView)userInterface).resetActivity(false);
+			((ManagerView) userInterface).resetActivity(false);
 
 			this.activitiesTable = activitiesTable;
 			mc.getActivitiesListForCurrentProject();
@@ -137,8 +138,9 @@ public class DisplayController {
 			if (!currentProjectName.isEmpty()
 					&& currentProjectName.equalsIgnoreCase(projectToDelete)) {
 				currentProject = null;
-				((ManagerView)userInterface).setProjectName("Please select a project");
-				((ManagerView)userInterface).resetActivity(true);
+				((ManagerView) userInterface)
+						.setProjectName("Please select a project");
+				((ManagerView) userInterface).resetActivity(true);
 				mc.emptyActivitiesForDeletedProject();
 			}
 
@@ -168,7 +170,7 @@ public class DisplayController {
 			return;
 		} else {
 			currentActivity.setPercentComplete(percentComplete);
-			((ManagerView)userInterface).setPercentComplete(percentComplete);
+			((ManagerView) userInterface).setPercentComplete(percentComplete);
 		}
 	}
 
@@ -183,7 +185,7 @@ public class DisplayController {
 			return;
 		} else {
 			currentActivity.setActualCost(actualCost);
-			((ManagerView)userInterface).setActualCost(actualCost);
+			((ManagerView) userInterface).setActualCost(actualCost);
 		}
 	}
 
@@ -265,14 +267,18 @@ public class DisplayController {
 			return;
 		} else if (isManager) {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
-			((ManagerView)userInterface).setActivityName(currentActivity.getName());
-			((ManagerView)userInterface).setActivityDescription(currentActivity.getDescr());
-			((ManagerView)userInterface).setPercentComplete(currentActivity
+			((ManagerView) userInterface).setActivityName(currentActivity
+					.getName());
+			((ManagerView) userInterface)
+					.setActivityDescription(currentActivity.getDescr());
+			((ManagerView) userInterface).setPercentComplete(currentActivity
 					.getPercentComplete());
-			((ManagerView)userInterface).setActualCost(currentActivity.getActualCost());
+			((ManagerView) userInterface).setActualCost(currentActivity
+					.getActualCost());
 		} else if (!isManager) {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
-			((TeamMemberViewClone)userInterface).setDescription(currentActivity.getDescr());
+			((TeamMemberViewClone) userInterface)
+					.setDescription(currentActivity.getDescr());
 		}
 	}
 
@@ -300,17 +306,12 @@ public class DisplayController {
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
 				mc.getActivitiesListForCurrentProject();
-				((ManagerView)userInterface).resetActivity(false);
+				((ManagerView) userInterface).resetActivity(false);
 			}
 		}
 	}
 
-	private int daysBetween(Date d1, Date d2) {
-		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
-	}
-
-	// Package access so that only MainController can call this method, not the
-	// JDialogs
+	// Package access so that only MainController can call this method
 	void notifyChange(PModelChange type) {
 		switch (type) {
 		case CREATED_PROJECT:
@@ -333,16 +334,16 @@ public class DisplayController {
 		return activitiesTable;
 	}
 
+	public void setNewProject(Project newProject) {
+		this.newProject = newProject;
+	}
+
 	public void setProjectToOpen(String projectName) {
 		projectToOpen = projectName;
 	}
 
 	public void setProjectToDelete(String projectName) {
 		projectToDelete = projectName;
-	}
-
-	public void setNewProject(Project newProject) {
-		this.newProject = newProject;
 	}
 
 	private boolean isManageableNull(Manageable manageable, String message) {
@@ -353,4 +354,9 @@ public class DisplayController {
 		}
 		return ret;
 	}
+
+	private int daysBetween(Date d1, Date d2) {
+		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+	}
+
 }
