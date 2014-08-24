@@ -49,7 +49,7 @@ public class OpenProjectListDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		projectList = MainController.get().getProjectList();
+//		projectList = MainController.get().getProjectList();
 		projectList.setBounds(44, 46, 329, 108);
 		contentPanel.add(projectList);
 		
@@ -69,7 +69,7 @@ public class OpenProjectListDialog extends JDialog {
 					//do nothing, no need for message box here
 				}else{
 					String projectName = projectList.getSelectedItem().toString();
-					MainController.get().openProject(projectName);
+//					MainController.get().openProject(projectName);
 					MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
 					//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
 					dispose();

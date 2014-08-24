@@ -55,7 +55,7 @@ public class DeleteProjectDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		projectList = MainController.get().getProjectList();
+//		projectList = MainController.get().getProjectList();
 		projectList.setBounds(44, 46, 329, 108);
 		contentPanel.add(projectList);
 		
@@ -73,7 +73,7 @@ public class DeleteProjectDialog extends JDialog {
 				projectName = projectList.getSelectedItem().toString();
 				MainController.get().deleteProject(projectName);
 				MainController.get().notifyDisplayController(PModelChange.DELETED_PROJECT);
-				DisplayController.get().setDeletedProjectName(projectName);
+				DisplayController.get().setProjectToDelete(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Deleted");	
 				dispose();
 			}

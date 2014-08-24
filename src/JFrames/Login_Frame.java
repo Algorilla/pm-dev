@@ -67,7 +67,7 @@ public class Login_Frame extends JFrame {
 		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (MainController.get().login(txt_username.getText(), txt_passwordField.getText()))
+//				if (MainController.get().login(txt_username.getText(), txt_passwordField.getText()))
 					close();
 			}
 		});

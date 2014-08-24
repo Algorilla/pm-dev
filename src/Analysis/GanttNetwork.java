@@ -14,10 +14,11 @@ import PModel.Activity;
 public class GanttNetwork {
 
 	// Activities are Nodes, therefore the graph is essentially a list of
-	// activities, the links between them are stored as the activity Precedents,
-	// and Dependents. These are lists that are loaded into the Activity by the
-	// MainController when the Analyzer is created.
+	// activities, the links between them are Activities and stored as the
+	// activity Precedents, and Dependents. These are lists that are loaded into
+	// the Activity by the MainController when the Analyzer is created.
 	private ArrayList<Activity> activities;
+	
 	// These are 'dummy activities'. They exist in case the project has multiple
 	// unconditioned activities or multiple final activities.
 	private Activity start;
@@ -53,7 +54,8 @@ public class GanttNetwork {
 				a.addPrecedent(network.getStart());
 			}
 		}
-		// Add Activities that have no dependents as Precedents of the dummyFinish
+		// Add Activities that have no dependents as Precedents of the
+		// dummyFinish
 		// and make dummyFinish depend on them
 		for (Activity a : network.getActivities()) {
 			if (a.getDependents().size() == 0) {

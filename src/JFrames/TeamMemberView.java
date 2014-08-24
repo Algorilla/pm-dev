@@ -98,7 +98,7 @@ public class TeamMemberView extends InitialJFrame {
         table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table_1.setBorder(null);
 
-        MainController.get().getActivityListForCurrentTeamMember(table_1);
+//        MainController.get().getActivityListForCurrentTeamMember(table_1);
         
         final TextArea textArea_description = new TextArea();
         textArea_description.setBounds(637, 68, 300, 332);
@@ -118,9 +118,9 @@ public class TeamMemberView extends InitialJFrame {
         		int PID =  Integer.parseInt(table_1.getModel().getValueAt(row, 0).toString());
         		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
         		
-        		activity = MainController.get().getActivityFromID(PID, number);
+//        		activity = MainController.get().getActivityFromID(PID, number);
         		
-        		textArea_description.setText(activity.getDescr());
+//        		textArea_description.setText(activity.getDescr());
         	}
         });
         
