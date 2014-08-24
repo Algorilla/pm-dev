@@ -83,7 +83,7 @@ public class Activity extends Manageable implements TimePeriod {
 			
 
 		} else {
-			//ec.showError("DMITRI");// DMITRI
+			ec.showError("Time Estimates are inconsistent.");// DMITRI
 			return;
 		}
 		
@@ -95,7 +95,7 @@ public class Activity extends Manageable implements TimePeriod {
 			this.actualCost = actualCost;
 
 		} else {
-			//ec.showError("DMITRI");// DMITRI
+			ec.showError("Cost or Percent Values are inconsistent.");// DMITRI
 			return;
 		}
 
@@ -123,7 +123,7 @@ public class Activity extends Manageable implements TimePeriod {
 	 */
 	// TODO: This is public only during testing, for production it must revert
 	// to private
-	public boolean areValidTimes(double mostLikely, double optimistic,
+	public static boolean areValidTimes(double mostLikely, double optimistic,
 			double pessimistic) {
 
 		if (mostLikely < 0 || optimistic < 0 || pessimistic < 0) {
@@ -150,7 +150,7 @@ public class Activity extends Manageable implements TimePeriod {
 	 */
 	// TODO: This is public only during testing, for production it must revert
 	// to private
-	public boolean areValidPercentAndCost(double percentComplete,
+	public static boolean areValidPercentAndCost(double percentComplete,
 			double actualCost) {
 
 		if (percentComplete < 0 || 1 < percentComplete) {

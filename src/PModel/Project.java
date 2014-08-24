@@ -101,7 +101,9 @@ public class Project extends Manageable {
 	 * @param percentage2
 	 * @return
 	 */
-	private boolean areValidPercentages(double percentage1, double percentage2) {
+	// TODO: This is public only during testing, for production it must revert
+	// to private
+	public static boolean areValidPercentages(double percentage1, double percentage2) {
 
 		if (percentage1 < 0 || percentage2 < 0) {
 			return false;
@@ -117,6 +119,7 @@ public class Project extends Manageable {
 	 * @param percentage
 	 * @return
 	 */
+
 	private boolean isValidPercentage(double percentage) {
 
 		if (percentage < 0 || 1 < percentage) {
@@ -132,7 +135,9 @@ public class Project extends Manageable {
 	 * @param value3
 	 * @return
 	 */
-	private boolean areValidValues(double value1, double value2, double value3) {
+	// TODO: This is public only during testing, for production it must revert
+	// to private
+	public static boolean areValidValues(double value1, double value2, double value3) {
 
 		if (value1 < 0 || value2 < 0 || value3 < 0) {
 			return false;

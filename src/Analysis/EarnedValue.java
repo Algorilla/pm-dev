@@ -19,18 +19,18 @@ public class EarnedValue {
 		this.project = project;
 		this.daysSinceStart = daysSinceStart;
 
-		calculateBudgetAtCompletion           ();
-		calculatePlannedValue                 ();
-		calculateEarnedValue                  ();
+		calculateBudgetAtCompletion();
+		calculatePlannedValue();
+		calculateEarnedValue();
 		calculatePercentScheduledForCompletion();
-		calculateActualCost                   ();
-		calculatePercentComplete              ();
-		calculateCostVariance                 ();
-		calculateScheduleVariance             ();
-		calculateCostPerformanceIndex         ();
-		calculateSchedulePerformanceIndex     ();
-		calculateEstimateAtCompletion         ();
-		calculateEstimateToComplete           ();
+		calculateActualCost();
+		calculatePercentComplete();
+		calculateCostVariance();
+		calculateScheduleVariance();
+		calculateCostPerformanceIndex();
+		calculateSchedulePerformanceIndex();
+		calculateEstimateAtCompletion();
+		calculateEstimateToComplete();
 
 	}
 
@@ -51,33 +51,35 @@ public class EarnedValue {
 
 		for (Activity a : project.getActivityList()) {
 			scheduledValue += getActivityScheduleValue(a.getEarliestFinish(),
-													   a.getLatestFinish(),
-													   a.getPlannedValue(),
-													   a.getDuration(),
-													   daysSinceStart);
+					a.getLatestFinish(), a.getPlannedValue(), a.getDuration(),
+					daysSinceStart);
 		}
 		project.setPlannedValue(scheduledValue);
 	}
-	
-	private double getActivityScheduleValue(double activityEarlyFinish, 
-			                                double activityLateFinish, 
-			                                double activityPlannedVal,
-			                                double activityDuration,
-			                                double daysSinceStart)
-	{
+
+	private double getActivityScheduleValue(double activityEarlyFinish,
+			double activityLateFinish, double activityPlannedVal,
+			double activityDuration, double daysSinceStart) {
+		
 		double scheduledValue = 0;
 		double percentScheduled;
-		
+
+		// If the activity should be finished, add its entire value
 		if (activityEarlyFinish <= daysSinceStart) {
 			scheduledValue += activityPlannedVal;
-		} else if (activityLateFinish < daysSinceStart) {
+		}
+		// Otherwise, calculate what percentage should be done, and add that to
+		// the scheduled value
+		else if (activityLateFinish < daysSinceStart) {
 			if (activityDuration > 0) {
+
 				percentScheduled = (daysSinceStart - activityLateFinish)
 						/ activityDuration;
+
 				scheduledValue += percentScheduled * activityPlannedVal;
+
 			}
 		}
-		
 		return scheduledValue;
 	}
 
