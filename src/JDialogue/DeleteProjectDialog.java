@@ -55,7 +55,7 @@ public class DeleteProjectDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		projectList = MainController.get().getProjectList();
+//		projectList = MainController.get().getProjectList();
 		projectList.setBounds(44, 46, 329, 108);
 		contentPanel.add(projectList);
 		

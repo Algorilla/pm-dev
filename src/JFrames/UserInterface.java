@@ -179,7 +179,7 @@ public class UserInterface extends InitialJFrame {
         		int row = table_1.getSelectedRow();
         		int PID =  Integer.parseInt(table_1.getModel().getValueAt(row, 0).toString());
         		int number = Integer.parseInt(table_1.getModel().getValueAt(row, 1).toString());
-        		activity = MainController.get().getActivityFromID(PID, number);
+//        		activity = MainController.get().getActivityFromID(PID, number);
         		String name = table_1.getModel().getValueAt(row, 2).toString();
         		textField_ActivityName.setText(name);  
 //        		textArea_description.s
