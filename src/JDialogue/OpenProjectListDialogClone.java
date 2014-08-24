@@ -37,7 +37,8 @@ public class OpenProjectListDialogClone extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 
 				if (projectList.getSelectedItem() == null) {
-					ErrorController.get().showError("Please select a project to open");
+					ErrorController.get().showError(
+							"Please select a project to open");
 				} else {
 					String projectName = projectList.getSelectedItem();
 					DisplayController.get().setProjectToOpen(projectName);
@@ -45,6 +46,7 @@ public class OpenProjectListDialogClone extends JDialog {
 				}
 			}
 		});
+
 		getContentPane().add(okButton);
 		getRootPane().setDefaultButton(okButton);
 		setVisible(true);
