@@ -3,6 +3,7 @@
  */
 package Analysis;
 
+import Controller.ErrorController;
 import PModel.Activity;
 import PModel.Project;
 
@@ -13,25 +14,26 @@ public class EarnedValue {
 
 	private Project project;
 	private double daysSinceStart;
+	// TODO: set to static for testing purposes
+	private static ErrorController ec = ErrorController.get();
 
 	public EarnedValue(Project project, double daysSinceStart) {
 
 		this.project = project;
 		this.daysSinceStart = daysSinceStart;
 
-		calculateBudgetAtCompletion           ();
-		calculatePlannedValue                 ();
-		calculateEarnedValue                  ();
+		calculateBudgetAtCompletion();
+		calculatePlannedValue();
+		calculateEarnedValue();
 		calculatePercentScheduledForCompletion();
-		calculateActualCost                   ();
-		calculatePercentComplete              ();
-		calculateCostVariance                 ();
-		calculateScheduleVariance             ();
-		calculateCostPerformanceIndex         ();
-		calculateSchedulePerformanceIndex     ();
-		calculateEstimateAtCompletion         ();
-		calculateEstimateToComplete           ();
-
+		calculateActualCost();
+		calculatePercentComplete();
+		calculateCostVariance();
+		calculateScheduleVariance();
+		calculateCostPerformanceIndex();
+		calculateSchedulePerformanceIndex();
+		calculateEstimateAtCompletion();
+		calculateEstimateToComplete();
 	}
 
 	private void calculateBudgetAtCompletion() {
@@ -51,33 +53,67 @@ public class EarnedValue {
 
 		for (Activity a : project.getActivityList()) {
 			scheduledValue += getActivityScheduleValue(a.getEarliestFinish(),
-													   a.getLatestFinish(),
-													   a.getPlannedValue(),
-													   a.getDuration(),
-													   daysSinceStart);
+					a.getLatestFinish(), a.getPlannedValue(), a.getDuration(),
+					daysSinceStart);
 		}
 		project.setPlannedValue(scheduledValue);
 	}
-	
-	private double getActivityScheduleValue(double activityEarlyFinish, 
-			                                double activityLateFinish, 
-			                                double activityPlannedVal,
-			                                double activityDuration,
-			                                double daysSinceStart)
-	{
+
+	// TODO: This is set to public static for testing purposes. Will be set back
+	// to private for deployment
+	public static double getActivityScheduleValue(double activityEarlyFinish,
+			double activityLateFinish, double activityPlannedVal,
+			double activityDuration, double daysSinceStart) {
+
 		double scheduledValue = 0;
 		double percentScheduled;
-		
-		if (activityEarlyFinish <= daysSinceStart) {
-			scheduledValue += activityPlannedVal;
-		} else if (activityLateFinish < daysSinceStart) {
-			if (activityDuration > 0) {
-				percentScheduled = (daysSinceStart - activityLateFinish)
-						/ activityDuration;
-				scheduledValue += percentScheduled * activityPlannedVal;
-			}
+
+		if (activityEarlyFinish > activityLateFinish) {
+			ec.showError("Latest Finish should not preced Earliest Finish");// DMITRI
+			return -1.0;
 		}
 		
+		if(activityPlannedVal < 0){
+			ec.showError("PlannedValue should not be less than Zero");// DMITRI
+			return -1.0;
+		}
+		
+		if(activityDuration < 0){
+			ec.showError("Duration should not be less than Zero");// DMITRI
+			return -1.0;
+		}
+		
+		if(daysSinceStart < 0){
+			ec.showError("DaysSinceStart should not be less than Zero");// DMITRI
+			return -1.0;
+		}
+
+		// If the activity should be finished, add its entire value
+		if (activityEarlyFinish <= daysSinceStart) {
+			scheduledValue += activityPlannedVal;
+		}
+		
+		if(daysSinceStart < activityLateFinish){
+			ec.showError("DaysSinceStart should not be less than activityLateFinish");// DMITRI
+			return -1.0;
+		}
+		
+		// Otherwise, calculate what percentage should be done, and add that to
+		// the scheduled value
+		else if (activityLateFinish < daysSinceStart) {
+			if (activityDuration > 0) {
+
+				percentScheduled = (daysSinceStart - activityLateFinish)
+						/ activityDuration;
+
+				scheduledValue += percentScheduled * activityPlannedVal;
+
+			}
+			else{
+				ec.showError("Duration is Zero");// DMITRI
+				return -1.0;
+			}
+		}
 		return scheduledValue;
 	}
 

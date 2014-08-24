@@ -3,7 +3,6 @@ package PModel;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import org.jfree.data.time.TimePeriod;
 
 import Controller.ErrorController;
@@ -76,26 +75,27 @@ public class Activity extends Manageable implements TimePeriod {
 		this.projectID = ProjectID;
 
 		if (areValidTimes(mostLikelyTimeToCompletion,
-				optimisticTimeToCompletion, pessimisticTimeToCompletion,
-				targetCompletionDate)) {
+				optimisticTimeToCompletion, pessimisticTimeToCompletion)) {
 
 			this.mostLikelyTimeToCompletion = mostLikelyTimeToCompletion;
 			this.optimisticTimeToCompletion = optimisticTimeToCompletion;
 			this.pessimisticTimeToCompletion = pessimisticTimeToCompletion;
-			this.targetCompletionDate = targetCompletionDate;
+			
 
 		} else {
-			//ec.showError("DMITRI");// DMITRI
+			ec.showError("Time Estimates are inconsistent.");// DMITRI
 			return;
 		}
-
+		
+		this.targetCompletionDate = targetCompletionDate;
+		
 		if (areValidPercentAndCost(percentComplete, actualCost)) {
 
 			this.percentComplete = percentComplete;
 			this.actualCost = actualCost;
 
 		} else {
-			//ec.showError("DMITRI");// DMITRI
+			ec.showError("Cost or Percent Values are inconsistent.");// DMITRI
 			return;
 		}
 
@@ -113,55 +113,7 @@ public class Activity extends Manageable implements TimePeriod {
 		this.setStandardDevitation();
 
 	}
-
-	/**
-	 * 
-	 * @param mostLikely
-	 * @param optimistic
-	 * @param pessimistic
-	 * @return
-	 */
-	private boolean areValidTimes(double mostLikely, double optimistic,
-			double pessimistic, double targetCompletionDate) {
-
-		if (mostLikely < 0 || optimistic < 0 || pessimistic < 0
-				|| targetCompletionDate < 0) {
-			return false;
-		}
-
-		if (mostLikely > MAX_DURATION || optimistic > MAX_DURATION
-				|| pessimistic > MAX_DURATION
-				|| targetCompletionDate > MAX_DURATION) {
-			return false;
-		}
-
-		if (mostLikely > pessimistic || mostLikely < optimistic
-				|| targetCompletionDate > pessimistic
-				|| targetCompletionDate < optimistic) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * 
-	 * @param percentComplete
-	 * @param actualCost
-	 * @return
-	 */
-	private boolean areValidPercentAndCost(double percentComplete,
-			double actualCost) {
-
-		if (percentComplete < 0 || 1 < percentComplete) {
-			return false;
-		}
-		if (actualCost < 0 || MAX_COST < actualCost) {
-			return false;
-		}
-		return true;
-	}
-
+	
 	/**
 	 * Copy Constructor for Activity
 	 * 
@@ -185,6 +137,54 @@ public class Activity extends Manageable implements TimePeriod {
 		this.setDuration();
 		this.setStandardDevitation();
 
+	}
+
+	/**
+	 * 
+	 * @param mostLikely
+	 * @param optimistic
+	 * @param pessimistic
+	 * @return
+	 */
+	// TODO: This is public only during testing, for production it must revert
+	// to private
+	public static boolean areValidTimes(double mostLikely, double optimistic,
+			double pessimistic) {
+
+		if (mostLikely < 0 || optimistic < 0 || pessimistic < 0) {
+			return false;
+		}
+
+		if (mostLikely > MAX_DURATION || optimistic > MAX_DURATION
+				|| pessimistic > MAX_DURATION) {
+			return false;
+		}
+
+		if (mostLikely > pessimistic || mostLikely < optimistic) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param percentComplete
+	 * @param actualCost
+	 * @return
+	 */
+	// TODO: This is public only during testing, for production it must revert
+	// to private
+	public static boolean areValidPercentAndCost(double percentComplete,
+			double actualCost) {
+
+		if (percentComplete < 0 || 1 < percentComplete) {
+			return false;
+		}
+		if (actualCost < 0 || MAX_COST < actualCost) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
