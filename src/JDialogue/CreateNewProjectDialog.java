@@ -130,7 +130,7 @@ public class CreateNewProjectDialog extends JDialog {
 						}else{
 								newPro = new Project(managerID, projectName, projectDescription,
 										startDate, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-								MainController.get().initializeProject(newPro);
+//								MainController.get().initializeProject(newPro);
 								MainController.get().openProject(newPro.getName());
 								MainController.get().notifyDisplayController(PModelChange.CREATED_PROJECT);
 								dispose();

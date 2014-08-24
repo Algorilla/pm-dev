@@ -19,7 +19,7 @@ import PModel.Project;
 public class DataUpdater {
 
 	/**
-	 * @param mc
+	 * @param memberc
 	 * @param member
 	 * @return
 	 */
@@ -223,7 +223,7 @@ public class DataUpdater {
 	 * @param project
 	 * @return
 	 */
-	public Project initializeProject(MainController mc, Project project) {
+	public boolean initializeProject(MainController mc, Project project) {
 		if (validProject(mc, project)) {
 			String sql;
 			try {
@@ -279,13 +279,13 @@ public class DataUpdater {
 				mc.rs = mc.pst.executeQuery();
 				project.setProjectID(mc.rs.getInt(1));
 				mc.projects.add(project);
-				return project;
+				return true;
 			} catch (Exception ex) {
 //				JOptionPane.showMessageDialog(null, ex);
 				mc.ec.addError(ex.getLocalizedMessage());
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/**

@@ -10,6 +10,7 @@ import Analysis.PertNetwork;
 import JDialogue.AddTeamMember;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
+import JDialogue.CreateNewProjectDialogClone;
 import JDialogue.DeleteProjectDialog;
 import JDialogue.EarnedValueDisplay;
 import JDialogue.GanttDisplay;
@@ -28,6 +29,7 @@ public class DisplayController {
 	private MainController mc = MainController.get();
 	private ErrorController ec = ErrorController.get();
 
+	Project newProject = null;
 	private Project currentProject = null;
 	private Activity currentActivity = null;
 
@@ -41,8 +43,7 @@ public class DisplayController {
 
 	private String deletedProjectName;
 
-	// TODO: DMITRI: figure out interaction with TeamMember
-	private JTable activitesTable;
+	JTable activitesTable;
 
 	private DisplayController() {
 		loginFrame = new LoginFrameClone();
@@ -55,11 +56,6 @@ public class DisplayController {
 		}
 		return self;
 	}
-
-	// TODO: ATTENTION: all of the ErrorController message assume that
-	// ErrorController is refactored
-	// TODO: DEV refactor all JDialogs so that they set own visiblity to true
-	// and notify
 
 	// DisplayController once PModel elements actually change, when needed
 	// TODO: TEST can you guys give us all of the error-handling to be done in
@@ -83,18 +79,15 @@ public class DisplayController {
 			loginFrame.setVisible(false);
 		} else {
 			ec.showError("Invalid log in");
-
 		}
 	}
 
 	public void createNewProject(JTable activitiesTable) {
-		// TODO: DEV refactor CreateNewProjectDialog
-		CreateNewProjectDialog newProjectDialog = new CreateNewProjectDialog();
-		// TODO: DEV CreateNewProjectDialog should set its visibility to true
-		// TODO: TEST add error handling to ensure no other identical project
-		// exists
-		// in newProjectDialog
-		newProjectDialog.setVisible(true);
+		new CreateNewProjectDialogClone();
+
+		if (newProject != null) {
+			mc.initializeProject(newProject);
+		}
 
 		if (isProjectCreated) {
 			currentProject = mc.getCurrentProject();
@@ -105,6 +98,8 @@ public class DisplayController {
 			userInterface.resetActivity(false);
 			isProjectCreated = false;
 		}
+
+		newProject = null;
 	}
 
 	public void openProject(JTable activitiesTable) {
@@ -123,8 +118,7 @@ public class DisplayController {
 		}
 	}
 
-	public boolean deleteProject() {
-		boolean projectDeletedIsCurrentProject = false;
+	public void deleteProject() {
 		String currentProjectName = currentProject == null ? ""
 				: currentProject.getName();
 
@@ -136,17 +130,11 @@ public class DisplayController {
 				currentProject = null;
 				userInterface.setProjectName("Please select a project");
 				userInterface.resetActivity(true);
-				projectDeletedIsCurrentProject = true;
-				// TODO: DEV/TEST SOMEONE FIGURE OUT HOW TO FREAKING UPDATE THE
-				// ACTIVITY
-				// TABLE!!!
-				// TODO: also update mntmDelete
 			}
 
 			deletedProjectName = null;
 			isProjectDeleted = false;
 		}
-		return projectDeletedIsCurrentProject;
 	}
 
 	public void exit() {
@@ -324,12 +312,17 @@ public class DisplayController {
 		}
 	}
 
+	// package access so that only MainController can call this method
 	JTable getActivityTable() {
 		return activitesTable;
 	}
 
 	public void setDeletedProjectName(String name) {
 		deletedProjectName = name;
+	}
+
+	public void setNewProject(Project newProject) {
+		this.newProject = newProject;
 	}
 
 	private boolean isManageableNull(Manageable manageable, String message) {

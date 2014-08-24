@@ -77,8 +77,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 
 		mntmDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (DisplayController.get().deleteProject()) {
-				}
+				DisplayController.get().deleteProject();
 			}
 		});
 
@@ -349,6 +348,7 @@ public class UserInterfaceClone extends InitialJFrameClone {
 	public void resetActivity(boolean isCurrentProjectDeleted) {
 		if (isCurrentProjectDeleted) {
 			textFieldActivityName.setText("");
+			activitiesTable.updateUI();
 		} else {
 			textFieldActivityName.setText("Please select an activity");
 		}
