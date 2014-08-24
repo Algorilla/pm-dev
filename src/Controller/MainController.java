@@ -1,8 +1,5 @@
 package Controller;
 
-import Driver.DriverClass;
-import JFrames.TeamMemberView;
-import JFrames.UserInterface;
 import PModel.Activity;
 import PModel.Member;
 import PModel.MemberActivity;
@@ -12,28 +9,13 @@ import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-
-import net.proteanit.sql.DbUtils;
-
-/**
- * Main Controller class for Project Management Software, following MVC design
- * pattern. Controls all manipulation of data in database, and reflects changes
- * via Swing GUI.
- * 
- * @author Robert Wolfstein
- */
 public class MainController {
 
-	// Singleton design pattern
 	private static MainController self = new MainController();
 
 	public synchronized static MainController get() {
@@ -70,39 +52,26 @@ public class MainController {
 		dataLoader.loadData(this);
 	}
 
-	public boolean login(String username, String password) {
-		boolean ret = false;
+	boolean login(String username, String password) {
 		for (Member member : members) {
 			if (member.getUserName().equals(username)
 					&& member.getPassword().equals(password)) {
 				currentUser = member;
-				if (currentUser.getType().equals("manager")) {
-					// TODO: remove this when newGui replaces old
-					// if (!DriverClass.newGui) {
-					// UserInterface userAccount = new UserInterface(100, 100,
-					// 1000, 600, "", username);
-					// userAccount.setVisible(true);
-					// }
-					ret = true;
-					break;
-				} else {
-					// TODO: once memberView is refactored, this should be gone
-					//
-
-					ret = true;
-					break;
-				}
+				return true;
 			}
 		}
-		// JOptionPane.showMessageDialog(null,
-		// "Username and password combination is not correct.");
-		// TODO: move logic to DisplayController
-		// ec.addError("Username and password combination is not correct.");
-		// ec.displayErrors();
-		return ret;
+
+		ec.showError("Incorrect username and/or password");
+		return false;
 	}
 
-	public List getProjectList() {
+	void logout()
+	{
+		currentUser = null;
+		currentProject = null;
+	}
+
+	List getProjectList() {
 		final List projectList = new List();
 		for (Project project : projects)
 			if (project.getManagerID() == currentUser.getMemberID())
@@ -110,23 +79,23 @@ public class MainController {
 		return projectList;
 	}
 
-	public void openProject(String name) {
+	void openProject(String name) {
 		for (Project project : projects) {
 			if (project.getName() == name) {
 				currentProject = project;
-				DisplayController.get().notifyChange(PModelChange.OPENED_PROJECT);
+				DisplayController.get().notifyChange(
+						PModelChange.OPENED_PROJECT);
 				break;
 			}
 		}
 	}
 
-	public void getActivitiesListForCurrentProject() {
+	void getActivitiesListForCurrentProject() {
 		dataLoader.getTableFormattedActivityList(this);
 	}
 
-	public void getActivityListForCurrentTeamMember(JTable table) {
-		// TODO : Invesrigate
-		dataLoader.getActivityListForCurrentTeamMember(table);
+	void getActivityListForCurrentTeamMember() {
+		dataLoader.getActivityListForCurrentTeamMember(this);
 	}
 
 	public ArrayList<Activity> getActivityListForCurrentProject() {
@@ -137,28 +106,7 @@ public class MainController {
 		return activityList;
 	}
 
-	public void Fillcombo(JComboBox comboBox) {
-		// TODO: this should be moved to DataLoader
-		// See getTableFormattedActivityList for example
-		int pid = currentProject.getProjectID();
-		String sql = "select * from Activities  where PID = ?";
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, pid);
-			rs = pst.executeQuery();
-
-			while (rs.next()) {
-				String name = rs.getString("Name");
-				comboBox.addItem(name);
-			}
-			pst.execute();
-			pst.close();
-		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(null,ex);
-		}
-	}
-
-	public Activity getActivityFromID(int PID, int number) {
+	Activity getActivityFromID(int PID, int number) {
 		for (Activity activity : activities)
 			if (activity.getProjectID() == PID
 					&& activity.getNumber() == number)
@@ -166,23 +114,12 @@ public class MainController {
 		return null;
 	}
 
-	public Member createMember(Member member) {
+	Member createMember(Member member) {
 		return dataUpdater.createMember(this, member);
 	}
 
-	public boolean updateMember(Member member) {
+	boolean updateMember(Member member) {
 		return dataUpdater.updateMember(this, member);
-	}
-
-	public boolean deleteMember(int MID) {
-		int x = 0;
-		for (Member member : members)
-			if (member.getMemberID() == MID) {
-				break;
-			} else {
-				x++;
-			}
-		return deleteMember(members.get(x));
 	}
 
 	public boolean deleteMember(Member member) {
@@ -203,36 +140,28 @@ public class MainController {
 			ec.showError("Project with same name already exists");
 		} else if (dataUpdater.initializeProject(this, newProject)) {
 			currentProject = newProject;
+			updateProject(newProject);
 			DisplayController.get().notifyChange(PModelChange.CREATED_PROJECT);
+		} else {
+			ec.showError("Unable to create new project");
 		}
 	}
 
-	public boolean updateProject(Project project) {
+	private boolean updateProject(Project project) {
 		return dataUpdater.updateProject(this, project);
 	}
 
-	public boolean deleteProject(int PID) {
-		int projectCounter = 0;
-		for (Project project : projects)
-			if (project.getProjectID() == PID) {
-				break;
-			} else {
-				projectCounter++;
-			}
-		return deleteProject(projects.get(projectCounter));
-	}
-
 	public void deleteProject(String projectName) {
-		int projectCounter = 0;
+		int projectIdCounter = 0;
 		for (Project project : projects) {
 			if (project.getName() == projectName) {
 				break;
 			} else {
-				projectCounter++;
+				projectIdCounter++;
 			}
 		}
 
-		if (deleteProject(projects.get(projectCounter))) {
+		if (deleteProject(projects.get(projectIdCounter))) {
 			notifyDisplayController(PModelChange.DELETED_PROJECT);
 		} else {
 			ec.showError("Unable to delete project");
@@ -284,7 +213,6 @@ public class MainController {
 	}
 
 	public ArrayList<Activity> getPrecedantActivities(Activity a) {
-
 		ArrayList<Activity> temp = new ArrayList<Activity>();
 
 		for (Integer i : this.getRelatedActivities(a, "precedent")) {
@@ -298,7 +226,6 @@ public class MainController {
 	}
 
 	public ArrayList<Integer> getRelatedActivities(Activity a, String type) {
-
 		return dataLoader.getRelatedActivities(this, a, type);
 	}
 
@@ -316,5 +243,9 @@ public class MainController {
 
 	public void notifyDisplayController(PModelChange updateType) {
 		DisplayController.get().notifyChange(updateType);
+	}
+
+	public void emptyActivitiesForDeletedProject() {
+		dataLoader.getEmptyActivityTable(this);
 	}
 }

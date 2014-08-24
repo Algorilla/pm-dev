@@ -19,9 +19,6 @@ import PModel.Project;
  */
 public class DataLoader {
 
-	/**
-	 * @param mc
-	 */
 	public void loadData(MainController mc) {
 
 		String sqlMembers = "select * from Members";
@@ -94,17 +91,10 @@ public class DataLoader {
 			mc.rs.close();
 			mc.pst.close();
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex);
 		}
 
 	}
 
-	/**
-	 * @param mc
-	 * @param a
-	 * @param type
-	 * @return
-	 */
 	public ArrayList<Integer> getRelatedActivities(MainController mc,
 			Activity a, String type) {
 
@@ -133,7 +123,6 @@ public class DataLoader {
 				temp.add(mc.rs.getInt(get));
 			}
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex);
 		} finally {
 			try {
 				mc.rs.close();
@@ -144,11 +133,6 @@ public class DataLoader {
 		return temp;
 	}
 
-	/**
-	 * Display project and its data in the GUI
-	 * 
-	 * @param table
-	 */
 	public void getTableFormattedActivityList(MainController mc) {
 		int pid = mc.getCurrentProject().getProjectID();
 		String sql = "select * from Activities  where PID = ?";
@@ -161,19 +145,13 @@ public class DataLoader {
 			mc.pst.execute();
 			mc.pst.close();
 		} catch (Exception ex) {
-			// JOptionPane.showMessageDialog(null,ex);
-			// TODO: move to ErrorController
-			// ec.addError(ex.getLocalizedMessage());
+
 		}
 	}
-	
-	public void getActivityListForCurrentTeamMember(JTable table) {
-		// TODO: this should be moved to DataLoader
-		// See getTableFormattedActivityList for example
-		
-		MainController mc = MainController.get();
-		
+
+	public void getActivityListForCurrentTeamMember(MainController mc) {
 		int mid = mc.currentUser.getMemberID();
+
 		String sql = "select Activities.PID, Activities.Number, Activities.Name"
 				+ " from Activities, MemberActivities"
 				+ "  where MemberActivities.PID = Activities.PID   AND "
@@ -183,12 +161,25 @@ public class DataLoader {
 			mc.pst = mc.conn.prepareStatement(sql);
 			mc.pst.setInt(1, mid);
 			mc.rs = mc.pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(mc.rs));
+			DisplayController.get().getActivityTable()
+					.setModel(DbUtils.resultSetToTableModel(mc.rs));
 			mc.pst.execute();
 			mc.pst.close();
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex);
+
 		}
 	}
 
+	public void getEmptyActivityTable(MainController mc) {
+		String sql = "select * from Activities where PID = -1";
+		try {
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.rs = mc.pst.executeQuery();
+			DisplayController.get().getActivityTable()
+					.setModel(DbUtils.resultSetToTableModel(mc.rs));
+			mc.pst.execute();
+			mc.pst.close();
+		} catch (Exception ex) {
+		}
+	}
 }
