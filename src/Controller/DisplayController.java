@@ -151,6 +151,7 @@ public class DisplayController {
 	}
 
 	public void logout() {
+		// TODO : add save functionality
 		currentProject = null;
 		currentActivity = null;
 		activitiesTable = null;
