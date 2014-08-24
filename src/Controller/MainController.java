@@ -63,27 +63,13 @@ public class MainController {
 	DataUpdater dataUpdater = new DataUpdater();
 	DataDeleter dataDeleter = new DataDeleter();
 
-	ErrorController ec;
+	ErrorController ec = ErrorController.get();
 
-	/**
-	 * Initializes controller by connecting to the DB and loading the data into
-	 * memory.
-	 */
 	private MainController() {
 		conn = SQLiteDBConnection.ConnectDb();
 		dataLoader.loadData(this);
-		ec = ErrorController.get();
 	}
 
-	/**
-	 * Logs the user in.
-	 * 
-	 * @param username
-	 *            Username
-	 * @param password
-	 *            Password
-	 * @return Login status ( success or fail )
-	 */
 	public boolean login(String username, String password) {
 		boolean ret = false;
 		for (Member member : members) {
@@ -92,19 +78,17 @@ public class MainController {
 				currentUser = member;
 				if (currentUser.getType().equals("manager")) {
 					// TODO: remove this when newGui replaces old
-					if (!DriverClass.newGui) {
-						UserInterface userAccount = new UserInterface(100, 100,
-								1000, 600, "", username);
-						userAccount.setVisible(true);
-					}
+					// if (!DriverClass.newGui) {
+					// UserInterface userAccount = new UserInterface(100, 100,
+					// 1000, 600, "", username);
+					// userAccount.setVisible(true);
+					// }
 					ret = true;
 					break;
 				} else {
 					// TODO: once memberView is refactored, this should be gone
-					if (!DriverClass.newGui) {
-						TeamMemberView memberView = new TeamMemberView();
-						memberView.setVisible(true);
-					}
+					//
+
 					ret = true;
 					break;
 				}
@@ -118,11 +102,6 @@ public class MainController {
 		return ret;
 	}
 
-	/**
-	 * Returns a list of projects for the currently signed in user.
-	 * 
-	 * @return A list of projects for the currently signed in user.
-	 */
 	public List getProjectList() {
 		final List projectList = new List();
 		for (Project project : projects)
@@ -131,52 +110,25 @@ public class MainController {
 		return projectList;
 	}
 
-	/**
-	 * Opens a project selected in the OpenProject list
-	 * 
-	 * @param name
-	 *            Name of project to open
-	 */
 	public void openProject(String name) {
-		for (Project project : projects)
-			if (project.getName() == name)
+		for (Project project : projects) {
+			if (project.getName() == name) {
 				currentProject = project;
+				DisplayController.get().notifyChange(PModelChange.OPENED_PROJECT);
+				break;
+			}
+		}
 	}
 
 	public void getActivitiesListForCurrentProject() {
 		dataLoader.getTableFormattedActivityList(this);
 	}
 
-	/**
-	 * Display the Activities to which a Member has been assigned.
-	 * 
-	 * @param table
-	 *            The JTable into which the results are stored
-	 */
 	public void getActivityListForCurrentTeamMember(JTable table) {
-		// TODO: this should be moved to DataLoader
-		// See getTableFormattedActivityList for example
-		int mid = currentUser.getMemberID();
-		String sql = "select Activities.PID, Activities.Number, Activities.Name"
-				+ " from Activities, MemberActivities"
-				+ "  where MemberActivities.PID = Activities.PID   AND "
-				+ " 	 	 MemberActivities.Number = Activities.Number   AND"
-				+ "  		 MemberActivities.MID = ?";
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, mid);
-			rs = pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-			pst.execute();
-			pst.close();
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, ex);
-		}
+		// TODO : Invesrigate
+		dataLoader.getActivityListForCurrentTeamMember(table);
 	}
 
-	/**
-	 *  
-	 * */
 	public ArrayList<Activity> getActivityListForCurrentProject() {
 		final ArrayList<Activity> activityList = new ArrayList<Activity>();
 		for (Activity activity : activities)
@@ -185,12 +137,6 @@ public class MainController {
 		return activityList;
 	}
 
-	/**
-	 * Fills comboBox
-	 * 
-	 * @param comboBox
-	 *            comboBox to fill
-	 */
 	public void Fillcombo(JComboBox comboBox) {
 		// TODO: this should be moved to DataLoader
 		// See getTableFormattedActivityList for example
@@ -212,46 +158,6 @@ public class MainController {
 		}
 	}
 
-	/**
-	 * MouseClickTable (Description to be filled)
-	 * 
-	 * @param table
-	 *            A JTable
-	 */
-	public void mouseClickTable(JTable table) {
-		// TODO: put this in a more appropriate place
-		// TODO: DMITRI: I'm not actually sure what to do with this one
-		int row = table.getSelectedRow();
-		int pid = currentProject.getProjectID();
-		try {
-			String table_click = (table.getModel().getValueAt(row, 2))
-					.toString();
-			String sql = "select * from Activities  where PID = ? and Name = ?";
-
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, pid);
-			pst.setString(2, table_click);
-			rs = pst.executeQuery();
-
-			pst.execute();
-			pst.close();
-		} catch (Exception ex) {
-			// TODO: move to ErroController
-			// JOptionPane.showMessageDialog(null,ex);
-		}
-
-	}
-
-	/**
-	 * Returns a reference to an activity in local memory based on the needed
-	 * identifiers.
-	 * 
-	 * @param PID
-	 *            Project ID
-	 * @param number
-	 *            Activity Number
-	 * @return A reference to an activity in local memory
-	 */
 	public Activity getActivityFromID(int PID, int number) {
 		for (Activity activity : activities)
 			if (activity.getProjectID() == PID
@@ -260,37 +166,14 @@ public class MainController {
 		return null;
 	}
 
-	/**
-	 * Creates a user.
-	 * 
-	 * @param member
-	 *            Member object from which to create user
-	 * @return The created user
-	 */
 	public Member createMember(Member member) {
 		return dataUpdater.createMember(this, member);
 	}
 
-	/**
-	 * Updates a user's information into DB.
-	 * 
-	 * @param member
-	 *            The Member to update
-	 * @return Update status ( success or fail )
-	 */
 	public boolean updateMember(Member member) {
 		return dataUpdater.updateMember(this, member);
 	}
 
-	/**
-	 * Deletes a user from DB.
-	 * 
-	 * @param MID
-	 *            ID of Member to delete
-	 * @return Deletion status ( success or fail )
-	 */
-	// TODO: Ensure referential integrity such that objects in other relations
-	// do not refer to deleted Users
 	public boolean deleteMember(int MID) {
 		int x = 0;
 		for (Member member : members)
@@ -302,31 +185,16 @@ public class MainController {
 		return deleteMember(members.get(x));
 	}
 
-	/**
-	 * Deletes a user
-	 * 
-	 * @param member
-	 *            Member object to delete
-	 * @return Deletion status ( success or fail )
-	 */
 	public boolean deleteMember(Member member) {
 		return dataDeleter.deleteMember(this, member);
 	}
 
-	/**
-	 * Creates a project.
-	 * 
-	 * @param project
-	 *            Project object to create
-	 * @return Created project
-	 */
 	void initializeProject(Project newProject) {
 		boolean projectNameAlreadyExists = false;
 
 		for (Project project : projects) {
 			if (project.getManagerID() == newProject.getManagerID()
-					&& project.getName().equalsIgnoreCase(
-							newProject.getName())) {
+					&& project.getName().equalsIgnoreCase(newProject.getName())) {
 				projectNameAlreadyExists = true;
 			}
 		}
@@ -339,95 +207,50 @@ public class MainController {
 		}
 	}
 
-	/**
-	 * Updates a project's information into DB.
-	 * 
-	 * @param project
-	 *            Project object o update
-	 * @return Update status ( success or fail )
-	 */
 	public boolean updateProject(Project project) {
 		return dataUpdater.updateProject(this, project);
 	}
 
-	/**
-	 * Deletes a project from DB.
-	 * 
-	 * @param PID
-	 *            Project's ID
-	 * @return Deletion status ( success or fail )
-	 */
 	public boolean deleteProject(int PID) {
-		int x = 0;
+		int projectCounter = 0;
 		for (Project project : projects)
 			if (project.getProjectID() == PID) {
 				break;
 			} else {
-				x++;
+				projectCounter++;
 			}
-		return deleteProject(projects.get(x));
+		return deleteProject(projects.get(projectCounter));
 	}
 
-	/**
-	 * Deletes a project from DB
-	 * 
-	 * @param projectName
-	 *            Project's name
-	 * @return Deletion status ( success or fail )
-	 */
-	public boolean deleteProject(String projectName) {
-		int x = 0;
-		for (Project project : projects)
+	public void deleteProject(String projectName) {
+		int projectCounter = 0;
+		for (Project project : projects) {
 			if (project.getName() == projectName) {
 				break;
 			} else {
-				x++;
+				projectCounter++;
 			}
-		return deleteProject(projects.get(x));
+		}
+
+		if (deleteProject(projects.get(projectCounter))) {
+			notifyDisplayController(PModelChange.DELETED_PROJECT);
+		} else {
+			ec.showError("Unable to delete project");
+		}
 	}
 
-	/**
-	 * Deletes a project from DB
-	 * 
-	 * @param project
-	 *            Project object
-	 * @return Deletion status ( success or fail )
-	 */
 	public boolean deleteProject(Project project) {
 		return dataDeleter.deleteProject(this, project);
 	}
 
-	/**
-	 * Creates an activity
-	 * 
-	 * @param activity
-	 *            Activity object to create
-	 * @return The created Activity
-	 */
 	public Activity createActivity(Activity activity) {
 		return dataUpdater.createActivity(this, activity);
 	}
 
-	/**
-	 * Updates an activity's information in DB.
-	 * 
-	 * @param activity
-	 *            Activity to update
-	 * @return Update status ( success or fail )
-	 */
 	public boolean updateActivity(Activity activity) {
 		return dataUpdater.updateActivity(this, activity);
 	}
 
-	/**
-	 * Deletes an activity from DB.
-	 * 
-	 * @param PID
-	 *            Activity's project ID
-	 * @param number
-	 *            Activity's number
-	 * @return Deletion status ( success or fail )
-	 */
 	public boolean deleteActivity(int PID, int number) {
 		return dataDeleter.deleteActivity(this, PID, number);
 	}
@@ -446,11 +269,6 @@ public class MainController {
 		return members;
 	}
 
-	/**
-	 * @param a
-	 *            An Activity Object
-	 * @return temp An ArrayList of Activities depend on the Activity passed.
-	 * */
 	public ArrayList<Activity> getDependantActivities(Activity a) {
 
 		ArrayList<Activity> temp = new ArrayList<Activity>();
@@ -465,11 +283,6 @@ public class MainController {
 		return temp;
 	}
 
-	/**
-	 * @param a
-	 *            An Activity Object
-	 * @return temp An ArrayList of Activities depend on the Activity passed.
-	 * */
 	public ArrayList<Activity> getPrecedantActivities(Activity a) {
 
 		ArrayList<Activity> temp = new ArrayList<Activity>();
@@ -489,20 +302,10 @@ public class MainController {
 		return dataLoader.getRelatedActivities(this, a, type);
 	}
 
-	/**
-	 * Returns a reference to the current user.
-	 * 
-	 * @return The current program user
-	 */
 	public Member getCurrentUser() {
 		return currentUser;
 	}
 
-	/**
-	 * Returns a reference to the current project.
-	 * 
-	 * @return The currently loaded project
-	 */
 	public Project getCurrentProject() {
 		return currentProject;
 	}

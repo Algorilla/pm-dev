@@ -166,5 +166,29 @@ public class DataLoader {
 			// ec.addError(ex.getLocalizedMessage());
 		}
 	}
+	
+	public void getActivityListForCurrentTeamMember(JTable table) {
+		// TODO: this should be moved to DataLoader
+		// See getTableFormattedActivityList for example
+		
+		MainController mc = MainController.get();
+		
+		int mid = mc.currentUser.getMemberID();
+		String sql = "select Activities.PID, Activities.Number, Activities.Name"
+				+ " from Activities, MemberActivities"
+				+ "  where MemberActivities.PID = Activities.PID   AND "
+				+ " 	 	 MemberActivities.Number = Activities.Number   AND"
+				+ "  		 MemberActivities.MID = ?";
+		try {
+			mc.pst = mc.conn.prepareStatement(sql);
+			mc.pst.setInt(1, mid);
+			mc.rs = mc.pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(mc.rs));
+			mc.pst.execute();
+			mc.pst.close();
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
+	}
 
 }

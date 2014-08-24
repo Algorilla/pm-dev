@@ -1,5 +1,7 @@
 package Controller;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JTable;
@@ -8,19 +10,26 @@ import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
 import JDialogue.AddTeamMember;
+import JDialogue.AddTeamMemberClone;
 import JDialogue.CreateNewActivityDialog;
 import JDialogue.CreateNewProjectDialog;
 import JDialogue.CreateNewProjectDialogClone;
 import JDialogue.DeleteProjectDialog;
+import JDialogue.DeleteProjectDialogClone;
 import JDialogue.EarnedValueDisplay;
 import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialog;
+import JDialogue.OpenProjectListDialogClone;
 //import JDialogue.PertDisplay;
 import JDialogue.PertDisplayClone;
 import JFrames.LoginFrameClone;
+import JFrames.TeamMemberView;
+import JFrames.TeamMemberViewClone;
 import JFrames.UserInterfaceClone;
 import PModel.Activity;
 import PModel.Manageable;
+import PModel.Member;
+import PModel.MemberActivity;
 import PModel.Project;
 
 public class DisplayController {
@@ -29,21 +38,23 @@ public class DisplayController {
 	private MainController mc = MainController.get();
 	private ErrorController ec = ErrorController.get();
 
-	Project newProject = null;
-	private Project currentProject = null;
-	private Activity currentActivity = null;
+	private Project currentProject;
+	private Activity currentActivity;
+
+	private Project newProject;
+	private String projectToOpen;
+	private String projectToDelete;
+	private JTable activitesTable;
 
 	private LoginFrameClone loginFrame;
 	private UserInterfaceClone userInterface;
+	private TeamMemberViewClone teamMemberView;
 
+	// flags that MainController sets
 	private boolean isProjectCreated;
 	private boolean isProjectOpen;
 	private boolean isProjectDeleted;
 	private boolean isActivityCreated;
-
-	private String deletedProjectName;
-
-	JTable activitesTable;
 
 	private DisplayController() {
 		loginFrame = new LoginFrameClone();
@@ -57,25 +68,17 @@ public class DisplayController {
 		return self;
 	}
 
-	// DisplayController once PModel elements actually change, when needed
-	// TODO: TEST can you guys give us all of the error-handling to be done in
-	// the different
-	// JDialogs? For example, to create a project, a data must be selected
-	// We will implement these once we refactor the JDialogs
 	public void login(String username, String password) {
 		if (mc.login(username, password)) {
-			if (userInterface == null) {
+			if (mc.currentUser.getType().equals("manager")) {
 				userInterface = new UserInterfaceClone();
+				userInterface.setVisible(true);
+				userInterface.setUserName(mc.getCurrentUser().getName());
+				userInterface.setProjectName("Please select a project");
+			} else {
+				teamMemberView = new TeamMemberViewClone();
+				teamMemberView.setVisible(true);
 			}
-			// TODO: DEV check whether user is manager or team-member
-			// TODO: DEV refactor TeamMemberView similarly to UserInterfaceClone
-			// TODO: the TeamMemeberView doesn't work as of now
-			// TODO: FIGURE out how to switch between login and userInteface:
-			// i.e. instead of exitin the whole program, how to reset login too
-			// visible
-			userInterface.setVisible(true);
-			userInterface.setUserName(mc.getCurrentUser().getName());
-			userInterface.setProjectName("Please select a project");
 			loginFrame.setVisible(false);
 		} else {
 			ec.showError("Invalid log in");
@@ -83,7 +86,7 @@ public class DisplayController {
 	}
 
 	public void createNewProject(JTable activitiesTable) {
-		new CreateNewProjectDialogClone();
+		new CreateNewProjectDialogClone(mc.getCurrentUser().getMemberID());
 
 		if (newProject != null) {
 			mc.initializeProject(newProject);
@@ -91,11 +94,13 @@ public class DisplayController {
 
 		if (isProjectCreated) {
 			currentProject = mc.getCurrentProject();
+			userInterface.setProjectName(currentProject.getName());
+
 			currentActivity = null;
+			userInterface.resetActivity(false);
+
 			this.activitesTable = activitiesTable;
 			mc.getActivitiesListForCurrentProject();
-			userInterface.setProjectName(currentProject.getName());
-			userInterface.resetActivity(false);
 			isProjectCreated = false;
 		}
 
@@ -103,38 +108,50 @@ public class DisplayController {
 	}
 
 	public void openProject(JTable activitiesTable) {
-		// TODO: DEV refactor openProjectListDialog
-		OpenProjectListDialog openProjectDialog = new OpenProjectListDialog();
-		// TODO: DEV OpenProjectDialog should set its visibility to true
-		openProjectDialog.setVisible(true);
+		new OpenProjectListDialogClone(mc.getProjectList());
+
+		if (projectToOpen != null) {
+			mc.openProject(projectToOpen);
+		}
+
 		if (isProjectOpen) {
 			currentProject = mc.getCurrentProject();
+			userInterface.setProjectName(currentProject.getName());
+
 			currentActivity = null;
+			userInterface.resetActivity(false);
+
 			this.activitesTable = activitiesTable;
 			mc.getActivitiesListForCurrentProject();
-			userInterface.setProjectName(currentProject.getName());
-			userInterface.resetActivity(false);
+
 			isProjectOpen = false;
 		}
+
+		projectToOpen = null;
 	}
 
 	public void deleteProject() {
 		String currentProjectName = currentProject == null ? ""
 				: currentProject.getName();
 
-		DeleteProjectDialog deleteProjectDialog = new DeleteProjectDialog();
-		deleteProjectDialog.setVisible(true);
+		new DeleteProjectDialogClone(mc.getProjectList());
+
+		if (projectToDelete != null) {
+			mc.deleteProject(projectToDelete);
+		}
+
 		if (isProjectDeleted) {
 			if (!currentProjectName.isEmpty()
-					&& currentProjectName.equalsIgnoreCase(deletedProjectName)) {
+					&& currentProjectName.equalsIgnoreCase(projectToDelete)) {
 				currentProject = null;
 				userInterface.setProjectName("Please select a project");
 				userInterface.resetActivity(true);
 			}
 
-			deletedProjectName = null;
 			isProjectDeleted = false;
 		}
+
+		projectToDelete = null;
 	}
 
 	public void exit() {
@@ -142,6 +159,7 @@ public class DisplayController {
 	}
 
 	public void updatePercentComplete(Double percentComplete) {
+		// TODO: figure out conversion
 		if (isManageableNull(currentProject, "Please select a project")) {
 			return;
 		} else if (isManageableNull(currentActivity,
@@ -240,20 +258,24 @@ public class DisplayController {
 				"Please select an activity")) {
 			return;
 		} else {
-			new AddTeamMember(currentActivity);
+			new AddTeamMemberClone(currentActivity);
 		}
 	}
 
-	public void selectActivity(int PID, int activityNumber) {
-		if (isManageableNull(currentProject, "Please select a project")) {
+	public void selectActivity(int PID, int activityNumber, boolean isManager) {
+		if (isManager
+				&& isManageableNull(currentProject, "Please select a project")) {
 			return;
-		} else {
+		} else if (isManager) {
 			currentActivity = mc.getActivityFromID(PID, activityNumber);
 			userInterface.setActivityName(currentActivity.getName());
 			userInterface.setActivityDescription(currentActivity.getDescr());
 			userInterface.setPercentComplete(currentActivity
 					.getPercentComplete());
 			userInterface.setActualCost(currentActivity.getActualCost());
+		} else if (!isManager) {
+			currentActivity = mc.getActivityFromID(PID, activityNumber);
+			teamMemberView.setDescription(currentActivity.getDescr());
 		}
 	}
 
@@ -317,8 +339,12 @@ public class DisplayController {
 		return activitesTable;
 	}
 
-	public void setDeletedProjectName(String name) {
-		deletedProjectName = name;
+	public void setProjectToOpen(String projectName) {
+		projectToOpen = projectName;
+	}
+
+	public void setProjectToDelete(String projectName) {
+		projectToDelete = projectName;
 	}
 
 	public void setNewProject(Project newProject) {
@@ -332,5 +358,18 @@ public class DisplayController {
 			ec.showError(message);
 		}
 		return ret;
+	}
+
+	// TODO
+	public void getActivityListTeamMember(JTable activityTable) {
+		mc.getActivityListForCurrentTeamMember(activityTable);
+	}
+
+	public ArrayList<Member> getMemberListForAddMemberToActivity() {
+		return mc.members;
+	}
+
+	public MemberActivity initializeMemberActivity(MemberActivity ma) {
+		return mc.initializeMemberActivity(ma);
 	}
 }
