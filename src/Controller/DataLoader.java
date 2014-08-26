@@ -5,22 +5,16 @@ package Controller;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-
 import net.proteanit.sql.DbUtils;
+
 import PModel.Activity;
 import PModel.Member;
 import PModel.MemberActivity;
 import PModel.Project;
 
-/**
- *
- */
 public class DataLoader {
 
 	public void loadData(MainController mc) {
-
 		String sqlMembers = "select * from Members";
 		String sqlProjects = "select * from Projects";
 		String sqlActivities = "select * from Activities";
@@ -91,6 +85,7 @@ public class DataLoader {
 			mc.rs.close();
 			mc.pst.close();
 		} catch (Exception ex) {
+			mc.ec.showError("Unable to load information from database");
 		}
 
 	}
@@ -123,11 +118,13 @@ public class DataLoader {
 				temp.add(mc.rs.getInt(get));
 			}
 		} catch (Exception ex) {
+			mc.ec.showError("Database error occured");
 		} finally {
 			try {
 				mc.rs.close();
 				mc.pst.close();
 			} catch (Exception e) {
+				mc.ec.showError("Database error occured");
 			}
 		}
 		return temp;
@@ -145,12 +142,12 @@ public class DataLoader {
 			mc.pst.execute();
 			mc.pst.close();
 		} catch (Exception ex) {
-
+			mc.ec.showError("Database error occured");
 		}
 	}
 
 	public void getActivityListForCurrentTeamMember(MainController mc) {
-		int mid = mc.currentUser.getMemberID();
+		int mid = mc.getCurrentUser().getMemberID();
 
 		String sql = "select Activities.PID, Activities.Number, Activities.Name"
 				+ " from Activities, MemberActivities"
@@ -166,7 +163,7 @@ public class DataLoader {
 			mc.pst.execute();
 			mc.pst.close();
 		} catch (Exception ex) {
-
+			mc.ec.showError("Database error occured");
 		}
 	}
 
@@ -180,6 +177,7 @@ public class DataLoader {
 			mc.pst.execute();
 			mc.pst.close();
 		} catch (Exception ex) {
+			mc.ec.showError("Database error occured");
 		}
 	}
 }

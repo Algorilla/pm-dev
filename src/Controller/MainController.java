@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
@@ -34,8 +35,8 @@ public class MainController {
 	PreparedStatement pst = null;
 
 	// Session variables
-	Member currentUser;
-	Project currentProject;
+	private Member currentUser;
+	private Project currentProject;
 
 	// Date format
 	DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
@@ -63,13 +64,12 @@ public class MainController {
 		return false;
 	}
 
-	void logout()
-	{
+	void logout() {
 		currentUser = null;
 		currentProject = null;
 	}
 
-	List getProjectList() {
+	List getProjectListForCurrentManager() {
 		final List projectList = new List();
 		for (Project project : projects)
 			if (project.getManagerID() == currentUser.getMemberID())
@@ -92,7 +92,7 @@ public class MainController {
 		dataLoader.getTableFormattedActivityList(this);
 	}
 
-	void getActivityListForCurrentTeamMember() {
+	void getActivitiesListForCurrentTeamMember() {
 		dataLoader.getActivityListForCurrentTeamMember(this);
 	}
 
@@ -124,24 +124,34 @@ public class MainController {
 		return dataDeleter.deleteMember(this, member);
 	}
 
-	void initializeProject(Project newProject) {
+	void initializeProject(String[] newProjectArgs) {
 		boolean projectNameAlreadyExists = false;
 
 		for (Project project : projects) {
-			if (project.getManagerID() == newProject.getManagerID()
-					&& project.getName().equalsIgnoreCase(newProject.getName())) {
+			if (project.getManagerID() == currentUser.getMemberID()
+					&& project.getName().equalsIgnoreCase(newProjectArgs[0])) {
 				projectNameAlreadyExists = true;
+				break;
 			}
 		}
 
 		if (projectNameAlreadyExists) {
 			ec.showError("Project with same name already exists");
-		} else if (dataUpdater.initializeProject(this, newProject)) {
-			currentProject = newProject;
-			updateProject(newProject);
-			DisplayController.get().notifyChange(PModelChange.CREATED_PROJECT);
 		} else {
-			ec.showError("Unable to create new project");
+			Project newProject = new Project(
+					currentUser.getMemberID(),
+					newProjectArgs[0],
+					newProjectArgs[1],
+					new Date(newProjectArgs[2]),
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+			if (dataUpdater.initializeProject(this, newProject)) {
+				currentProject = newProject;
+				projects.add(currentProject);
+				updateProject(newProject);
+				DisplayController.get().notifyChange(PModelChange.CREATED_PROJECT);
+			} else {
+				ec.showError("Unable to create new project");
+			}
 		}
 	}
 
@@ -182,18 +192,18 @@ public class MainController {
 		return dataDeleter.deleteActivity(this, PID, number);
 	}
 
-	public boolean createActivityDependencies(Activity activity,
-			ArrayList<Activity> activities) {
-		return dataUpdater.createActivityDependencies(this, activity,
-				activities);
-	}
-
 	public MemberActivity initializeMemberActivity(MemberActivity ma) {
 		return dataUpdater.initializeMemberActivity(this, ma);
 	}
 
 	public ArrayList<Member> getMemberListForAddMemberToActivity() {
 		return members;
+	}
+
+	public boolean createActivityDependencies(Activity activity,
+			ArrayList<Activity> activities) {
+		return dataUpdater.createActivityDependencies(this, activity,
+				activities);
 	}
 
 	public ArrayList<Activity> getDependantActivities(Activity a) {
@@ -231,7 +241,7 @@ public class MainController {
 		return currentUser;
 	}
 
-	public Project getCurrentProject() {
+	Project getCurrentProject() {
 		return currentProject;
 	}
 
@@ -239,11 +249,11 @@ public class MainController {
 		currentProject = null;
 	}
 
-	public void notifyDisplayController(PModelChange updateType) {
+	void notifyDisplayController(PModelChange updateType) {
 		DisplayController.get().notifyChange(updateType);
 	}
 
-	public void emptyActivitiesForDeletedProject() {
+	void emptyActivitiesForDeletedProject() {
 		dataLoader.getEmptyActivityTable(this);
 	}
 }
