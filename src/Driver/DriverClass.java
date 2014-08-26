@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import Controller.DisplayController;
 import Controller.MainController;
-import JFrames.Login_Frame;
+import JFrames.LoginFrame;
 import PModel.Project;
 import PModel.Activity;
 
@@ -46,7 +46,7 @@ public class DriverClass {
 		if (newGui) {
 			DisplayController.get();
 		} else {
-			Login_Frame frame = new Login_Frame();
+			LoginFrame frame = new LoginFrame();
 			frame.setSize(1000, 600);
 			frame.setVisible(true);
         }

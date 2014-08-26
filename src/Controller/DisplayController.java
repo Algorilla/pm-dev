@@ -11,17 +11,17 @@ import javax.swing.JTable;
 import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
-import JDialogue.AddTeamMemberClone;
-import JDialogue.CreateNewActivityDialogClone;
-import JDialogue.CreateNewProjectDialogClone;
-import JDialogue.DeleteProjectDialogClone;
-import JDialogue.EarnedValueDisplayClone;
+import JDialogue.AddTeamMember;
+import JDialogue.CreateNewActivityDialog;
+import JDialogue.CreateNewProjectDialog;
+import JDialogue.DeleteProjectDialog;
+import JDialogue.EarnedValueDisplay;
 import JDialogue.GanttDisplay;
-import JDialogue.OpenProjectListDialogClone;
-import JDialogue.PertDisplayClone;
+import JDialogue.OpenProjectListDialog;
+import JDialogue.PertDisplay;
 import JFrames.UserInterfaceView;
-import JFrames.LoginFrameClone;
-import JFrames.TeamMemberViewClone;
+import JFrames.LoginFrame;
+import JFrames.TeamMemberView;
 import JFrames.ManagerView;
 
 public class DisplayController {
@@ -41,7 +41,7 @@ public class DisplayController {
 	private ArrayList<String> newActivityDependencies;
 	private JTable activitiesTable;
 
-	private LoginFrameClone loginFrame;
+	private LoginFrame loginFrame;
 	private UserInterfaceView userInterface;
 
 	// flags that MainController sets
@@ -51,7 +51,7 @@ public class DisplayController {
 	private boolean isActivityCreated;
 
 	private DisplayController() {
-		loginFrame = new LoginFrameClone();
+		loginFrame = new LoginFrame();
 		loginFrame.setVisible(true);
 	}
 
@@ -73,7 +73,7 @@ public class DisplayController {
 			} else {
 				activitiesTable = new JTable();
 				mc.loadFormatedActivityListForCurrentTeamMember();
-				userInterface = new TeamMemberViewClone(activitiesTable);
+				userInterface = new TeamMemberView(activitiesTable);
 			}
 			userInterface.setVisible(true);
 			loginFrame.setVisible(false);
@@ -83,7 +83,7 @@ public class DisplayController {
 	}
 
 	public void createNewProject(JTable activitiesTable) {
-		new CreateNewProjectDialogClone();
+		new CreateNewProjectDialog();
 
 		if (newProjectArgs != null) {
 			mc.initializeProject(newProjectArgs);
@@ -104,7 +104,7 @@ public class DisplayController {
 	}
 
 	public void openProject(JTable activitiesTable) {
-		new OpenProjectListDialogClone(getProjectNameList());
+		new OpenProjectListDialog(getProjectNameList());
 
 		if (projectToOpen != null) {
 			mc.openProject(projectToOpen);
@@ -130,7 +130,7 @@ public class DisplayController {
 		String currentProjectName = mc.getCurrentProject() == null ? "" : mc
 				.getCurrentProject().getName();
 
-		new DeleteProjectDialogClone(getProjectNameList());
+		new DeleteProjectDialog(getProjectNameList());
 
 		if (projectToDelete != null) {
 			mc.deleteProject(projectToDelete);
@@ -208,7 +208,7 @@ public class DisplayController {
 			int daysSinceStart = daysBetween(today, start);
 			Analyzer a = new Analyzer(mc.getCurrentProject(), daysSinceStart);
 			PertNetwork p = a.getPertNetwork();
-			new PertDisplayClone(p);
+			new PertDisplay(p);
 		}
 	}
 
@@ -221,7 +221,7 @@ public class DisplayController {
 			int daysSinceStart = daysBetween(today, start);
 			Analyzer a = new Analyzer(mc.getCurrentProject(),
 					Math.abs(daysSinceStart));
-			new EarnedValueDisplayClone(mc.getCurrentProject());
+			new EarnedValueDisplay(mc.getCurrentProject());
 		}
 	}
 
@@ -235,7 +235,7 @@ public class DisplayController {
 			for (String member : mc.getMemberNamesForAddMemberToActivity()) {
 				memberComboBox.addItem(member);
 			}
-			new AddTeamMemberClone(memberComboBox);
+			new AddTeamMember(memberComboBox);
 
 			if (memberNameToAdd != null) {
 				mc.initializeMemberActivity(memberNameToAdd, activityNumber);
@@ -256,7 +256,7 @@ public class DisplayController {
 			((ManagerView) userInterface).setActualCost(mc.getActivityFromID(
 					PID, activityNumber).getActualCost());
 		} else if (!isManager) {
-			((TeamMemberViewClone) userInterface).setDescription(mc
+			((TeamMemberView) userInterface).setDescription(mc
 					.getActivityFromID(PID, activityNumber).getDescr());
 		}
 		this.activityNumber = activityNumber;
@@ -282,7 +282,7 @@ public class DisplayController {
 				activitiesComboBox.addItem(activityName);
 			}
 
-			new CreateNewActivityDialogClone(activitiesComboBox);
+			new CreateNewActivityDialog(activitiesComboBox);
 
 			if (newActivityName != null && newActivityDescription != null
 					&& newActivityArgs != null
