@@ -10,7 +10,7 @@ public class TestProject {
 
 	
 	@Test
-	public void testAreValidPercentages(){
+	public void testAreValidPercentages_blackBox(){
 		
 		double minPercent1 = 0.0, minPlusPercent1 = 0.01, nominalPercent1 = 0.5, maxMinusPercent1 = 0.99, maxPercent1 = 1.0;
 		double minPercent2 = 0.0, minPlusPercent2 = 0.01, nominalPercent2 = 0.5, maxMinusPercent2 = 0.99, maxPercent2 = 1.0;
@@ -26,7 +26,7 @@ public class TestProject {
 	}
 	
 	@Test
-	public void testAreValidValues(){
+	public void testAreValidValues_blackBox(){
 		
 		double 	minValue1, minPlusValue1, nominalValue1, maxMinusValue1, maxValue1,
 				minValue2, minPlusValue2, nominalValue2, maxMinusValue2, maxValue2,
@@ -52,122 +52,4 @@ public class TestProject {
 			}
 		}
 	}
-	
-
-	
-//	@Test
-//	public void testProject() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetProjectID() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetManagerID() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetProjectID() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetManagerID() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testAddActivity() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRemoveActivity() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testManageable() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetName() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetDescr() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetStart() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetDeadline() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetLength() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetStatus() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetName() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetDescr() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetStart() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetDeadline() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetLength() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetStatus() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetMemberList() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testAddMember() {
-////		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRemoveMember() {
-////		fail("Not yet implemented");
-//	}
-
 }
