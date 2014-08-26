@@ -9,18 +9,16 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 
 import Controller.DisplayController;
 import Controller.ErrorController;
 
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-
 public class CreateNewActivityDialogClone extends JDialog {
 
-	private ArrayList<String> dependenciesListToReturn;
+	private ArrayList<String> dependenciesListToReturn = new ArrayList<String>();
 
 	public CreateNewActivityDialogClone(
 			final JComboBox<String> activitiesComboBox) {
@@ -67,7 +65,7 @@ public class CreateNewActivityDialogClone extends JDialog {
 		getContentPane().add(lblPessimisticTimeTo);
 
 		final JTextField ActivityNameTextField = new JTextField();
-		ActivityNameTextField.setBounds(143, 15, 200, 20);
+		ActivityNameTextField.setBounds(95, 15, 200, 20);
 		getContentPane().add(ActivityNameTextField);
 		ActivityNameTextField.setColumns(10);
 
@@ -95,7 +93,7 @@ public class CreateNewActivityDialogClone extends JDialog {
 		textAreaDescription.setBounds(10, 58, 441, 126);
 		getContentPane().add(textAreaDescription);
 
-		activitiesComboBox.setBounds(132, 490, 207, 20);
+		activitiesComboBox.setBounds(135, 425, 207, 20);
 		getContentPane().add(activitiesComboBox);
 
 		final List selectedDependencies = new List();
@@ -114,7 +112,8 @@ public class CreateNewActivityDialogClone extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				String chosenActivity = (String) activitiesComboBox
 						.getSelectedItem();
-				if (!dependenciesListToReturn.contains(chosenActivity)) {
+				if (chosenActivity != null
+						&& !dependenciesListToReturn.contains(chosenActivity)) {
 					dependenciesListToReturn.add(chosenActivity);
 					selectedDependencies.add(chosenActivity);
 				} else {
@@ -140,7 +139,6 @@ public class CreateNewActivityDialogClone extends JDialog {
 					double mostLikely;
 					double optimistic;
 					double pessimistic;
-					double targetDate;
 					try {
 						plannedValue = Double.parseDouble(plannedValueTextField
 								.getText());
@@ -156,11 +154,12 @@ public class CreateNewActivityDialogClone extends JDialog {
 								new double[] { plannedValue, mostLikely,
 										optimistic, pessimistic },
 								dependenciesListToReturn);
+						dispose();
 					} catch (NumberFormatException ex) {
 						ErrorController
 								.get()
 								.showError(
-										"Please ensure all fields contain valid values.");
+										"Please ensure all numeric fields contain numbers.");
 					}
 				} else {
 					ErrorController.get().showError(

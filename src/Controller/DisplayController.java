@@ -293,6 +293,7 @@ public class DisplayController {
 			JComboBox<String> activitiesComboBox = new JComboBox<>();
 			HashMap<Integer, String> activityNumToNameDict = mc
 					.getActivityNamesForCurrentProject();
+
 			for (Integer activityNumber : activityNumToNameDict.keySet()) {
 				activitiesComboBox.addItem(activityNumToNameDict
 						.get(activityNumber));
@@ -329,7 +330,6 @@ public class DisplayController {
 				if (isActivityCreated) {
 					mc.loadFormatedActivityListForCurrentProject();
 					isActivityCreated = false;
-					// TODO: ensure that ActivitiesTable gets updated
 				}
 			}
 		}

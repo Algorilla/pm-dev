@@ -180,16 +180,28 @@ public class MainController {
 
 	void initializeActivity(String activityName, String activityDescription,
 			double[] activityArgs, int[] dependentActivityIds) {
-		Activity activity = new Activity(currentProject.getProjectID(),
+		Activity newActivity = new Activity(currentProject.getProjectID(),
 				activityName, activityDescription, activityArgs[0], // plannedValue
 				activityArgs[1], // mostLikely
 				activityArgs[2], // optimistic
 				activityArgs[3], // pessimistic
-				0, // targetCompletionDate ME
+				0, // targetCompletionDate
 				0, // percentComplete
 				0, // actualCost
 				false); // isComplete
 
+		ArrayList<Activity> dependencies = new ArrayList<Activity>();
+		int index = 0;
+		if (newActivity != null) {
+			for (Activity activity : activities) {
+				if (dependentActivityIds[index] == activity.getNumber()) {
+					dependencies.add(getActivityFromID(currentProject.getProjectID(), index++));
+				}
+			}
+			createActivityDependencies(newActivity, dependencies);
+			activities.add(newActivity);
+			DisplayController.get().notifyChange(PModelChange.CREATED_ACTIVITY);
+		}
 	}
 
 	private boolean updateProject(Project project) {
