@@ -49,15 +49,15 @@ Test Cases: {
 Test 1 Input:
 -	Activity(a) with ONE dependent(d)
 -	d.start < Integer.MAX_VALUE
--	Activity is NOT last
--	Activity is NOT start
+-	Activity is NOT last(end-dummy)
+-	Activity is NOT start(start-dummy)
 -	Activity has ONE precedent(p)
 
 
 Test 2 Input:
 -	Activity(a) with NO dependents
--	Activity is NOT last
--	Activity is NOT start
+-	Activity is NOT last(end-dummy)
+-	Activity is NOT start(start-dummy)
 -	Activity has ONE precedent(p)
 
 
@@ -70,24 +70,24 @@ INFEASIBLE
 Test 4 Input:
 -	Activity(a) with ONE dependent(d)
 -	d.start < Integer.MAX_VALUE
--	Activity is NOT last
--	Activity is start
+-	Activity is last(end-dummy)
+-	Activity is NOT start(start-dummy)
 -	Activity has ONE precedent(p)
 
 
 Test 5 Input:
 -	Activity(a) with ONE dependent(d)
 -	d.start < Integer.MAX_VALUE
--	Activity is NOT last
--	Activity is start
+-	Activity is NOT last(end-dummy)
+-	Activity is start(start-dummy)
 -	Activity has ONE precedent(p)
 
 
 Test 6 Input:
 -	Activity(a) with ONE dependent(d)
 -	d.start < Integer.MAX_VALUE
--	Activity is NOT last
--	Activity is NOT start
+-	Activity is NOT last(end-dummy)
+-	Activity is NOT start(start-dummy)
 -	Activity has NO precedents
 
 /*/////////////////////////////////////////////////////////
