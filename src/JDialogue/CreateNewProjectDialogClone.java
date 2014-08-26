@@ -2,7 +2,6 @@ package JDialogue;
 
 import Controller.DisplayController;
 import Controller.ErrorController;
-import PModel.Project;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,11 +22,10 @@ import com.toedter.calendar.JDateChooser;
 public class CreateNewProjectDialogClone extends JDialog {
 
 	private JTextField textFieldNewProjectName;
-	private Project newProject;
 	private TextArea textAreaDescription;
 	private JDateChooser StartedDate;
 
-	public CreateNewProjectDialogClone(final int managerId) {
+	public CreateNewProjectDialogClone() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Create New Project");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -87,12 +85,13 @@ public class CreateNewProjectDialogClone extends JDialog {
 							"Please enter the start date for this project");
 				} else if (startDate.before(today)) {
 					ErrorController.get().showError(
-							"Please select a valid date");
+							"Project date cannot start in the past");
 				} else {
-					newProject = new Project(managerId, name, description,
-							StartedDate.getDate(), 0, 0, 0, 0, 0, 0, 0, 0, 0,
-							0, 0);
-					DisplayController.get().setNewProject(newProject);
+					String newProjectArgs[] = new String[3];
+					newProjectArgs[0] = name;
+					newProjectArgs[1] = description;
+					newProjectArgs[2] = StartedDate.getDate().toString();
+					DisplayController.get().setNewProject(newProjectArgs);
 					dispose();
 				}
 			}
