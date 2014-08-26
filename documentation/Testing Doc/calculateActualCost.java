@@ -26,4 +26,23 @@ Test Cases: {
 			4: <1,2,5,8,9,10,11>
 			}
 
+Test 1 Input:
+-	Project(p) has ONE Activity(a)
+-	a.status = true
+
+Test 2 Input:
+-	Project(p) has NO Activities
+
+Test 3 Input:
+-	Project(p) has ONE Activity(a)
+-	a.status = false
+-	a.percentComplete > 0 
+
+Test 4 Input:
+-	Project(p) has ONE Activity(a)
+-	Project(p) has ONE Activity(a)
+-	a.status = false
+-	a.percentComplete = 0 
+
+
 /*/////////////////////////////////////////////////////////

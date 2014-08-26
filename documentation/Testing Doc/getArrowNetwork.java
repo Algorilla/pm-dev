@@ -42,4 +42,40 @@ Test Cases: {
 			5: <1,2,3,4,5,7,8,9,12,13,14,15,16,17>
 			}
 
+Test 1 Input:
+-	List of ONE Activity(a)
+-	a has no precedents
+-	List of ONE Activity(a)
+-	a has no precedents
+
+
+Test 2 Input:
+-	List of ONE Activity(a)
+-	List of NO activities
+INFEASIBLE
+
+
+Test 3 Input:
+-	List of ONE Activity(a)
+-	a has precedents
+-	List of ONE Activity(a)
+-	a has no precedents
+INFEASIBLE
+
+
+Test 4 Input:
+-	List of ONE Activity(a)
+-	a has no precedents
+-	List of NO activities
+INFEASIBLE
+
+
+Test 5 Input:
+-	List of ONE Activity(a)
+-	a has no precedents
+-	List of ONE Activity(a)
+-	a has precedents
+INFEASIBLE
+
+
 /*/////////////////////////////////////////////////////////
