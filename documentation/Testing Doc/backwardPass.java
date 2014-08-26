@@ -35,15 +35,58 @@ private void backwardPass(Activity activity) {
 }
 
 /*/////////////////////////////////////////////////////////
-Cyclomatic Complexity: 6 + 1 = 7
+Cyclomatic Complexity: 5 + 1 = 6
 
 Test Cases: { 
-			1: <1,2,3,4,5,6,8,9,10,11,12,15,18,19,20,21>,
-			2: <1,2,3,10,11,12,15,18,19,20,21>,
-			3: <1,2,3,4,5,7,9,10,11,12,15,18,19,20,21>,
-			4: <1,2,3,10,13,15,18,19,20,21>,
-			5: <1,2,3,10,13,16,17,18,19,20,21>,
-			6: <1,2,3,10,13,15,18,21>
+			1: <1,2,3,4,5,6,7,9,10,11,12,15,18,19,20,21>
+			2: <1,2,3,10,11,12,15,18,19,20,21>
+			3: <1,2,3,4,5,8,9,10,11,12,15,18,19,20,21>
+			4: <1,2,3,4,5,6,7,9,10,13,14,15,18,19,20,21>
+			5: <1,2,3,4,5,6,7,9,10,11,12,16,17>
+			6: <1,2,3,4,5,6,7,9,10,11,12,15,18,21>
 			}
+
+Test 1 Input:
+-	Activity(a) with ONE dependent(d)
+-	d.start < Integer.MAX_VALUE
+-	Activity is NOT last(end-dummy)
+-	Activity is NOT start(start-dummy)
+-	Activity has ONE precedent(p)
+
+
+Test 2 Input:
+-	Activity(a) with NO dependents
+-	Activity is NOT last(end-dummy)
+-	Activity is NOT start(start-dummy)
+-	Activity has ONE precedent(p)
+
+
+Test 3 Input:
+-	Activity(a) with ONE dependent(d)
+-	d.start > Interger.MAX_VALUE
+INFEASIBLE
+
+
+Test 4 Input:
+-	Activity(a) with ONE dependent(d)
+-	d.start < Integer.MAX_VALUE
+-	Activity is last(end-dummy)
+-	Activity is NOT start(start-dummy)
+-	Activity has ONE precedent(p)
+
+
+Test 5 Input:
+-	Activity(a) with ONE dependent(d)
+-	d.start < Integer.MAX_VALUE
+-	Activity is NOT last(end-dummy)
+-	Activity is start(start-dummy)
+
+
+Test 6 Input:
+-	Activity(a) with ONE dependent(d)
+-	d.start < Integer.MAX_VALUE
+-	Activity is NOT last(end-dummy)
+-	Activity is NOT start(start-dummy)
+-	Activity has NO precedents
 
 /*/////////////////////////////////////////////////////////

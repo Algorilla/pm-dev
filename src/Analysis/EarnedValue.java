@@ -69,32 +69,33 @@ public class EarnedValue {
 		double percentScheduled;
 
 		if (activityEarlyFinish > activityLateFinish) {
-			ec.showError("Latest Finish should not preced Earliest Finish");// DMITRI
+//			ec.showError("Latest Finish should not preced Earliest Finish");// DMITRI
 			return -1.0;
 		}
 		
 		if(activityPlannedVal < 0){
-			ec.showError("PlannedValue should not be less than Zero");// DMITRI
+//			ec.showError("PlannedValue should not be less than Zero");// DMITRI
 			return -1.0;
 		}
 		
-		if(activityDuration < 0){
-			ec.showError("Duration should not be less than Zero");// DMITRI
+		if(activityDuration <= 0){
+//			ec.showError("Duration should not be less than Zero");// DMITRI
 			return -1.0;
 		}
 		
 		if(daysSinceStart < 0){
-			ec.showError("DaysSinceStart should not be less than Zero");// DMITRI
+//			ec.showError("DaysSinceStart should not be less than Zero");// DMITRI
 			return -1.0;
 		}
 
 		// If the activity should be finished, add its entire value
-		if (activityEarlyFinish <= daysSinceStart) {
-			scheduledValue += activityPlannedVal;
+		if (activityEarlyFinish > daysSinceStart) {
+//			ec.showError("DaysSinceStart should not be less than Zero");// DMITRI
+			return -1.0;
 		}
 		
 		if(daysSinceStart < activityLateFinish){
-			ec.showError("DaysSinceStart should not be less than activityLateFinish");// DMITRI
+//			ec.showError("DaysSinceStart should not be less than activityLateFinish");// DMITRI
 			return -1.0;
 		}
 		
@@ -110,7 +111,7 @@ public class EarnedValue {
 
 			}
 			else{
-				ec.showError("Duration is Zero");// DMITRI
+//				ec.showError("Duration is Zero");// DMITRI
 				return -1.0;
 			}
 		}
