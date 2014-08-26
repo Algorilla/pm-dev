@@ -72,7 +72,7 @@ public class DeleteProjectDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				projectName = projectList.getSelectedItem().toString();
 				MainController.get().deleteProject(projectName);
-				MainController.get().notifyDisplayController(PModelChange.DELETED_PROJECT);
+//				MainController.get().notifyDisplayController(PModelChange.DELETED_PROJECT);
 				DisplayController.get().setProjectToDelete(projectName);
 				//JOptionPane.showMessageDialog(null, "Project "+projectName+" Deleted");	
 				dispose();

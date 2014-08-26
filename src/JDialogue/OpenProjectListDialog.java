@@ -70,7 +70,7 @@ public class OpenProjectListDialog extends JDialog {
 				}else{
 					String projectName = projectList.getSelectedItem().toString();
 //					MainController.get().openProject(projectName);
-					MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
+//					MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
 					//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
 					dispose();
 				}
