@@ -14,7 +14,7 @@ import JDialogue.AddTeamMemberClone;
 import JDialogue.CreateNewActivityDialogClone;
 import JDialogue.CreateNewProjectDialogClone;
 import JDialogue.DeleteProjectDialogClone;
-import JDialogue.EarnedValueDisplay;
+import JDialogue.EarnedValueDisplayClone;
 import JDialogue.GanttDisplay;
 import JDialogue.OpenProjectListDialogClone;
 import JDialogue.PertDisplayClone;
@@ -186,7 +186,6 @@ public class DisplayController {
 		}
 	}
 
-	// TODO: DEV refactor GANTT, PERT, EARNED-VALUE?
 	public void createGantt() {
 		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
@@ -212,7 +211,6 @@ public class DisplayController {
 	}
 
 	public void createEVA() {
-		// TODO: DEV DEBUG WHY FREEZE ON WINDOWS
 		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else {
@@ -221,26 +219,8 @@ public class DisplayController {
 			int daysSinceStart = daysBetween(today, start);
 			Analyzer a = new Analyzer(mc.getCurrentProject(),
 					Math.abs(daysSinceStart));
-			new EarnedValueDisplay(mc.getCurrentProject());
+			new EarnedValueDisplayClone(mc.getCurrentProject());
 		}
-	}
-
-	public void save(String activityName, String description) {
-		/*
-		 * if (isManageableNull(mc.getCurrentProject(),
-		 * "Please select a project")) { return; } else if
-		 * (isManageableNull(mc., "Please create/select an activity")) { return;
-		 * } else if (activityName.isEmpty()) {
-		 * ec.showError("Activity name cannot be blank"); } else if
-		 * (description.isEmpty()) {
-		 * ec.showError("Description cannot be blank"); } else {
-		 * currentActivity.setName(activityName);
-		 * currentActivity.setDescr(description);
-		 * 
-		 * if (mc.updateActivity(currentActivity)) { // TODO: DEV should we
-		 * display a "successfully updated" pop-up? // VALIDATE THAT THIS
-		 * ACTUALLY WORKS } else { ec.showError("Update failed"); } }
-		 */
 	}
 
 	public void addTeamMember() {

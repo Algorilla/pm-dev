@@ -41,7 +41,7 @@ public class ManagerView extends UserInterfaceView {
 	private JTable activitiesTable;
 
 	public ManagerView() {
-		setBounds(250, 100, 1170, 650);
+		setBounds(200, 100, 1170, 650);
 
 		// ==================== menu and options ===============================
 		JMenuBar menuBar = new JMenuBar();
@@ -217,12 +217,6 @@ public class ManagerView extends UserInterfaceView {
 		btnGantt.setBounds(49, 404, 195, 30);
 		projectPanel.add(btnGantt);
 
-		JButton btnSave = new JButton("Save");
-		btnSave.setBackground(new Color(0, 153, 102));
-		btnSave.setIcon(new ImageIcon("./resources/img/icon/save-icon.png"));
-		btnSave.setBounds(149, 486, 195, 30);
-		projectPanel.add(btnSave);
-
 		JButton btnAddMem = new JButton("Add Team Member");
 		btnAddMem.setBackground(new Color(0, 153, 102));
 		btnAddMem.setIcon(new ImageIcon("./resources/img/icon/plus-icon.png"));
@@ -245,14 +239,6 @@ public class ManagerView extends UserInterfaceView {
 			public void actionPerformed(ActionEvent e) {
 				DisplayController.get().createEVA();
 			};
-		});
-
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String activityName = textFieldActivityName.getText();
-				String description = textAreaDescription.getText();
-				DisplayController.get().save(activityName, description);
-			}
 		});
 
 		btnAddMem.addActionListener(new ActionListener() {
