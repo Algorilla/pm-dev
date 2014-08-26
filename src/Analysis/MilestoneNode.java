@@ -206,7 +206,7 @@ public class MilestoneNode implements Comparable{
 			}
 			
 		} else {
-			ec.showError("You didn't enter 'in' or 'out' when you should've.");
+//			ec.showError("You didn't enter 'in' or 'out' when you should've.");
 			return null;
 		}
 		
@@ -214,7 +214,7 @@ public class MilestoneNode implements Comparable{
 			arrowString += a.getName() + ", ";
 		}
 		if(arrowString.endsWith(", ")){
-			arrowString = arrowString.substring(0, arrowString.length()-2) + "\n\n";
+			arrowString = arrowString.substring(0, arrowString.length()-2);
 		}
 	
 		return arrowString;
