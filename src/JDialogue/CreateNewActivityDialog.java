@@ -1,212 +1,172 @@
-//package JDialogue;
-//
-//import java.awt.BorderLayout;
-//import java.awt.Color;
-//import java.awt.FlowLayout;
-//import java.awt.Font;
-//import java.awt.Dialog.ModalityType;
-//import java.awt.List;
-//import java.awt.TextArea;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.util.ArrayList;
-//import java.util.Date;
-//
-//import javax.swing.JButton;
-//import javax.swing.JDialog;
-//import javax.swing.JLabel;
-//import javax.swing.JOptionPane;
-//import javax.swing.JPanel;
-//import javax.swing.JTextField;
-//import javax.swing.border.EmptyBorder;
-//
-//import Controller.DisplayController;
-//import Controller.MainController;
-//import Controller.PModelChange;
-//import PModel.Activity;
-//import PModel.Member;
-//import PModel.Project;
-//
-//import com.toedter.calendar.JDateChooser;
-//
-//import javax.swing.JComboBox;
-//import javax.swing.JList;
-///**
-// * A dialogue used to create new activity of the project
-// * @author Administrator
-// *
-// */
-//public class CreateNewActivityDialog extends JDialog {
-//
-//	private final JPanel contentPanel = new JPanel();
-//	private JTextField txt_newProjectNameField;
-//	private Project newPro = null;
-//	private TextArea textArea_Description = new TextArea();
-//	private ArrayList<Activity> activities;
-//	private ArrayList<Activity> selectedActivities;	
-//	List listSelectedDependencies = new List();
-//	private JTextField otc_textField;
-//	private JTextField ptc_textField;
-//	private JTextField mltc_textField;
-//	private JTextField pv_textField;
-//	private JTextField tcd_textField;
-//	
-//	public CreateNewActivityDialog() {
-//		setModalityType(ModalityType.APPLICATION_MODAL);
-//	    setTitle("Create New Activity");
-//	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//	    setLocationRelativeTo(null);
-//		setBounds(100, 100, 477, 593);
-//		
-//		getContentPane().setLayout(new BorderLayout());
-//		contentPanel.setBackground(new Color(204, 255, 204));
-//		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		getContentPane().add(contentPanel, BorderLayout.CENTER);
-//		contentPanel.setLayout(null);
-//		{
-//			JLabel lblProjectName = new JLabel("Activity Name:");
-//			lblProjectName.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-//			lblProjectName.setBounds(44, 58, 123, 14);
-//			contentPanel.add(lblProjectName);
-//		}
-//		{
-//			txt_newProjectNameField = new JTextField();
-//			txt_newProjectNameField.setBounds(170, 56, 200, 20);
-//			contentPanel.add(txt_newProjectNameField);
-//			txt_newProjectNameField.setColumns(10);
-//		}
-//		{
-//			JLabel lblPleaseEnterNew = new JLabel("Please enter new activity name:");
-//			lblPleaseEnterNew.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-//			lblPleaseEnterNew.setBounds(10, 25, 225, 14);
-//			contentPanel.add(lblPleaseEnterNew);
-//		}
-//		
-//		JLabel lblDescription = new JLabel("Description:");
-//		lblDescription.setBounds(47, 100, 83, 14);
-//		contentPanel.add(lblDescription);
-//		
-//
-//		textArea_Description.setBounds(170, 84, 200, 119);
-//		contentPanel.add(textArea_Description);
-//		
-//		JLabel lblDependencies = new JLabel("Dependencies:");
-//		lblDependencies.setBounds(44, 396, 107, 14);
-//		contentPanel.add(lblDependencies);
-//		
-//		final JComboBox dependenciesComboBox = new JComboBox();
-//		dependenciesComboBox.setBounds(170, 490, 200, 20);
-////		activities = MainController.get().getActivityListForCurrentProject();		
-//		for (Activity activity : activities)
-//			dependenciesComboBox.addItem(activity);		
-//		contentPanel.add(dependenciesComboBox);
-//		
-//		selectedActivities = new ArrayList<Activity>();
-//		JButton btnAddDependency = new JButton("Add");
-//		btnAddDependency.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				selectedActivities.add((Activity)dependenciesComboBox.getSelectedItem());
-//				listSelectedDependencies.addItem(((Activity)dependenciesComboBox.getSelectedItem()).toString());
-//			}
-//		});
-//		btnAddDependency.setBounds(376, 489, 58, 23);
-//		contentPanel.add(btnAddDependency);
-//		
-//				listSelectedDependencies.setBounds(170, 396, 200, 87);
-//				contentPanel.add(listSelectedDependencies);
-//				
-//				JLabel lblNewLabel = new JLabel("Optimistic Time to Completion");
-//				lblNewLabel.setBounds(44, 275, 208, 42);
-//				contentPanel.add(lblNewLabel);
-//				
-//				otc_textField = new JTextField();
-//				otc_textField.setBounds(274, 282, 96, 28);
-//				contentPanel.add(otc_textField);
-//				otc_textField.setColumns(10);
-//				
-//				JLabel lblPessimisticTimeTo = new JLabel("Pessimistic Time to Completion");
-//				lblPessimisticTimeTo.setBounds(44, 305, 208, 42);
-//				contentPanel.add(lblPessimisticTimeTo);
-//				
-//				ptc_textField = new JTextField();
-//				ptc_textField.setColumns(10);
-//				ptc_textField.setBounds(274, 311, 96, 28);
-//				contentPanel.add(ptc_textField);
-//				
-//				JLabel lblMostLikelyTime = new JLabel("Most Likely Time to Completion");
-//				lblMostLikelyTime.setBounds(44, 244, 208, 42);
-//				contentPanel.add(lblMostLikelyTime);
-//				
-//				mltc_textField = new JTextField();
-//				mltc_textField.setColumns(10);
-//				mltc_textField.setBounds(274, 251, 96, 28);
-//				contentPanel.add(mltc_textField);
-//				
-//				JLabel lblPlannedValue = new JLabel("Planned Value");
-//				lblPlannedValue.setBounds(44, 209, 208, 42);
-//				contentPanel.add(lblPlannedValue);
-//				
-//				pv_textField = new JTextField();
-//				pv_textField.setColumns(10);
-//				pv_textField.setBounds(274, 216, 96, 28);
-//				contentPanel.add(pv_textField);
-//				
-//				JLabel lblTargetCompletionDate = new JLabel("Target Completion Date");
-//				lblTargetCompletionDate.setBounds(44, 340, 208, 42);
-//				contentPanel.add(lblTargetCompletionDate);
-//				
-//				tcd_textField = new JTextField();
-//				tcd_textField.setColumns(10);
-//				tcd_textField.setBounds(274, 346, 96, 28);
-//				contentPanel.add(tcd_textField);
-//		
-//		{
-//			JPanel buttonPane = new JPanel();
-//			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-//			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-//			{
-//				JButton okButton = new JButton("OK");
-//				
-//				okButton.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						if (
-//								!txt_newProjectNameField.getText().equals("") &&
-//								!textArea_Description.getText().equals("") &&
-//								!otc_textField.getText().equals("") &&
-//								!ptc_textField.getText().equals("") &&
-//								!mltc_textField.getText().equals("") &&
-//								!pv_textField.getText().equals("") &&
-//								!tcd_textField.getText().equals("")
-//								)
-//						{
-//							int pid = MainController.get().getCurrentProject().getProjectID();
-//							String name = txt_newProjectNameField.getText();
-//							String description = textArea_Description.getText();
-//							double otc = Double.parseDouble(otc_textField.getText());
-//							double ptc = Double.parseDouble(ptc_textField.getText());
-//							double mltc = Double.parseDouble(mltc_textField.getText());
-//							double pv = Double.parseDouble(pv_textField.getText());
-//							double tcd = Double.parseDouble(tcd_textField.getText());
-//							
-//							//JOptionPane.showMessageDialog(null,currentUser.getMemberID());						
-//							Activity ac = new Activity(pid, name, description, pv, mltc, otc, ptc, tcd, 0, 0, false);
-//					        //table_1 = MainController.get().ProjectList(table_1);
-//					        Activity ac2 = MainController.get().createActivity(ac);
-//					        MainController.get().createActivityDependencies(ac2, selectedActivities);
-////					        MainController.get().notifyDisplayController(PModelChange.CREATED_ACTIVITY);
-//							dispose();
-//						}
-//						else
-//						{
-//							JOptionPane.showMessageDialog(null,"There were errors, please check your input.");
-//						}
-//					}
-//				});
-//				okButton.setActionCommand("OK");
-//				buttonPane.add(okButton);
-//				getRootPane().setDefaultButton(okButton);
-//			}
-//		}
-//	}
-//}
-//
+package JDialogue;
+
+import java.awt.Color;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
+
+import Controller.DisplayController;
+import Controller.ErrorController;
+
+public class CreateNewActivityDialog extends JDialog {
+
+	private ArrayList<String> dependenciesListToReturn = new ArrayList<String>();
+
+	public CreateNewActivityDialog(
+			final JComboBox<String> activitiesComboBox) {
+
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setTitle("Create New Activity");
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setBounds(100, 100, 477, 501);
+
+		getContentPane().setBackground(new Color(204, 255, 204));
+		getContentPane().setLayout(null);
+
+		JLabel lblActivityName = new JLabel("Activity Name:");
+		lblActivityName.setBounds(10, 7, 123, 28);
+		getContentPane().add(lblActivityName);
+
+		JLabel lblDescription = new JLabel("Description:");
+		lblDescription.setBounds(10, 37, 83, 14);
+		getContentPane().add(lblDescription);
+
+		JLabel lblTimeFormat = new JLabel(
+				"Please insert time values in days, relative to the start date of the project");
+		lblTimeFormat.setBounds(10, 195, 431, 14);
+		getContentPane().add(lblTimeFormat);
+
+		JLabel lblDependencies = new JLabel("Dependencies:");
+		lblDependencies.setBounds(44, 350, 85, 14);
+		getContentPane().add(lblDependencies);
+
+		JLabel lblNewLabel = new JLabel("Optimistic Time");
+		lblNewLabel.setBounds(44, 280, 137, 28);
+		getContentPane().add(lblNewLabel);
+
+		JLabel lblMostLikelyTime = new JLabel("Most Likely Time");
+		lblMostLikelyTime.setBounds(44, 250, 137, 28);
+		getContentPane().add(lblMostLikelyTime);
+
+		JLabel lblPlannedValue = new JLabel("Planned Value");
+		lblPlannedValue.setBounds(44, 220, 137, 28);
+		getContentPane().add(lblPlannedValue);
+
+		JLabel lblPessimisticTimeTo = new JLabel("Pessimistic Time");
+		lblPessimisticTimeTo.setBounds(44, 310, 137, 28);
+		getContentPane().add(lblPessimisticTimeTo);
+
+		final JTextField ActivityNameTextField = new JTextField();
+		ActivityNameTextField.setBounds(143, 11, 200, 20);
+		getContentPane().add(ActivityNameTextField);
+		ActivityNameTextField.setColumns(10);
+
+		final JTextField optimisticTextField = new JTextField();
+		optimisticTextField.setBounds(191, 284, 96, 20);
+		getContentPane().add(optimisticTextField);
+		optimisticTextField.setColumns(10);
+
+		final JTextField pessimisticTextField = new JTextField();
+		pessimisticTextField.setColumns(10);
+		pessimisticTextField.setBounds(191, 314, 96, 20);
+		getContentPane().add(pessimisticTextField);
+
+		final JTextField mostLikelyTextField = new JTextField();
+		mostLikelyTextField.setColumns(10);
+		mostLikelyTextField.setBounds(191, 254, 96, 20);
+		getContentPane().add(mostLikelyTextField);
+
+		final JTextField plannedValueTextField = new JTextField();
+		plannedValueTextField.setColumns(10);
+		plannedValueTextField.setBounds(191, 224, 96, 20);
+		getContentPane().add(plannedValueTextField);
+
+		final JTextArea textAreaDescription = new JTextArea();
+		textAreaDescription.setBounds(10, 58, 441, 126);
+		getContentPane().add(textAreaDescription);
+
+		activitiesComboBox.setBounds(135, 425, 186, 20);
+		getContentPane().add(activitiesComboBox);
+
+		final List selectedDependencies = new List();
+		selectedDependencies.setBounds(136, 350, 186, 70);
+		getContentPane().add(selectedDependencies);
+
+		JButton btnAddDependency = new JButton("Add");
+		btnAddDependency.setBounds(328, 428, 123, 23);
+		getContentPane().add(btnAddDependency);
+
+		JButton btnCreate = new JButton("Create Activity");
+		btnCreate.setBounds(328, 377, 123, 23);
+		getContentPane().add(btnCreate);
+
+		btnAddDependency.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String chosenActivity = (String) activitiesComboBox
+						.getSelectedItem();
+				if (chosenActivity != null
+						&& !dependenciesListToReturn.contains(chosenActivity)) {
+					dependenciesListToReturn.add(chosenActivity);
+					selectedDependencies.add(chosenActivity);
+				} else {
+					ErrorController.get().showError(
+							"Cannot add the same activity twice");
+				}
+			}
+		});
+
+		btnCreate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (!ActivityNameTextField.getText().equals("")
+						&& !optimisticTextField.getText().equals("")
+						&& !pessimisticTextField.getText().equals("")
+						&& !mostLikelyTextField.getText().equals("")
+						&& !plannedValueTextField.getText().equals("")
+						&& !textAreaDescription.getText().equals("")) {
+
+					String activityName = ActivityNameTextField.getText();
+					String activityDescription = textAreaDescription.getText();
+					double plannedValue;
+					double mostLikely;
+					double optimistic;
+					double pessimistic;
+					try {
+						plannedValue = Double.parseDouble(plannedValueTextField
+								.getText());
+						optimistic = Double.parseDouble(optimisticTextField
+								.getText());
+						pessimistic = Double.parseDouble(plannedValueTextField
+								.getText());
+						mostLikely = Double.parseDouble(mostLikelyTextField
+								.getText());
+						DisplayController.get().setActivityToCreate(
+								activityName,
+								activityDescription,
+								new double[] { plannedValue, mostLikely,
+										optimistic, pessimistic },
+								dependenciesListToReturn);
+						dispose();
+					} catch (NumberFormatException ex) {
+						ErrorController
+								.get()
+								.showError(
+										"Please ensure all numeric fields contain numbers.");
+					}
+				} else {
+					ErrorController.get().showError(
+							"Please ensure all fields are completed");
+				}
+			}
+		});
+		setVisible(true);
+	}
+}
