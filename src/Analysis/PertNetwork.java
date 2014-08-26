@@ -21,7 +21,7 @@ public class PertNetwork {
 	private MilestoneNode 		finish;
 	private NodeGraph			graph;
 	
-	private static NormalDistribution normalDist;
+	private static NormalDistribution normalDist = new NormalDistribution();
 
 	
 	public PertNetwork(ArrayList<Activity> activities){

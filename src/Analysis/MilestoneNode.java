@@ -35,6 +35,7 @@ public class MilestoneNode implements Comparable{
 		outArrows  = new ArrayList<Activity>();
 		precedents = new ArrayList<MilestoneNode>();
 		dependents = new ArrayList<MilestoneNode>();
+		targetDate = new Date();
 	}
 	
 	public void setTargetDate(){
