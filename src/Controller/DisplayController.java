@@ -153,7 +153,6 @@ public class DisplayController {
 	}
 
 	public void logout() {
-		// TODO : add save functionality
 		activitiesTable = null;
 		activityNumber = null;
 		mc.logout();
