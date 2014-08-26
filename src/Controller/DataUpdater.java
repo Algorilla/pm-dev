@@ -46,7 +46,6 @@ public class DataUpdater {
 				mc.pst = mc.conn.prepareStatement(sql);
 				mc.rs = mc.pst.executeQuery();
 				member.setMemberID(mc.rs.getInt(1));
-				mc.members.add(member);
 				return member;
 			} catch (Exception ex) {
 
@@ -272,7 +271,6 @@ public class DataUpdater {
 				mc.pst = mc.conn.prepareStatement(sql);
 				mc.rs = mc.pst.executeQuery();
 				project.setProjectID(mc.rs.getInt(1));
-				mc.projects.add(project);
 				return true;
 			} catch (Exception ex) {
 			}
@@ -338,7 +336,6 @@ public class DataUpdater {
 				mc.pst.close();
 				activity.setProjectID(mc.getCurrentProject().getProjectID());
 				activity.setNumber(x);
-				mc.activities.add(activity);
 				return activity;
 			} catch (Exception ex) {
 
@@ -433,7 +430,6 @@ public class DataUpdater {
 				mc.pst.setInt(3, ma.getNumber());
 				mc.pst.execute();
 				mc.pst.close();
-				mc.memberActivities.add(ma);
 				return ma;
 			} catch (Exception ex) {
 

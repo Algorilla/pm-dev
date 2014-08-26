@@ -167,9 +167,11 @@ public class ManagerView extends UserInterfaceView {
 				try {
 					percentComplete = Double
 							.parseDouble(textFieldPercentComplete.getText());
-					DisplayController.get().updatePercentComplete(percentComplete);
+					DisplayController.get().updatePercentComplete(
+							percentComplete);
 				} catch (NumberFormatException numFormatException) {
-					ErrorController.get().showError("Please enter a value between 0.0 and 1.0");
+					ErrorController.get().showError(
+							"Please enter a value between 0.0 and 1.0");
 				}
 			}
 		});
@@ -189,10 +191,12 @@ public class ManagerView extends UserInterfaceView {
 			public void mouseClicked(MouseEvent e) {
 				Double actualCost;
 				try {
-					actualCost = Double.parseDouble(textFieldActualCost.getText());
+					actualCost = Double.parseDouble(textFieldActualCost
+							.getText());
 					DisplayController.get().updateActualCost(actualCost);
 				} catch (NumberFormatException numFormatException) {
-					ErrorController.get().showError("Please enter a monetary amount");
+					ErrorController.get().showError(
+							"Please enter a monetary amount");
 				}
 			}
 		});
@@ -223,6 +227,15 @@ public class ManagerView extends UserInterfaceView {
 		btnAddMem.setBounds(254, 445, 195, 30);
 		projectPanel.add(btnAddMem);
 
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnSave.setBackground(new Color(0, 153, 102));
+		btnSave.setBounds(159, 488, 195, 30);
+		projectPanel.add(btnSave);
+
 		// register analysis buttons event-handles
 		btnGantt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -244,6 +257,37 @@ public class ManagerView extends UserInterfaceView {
 		btnAddMem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayController.get().addTeamMember();
+			};
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldActivityName.getText();
+				String description = textAreaDescription.getText();
+				String percent = textFieldPercentComplete.getText();
+				String cost = textFieldActualCost.getText();
+				if (name.isEmpty()) {
+					ErrorController.get()
+							.showError("Activity must have a name");
+				} else if (description.isEmpty()) {
+					ErrorController.get().showError(
+							"Activity must have a description");
+				} else {
+					double percentComplete;
+					double actualCost;
+
+					try {
+						percentComplete = Double.parseDouble(percent);
+						actualCost = Double.parseDouble(cost);
+						DisplayController.get().save(name, description,
+								percentComplete, actualCost);
+					} catch (NumberFormatException error) {
+						ErrorController
+								.get()
+								.showError(
+										"Percent Complete and Actual Cost must be numbers");
+					}
+				}
 			};
 		});
 
@@ -301,7 +345,8 @@ public class ManagerView extends UserInterfaceView {
 			public void actionPerformed(ActionEvent e) {
 				int row = activitiesTable.getSelectedRow();
 				int PID = (int) activitiesTable.getModel().getValueAt(row, 0);
-				int number = (int) activitiesTable.getModel().getValueAt(row, 1);
+				int number = (int) activitiesTable.getModel()
+						.getValueAt(row, 1);
 				DisplayController.get().deleteActivity(PID, number);
 			}
 		});

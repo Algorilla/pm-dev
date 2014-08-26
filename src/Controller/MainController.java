@@ -166,12 +166,10 @@ public class MainController {
 							newProjectArgs[2]), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 			if (dataUpdater.initializeProject(this, newProject)) {
-				if (updateProject(newProject)) {
-					currentProject = newProject;
-					projects.add(currentProject);
+				currentProject = newProject;
+				projects.add(currentProject);
 				DisplayController.get().notifyChange(
 						PModelChange.CREATED_PROJECT);
-				}
 			} else {
 				ec.showError("Unable to create new project");
 			}
@@ -194,9 +192,9 @@ public class MainController {
 					0, // actualCost
 					false); // isComplete
 
-			if (newActivity.getMostLikelyTimeToCompletion() == 0 &&
-					newActivity.getOptimisticTimeToCompletion() == 0 &&
-					newActivity.getPessimisticTimeToCompletion() == 0) {
+			if (newActivity.getMostLikelyTimeToCompletion() == 0
+					&& newActivity.getOptimisticTimeToCompletion() == 0
+					&& newActivity.getPessimisticTimeToCompletion() == 0) {
 				return;
 			}
 
@@ -312,18 +310,38 @@ public class MainController {
 		return temp;
 	}
 
-	public void updateActualCost(int activityNumber, double actualCost) {
-		Activity activityToUpdate = getActivityFromID(currentProject.getProjectID(), activityNumber);
+	public boolean updateActualCost(int activityNumber, double actualCost) {
+		Activity activityToUpdate = getActivityFromID(
+				currentProject.getProjectID(), activityNumber);
 		activityToUpdate.setActualCost(actualCost);
-		dataUpdater.updateActivity(this, activityToUpdate);
-		loadFormatedActivityListForCurrentProject();
+		if (dataUpdater.updateActivity(this, activityToUpdate)) {
+			loadFormatedActivityListForCurrentProject();
+			return true;
+		}
+		return false;
 	}
 
-	public void updatePercentComplete(int activityNumber, double percentComplete) {
-		Activity activityToUpdate = getActivityFromID(currentProject.getProjectID(), activityNumber);
+	public boolean updatePercentComplete(int activityNumber, double percentComplete) {
+		Activity activityToUpdate = getActivityFromID(
+				currentProject.getProjectID(), activityNumber);
 		activityToUpdate.setPercentComplete(percentComplete);
-		dataUpdater.updateActivity(this, activityToUpdate);
-		loadFormatedActivityListForCurrentProject();
+		if (dataUpdater.updateActivity(this, activityToUpdate)) {
+			loadFormatedActivityListForCurrentProject();
+			return true;
+		}
+		return false;
+	}
+
+	public boolean updateActivityNameAndDescription(int activityNumber, String name, String description) {
+		Activity activityToUpdate = getActivityFromID(
+				currentProject.getProjectID(), activityNumber);
+		activityToUpdate.setName(name);
+		activityToUpdate.setDescr(description);
+		if (dataUpdater.updateActivity(this, activityToUpdate)) {
+			loadFormatedActivityListForCurrentProject();
+			return true;
+		}
+		return false;
 	}
 
 	public ArrayList<Integer> getRelatedActivities(Activity a, String type) {
@@ -334,7 +352,7 @@ public class MainController {
 		return currentUser;
 	}
 
-	Project getCurrentProject() {
+	public Project getCurrentProject() {
 		return currentProject;
 	}
 
@@ -345,6 +363,7 @@ public class MainController {
 	public void closeCurrentProject() {
 		currentProject = null;
 	}
+	
 
 	void notifyDisplayController(PModelChange updateType) {
 		DisplayController.get().notifyChange(updateType);

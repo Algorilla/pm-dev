@@ -48,9 +48,11 @@ public class MilestoneNode implements Comparable{
 			}
 		}
 		if(latest == null){
-			return;
+			targetDate = this.getOutArrows().get(0).getES();
 		}
-		targetDate = latest.getLF();
+		else{
+			targetDate = latest.getLF();
+		}
 	}
 	
 	public void addOutArrow(Activity a){

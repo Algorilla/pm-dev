@@ -54,7 +54,7 @@ import java.beans.PropertyChangeEvent;
  * @author Administrator
  *
  */
-public class PertDisplay extends JDialog {
+public class PertDisplayClone extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private PertNetwork pertNetwork;
@@ -62,13 +62,13 @@ public class PertDisplay extends JDialog {
 	private Date chosenDate = new Date();
 	private Date target;
 	
-	public PertDisplay(PertNetwork pn) {
+	public PertDisplayClone(PertNetwork pn) {
 		
 		MainController mc = MainController.get();
 		this.pertNetwork = pn;
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
-	    setTitle("Check Ur Targetz");
+	    setTitle("Target Date Validation");
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 		setBounds(100, 100, 477, 593);
@@ -173,7 +173,7 @@ public class PertDisplay extends JDialog {
 		}
 		
 		final JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(196, 429, 121, 20);
+		dateChooser.setBounds(157, 429, 160, 20);
 		contentPanel.add(dateChooser);
 		
 		JButton btnSelectDate = new JButton("Select Date");
@@ -184,10 +184,13 @@ public class PertDisplay extends JDialog {
 				chosenDate = dateChooser.getDate();
 
 				double diff = (chosenDate.getTime() - target.getTime()) / (1000.0 * 60 * 60 * 24);
-
 				double diffOverStd = diff/activeNode.getStandardDeviation();
 				double prob = PertNetwork.getNormalDist().cumulativeProbability(diffOverStd);
 		
+				System.out.println(diff);
+				System.out.println(diffOverStd);
+				System.out.println(prob);
+				
 				liklelihoodPane.setText(Double.toString(prob));
 			}
 		});
