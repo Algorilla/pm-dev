@@ -68,7 +68,7 @@ public class PertDisplayClone extends JDialog {
 		this.pertNetwork = pn;
 		
 		setModalityType(ModalityType.APPLICATION_MODAL);
-	    setTitle("Check Ur Targetz");
+	    setTitle("Target Date Validation");
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	    setLocationRelativeTo(null);
 		setBounds(100, 100, 477, 593);
@@ -187,6 +187,10 @@ public class PertDisplayClone extends JDialog {
 				double diffOverStd = diff/activeNode.getStandardDeviation();
 				double prob = PertNetwork.getNormalDist().cumulativeProbability(diffOverStd);
 		
+				System.out.println(diff);
+				System.out.println(diffOverStd);
+				System.out.println(prob);
+				
 				liklelihoodPane.setText(Double.toString(prob));
 			}
 		});

@@ -183,7 +183,7 @@ public class PertDisplay extends JDialog {
 				
 				chosenDate = dateChooser.getDate();
 
-				double diff = Math.abs((chosenDate.getTime() - target.getTime()) / (1000 * 60 * 60 * 24));
+				double diff = (chosenDate.getTime() - target.getTime()) / (1000.0 * 60 * 60 * 24);
 
 				double diffOverStd = diff/activeNode.getStandardDeviation();
 				double prob = PertNetwork.getNormalDist().cumulativeProbability(diffOverStd);

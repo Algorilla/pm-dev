@@ -352,7 +352,7 @@ public class MainController {
 		return currentUser;
 	}
 
-	Project getCurrentProject() {
+	public Project getCurrentProject() {
 		return currentProject;
 	}
 
@@ -363,6 +363,7 @@ public class MainController {
 	public void closeCurrentProject() {
 		currentProject = null;
 	}
+	
 
 	void notifyDisplayController(PModelChange updateType) {
 		DisplayController.get().notifyChange(updateType);

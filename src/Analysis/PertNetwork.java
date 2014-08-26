@@ -39,6 +39,9 @@ public class PertNetwork {
 	 */
 	private void setTargetDates() {
 		for(MilestoneNode n : graph.getNodes().keySet()){
+			if(n.getPrecedents().size() == 0){
+				
+			}
 			n.setTargetDate();
 		}
 	}

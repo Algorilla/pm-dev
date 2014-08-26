@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import Controller.MainController;
 import PModel.Activity;
 
 /**
@@ -34,6 +35,7 @@ public class GanttNetwork {
 		this.activities = activities;
 		this.start = Activity.makeDummyStart();
 		this.finish = Activity.makeDummyFinish();
+		
 	}
 
 	/**
@@ -183,7 +185,7 @@ public class GanttNetwork {
 	 */
 	private void setDates() {
 
-		Date projectStart = activities.get(1).getProject().getStartDate();
+		Date projectStart = MainController.get().getCurrentProject().getStartDate();
 		Calendar c = Calendar.getInstance();
 		Date eS, eF, lS, lF;
 
