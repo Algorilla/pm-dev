@@ -11,12 +11,12 @@ import javax.swing.border.*;
 import Controller.DisplayController;
 import Controller.ErrorController;
 
-public class LoginFrameClone extends JFrame {
+public class LoginFrame extends JFrame {
 
 	private JTextField textUserNameField;
 	private JPasswordField textPasswordField;
 
-	public LoginFrameClone() {
+	public LoginFrame() {
 		setBounds(new Rectangle(250, 100, 1000, 600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.WHITE);
