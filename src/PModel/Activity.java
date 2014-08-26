@@ -84,7 +84,6 @@ public class Activity extends Manageable implements TimePeriod {
 
 		} else {
 			ec.showError("Time Estimates are inconsistent.");// DMITRI
-			return;
 		}
 		
 		this.targetCompletionDate = targetCompletionDate;

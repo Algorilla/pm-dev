@@ -434,13 +434,6 @@ public class DataUpdater {
 	public MemberActivity initializeMemberActivity(MainController mc,
 			MemberActivity ma) {
 		if (ma.getMemberID() > 0 && ma.getProjectID() > 0 && ma.getNumber() > 0) {
-			for (MemberActivity theMemberActivity : mc.memberActivities)
-				if (theMemberActivity.getMemberID() == ma.getMemberID()
-						&& theMemberActivity.getProjectID() == ma
-								.getProjectID()
-						&& theMemberActivity.getNumber() == ma.getNumber()) {
-					mc.ec.showError("Member is already assigned to that activity");
-				}
 			if (ErrorController.get().errorsExist()) {
 				ErrorController.get().displayErrors();
 				return null;

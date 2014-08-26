@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
@@ -118,15 +117,14 @@ public class MainController {
 		return activityList;
 	}
 
-	public HashMap<Integer, String> getActivityNamesForCurrentProject() {
-		HashMap<Integer, String> activityDictionary = new HashMap<Integer, String>();
+	public ArrayList<String> getActivityNamesForCurrentProject() {
+		ArrayList<String> activityList = new ArrayList<String>();
 		for (Activity activity : activities) {
 			if (activity.getProjectID() == currentProject.getProjectID()) {
-				activityDictionary
-						.put(activity.getNumber(), activity.getName());
+				activityList.add(activity.getName());
 			}
 		}
-		return activityDictionary;
+		return activityList;
 	}
 
 	Activity getActivityFromID(int PID, int number) {
@@ -166,12 +164,14 @@ public class MainController {
 			Project newProject = new Project(currentUser.getMemberID(),
 					newProjectArgs[0], newProjectArgs[1], new Date(
 							newProjectArgs[2]), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
 			if (dataUpdater.initializeProject(this, newProject)) {
-				currentProject = newProject;
-				projects.add(currentProject);
-				updateProject(newProject);
+				if (updateProject(newProject)) {
+					currentProject = newProject;
+					projects.add(currentProject);
 				DisplayController.get().notifyChange(
 						PModelChange.CREATED_PROJECT);
+				}
 			} else {
 				ec.showError("Unable to create new project");
 			}
@@ -179,17 +179,44 @@ public class MainController {
 	}
 
 	void initializeActivity(String activityName, String activityDescription,
-			double[] activityArgs, int[] dependentActivityIds) {
-		Activity activity = new Activity(currentProject.getProjectID(),
-				activityName, activityDescription, activityArgs[0], // plannedValue
-				activityArgs[1], // mostLikely
-				activityArgs[2], // optimistic
-				activityArgs[3], // pessimistic
-				0, // targetCompletionDate ME
-				0, // percentComplete
-				0, // actualCost
-				false); // isComplete
+			double[] activityArgs, ArrayList<String> dependentActivityNames) {
 
+		if (getActivityNamesForCurrentProject().contains(activityName)) {
+			ec.showError("An activity with that name already exists in project");
+		} else {
+			Activity newActivity = new Activity(currentProject.getProjectID(),
+					activityName, activityDescription, activityArgs[0], // plannedValue
+					activityArgs[1], // mostLikely
+					activityArgs[2], // optimistic
+					activityArgs[3], // pessimistic
+					0, // targetCompletionDate
+					0, // percentComplete
+					0, // actualCost
+					false); // isComplete
+
+			if (newActivity.getMostLikelyTimeToCompletion() == 0 &&
+					newActivity.getOptimisticTimeToCompletion() == 0 &&
+					newActivity.getPessimisticTimeToCompletion() == 0) {
+				return;
+			}
+
+			dataUpdater.createActivity(this, newActivity);
+
+			if (!dependentActivityNames.isEmpty()) {
+				ArrayList<Activity> dependentActivities = new ArrayList<Activity>();
+				for (String name : dependentActivityNames) {
+					for (Activity activity : getActivityListForCurrentProject()) {
+						if (activity.getName().equals(name)) {
+							dependentActivities.add(activity);
+						}
+					}
+				}
+				createActivityDependencies(newActivity, dependentActivities);
+			}
+
+			activities.add(newActivity);
+			DisplayController.get().notifyChange(PModelChange.CREATED_ACTIVITY);
+		}
 	}
 
 	private boolean updateProject(Project project) {
@@ -229,18 +256,27 @@ public class MainController {
 		return dataDeleter.deleteActivity(this, PID, number);
 	}
 
-	MemberActivity initializeMemberActivity(String memberToAdd,
-			int activityNumber) {
+	void initializeMemberActivity(String memberToAdd, int activityNumber) {
 		int memberId = -1;
 		for (Member member : members) {
-			if (member.getName().equals(memberToAdd))
-				;
-			memberId = member.getMemberID();
-			break;
+			if (member.getName().equals(memberToAdd)) {
+				memberId = member.getMemberID();
+				break;
+			}
 		}
 
-		return dataUpdater.initializeMemberActivity(this, new MemberActivity(
-				memberId, currentProject.getProjectID(), activityNumber));
+		for (MemberActivity theMemberActivity : memberActivities) {
+			if (theMemberActivity.getMemberID() == memberId
+					&& theMemberActivity.getNumber() == activityNumber) {
+				ec.showError(memberToAdd
+						+ " is already assigned to that activity");
+				return;
+			}
+		}
+
+		memberActivities.add(dataUpdater.initializeMemberActivity(this,
+				new MemberActivity(memberId, currentProject.getProjectID(),
+						activityNumber)));
 	}
 
 	public boolean createActivityDependencies(Activity activity,
@@ -286,6 +322,10 @@ public class MainController {
 
 	Project getCurrentProject() {
 		return currentProject;
+	}
+
+	boolean hasProjectOpen() {
+		return currentProject != null;
 	}
 
 	public void closeCurrentProject() {
