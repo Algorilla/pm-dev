@@ -170,9 +170,7 @@ public class DisplayController {
 			ec.showError("Please enter values between 0.0 to 1.0");
 			return;
 		} else {
-			mc.getActivityFromID(mc.getCurrentProject().getProjectID(),
-					activityNumber).setPercentComplete(percentComplete);
-			((ManagerView) userInterface).setPercentComplete(percentComplete);
+			mc.updatePercentComplete(activityNumber, percentComplete);
 		}
 	}
 
@@ -184,9 +182,7 @@ public class DisplayController {
 		} else if (actualCost < 0) {
 			ec.showError("Please enter a non-negative value");
 		} else {
-			mc.getActivityFromID(mc.getCurrentProject().getProjectID(),
-					activityNumber).setActualCost(actualCost);
-			((ManagerView) userInterface).setActualCost(actualCost);
+			mc.updateActualCost(activityNumber, actualCost);
 		}
 	}
 

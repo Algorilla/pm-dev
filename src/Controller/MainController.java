@@ -312,6 +312,20 @@ public class MainController {
 		return temp;
 	}
 
+	public void updateActualCost(int activityNumber, double actualCost) {
+		Activity activityToUpdate = getActivityFromID(currentProject.getProjectID(), activityNumber);
+		activityToUpdate.setActualCost(actualCost);
+		dataUpdater.updateActivity(this, activityToUpdate);
+		loadFormatedActivityListForCurrentProject();
+	}
+
+	public void updatePercentComplete(int activityNumber, double percentComplete) {
+		Activity activityToUpdate = getActivityFromID(currentProject.getProjectID(), activityNumber);
+		activityToUpdate.setPercentComplete(percentComplete);
+		dataUpdater.updateActivity(this, activityToUpdate);
+		loadFormatedActivityListForCurrentProject();
+	}
+
 	public ArrayList<Integer> getRelatedActivities(Activity a, String type) {
 		return dataLoader.getRelatedActivities(this, a, type);
 	}
