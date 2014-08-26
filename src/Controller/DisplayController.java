@@ -1,14 +1,19 @@
 package Controller;
 
+import java.awt.List;
+import java.security.KeyStore.Entry;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 
 import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
 import JDialogue.AddTeamMemberClone;
-import JDialogue.CreateNewActivityDialog;
+import JDialogue.CreateNewActivityDialogClone;
 import JDialogue.CreateNewProjectDialogClone;
 import JDialogue.DeleteProjectDialogClone;
 import JDialogue.EarnedValueDisplay;
@@ -19,9 +24,6 @@ import JFrames.UserInterfaceView;
 import JFrames.LoginFrameClone;
 import JFrames.TeamMemberViewClone;
 import JFrames.ManagerView;
-import PModel.Activity;
-import PModel.Manageable;
-import PModel.Project;
 
 public class DisplayController {
 	private static DisplayController self = null;
@@ -29,12 +31,15 @@ public class DisplayController {
 	private MainController mc = MainController.get();
 	private ErrorController ec = ErrorController.get();
 
-	private Project currentProject;
-	private Activity currentActivity;
-
-	private Project newProject;
+	private String[] newProjectArgs;
 	private String projectToOpen;
 	private String projectToDelete;
+	private String memberNameToAdd;
+	private Integer activityNumber;
+	private String newActivityName;
+	private String newActivityDescription;
+	private double[] newActivityArgs;
+	private ArrayList<String> newActivityDependencies;
 	private JTable activitiesTable;
 
 	private LoginFrameClone loginFrame;
@@ -60,7 +65,7 @@ public class DisplayController {
 
 	public void login(String username, String password) {
 		if (mc.login(username, password)) {
-			if (mc.currentUser.getType().equals("manager")) {
+			if (mc.getCurrentUser().getType().equals("manager")) {
 				userInterface = new ManagerView();
 				((ManagerView) userInterface).setUserName(mc.getCurrentUser()
 						.getName());
@@ -68,6 +73,7 @@ public class DisplayController {
 						.setProjectName("Please select a project");
 			} else {
 				activitiesTable = new JTable();
+				mc.loadFormatedActivityListForCurrentTeamMember();
 				userInterface = new TeamMemberViewClone(activitiesTable);
 			}
 			userInterface.setVisible(true);
@@ -78,45 +84,42 @@ public class DisplayController {
 	}
 
 	public void createNewProject(JTable activitiesTable) {
-		new CreateNewProjectDialogClone(mc.getCurrentUser().getMemberID());
+		new CreateNewProjectDialogClone();
 
-		if (newProject != null) {
-			mc.initializeProject(newProject);
+		if (newProjectArgs != null) {
+			mc.initializeProject(newProjectArgs);
 		}
 
 		if (isProjectCreated) {
-			currentProject = mc.getCurrentProject();
-			((ManagerView) userInterface).setProjectName(currentProject
+			((ManagerView) userInterface).setProjectName(mc.getCurrentProject()
 					.getName());
 
-			currentActivity = null;
 			((ManagerView) userInterface).resetActivity(false);
 
 			this.activitiesTable = activitiesTable;
-			mc.getActivitiesListForCurrentProject();
+			mc.loadFormatedActivityListForCurrentProject();
 			isProjectCreated = false;
 		}
 
-		newProject = null;
+		newProjectArgs = null;
 	}
 
 	public void openProject(JTable activitiesTable) {
-		new OpenProjectListDialogClone(mc.getProjectList());
+		new OpenProjectListDialogClone(getProjectNameList());
 
 		if (projectToOpen != null) {
 			mc.openProject(projectToOpen);
 		}
 
 		if (isProjectOpen) {
-			currentProject = mc.getCurrentProject();
-			((ManagerView) userInterface).setProjectName(currentProject
+			((ManagerView) userInterface).setProjectName(mc.getCurrentProject()
 					.getName());
 
-			currentActivity = null;
 			((ManagerView) userInterface).resetActivity(false);
 
 			this.activitiesTable = activitiesTable;
-			mc.getActivitiesListForCurrentProject();
+			activityNumber = null;
+			mc.loadFormatedActivityListForCurrentProject();
 
 			isProjectOpen = false;
 		}
@@ -125,10 +128,10 @@ public class DisplayController {
 	}
 
 	public void deleteProject() {
-		String currentProjectName = currentProject == null ? ""
-				: currentProject.getName();
+		String currentProjectName = mc.getCurrentProject() == null ? "" : mc
+				.getCurrentProject().getName();
 
-		new DeleteProjectDialogClone(mc.getProjectList());
+		new DeleteProjectDialogClone(getProjectNameList());
 
 		if (projectToDelete != null) {
 			mc.deleteProject(projectToDelete);
@@ -137,11 +140,12 @@ public class DisplayController {
 		if (isProjectDeleted) {
 			if (!currentProjectName.isEmpty()
 					&& currentProjectName.equalsIgnoreCase(projectToDelete)) {
-				currentProject = null;
+				mc.closeCurrentProject();
 				((ManagerView) userInterface)
 						.setProjectName("Please select a project");
 				((ManagerView) userInterface).resetActivity(true);
-				mc.emptyActivitiesForDeletedProject();
+				activityNumber = null;
+				mc.loadEmptyActivitiesListForDeleteProject();
 			}
 
 			isProjectDeleted = false;
@@ -152,64 +156,62 @@ public class DisplayController {
 
 	public void logout() {
 		// TODO : add save functionality
-		currentProject = null;
-		currentActivity = null;
 		activitiesTable = null;
+		activityNumber = null;
 		mc.logout();
 		userInterface.dispose();
 		loginFrame.setVisible(true);
 	}
 
 	public void updatePercentComplete(Double percentComplete) {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
-		} else if (isManageableNull(currentActivity,
-				"Please select an activity")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
+		} else if (activityNumber == null) {
+			ec.showError("Please select an activity");
 		} else if (percentComplete < 0 || percentComplete > 1) {
 			ec.showError("Please enter values between 0.0 to 1.0");
 			return;
 		} else {
-			currentActivity.setPercentComplete(percentComplete);
+			mc.getActivityFromID(mc.getCurrentProject().getProjectID(),
+					activityNumber).setPercentComplete(percentComplete);
 			((ManagerView) userInterface).setPercentComplete(percentComplete);
 		}
 	}
 
 	public void updateActualCost(Double actualCost) {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
-		} else if (isManageableNull(currentActivity,
-				"Please select an activity")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
+		} else if (activityNumber == null) {
+			ec.showError("Please select an activity");
 		} else if (actualCost < 0) {
 			ec.showError("Please enter a non-negative value");
-			return;
 		} else {
-			currentActivity.setActualCost(actualCost);
+			mc.getActivityFromID(mc.getCurrentProject().getProjectID(),
+					activityNumber).setActualCost(actualCost);
 			((ManagerView) userInterface).setActualCost(actualCost);
 		}
 	}
 
 	// TODO: DEV refactor GANTT, PERT, EARNED-VALUE?
 	public void createGantt() {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
 		} else {
-			Analyzer a = new Analyzer(currentProject, 161);
-			String projectName = currentProject.getName();
+			Analyzer a = new Analyzer(mc.getCurrentProject(), 161);
+			String projectName = mc.getCurrentProject().getName();
 			GanttNetwork gn = a.getGanttNetwork();
 			new GanttDisplay(projectName, gn);
 		}
 	}
 
 	public void createPert() {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
 		} else {
 			Date today = new Date();
-			Date start = currentProject.getStartDate();
+			Date start = mc.getCurrentProject().getStartDate();
 			int daysSinceStart = daysBetween(today, start);
-			Analyzer a = new Analyzer(currentProject, daysSinceStart);
+			Analyzer a = new Analyzer(mc.getCurrentProject(), daysSinceStart);
 			PertNetwork p = a.getPertNetwork();
 			new PertDisplayClone(p);
 		}
@@ -217,97 +219,132 @@ public class DisplayController {
 
 	public void createEVA() {
 		// TODO: DEV DEBUG WHY FREEZE ON WINDOWS
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
 		} else {
 			Date today = new Date();
-			Date start = currentProject.getStartDate();
+			Date start = mc.getCurrentProject().getStartDate();
 			int daysSinceStart = daysBetween(today, start);
-			Analyzer a = new Analyzer(currentProject, Math.abs(daysSinceStart));
-			new EarnedValueDisplay(currentProject);
+			Analyzer a = new Analyzer(mc.getCurrentProject(),
+					Math.abs(daysSinceStart));
+			new EarnedValueDisplay(mc.getCurrentProject());
 		}
 	}
 
 	public void save(String activityName, String description) {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
-		} else if (isManageableNull(currentActivity,
-				"Please create/select an activity")) {
-			return;
-		} else if (activityName.isEmpty()) {
-			ec.showError("Activity name cannot be blank");
-		} else if (description.isEmpty()) {
-			ec.showError("Description cannot be blank");
-		} else {
-			currentActivity.setName(activityName);
-			currentActivity.setDescr(description);
+		/*
+		 * if (isManageableNull(mc.getCurrentProject(),
+		 * "Please select a project")) { return; } else if
+		 * (isManageableNull(mc., "Please create/select an activity")) { return;
+		 * } else if (activityName.isEmpty()) {
+		 * ec.showError("Activity name cannot be blank"); } else if
+		 * (description.isEmpty()) {
+		 * ec.showError("Description cannot be blank"); } else {
+		 * currentActivity.setName(activityName);
+		 * currentActivity.setDescr(description);
+		 * 
+		 * if (mc.updateActivity(currentActivity)) { // TODO: DEV should we
+		 * display a "successfully updated" pop-up? // VALIDATE THAT THIS
+		 * ACTUALLY WORKS } else { ec.showError("Update failed"); } }
+		 */
+	}
 
-			if (mc.updateActivity(currentActivity)) {
-				// TODO: DEV should we display a "successfully updated" pop-up?
-				// VALIDATE THAT THIS ACTUALLY WORKS
-			} else {
-				ec.showError("Update failed");
+	public void addTeamMember() {
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
+		} else if (activityNumber == null) {
+			ec.showError("Please select an activity");
+		} else {
+			JComboBox<String> memberComboBox = new JComboBox<>();
+			for (String member : mc.getMemberNamesForAddMemberToActivity()) {
+				memberComboBox.addItem(member);
+			}
+			new AddTeamMemberClone(memberComboBox);
+
+			if (memberNameToAdd != null) {
+				mc.initializeMemberActivity(memberNameToAdd, activityNumber);
+				memberNameToAdd = null;
 			}
 		}
 	}
 
-	public void addTeamMember() {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
-		} else if (isManageableNull(currentActivity,
-				"Please select an activity")) {
-			return;
-		} else {
-			new AddTeamMemberClone(currentActivity);
-		}
-	}
-
 	public void selectActivity(int PID, int activityNumber, boolean isManager) {
-		if (isManager
-				&& isManageableNull(currentProject, "Please select a project")) {
-			return;
-		} else if (isManager) {
-			currentActivity = mc.getActivityFromID(PID, activityNumber);
-			((ManagerView) userInterface).setActivityName(currentActivity
-					.getName());
-			((ManagerView) userInterface)
-					.setActivityDescription(currentActivity.getDescr());
-			((ManagerView) userInterface).setPercentComplete(currentActivity
+		if (isManager) {
+			((ManagerView) userInterface).setActivityName(mc.getActivityFromID(
+					PID, activityNumber).getName());
+			((ManagerView) userInterface).setActivityDescription(mc
+					.getActivityFromID(PID, activityNumber).getDescr());
+			((ManagerView) userInterface).setPercentComplete(mc
+					.getActivityFromID(PID, activityNumber)
 					.getPercentComplete());
-			((ManagerView) userInterface).setActualCost(currentActivity
-					.getActualCost());
+			((ManagerView) userInterface).setActualCost(mc.getActivityFromID(
+					PID, activityNumber).getActualCost());
 		} else if (!isManager) {
-			currentActivity = mc.getActivityFromID(PID, activityNumber);
-			((TeamMemberViewClone) userInterface)
-					.setDescription(currentActivity.getDescr());
+			((TeamMemberViewClone) userInterface).setDescription(mc
+					.getActivityFromID(PID, activityNumber).getDescr());
 		}
+		this.activityNumber = activityNumber;
 	}
 
 	public void createNewActivity() {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
 		} else {
-			CreateNewActivityDialog newActivity = new CreateNewActivityDialog();
-			// TODO: createNewActivtiy should set its visibility to true
-			newActivity.setVisible(true);
-			if (isActivityCreated) {
-				mc.getActivitiesListForCurrentProject();
-				isActivityCreated = false;
-				// TODO: ensure that ActivitiesTable gets updated
+			JComboBox<String> activitiesComboBox = new JComboBox<>();
+			HashMap<Integer, String> activityNumToNameDict = mc
+					.getActivityNamesForCurrentProject();
+			for (Integer activityNumber : activityNumToNameDict.keySet()) {
+				activitiesComboBox.addItem(activityNumToNameDict
+						.get(activityNumber));
+			}
+
+			new CreateNewActivityDialogClone(activitiesComboBox);
+
+			if (newActivityName != null && newActivityDescription != null
+					&& newActivityArgs != null
+					&& newActivityDependencies != null) {
+
+				int[] activityDependenciesIds = new int[newActivityDependencies
+						.size()];
+				int index = 0;
+				while (!newActivityDependencies.isEmpty()) {
+					for (java.util.Map.Entry<Integer, String> entry : activityNumToNameDict
+							.entrySet()) {
+						if (entry.getValue().equals(
+								newActivityDependencies.get(index))) {
+							activityDependenciesIds[index++] = entry.getKey();
+							newActivityDependencies.remove(index);
+						}
+					}
+
+					mc.initializeActivity(newActivityName,
+							newActivityDescription, newActivityArgs,
+							activityDependenciesIds);
+					newActivityName = null;
+					newActivityDescription = null;
+					newActivityArgs = null;
+					newActivityDependencies = null;
+				}
+
+				if (isActivityCreated) {
+					mc.loadFormatedActivityListForCurrentProject();
+					isActivityCreated = false;
+					// TODO: ensure that ActivitiesTable gets updated
+				}
 			}
 		}
 	}
 
 	public void deleteActivity(int PID, int activityNumber) {
-		if (isManageableNull(currentProject, "Please select a project")) {
-			return;
-		} else if (isManageableNull(currentActivity,
-				"Please select an activity")) {
-			return;
+		if (mc.getCurrentProject() == null) {
+			ec.showError("Please select a project");
+		} else if (this.activityNumber == null) {
+			ec.showError("Please select an activity");
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
-				mc.getActivitiesListForCurrentProject();
+				mc.loadFormatedActivityListForCurrentProject();
 				((ManagerView) userInterface).resetActivity(false);
+				this.activityNumber = null;
 			}
 		}
 	}
@@ -335,8 +372,8 @@ public class DisplayController {
 		return activitiesTable;
 	}
 
-	public void setNewProject(Project newProject) {
-		this.newProject = newProject;
+	public void setProjectToCreate(String[] newProject) {
+		this.newProjectArgs = newProject;
 	}
 
 	public void setProjectToOpen(String projectName) {
@@ -347,17 +384,28 @@ public class DisplayController {
 		projectToDelete = projectName;
 	}
 
-	private boolean isManageableNull(Manageable manageable, String message) {
-		boolean ret = false;
-		if (manageable == null) {
-			ret = true;
-			ec.showError(message);
-		}
-		return ret;
+	public void setMemberNameToAdd(String memberName) {
+		memberNameToAdd = memberName;
+	}
+
+	public void setActivityToCreate(String name, String description,
+			double[] args, ArrayList<String> activityDependencies) {
+		newActivityName = name;
+		newActivityDescription = description;
+		newActivityArgs = args;
+		newActivityDependencies = activityDependencies;
 	}
 
 	private int daysBetween(Date d1, Date d2) {
 		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
 	}
 
+	private List getProjectNameList() {
+		List projectNames = new List();
+		for (String projectName : mc.getProjectNamesForCurrentManager()) {
+			projectNames.add(projectName);
+		}
+
+		return projectNames;
+	}
 }

@@ -132,7 +132,7 @@ public class CreateNewProjectDialog extends JDialog {
 										startDate, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 //								MainController.get().initializeProject(newPro);
 //								MainController.get().openProject(newPro.getName());
-								MainController.get().notifyDisplayController(PModelChange.CREATED_PROJECT);
+//								MainController.get().notifyDisplayController(PModelChange.CREATED_PROJECT);
 								dispose();
 						}
 					}

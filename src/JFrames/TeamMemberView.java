@@ -1,4 +1,4 @@
-package JFrames;
+/*package JFrames;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -56,11 +56,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.BoxLayout;
 import javax.swing.JTextArea;
-/**
+*//**
  * A class used to manipulate projects and activities. This is the main interface of the software.
  * @author Team B
  *
- */
+ *//*
 public class TeamMemberView extends InitialJFrame {
 	
 	private JLabel nameLabel;
@@ -128,3 +128,4 @@ public class TeamMemberView extends InitialJFrame {
 }
 
 
+*/

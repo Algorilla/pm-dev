@@ -51,8 +51,8 @@ public class DataUpdater {
 				mc.members.add(member);
 				return member;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex);
-				
+				// JOptionPane.showMessageDialog(null, ex);
+
 			}
 		}
 		return null;
@@ -94,7 +94,8 @@ public class DataUpdater {
 				mc.pst.close();
 				return true;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex);// DMITRI (MC shouldn't be taking to the GUI)
+				// JOptionPane.showMessageDialog(null, ex);// DMITRI (MC
+				// shouldn't be taking to the GUI)
 			}
 		}
 		return false;
@@ -201,7 +202,8 @@ public class DataUpdater {
 
 				return true;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex);// DMITRI (MC shouldn't be taking to the GUI)
+				// JOptionPane.showMessageDialog(null, ex);// DMITRI (MC
+				// shouldn't be taking to the GUI)
 			}
 		}
 		return false;
@@ -281,7 +283,7 @@ public class DataUpdater {
 				mc.projects.add(project);
 				return true;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex);
+				// JOptionPane.showMessageDialog(null, ex);
 				mc.ec.addError(ex.getLocalizedMessage());
 			}
 		}
@@ -321,7 +323,7 @@ public class DataUpdater {
 				// primary keys we cannot auto-increment them.
 				sql = "select Max(number) from Activities where PID = ?";
 				mc.pst = mc.conn.prepareStatement(sql);
-				mc.pst.setInt(1, mc.currentProject.getProjectID());
+				mc.pst.setInt(1, mc.getCurrentProject().getProjectID());
 				mc.rs = mc.pst.executeQuery();
 				int x = mc.rs.getInt(1);
 				x++;
@@ -330,7 +332,7 @@ public class DataUpdater {
 						+ "OptimisticTimeToCompletion,PessimisticTimeToCompletion,TargetCompletionDate,Status,ActualCost,PercentComplete)"
 						+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
 				mc.pst = mc.conn.prepareStatement(sql);
-				mc.pst.setInt(1, mc.currentProject.getProjectID());
+				mc.pst.setInt(1, mc.getCurrentProject().getProjectID());
 				mc.pst.setInt(2, x);
 				mc.pst.setString(3, activity.getName());
 				mc.pst.setString(4, activity.getDescr());
@@ -344,12 +346,13 @@ public class DataUpdater {
 				mc.pst.setDouble(12, activity.getPercentComplete());
 				mc.pst.execute();
 				mc.pst.close();
-				activity.setProjectID(mc.currentProject.getProjectID());
+				activity.setProjectID(mc.getCurrentProject().getProjectID());
 				activity.setNumber(x);
 				mc.activities.add(activity);
 				return activity;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex);// DMITRI (MC shouldn't be taking to the GUI)
+				// JOptionPane.showMessageDialog(null, ex);// DMITRI (MC
+				// shouldn't be taking to the GUI)
 			}
 		}
 		return null;
@@ -386,10 +389,11 @@ public class DataUpdater {
 				mc.pst.setInt(12, activity.getNumber());
 				mc.pst.execute();
 				mc.pst.close();
-//				 JOptionPane.showMessageDialog(null, "Data saved."); // DMITRI (MC shouldn't be taking to the GUI)
+				// JOptionPane.showMessageDialog(null, "Data saved."); // DMITRI
+				// (MC shouldn't be taking to the GUI)
 				return true;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex); // DMITRI
+				// JOptionPane.showMessageDialog(null, ex); // DMITRI
 			}
 		}
 		return false;
@@ -417,7 +421,7 @@ public class DataUpdater {
 			}
 			return true;
 		} catch (SQLException ex) {
-			
+
 		}
 		return false;
 	}
@@ -427,16 +431,15 @@ public class DataUpdater {
 	 * @param ma
 	 * @return
 	 */
-	public MemberActivity initializeMemberActivity(
-			MainController mc, MemberActivity ma) {
+	public MemberActivity initializeMemberActivity(MainController mc,
+			MemberActivity ma) {
 		if (ma.getMemberID() > 0 && ma.getProjectID() > 0 && ma.getNumber() > 0) {
 			for (MemberActivity theMemberActivity : mc.memberActivities)
 				if (theMemberActivity.getMemberID() == ma.getMemberID()
 						&& theMemberActivity.getProjectID() == ma
 								.getProjectID()
 						&& theMemberActivity.getNumber() == ma.getNumber()) {
-					ErrorController.get().addError(
-							"Member is already assigned to that activity");
+					mc.ec.showError("Member is already assigned to that activity");
 				}
 			if (ErrorController.get().errorsExist()) {
 				ErrorController.get().displayErrors();
@@ -453,10 +456,9 @@ public class DataUpdater {
 				mc.memberActivities.add(ma);
 				return ma;
 			} catch (Exception ex) {
-//				JOptionPane.showMessageDialog(null, ex);//DMITRI
+				// JOptionPane.showMessageDialog(null, ex);//DMITRI
 			}
 		}
 		return null;
 	}
-
 }
