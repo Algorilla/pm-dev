@@ -31,9 +31,7 @@ public class PertNetwork {
 		this.finish 	= new MilestoneNode(Integer.MAX_VALUE);
 		this.graph 		= new NodeGraph();
 		
-		this.removeDummies();
-		this.setTargetDates();
-				
+		this.removeDummies();	
 	}
 	
 	/**
@@ -126,7 +124,7 @@ public class PertNetwork {
 		an.finish.setName(index);
 		
 		an.forwardPass();
-
+		an.setTargetDates();
 		return an;
 	}
 

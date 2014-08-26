@@ -37,7 +37,7 @@ public class TestPertNetwork {
 		pn.linkNodeForward(testStartNode);
 		pn.forwardPass();
 		
-		System.out.println(pn);
+//		assert(testEndNode.)
 		
 
 //		

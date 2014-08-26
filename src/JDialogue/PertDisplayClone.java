@@ -83,7 +83,7 @@ public class PertDisplayClone extends JDialog {
 		lblMilestones.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			}///WHAT
+			}
 		});
 		lblMilestones.setBounds(45, 58, 121, 16);
 		contentPanel.add(lblMilestones);
@@ -148,6 +148,9 @@ public class PertDisplayClone extends JDialog {
 			milestoneComboBox.addItem(n);
 		}
 		contentPanel.add(milestoneComboBox);
+		
+		
+		
 
 		{
 			JPanel buttonPane = new JPanel();
@@ -158,7 +161,7 @@ public class PertDisplayClone extends JDialog {
 				
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						dispose();
 					}
 				});
 				okButton.setActionCommand("OK");
