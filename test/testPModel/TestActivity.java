@@ -9,7 +9,7 @@ import PModel.Activity;
 public class TestActivity {
 
 	@Test
-	public void testAreValidPercentAndCost() {
+	public void testAreValidPercentAndCost_blackBox() {
 		double minPercent = 0.0, minPlusPercent = 0.01, nominalPercent = 0.5, maxMinusPercent = 0.99, maxPercent = 1.0;
 		double minCost = 0, minPlusCost = 1, nominalCost = 500000, maxMinusCost = Activity.MAX_COST - 1.0, maxCost = Activity.MAX_COST;
 
@@ -28,7 +28,7 @@ public class TestActivity {
 	}
 
 	@Test
-	public void testAreValidTimes(){
+	public void testAreValidTimes_blackBox(){
 		double 	mostLikelyMin, mostLikelyMinPlus, mostLikelyNominal, mostLikelyMaxMinus, mostLikelyMax,   
 				optimisticMin, optimisticMinPlus, optimisticNominal, optimisticMaxMinus, optimisticMax,
 				pessimisticMin, pessimisticMinPlus, pessimisticNominal, pessimisticMaxMinus, pessimisticMax; 
@@ -59,114 +59,33 @@ public class TestActivity {
 		}
 	}
 
-//	@Test
-//	public void testActivityIntStringStringDateDateInt() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testActivityStringStringDateDateInt() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetProjectID() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetNumber() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetProjectID() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetNumber() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testManageable() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetName() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetDescr() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetStart() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetDeadline() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetLength() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSetStatus() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetName() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetDescr() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetStart() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetDeadline() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetLength() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetStatus() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetMemberList() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testAddMember() {
-//		// fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRemoveMember() {
-//		// fail("Not yet implemented");
-//	}
+	@Test
+	public void testAreValidTimes_whiteBox(){
+		
+		// Test Path 1
+		//		-	node a:	All inputs greater than 0
+		//		-	node b:	All inputs less than MAX_DURATION
+		//		-	node c:	most likely less than pessimistic and more than optimistic
+		//		return true
+		assertTrue(Activity.areValidTimes(2, 1, 3));
 
+		// Test Path 2
+		//		-	node a:	At least 1 input less than 0
+		//		return false
+		assertFalse(Activity.areValidTimes(-1, 1, 3));
+
+		// Test Path 3
+		//		-	node a:	All inputs greater than 0
+		//		-	node b:	At east 1 input greater than MAX_DURATION
+		//		return false
+		assertFalse(Activity.areValidTimes(Activity.MAX_DURATION + 1, 1, 3));
+
+		// Test Path 4
+		//		-	node a:	All inputs greater than 0
+		//		-	node b:	All inputs less than MAX_DURATION
+		//		-	node c:	most likely greater than pessimistic or less than optimistic
+		//		return false
+		assertFalse(Activity.areValidTimes(4, 1, 3));
+
+	}
 }

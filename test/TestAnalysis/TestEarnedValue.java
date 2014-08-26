@@ -27,7 +27,7 @@ public class TestEarnedValue {
 	
 	//////////////////////////////WHITEBOX ////////////////////////////////////////////////////////////////////	
 	@Test
-	public void testCalculateActualCostPath1(){
+	public void testCalculateActualCost_whiteBoxPath1(){
 		
 		Date today = new Date();
 		Project p = new Project(0, "CalcActCostTest1", "Disposable test Project", today, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
@@ -57,7 +57,7 @@ public class TestEarnedValue {
 		
 	}
 	@Test
-	public void testCalculateActualCostPath2(){
+	public void testCalculateActualCost_whiteBoxPath2(){
 		
 		Date today = new Date();
 		Project p = new Project(0, "CalcActCostTest1", "Disposable test Project", today, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
@@ -72,7 +72,7 @@ public class TestEarnedValue {
 		assertTrue(equals(p.getActualCost(), 0.0));
 	}
 	@Test
-	public void testCalculateActualCostPath4(){
+	public void testCalculateActualCost_whiteBoxPath4(){
 	
 		Date today = new Date();
 		Project p = new Project(0, "CalcActCostTest1", "Disposable test Project", today, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
@@ -101,7 +101,7 @@ public class TestEarnedValue {
 		assertTrue(equals(p.getActualCost(), 5.0));
 	}
 	@Test
-	public void testCalculateActualCostPath3(){
+	public void testCalculateActualCost_whiteBoxPath3(){
 		
 		Date today = new Date();
 		Project p = new Project(0, "CalcActCostTest1", "Disposable test Project", today, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
