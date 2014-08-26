@@ -47,6 +47,8 @@ import javax.swing.event.CaretEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JEditorPane;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 /**
  * A dialogue used to create new activity of the project
  * @author Administrator
@@ -57,6 +59,8 @@ public class PertDisplayClone extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private PertNetwork pertNetwork;
 	private MilestoneNode activeNode;
+	private Date chosenDate = new Date();
+	private Date target;
 	
 	public PertDisplayClone(PertNetwork pn) {
 		
@@ -70,6 +74,10 @@ public class PertDisplayClone extends JDialog {
 		setBounds(100, 100, 477, 593);
 		
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+			}
+		});
 		contentPanel.setBackground(new Color(204, 255, 204));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -83,7 +91,7 @@ public class PertDisplayClone extends JDialog {
 		lblMilestones.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			}///WHAT
+			}
 		});
 		lblMilestones.setBounds(45, 58, 121, 16);
 		contentPanel.add(lblMilestones);
@@ -93,20 +101,16 @@ public class PertDisplayClone extends JDialog {
 		contentPanel.add(lblPrecedents);
 		
 		final JEditorPane precedentPane = new JEditorPane();
-		precedentPane.setBounds(196, 133, 230, 83);
+		precedentPane.setBounds(129, 133, 297, 83);
 		contentPanel.add(precedentPane);
 		
 		final JEditorPane dependentPane = new JEditorPane();
-		dependentPane.setBounds(196, 269, 230, 83);
+		dependentPane.setBounds(129, 269, 297, 83);
 		contentPanel.add(dependentPane);
 		
 		JLabel lblDependents = new JLabel("Dependents");
 		lblDependents.setBounds(45, 269, 101, 16);
 		contentPanel.add(lblDependents);
-		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(196, 425, 230, 20);
-		contentPanel.add(dateChooser);
 		
 		final JEditorPane targetPane = new JEditorPane();
 		targetPane.setBounds(196, 367, 230, 22);
@@ -124,14 +128,15 @@ public class PertDisplayClone extends JDialog {
 		lblLikelihoodOfAchieving.setBounds(45, 485, 139, 22);
 		contentPanel.add(lblLikelihoodOfAchieving);
 		
-		JEditorPane editorPane_3 = new JEditorPane();
-		editorPane_3.setBounds(189, 485, 230, 22);
-		contentPanel.add(editorPane_3);
+		final JEditorPane liklelihoodPane = new JEditorPane();
+		liklelihoodPane.setBounds(189, 485, 230, 22);
+		contentPanel.add(liklelihoodPane);
 				
 		final JComboBox milestoneComboBox = new JComboBox();
 		milestoneComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				activeNode = (MilestoneNode) milestoneComboBox.getSelectedItem();
+				target = activeNode.getTargetDate();
 				String pres, deps, trgt;
 				pres = activeNode.toStringArrows("in");
 				deps = activeNode.toStringArrows("out");
@@ -148,7 +153,7 @@ public class PertDisplayClone extends JDialog {
 			milestoneComboBox.addItem(n);
 		}
 		contentPanel.add(milestoneComboBox);
-
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -158,7 +163,7 @@ public class PertDisplayClone extends JDialog {
 				
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						dispose();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -166,6 +171,29 @@ public class PertDisplayClone extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
+		
+		final JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(196, 429, 121, 20);
+		contentPanel.add(dateChooser);
+		
+		JButton btnSelectDate = new JButton("Select Date");
+		btnSelectDate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				chosenDate = dateChooser.getDate();
+
+				double diff = Math.abs((chosenDate.getTime() - target.getTime()) / (1000 * 60 * 60 * 24));
+
+				double diffOverStd = diff/activeNode.getStandardDeviation();
+				double prob = PertNetwork.getNormalDist().cumulativeProbability(diffOverStd);
+		
+				liklelihoodPane.setText(Double.toString(prob));
+			}
+		});
+		btnSelectDate.setBounds(329, 424, 117, 29);
+		contentPanel.add(btnSelectDate);
+		
 	setVisible(true);
 	}
 }

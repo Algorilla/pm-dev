@@ -21,7 +21,7 @@ public class PertNetwork {
 	private MilestoneNode 		finish;
 	private NodeGraph			graph;
 	
-	private static NormalDistribution normalDist;
+	private static NormalDistribution normalDist = new NormalDistribution();
 
 	
 	public PertNetwork(ArrayList<Activity> activities){
@@ -31,9 +31,7 @@ public class PertNetwork {
 		this.finish 	= new MilestoneNode(Integer.MAX_VALUE);
 		this.graph 		= new NodeGraph();
 		
-		this.removeDummies();
-		this.setTargetDates();
-				
+		this.removeDummies();	
 	}
 	
 	/**
@@ -126,14 +124,15 @@ public class PertNetwork {
 		an.finish.setName(index);
 		
 		an.forwardPass();
-
+		an.setTargetDates();
 		return an;
 	}
 
 	/**
 	 * @param node
 	 */
-	private void forwardPass() {
+	//TODO: Set this function back to private for deployment.
+	public void forwardPass() {
 		
 		double 	expectedDate = 0,
 				expectedSrdDev = 0,
@@ -192,7 +191,8 @@ public class PertNetwork {
 	/**
 	 * @param node
 	 */
-	private void linkNodeForward(MilestoneNode node) {
+	//TODO: Set this function back to private for deployment.
+	public void linkNodeForward(MilestoneNode node) {
 		
 		boolean found = false;
 		
@@ -201,7 +201,6 @@ public class PertNetwork {
 			if(!this.graph.getNodes().keySet().contains(this.finish)){
 				this.graph.getNodes().put(finish, new ArrayList<MilestoneNode>());
 			}
-//			node.name=(index);
 			return;
 		}
 		

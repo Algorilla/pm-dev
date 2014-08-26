@@ -35,6 +35,7 @@ public class MilestoneNode implements Comparable{
 		outArrows  = new ArrayList<Activity>();
 		precedents = new ArrayList<MilestoneNode>();
 		dependents = new ArrayList<MilestoneNode>();
+		targetDate = new Date();
 	}
 	
 	public void setTargetDate(){
@@ -45,6 +46,9 @@ public class MilestoneNode implements Comparable{
 				latestDate = a.getLatestFinish();
 				latest = a;
 			}
+		}
+		if(latest == null){
+			return;
 		}
 		targetDate = latest.getLF();
 	}
@@ -224,14 +228,14 @@ public class MilestoneNode implements Comparable{
 	 * @return
 	 */
 	private boolean hasOutArrows() {
-		return inArrows.size() != 0;
+		return !outArrows.isEmpty();
 	}
 
 	/**
 	 * @return
 	 */
 	private boolean hasInArrows() {
-		return outArrows.size() != 0;
+		return !inArrows.isEmpty();
 	}
 
 	public String toStringTargetDate(){
