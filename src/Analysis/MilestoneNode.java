@@ -261,7 +261,7 @@ public class MilestoneNode implements Comparable{
 	
 	/**
 	 * Milestone Nodes should have unique names(ids).
-	 * */
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
