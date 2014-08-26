@@ -1,10 +1,8 @@
 package Controller;
 
 import java.awt.List;
-import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -164,7 +162,7 @@ public class DisplayController {
 	}
 
 	public void updatePercentComplete(Double percentComplete) {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else if (activityNumber == null) {
 			ec.showError("Please select an activity");
@@ -179,7 +177,7 @@ public class DisplayController {
 	}
 
 	public void updateActualCost(Double actualCost) {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else if (activityNumber == null) {
 			ec.showError("Please select an activity");
@@ -194,7 +192,7 @@ public class DisplayController {
 
 	// TODO: DEV refactor GANTT, PERT, EARNED-VALUE?
 	public void createGantt() {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else {
 			Analyzer a = new Analyzer(mc.getCurrentProject(), 161);
@@ -205,7 +203,7 @@ public class DisplayController {
 	}
 
 	public void createPert() {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else {
 			Date today = new Date();
@@ -219,7 +217,7 @@ public class DisplayController {
 
 	public void createEVA() {
 		// TODO: DEV DEBUG WHY FREEZE ON WINDOWS
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else {
 			Date today = new Date();
@@ -250,7 +248,7 @@ public class DisplayController {
 	}
 
 	public void addTeamMember() {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else if (activityNumber == null) {
 			ec.showError("Please select an activity");
@@ -287,15 +285,13 @@ public class DisplayController {
 	}
 
 	public void createNewActivity() {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else {
 			JComboBox<String> activitiesComboBox = new JComboBox<>();
-			HashMap<Integer, String> activityNumToNameDict = mc
-					.getActivityNamesForCurrentProject();
-			for (Integer activityNumber : activityNumToNameDict.keySet()) {
-				activitiesComboBox.addItem(activityNumToNameDict
-						.get(activityNumber));
+
+			for (String activityName : mc.getActivityNamesForCurrentProject()) {
+				activitiesComboBox.addItem(activityName);
 			}
 
 			new CreateNewActivityDialogClone(activitiesComboBox);
@@ -304,39 +300,24 @@ public class DisplayController {
 					&& newActivityArgs != null
 					&& newActivityDependencies != null) {
 
-				int[] activityDependenciesIds = new int[newActivityDependencies
-						.size()];
-				int index = 0;
-				while (!newActivityDependencies.isEmpty()) {
-					for (java.util.Map.Entry<Integer, String> entry : activityNumToNameDict
-							.entrySet()) {
-						if (entry.getValue().equals(
-								newActivityDependencies.get(index))) {
-							activityDependenciesIds[index++] = entry.getKey();
-							newActivityDependencies.remove(index);
-						}
-					}
+				mc.initializeActivity(newActivityName, newActivityDescription,
+						newActivityArgs, newActivityDependencies);
 
-					mc.initializeActivity(newActivityName,
-							newActivityDescription, newActivityArgs,
-							activityDependenciesIds);
-					newActivityName = null;
-					newActivityDescription = null;
-					newActivityArgs = null;
-					newActivityDependencies = null;
-				}
+				newActivityName = null;
+				newActivityDescription = null;
+				newActivityArgs = null;
+				newActivityDependencies = null;
+			}
 
-				if (isActivityCreated) {
-					mc.loadFormatedActivityListForCurrentProject();
-					isActivityCreated = false;
-					// TODO: ensure that ActivitiesTable gets updated
-				}
+			if (isActivityCreated) {
+				mc.loadFormatedActivityListForCurrentProject();
+				isActivityCreated = false;
 			}
 		}
 	}
 
 	public void deleteActivity(int PID, int activityNumber) {
-		if (mc.getCurrentProject() == null) {
+		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else if (this.activityNumber == null) {
 			ec.showError("Please select an activity");

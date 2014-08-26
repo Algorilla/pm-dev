@@ -9,18 +9,16 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 
 import Controller.DisplayController;
 import Controller.ErrorController;
 
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-
 public class CreateNewActivityDialogClone extends JDialog {
 
-	private ArrayList<String> dependenciesListToReturn;
+	private ArrayList<String> dependenciesListToReturn = new ArrayList<String>();
 
 	public CreateNewActivityDialogClone(
 			final JComboBox<String> activitiesComboBox) {
@@ -34,7 +32,7 @@ public class CreateNewActivityDialogClone extends JDialog {
 		getContentPane().setLayout(null);
 
 		JLabel lblActivityName = new JLabel("Activity Name:");
-		lblActivityName.setBounds(10, 11, 123, 28);
+		lblActivityName.setBounds(10, 7, 123, 28);
 		getContentPane().add(lblActivityName);
 
 		JLabel lblDescription = new JLabel("Description:");
@@ -51,11 +49,11 @@ public class CreateNewActivityDialogClone extends JDialog {
 		getContentPane().add(lblDependencies);
 
 		JLabel lblNewLabel = new JLabel("Optimistic Time");
-		lblNewLabel.setBounds(44, 286, 137, 28);
+		lblNewLabel.setBounds(44, 280, 137, 28);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblMostLikelyTime = new JLabel("Most Likely Time");
-		lblMostLikelyTime.setBounds(44, 251, 137, 28);
+		lblMostLikelyTime.setBounds(44, 250, 137, 28);
 		getContentPane().add(lblMostLikelyTime);
 
 		JLabel lblPlannedValue = new JLabel("Planned Value");
@@ -63,58 +61,59 @@ public class CreateNewActivityDialogClone extends JDialog {
 		getContentPane().add(lblPlannedValue);
 
 		JLabel lblPessimisticTimeTo = new JLabel("Pessimistic Time");
-		lblPessimisticTimeTo.setBounds(44, 316, 137, 28);
+		lblPessimisticTimeTo.setBounds(44, 310, 137, 28);
 		getContentPane().add(lblPessimisticTimeTo);
 
 		final JTextField ActivityNameTextField = new JTextField();
-		ActivityNameTextField.setBounds(143, 15, 200, 20);
+		ActivityNameTextField.setBounds(143, 11, 200, 20);
 		getContentPane().add(ActivityNameTextField);
 		ActivityNameTextField.setColumns(10);
 
 		final JTextField optimisticTextField = new JTextField();
-		optimisticTextField.setBounds(183, 290, 96, 20);
+		optimisticTextField.setBounds(191, 284, 96, 20);
 		getContentPane().add(optimisticTextField);
 		optimisticTextField.setColumns(10);
 
 		final JTextField pessimisticTextField = new JTextField();
 		pessimisticTextField.setColumns(10);
-		pessimisticTextField.setBounds(183, 320, 96, 20);
+		pessimisticTextField.setBounds(191, 314, 96, 20);
 		getContentPane().add(pessimisticTextField);
 
 		final JTextField mostLikelyTextField = new JTextField();
 		mostLikelyTextField.setColumns(10);
-		mostLikelyTextField.setBounds(183, 255, 96, 20);
+		mostLikelyTextField.setBounds(191, 254, 96, 20);
 		getContentPane().add(mostLikelyTextField);
 
 		final JTextField plannedValueTextField = new JTextField();
 		plannedValueTextField.setColumns(10);
-		plannedValueTextField.setBounds(183, 224, 96, 20);
+		plannedValueTextField.setBounds(191, 224, 96, 20);
 		getContentPane().add(plannedValueTextField);
 
 		final JTextArea textAreaDescription = new JTextArea();
 		textAreaDescription.setBounds(10, 58, 441, 126);
 		getContentPane().add(textAreaDescription);
 
-		activitiesComboBox.setBounds(132, 490, 207, 20);
+		activitiesComboBox.setBounds(135, 425, 186, 20);
 		getContentPane().add(activitiesComboBox);
 
 		final List selectedDependencies = new List();
-		selectedDependencies.setBounds(136, 350, 207, 70);
+		selectedDependencies.setBounds(136, 350, 186, 70);
 		getContentPane().add(selectedDependencies);
 
 		JButton btnAddDependency = new JButton("Add");
-		btnAddDependency.setBounds(393, 356, 58, 23);
+		btnAddDependency.setBounds(328, 428, 123, 23);
 		getContentPane().add(btnAddDependency);
 
-		JButton btnDone = new JButton("Done");
-		btnDone.setBounds(393, 390, 58, 23);
-		getContentPane().add(btnDone);
+		JButton btnCreate = new JButton("Create Activity");
+		btnCreate.setBounds(328, 377, 123, 23);
+		getContentPane().add(btnCreate);
 
 		btnAddDependency.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String chosenActivity = (String) activitiesComboBox
 						.getSelectedItem();
-				if (!dependenciesListToReturn.contains(chosenActivity)) {
+				if (chosenActivity != null
+						&& !dependenciesListToReturn.contains(chosenActivity)) {
 					dependenciesListToReturn.add(chosenActivity);
 					selectedDependencies.add(chosenActivity);
 				} else {
@@ -124,7 +123,7 @@ public class CreateNewActivityDialogClone extends JDialog {
 			}
 		});
 
-		btnDone.addActionListener(new ActionListener() {
+		btnCreate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (!ActivityNameTextField.getText().equals("")
@@ -140,7 +139,6 @@ public class CreateNewActivityDialogClone extends JDialog {
 					double mostLikely;
 					double optimistic;
 					double pessimistic;
-					double targetDate;
 					try {
 						plannedValue = Double.parseDouble(plannedValueTextField
 								.getText());
@@ -156,11 +154,12 @@ public class CreateNewActivityDialogClone extends JDialog {
 								new double[] { plannedValue, mostLikely,
 										optimistic, pessimistic },
 								dependenciesListToReturn);
+						dispose();
 					} catch (NumberFormatException ex) {
 						ErrorController
 								.get()
 								.showError(
-										"Please ensure all fields contain valid values.");
+										"Please ensure all numeric fields contain numbers.");
 					}
 				} else {
 					ErrorController.get().showError(
