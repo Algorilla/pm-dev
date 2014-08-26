@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import Analysis.Analyzer;
@@ -160,20 +161,20 @@ public class DisplayController {
 		loginFrame.setVisible(true);
 	}
 
-	public void updatePercentComplete(Double percentComplete) {
+	public boolean updatePercentComplete(Double percentComplete) {
 		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else if (activityNumber == null) {
 			ec.showError("Please select an activity");
 		} else if (percentComplete < 0 || percentComplete > 1) {
 			ec.showError("Please enter values between 0.0 to 1.0");
-			return;
 		} else {
-			mc.updatePercentComplete(activityNumber, percentComplete);
+			return mc.updatePercentComplete(activityNumber, percentComplete);
 		}
+		return false;
 	}
 
-	public void updateActualCost(Double actualCost) {
+	public boolean updateActualCost(Double actualCost) {
 		if (!mc.hasProjectOpen()) {
 			ec.showError("Please select a project");
 		} else if (activityNumber == null) {
@@ -182,7 +183,9 @@ public class DisplayController {
 			ec.showError("Please enter a non-negative value");
 		} else {
 			mc.updateActualCost(activityNumber, actualCost);
+			return true;
 		}
+		return false;
 	}
 
 	public void createGantt() {
@@ -257,6 +260,16 @@ public class DisplayController {
 					.getActivityFromID(PID, activityNumber).getDescr());
 		}
 		this.activityNumber = activityNumber;
+	}
+
+	public void save(String activityName, String activityDescription, double percentComplete, double actualCost) {
+		if (updatePercentComplete(percentComplete) && updateActualCost(actualCost)) {
+			if (mc.updateActivityNameAndDescription(activityNumber, activityName, activityDescription)) {
+				JOptionPane.showMessageDialog(null, "Activity saved");
+			} else {
+				ErrorController.get().showError("Unable to save activity");
+			}
+		}
 	}
 
 	public void createNewActivity() {

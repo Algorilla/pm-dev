@@ -112,13 +112,17 @@ public class CreateNewActivityDialog extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				String chosenActivity = (String) activitiesComboBox
 						.getSelectedItem();
-				if (chosenActivity != null
-						&& !dependenciesListToReturn.contains(chosenActivity)) {
+				if (chosenActivity == null) {
+					ErrorController.get().showError(
+							"No dependencies to choose from");
+				} else if (!dependenciesListToReturn.contains(chosenActivity)) {
 					dependenciesListToReturn.add(chosenActivity);
 					selectedDependencies.add(chosenActivity);
 				} else {
-					ErrorController.get().showError(
-							"Cannot add the same activity twice");
+					ErrorController
+							.get()
+							.showError(
+									"Cannot add the same activity twice as a dependency");
 				}
 			}
 		});

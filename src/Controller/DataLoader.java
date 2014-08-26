@@ -85,7 +85,7 @@ public class DataLoader {
 			mc.rs.close();
 			mc.pst.close();
 		} catch (Exception ex) {
-			mc.ec.showError("Unable to load information from database");
+			mc.ec.showError("Database error occured");
 		}
 
 	}
