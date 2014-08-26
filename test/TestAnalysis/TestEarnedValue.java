@@ -31,7 +31,7 @@ public class TestEarnedValue {
 		testCalculateActualCostPath1();
 		testCalculateActualCostPath2();
 		testCalculateActualCostPath3();
-//		testCalculateActualCostPath4();
+		testCalculateActualCostPath4();
 	}
 	
 	@Test
