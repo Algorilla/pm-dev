@@ -1,83 +1,54 @@
 package JDialogue;
 
-import Controller.DisplayController;
-import Controller.MainController;
-import Controller.PModelChange;
-import Controller.SQLiteDBConnection;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.awt.List;
-/**
- * A dialogue to open project from list.
- * @author Administrator
- *
- */
+import Controller.DisplayController;
+import Controller.ErrorController;
+
 public class OpenProjectListDialog extends JDialog {
 
-	private final JPanel contentPanel = new JPanel();
-	List projectList = new List();
 	String projectName = null;
-	
-	Connection conn = null;
-	ResultSet rs = null;
-	PreparedStatement pst = null;
 
-	public OpenProjectListDialog() {
-		conn = SQLiteDBConnection.ConnectDb();
-		
+	public OpenProjectListDialog(final List projectList) {
+
 		setModalityType(ModalityType.APPLICATION_MODAL);
-	    setTitle("Open Project List");
-	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	    setLocationRelativeTo(null);
+		setTitle("Open Project");
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 250);
-		
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		
-//		projectList = MainController.get().getProjectList();
-		projectList.setBounds(44, 46, 329, 108);
-		contentPanel.add(projectList);
-		
-		JLabel lblNowYouHave = new JLabel("Now, you have the following projects: ");
-		lblNowYouHave.setBounds(23, 11, 321, 14);
-		contentPanel.add(lblNowYouHave);
+		getContentPane().setLayout(null);
 
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		JLabel lblProject = new JLabel("Projects:");
+		lblProject.setBounds(23, 11, 321, 14);
+		getContentPane().add(lblProject);
+
+		projectList.setBounds(33, 31, 350, 136);
+		getContentPane().add(projectList);
 
 		JButton okButton = new JButton("OK");
+		okButton.setSize(68, 28);
+		okButton.setLocation(356, 173);
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if(projectList.getSelectedItem() == null){
-					//do nothing, no need for message box here
-				}else{
-					String projectName = projectList.getSelectedItem().toString();
-//					MainController.get().openProject(projectName);
-//					MainController.get().notifyDisplayController(PModelChange.OPENED_PROJECT);
-					//JOptionPane.showMessageDialog(null, "Project "+projectName+" Opened");	
+				if (projectList.getSelectedItem() == null) {
+					ErrorController.get().showError(
+							"Please select a project to open");
+				} else {
+					String projectName = projectList.getSelectedItem();
+					DisplayController.get().setProjectToOpen(projectName);
 					dispose();
 				}
 			}
 		});
-		okButton.setActionCommand("OK");
-		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);			
+
+		getContentPane().add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		setVisible(true);
 	}
 }
