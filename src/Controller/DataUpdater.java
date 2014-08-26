@@ -6,8 +6,6 @@ package Controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import PModel.Activity;
 import PModel.Member;
 import PModel.MemberActivity;
@@ -51,7 +49,6 @@ public class DataUpdater {
 				mc.members.add(member);
 				return member;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex);
 
 			}
 		}
@@ -94,8 +91,7 @@ public class DataUpdater {
 				mc.pst.close();
 				return true;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex);// DMITRI (MC
-				// shouldn't be taking to the GUI)
+
 			}
 		}
 		return false;
@@ -122,9 +118,6 @@ public class DataUpdater {
 				count++;
 			}
 		if (count > 1) {
-			ErrorController.get().addError(
-					"Member with Username " + member.getUserName()
-							+ " already exists.");
 			return false;
 		}
 		return true;
@@ -202,8 +195,7 @@ public class DataUpdater {
 
 				return true;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex);// DMITRI (MC
-				// shouldn't be taking to the GUI)
+
 			}
 		}
 		return false;
@@ -283,8 +275,6 @@ public class DataUpdater {
 				mc.projects.add(project);
 				return true;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex);
-				mc.ec.addError(ex.getLocalizedMessage());
 			}
 		}
 		return false;
@@ -351,8 +341,7 @@ public class DataUpdater {
 				mc.activities.add(activity);
 				return activity;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex);// DMITRI (MC
-				// shouldn't be taking to the GUI)
+
 			}
 		}
 		return null;
@@ -389,11 +378,9 @@ public class DataUpdater {
 				mc.pst.setInt(12, activity.getNumber());
 				mc.pst.execute();
 				mc.pst.close();
-				// JOptionPane.showMessageDialog(null, "Data saved."); // DMITRI
-				// (MC shouldn't be taking to the GUI)
 				return true;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex); // DMITRI
+
 			}
 		}
 		return false;
@@ -449,7 +436,7 @@ public class DataUpdater {
 				mc.memberActivities.add(ma);
 				return ma;
 			} catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex);//DMITRI
+
 			}
 		}
 		return null;

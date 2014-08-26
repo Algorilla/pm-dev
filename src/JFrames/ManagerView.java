@@ -189,7 +189,7 @@ public class ManagerView extends UserInterfaceView {
 			public void mouseClicked(MouseEvent e) {
 				Double actualCost;
 				try {
-					actualCost = Double.parseDouble(textFieldPercentComplete.getText());
+					actualCost = Double.parseDouble(textFieldActualCost.getText());
 					DisplayController.get().updateActualCost(actualCost);
 				} catch (NumberFormatException numFormatException) {
 					ErrorController.get().showError("Please enter a monetary amount");
