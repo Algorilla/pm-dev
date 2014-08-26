@@ -53,6 +53,42 @@ Test Cases: {
 			}
 
 Test 1 Input:
+-	type = "in"
+-	MilestoneNode has ONE inArrow
+-	MilestoneNode has ONE inArrow
+-	arrowString ends with ", "
+
+Test 2 Input:
+-	type = "in"
+-	MilestoneNode has NO inArrow
+
+
+Test 3 Input:
+-	type = "in"
+-	MilestoneNode has ONE inArrow
+-	MilestoneNode has NO inArrows
+INFEASIBLE
+
+Test 4 Input:
+-	type = "in"
+-	MilestoneNode has ONE inArrow
+-	MilestoneNode has ONE inArrow
+-	arrowString doesn't end with ", "
+INFEASIBLE
+
+Test 5 Input:
+-	type = "out"
+-	MilestoneNode has ONE outArrow
+-	MilestoneNode has ONE outArrow
+-	arrowString ends with ", "
+
+Test 6 Input:
+-	type = "out"
+-	MilestoneNode has NO outArrows
+
+Test 7 Input:
+-	type != "in" or "out"
+
 
 
 /*/////////////////////////////////////////////////////////
