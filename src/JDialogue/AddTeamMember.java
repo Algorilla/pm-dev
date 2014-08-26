@@ -1,4 +1,4 @@
-package JDialogue;
+/*package JDialogue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -33,11 +33,11 @@ import javax.swing.JList;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-/**
+*//**
  * A dialogue used to create new activity of the project
  * @author Administrator
  *
- */
+ *//*
 public class AddTeamMember extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -117,3 +117,4 @@ public class AddTeamMember extends JDialog {
 	}
 }
 
+*/

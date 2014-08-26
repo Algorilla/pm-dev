@@ -91,7 +91,7 @@ public class CreateNewProjectDialogClone extends JDialog {
 					newProjectArgs[0] = name;
 					newProjectArgs[1] = description;
 					newProjectArgs[2] = StartedDate.getDate().toString();
-					DisplayController.get().setNewProject(newProjectArgs);
+					DisplayController.get().setProjectToCreate(newProjectArgs);
 					dispose();
 				}
 			}

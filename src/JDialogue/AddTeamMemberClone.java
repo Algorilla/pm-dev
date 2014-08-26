@@ -7,15 +7,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 import Controller.DisplayController;
-import javax.swing.JComboBox;
 
 public class AddTeamMemberClone extends JDialog {
 
-	private Integer memberId;
+	private String memberName;
 
-	public AddTeamMemberClone(final JComboBox<PModel.Member> memberComboBox) {
+	public AddTeamMemberClone(final JComboBox<String> memberComboBox) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Add Team Member");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -41,8 +41,8 @@ public class AddTeamMemberClone extends JDialog {
 
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				memberId = ((PModel.Member)memberComboBox.getSelectedItem()).getMemberID();
-				DisplayController.get().setMemberIdToAdd(memberId);
+				memberName = ((String)memberComboBox.getSelectedItem());
+				DisplayController.get().setMemberNameToAdd(memberName);
 				dispose();
 			}
 		});
@@ -53,7 +53,7 @@ public class AddTeamMemberClone extends JDialog {
 
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DisplayController.get().setMemberIdToAdd(null);
+				DisplayController.get().setMemberNameToAdd(null);
 				dispose();
 			}
 		});
