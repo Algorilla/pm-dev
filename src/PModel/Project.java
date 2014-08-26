@@ -90,6 +90,8 @@ public class Project extends Manageable {
 		this.schedulePerformanceIndex = schedulePerformanceIndex;
 		this.estimateAtCompletion = estimateAtCompletion;
 		this.estimateToComplete = estimateToComplete;
+		
+		this.activityList = new ArrayList<Activity>();
 
 		// TODO Ensure consistency between start date, deadline and projected
 		// length
@@ -215,7 +217,7 @@ public class Project extends Manageable {
 	 *            Activity to be added to Project
 	 */
 	public void addActivity(Activity newActivity) {
-		// TODO implement me
+		this.activityList.add(newActivity);
 	}
 
 	/**
@@ -225,7 +227,7 @@ public class Project extends Manageable {
 	 *            Activity to be removed from Project
 	 */
 	public void removeActivity(Activity activity) {
-		// TODO implement me
+		this.activityList.remove(activity);
 	}
 
 	/**

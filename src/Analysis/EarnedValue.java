@@ -139,8 +139,9 @@ public class EarnedValue {
 		}
 
 	}
-
-	private void calculateActualCost() {
+	// TODO: This is set to public static for testing purposes. Will be set back
+	// to private for deployment
+	public void calculateActualCost() {
 
 		double ac = 0;
 
