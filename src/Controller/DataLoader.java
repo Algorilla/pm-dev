@@ -130,7 +130,7 @@ public class DataLoader {
 		return temp;
 	}
 
-	public void getTableFormattedActivityList(MainController mc) {
+	public void getActivityListForCurrentProject(MainController mc) {
 		int pid = mc.getCurrentProject().getProjectID();
 		String sql = "select * from Activities  where PID = ?";
 		try {

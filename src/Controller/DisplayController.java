@@ -1,6 +1,10 @@
 package Controller;
 
+import java.awt.List;
+import java.security.KeyStore.Entry;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -9,6 +13,7 @@ import Analysis.Analyzer;
 import Analysis.GanttNetwork;
 import Analysis.PertNetwork;
 import JDialogue.AddTeamMemberClone;
+import JDialogue.CreateNewActivityDialogClone;
 import JDialogue.CreateNewProjectDialogClone;
 import JDialogue.DeleteProjectDialogClone;
 import JDialogue.EarnedValueDisplay;
@@ -19,8 +24,6 @@ import JFrames.UserInterfaceView;
 import JFrames.LoginFrameClone;
 import JFrames.TeamMemberViewClone;
 import JFrames.ManagerView;
-import PModel.Manageable;
-import PModel.Member;
 
 public class DisplayController {
 	private static DisplayController self = null;
@@ -31,8 +34,12 @@ public class DisplayController {
 	private String[] newProjectArgs;
 	private String projectToOpen;
 	private String projectToDelete;
+	private String memberNameToAdd;
 	private Integer activityNumber;
-	private Integer memberIdToAdd;
+	private String newActivityName;
+	private String newActivityDescription;
+	private double[] newActivityArgs;
+	private ArrayList<String> newActivityDependencies;
 	private JTable activitiesTable;
 
 	private LoginFrameClone loginFrame;
@@ -66,6 +73,7 @@ public class DisplayController {
 						.setProjectName("Please select a project");
 			} else {
 				activitiesTable = new JTable();
+				mc.loadFormatedActivityListForCurrentTeamMember();
 				userInterface = new TeamMemberViewClone(activitiesTable);
 			}
 			userInterface.setVisible(true);
@@ -89,7 +97,7 @@ public class DisplayController {
 			((ManagerView) userInterface).resetActivity(false);
 
 			this.activitiesTable = activitiesTable;
-			mc.getActivitiesListForCurrentProject();
+			mc.loadFormatedActivityListForCurrentProject();
 			isProjectCreated = false;
 		}
 
@@ -97,7 +105,7 @@ public class DisplayController {
 	}
 
 	public void openProject(JTable activitiesTable) {
-		new OpenProjectListDialogClone(mc.getProjectListForCurrentManager());
+		new OpenProjectListDialogClone(getProjectNameList());
 
 		if (projectToOpen != null) {
 			mc.openProject(projectToOpen);
@@ -110,7 +118,8 @@ public class DisplayController {
 			((ManagerView) userInterface).resetActivity(false);
 
 			this.activitiesTable = activitiesTable;
-			mc.getActivitiesListForCurrentProject();
+			activityNumber = null;
+			mc.loadFormatedActivityListForCurrentProject();
 
 			isProjectOpen = false;
 		}
@@ -122,7 +131,7 @@ public class DisplayController {
 		String currentProjectName = mc.getCurrentProject() == null ? "" : mc
 				.getCurrentProject().getName();
 
-		new DeleteProjectDialogClone(mc.getProjectListForCurrentManager());
+		new DeleteProjectDialogClone(getProjectNameList());
 
 		if (projectToDelete != null) {
 			mc.deleteProject(projectToDelete);
@@ -135,7 +144,8 @@ public class DisplayController {
 				((ManagerView) userInterface)
 						.setProjectName("Please select a project");
 				((ManagerView) userInterface).resetActivity(true);
-				mc.emptyActivitiesForDeletedProject();
+				activityNumber = null;
+				mc.loadEmptyActivitiesListForDeleteProject();
 			}
 
 			isProjectDeleted = false;
@@ -147,7 +157,7 @@ public class DisplayController {
 	public void logout() {
 		// TODO : add save functionality
 		activitiesTable = null;
-		activityNumber = 0;
+		activityNumber = null;
 		mc.logout();
 		userInterface.dispose();
 		loginFrame.setVisible(true);
@@ -243,20 +253,17 @@ public class DisplayController {
 		if (mc.getCurrentProject() == null) {
 			ec.showError("Please select a project");
 		} else if (activityNumber == null) {
-				ec.showError("Please select an activity");
+			ec.showError("Please select an activity");
 		} else {
-			JComboBox<Member> memberComboBox = new JComboBox<Member>();
-			for (Member member : mc.getMemberListForAddMemberToActivity()) {
-					memberComboBox.addItem(member);
+			JComboBox<String> memberComboBox = new JComboBox<>();
+			for (String member : mc.getMemberNamesForAddMemberToActivity()) {
+				memberComboBox.addItem(member);
 			}
 			new AddTeamMemberClone(memberComboBox);
 
-			if (memberIdToAdd != null) {
-				mc.initializeMemberActivity(new PModel.MemberActivity(
-						memberIdToAdd,
-						mc.getCurrentProject().getProjectID(),
-						activityNumber));
-				memberIdToAdd = null;
+			if (memberNameToAdd != null) {
+				mc.initializeMemberActivity(memberNameToAdd, activityNumber);
+				memberNameToAdd = null;
 			}
 		}
 	}
@@ -283,14 +290,47 @@ public class DisplayController {
 		if (mc.getCurrentProject() == null) {
 			ec.showError("Please select a project");
 		} else {
-			// CreateNewActivityDialog newActivity = new
-			// CreateNewActivityDialog();
-			// TODO: createNewActivtiy should set its visibility to true
-			// newActivity.setVisible(true);
-			if (isActivityCreated) {
-				mc.getActivitiesListForCurrentProject();
-				isActivityCreated = false;
-				// TODO: ensure that ActivitiesTable gets updated
+			JComboBox<String> activitiesComboBox = new JComboBox<>();
+			HashMap<Integer, String> activityNumToNameDict = mc
+					.getActivityNamesForCurrentProject();
+			for (Integer activityNumber : activityNumToNameDict.keySet()) {
+				activitiesComboBox.addItem(activityNumToNameDict
+						.get(activityNumber));
+			}
+
+			new CreateNewActivityDialogClone(activitiesComboBox);
+
+			if (newActivityName != null && newActivityDescription != null
+					&& newActivityArgs != null
+					&& newActivityDependencies != null) {
+
+				int[] activityDependenciesIds = new int[newActivityDependencies
+						.size()];
+				int index = 0;
+				while (!newActivityDependencies.isEmpty()) {
+					for (java.util.Map.Entry<Integer, String> entry : activityNumToNameDict
+							.entrySet()) {
+						if (entry.getValue().equals(
+								newActivityDependencies.get(index))) {
+							activityDependenciesIds[index++] = entry.getKey();
+							newActivityDependencies.remove(index);
+						}
+					}
+
+					mc.initializeActivity(newActivityName,
+							newActivityDescription, newActivityArgs,
+							activityDependenciesIds);
+					newActivityName = null;
+					newActivityDescription = null;
+					newActivityArgs = null;
+					newActivityDependencies = null;
+				}
+
+				if (isActivityCreated) {
+					mc.loadFormatedActivityListForCurrentProject();
+					isActivityCreated = false;
+					// TODO: ensure that ActivitiesTable gets updated
+				}
 			}
 		}
 	}
@@ -302,8 +342,9 @@ public class DisplayController {
 			ec.showError("Please select an activity");
 		} else {
 			if (mc.deleteActivity(PID, activityNumber)) {
-				mc.getActivitiesListForCurrentProject();
+				mc.loadFormatedActivityListForCurrentProject();
 				((ManagerView) userInterface).resetActivity(false);
+				this.activityNumber = null;
 			}
 		}
 	}
@@ -331,7 +372,7 @@ public class DisplayController {
 		return activitiesTable;
 	}
 
-	public void setNewProject(String[] newProject) {
+	public void setProjectToCreate(String[] newProject) {
 		this.newProjectArgs = newProject;
 	}
 
@@ -343,12 +384,28 @@ public class DisplayController {
 		projectToDelete = projectName;
 	}
 
-	public void setMemberIdToAdd(Integer memberId) {
-		memberIdToAdd = memberId;
+	public void setMemberNameToAdd(String memberName) {
+		memberNameToAdd = memberName;
+	}
+
+	public void setActivityToCreate(String name, String description,
+			double[] args, ArrayList<String> activityDependencies) {
+		newActivityName = name;
+		newActivityDescription = description;
+		newActivityArgs = args;
+		newActivityDependencies = activityDependencies;
 	}
 
 	private int daysBetween(Date d1, Date d2) {
 		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
 	}
 
+	private List getProjectNameList() {
+		List projectNames = new List();
+		for (String projectName : mc.getProjectNamesForCurrentManager()) {
+			projectNames.add(projectName);
+		}
+
+		return projectNames;
+	}
 }
