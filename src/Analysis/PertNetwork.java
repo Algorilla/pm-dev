@@ -133,7 +133,8 @@ public class PertNetwork {
 	/**
 	 * @param node
 	 */
-	private void forwardPass() {
+	//TODO: Set this function back to private for deployment.
+	public void forwardPass() {
 		
 		double 	expectedDate = 0,
 				expectedSrdDev = 0,
@@ -192,7 +193,8 @@ public class PertNetwork {
 	/**
 	 * @param node
 	 */
-	private void linkNodeForward(MilestoneNode node) {
+	//TODO: Set this function back to private for deployment.
+	public void linkNodeForward(MilestoneNode node) {
 		
 		boolean found = false;
 		
@@ -201,7 +203,6 @@ public class PertNetwork {
 			if(!this.graph.getNodes().keySet().contains(this.finish)){
 				this.graph.getNodes().put(finish, new ArrayList<MilestoneNode>());
 			}
-//			node.name=(index);
 			return;
 		}
 		
