@@ -83,9 +83,9 @@ public class CreateNewProjectDialogClone extends JDialog {
 				} else if (startDate == null) {
 					ErrorController.get().showError(
 							"Please enter the start date for this project");
-				} else if (startDate.before(today)) {
-					ErrorController.get().showError(
-							"Project date cannot start in the past");
+//				} else if (startDate.before(today)) {
+//					ErrorController.get().showError(
+//							"Project date cannot start in the past");
 				} else {
 					String newProjectArgs[] = new String[3];
 					newProjectArgs[0] = name;

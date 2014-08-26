@@ -52,9 +52,12 @@ public class EarnedValue {
 		double scheduledValue = 0;
 
 		for (Activity a : project.getActivityList()) {
-			scheduledValue += getActivityScheduleValue(a.getEarliestFinish(),
+			double update = getActivityScheduleValue(a.getEarliestFinish(),
 					a.getLatestFinish(), a.getPlannedValue(), a.getDuration(),
 					daysSinceStart);
+			if(update > 0){
+				scheduledValue += update;
+			}
 		}
 		project.setPlannedValue(scheduledValue);
 	}

@@ -173,7 +173,7 @@ public class PertDisplayClone extends JDialog {
 		}
 		
 		final JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(196, 429, 121, 20);
+		dateChooser.setBounds(157, 429, 160, 20);
 		contentPanel.add(dateChooser);
 		
 		JButton btnSelectDate = new JButton("Select Date");
@@ -183,8 +183,7 @@ public class PertDisplayClone extends JDialog {
 				
 				chosenDate = dateChooser.getDate();
 
-				double diff = Math.abs((chosenDate.getTime() - target.getTime()) / (1000 * 60 * 60 * 24));
-
+				double diff = (chosenDate.getTime() - target.getTime()) / (1000.0 * 60 * 60 * 24);
 				double diffOverStd = diff/activeNode.getStandardDeviation();
 				double prob = PertNetwork.getNormalDist().cumulativeProbability(diffOverStd);
 		

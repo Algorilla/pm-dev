@@ -202,7 +202,7 @@ public class DisplayController {
 		} else {
 			Date today = new Date();
 			Date start = mc.getCurrentProject().getStartDate();
-			int daysSinceStart = daysBetween(today, start);
+			double daysSinceStart = daysBetween(today, start);
 			Analyzer a = new Analyzer(mc.getCurrentProject(), daysSinceStart);
 			PertNetwork p = a.getPertNetwork();
 			new PertDisplayClone(p);
@@ -215,7 +215,7 @@ public class DisplayController {
 		} else {
 			Date today = new Date();
 			Date start = mc.getCurrentProject().getStartDate();
-			int daysSinceStart = daysBetween(today, start);
+			double daysSinceStart = daysBetween(today, start);
 			Analyzer a = new Analyzer(mc.getCurrentProject(),
 					Math.abs(daysSinceStart));
 			new EarnedValueDisplayClone(mc.getCurrentProject());
@@ -352,8 +352,8 @@ public class DisplayController {
 		newActivityDependencies = activityDependencies;
 	}
 
-	private int daysBetween(Date d1, Date d2) {
-		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+	private double daysBetween(Date d1, Date d2) {
+		return ((d2.getTime() - d1.getTime()) / (1000.0 * 60 * 60 * 24));
 	}
 
 	private List getProjectNameList() {

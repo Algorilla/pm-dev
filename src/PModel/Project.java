@@ -68,7 +68,6 @@ public class Project extends Manageable {
 			this.percentComplete = percentComplete;
 			this.percentScheduledForCompletion = percentScheduledForCompletion;
 		} else {
-//			ec.showError("DMITRI");// DMITRI
 			return;
 		}
 
@@ -77,7 +76,6 @@ public class Project extends Manageable {
 			this.actualCost = actualCost;
 			this.earnedValue = earnedValue;
 		} else {
-//			ec.showError("DMITRI");// DMITRI
 			return;
 		}
 
@@ -90,6 +88,8 @@ public class Project extends Manageable {
 		this.schedulePerformanceIndex = schedulePerformanceIndex;
 		this.estimateAtCompletion = estimateAtCompletion;
 		this.estimateToComplete = estimateToComplete;
+		
+		this.startDate = startDate;
 		
 		this.activityList = new ArrayList<Activity>();
 
