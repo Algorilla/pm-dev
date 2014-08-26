@@ -91,32 +91,19 @@ public class EarnedValue {
 			return -1.0;
 		}
 
-		// If the activity should be finished, add its entire value
-		if (activityEarlyFinish > daysSinceStart) {
-//			ec.showError("DaysSinceStart should not be less than Zero");// DMITRI
-			return -1.0;
-		}
-		
-		if(daysSinceStart < activityLateFinish){
-//			ec.showError("DaysSinceStart should not be less than activityLateFinish");// DMITRI
-			return -1.0;
-		}
 		
 		// Otherwise, calculate what percentage should be done, and add that to
 		// the scheduled value
-		else if (activityLateFinish < daysSinceStart) {
-			if (activityDuration > 0) {
-
-				percentScheduled = (daysSinceStart - activityLateFinish)
+		if (activityLateFinish < daysSinceStart) {
+			
+			percentScheduled = (daysSinceStart - activityLateFinish)
 						/ activityDuration;
 
-				scheduledValue += percentScheduled * activityPlannedVal;
+			scheduledValue = percentScheduled * activityPlannedVal;
 
-			}
-			else{
-//				ec.showError("Duration is Zero");// DMITRI
-				return -1.0;
-			}
+		}
+		else{
+			scheduledValue = activityPlannedVal;
 		}
 		return scheduledValue;
 	}
