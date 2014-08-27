@@ -85,8 +85,8 @@ Test 5 Input:
 -	n has ONE inArrow(a)
 -	a.earliestFinish > 0
 -	n has ONE inArrow(a)
--	n has NO inArrows
-INFEASIBLE
+-	n has NO precedents
+-	a.earliestFinish > 0
 
 
 Test 6 Input:

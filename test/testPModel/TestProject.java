@@ -8,7 +8,19 @@ import PModel.Project;
 
 public class TestProject {
 
-	
+	////////////////////////////// BLACKBOX ////////////////////////////////////////////////////////////////////	
+
+	/**
+	 * Function to test:	Project::areValidPercentages()
+	 * Identifier:			areValidPercentages_blackBox
+	 * Description:			Blackbox Test for areValidPercentages()
+	 * Inputs:
+	 * -	double percent1, percent2
+	 * Outputs:
+	 * -	boolean
+	 * PostConditions:
+	 * -	return true
+	 */
 	@Test
 	public void testAreValidPercentages_blackBox(){
 		
@@ -25,6 +37,17 @@ public class TestProject {
 		}
 	}
 	
+	/**
+	 * Function to test:	Project::areValidValues()
+	 * Identifier:			areValidValues_blackBox
+	 * Description:			Blackbox Test for areValidValues()
+	 * Inputs:
+	 * -	double value1, value2, value3
+	 * Outputs:
+	 * -	boolean
+	 * PostConditions:
+	 * -	return true
+	 */
 	@Test
 	public void testAreValidValues_blackBox(){
 		

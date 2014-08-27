@@ -64,7 +64,8 @@ Test 6 Input:
 -	node c:		obj is NOT null
 -	node e:		obj class is of type MilestoneNode
 -	node i:		Caller's name is null		
--	node j:		obj's name is null
+INFEASIBLE - Caller's name always initialized
+
 
 Test 7 Input:
 -	node a:		obj is NOT equal to calling MilestoneNode
