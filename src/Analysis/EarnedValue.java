@@ -53,7 +53,7 @@ public class EarnedValue {
 
 		for (Activity a : project.getActivityList()) {
 			double update = getActivityScheduleValue(a.getEarliestFinish(),
-					a.getLatestFinish(), a.getPlannedValue(), a.getDuration(),
+					a.getLatestStart(), a.getPlannedValue(), a.getDuration(),
 					daysSinceStart);
 			if(update > 0){
 				scheduledValue += update;
@@ -65,16 +65,11 @@ public class EarnedValue {
 	// TODO: This is set to public static for testing purposes. Will be set back
 	// to private for deployment
 	public static double getActivityScheduleValue(double activityEarlyFinish,
-			double activityLateFinish, double activityPlannedVal,
+			double activityLateStart, double activityPlannedVal,
 			double activityDuration, double daysSinceStart) {
 
 		double scheduledValue = 0;
 		double percentScheduled;
-
-		if (activityEarlyFinish > activityLateFinish) {
-//			ec.showError("Latest Finish should not preced Earliest Finish");// DMITRI
-			return -1.0;
-		}
 		
 		if(activityPlannedVal < 0){
 //			ec.showError("PlannedValue should not be less than Zero");// DMITRI
@@ -94,17 +89,20 @@ public class EarnedValue {
 		
 		// Otherwise, calculate what percentage should be done, and add that to
 		// the scheduled value
-		if (activityLateFinish < daysSinceStart) {
+		if (activityLateStart < daysSinceStart) {
+			if(activityEarlyFinish < daysSinceStart){
+				scheduledValue = activityPlannedVal;
+			}
 			
-			percentScheduled = (daysSinceStart - activityLateFinish)
+			else{
+				percentScheduled = (daysSinceStart - activityLateStart)
 						/ activityDuration;
 
-			scheduledValue = percentScheduled * activityPlannedVal;
-
+				scheduledValue = percentScheduled * activityPlannedVal;
+				
+			}
 		}
-		else{
-			scheduledValue = activityPlannedVal;
-		}
+		
 		return scheduledValue;
 	}
 
