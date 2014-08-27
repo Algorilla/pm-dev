@@ -8,6 +8,19 @@ import PModel.Activity;
 
 public class TestActivity {
 
+	////////////////////////////// BLACKBOX ////////////////////////////////////////////////////////////////////	
+
+	/**
+	 * Function to test:	Activity::areValidPercentAndCost()
+	 * Identifier:			areValidPercentAndCost_blackBox
+	 * Description:			Blackbox Test for areValidPercentAndCost()
+	 * Inputs:
+	 * -	double percent, cost
+	 * Outputs:
+	 * -	boolean
+	 * PostConditions:
+	 * -	return true
+	 */
 	@Test
 	public void testAreValidPercentAndCost_blackBox() {
 		double minPercent = 0.0, minPlusPercent = 0.01, nominalPercent = 0.5, maxMinusPercent = 0.99, maxPercent = 1.0;
@@ -27,6 +40,17 @@ public class TestActivity {
 
 	}
 
+	/**
+	 * Function to test:	Activity::areValidTimes()
+	 * Identifier:			areValidTimes_blackBox
+	 * Description:			Blackbox Test for areValidTimes()
+	 * Inputs:
+	 * -	double mostLikey, optimistic, pessimistic
+	 * Outputs:
+	 * -	boolean
+	 * PostConditions:
+	 * -	return true
+	 */
 	@Test
 	public void testAreValidTimes_blackBox(){
 		double 	mostLikelyMin, mostLikelyMinPlus, mostLikelyNominal, mostLikelyMaxMinus, mostLikelyMax,   
@@ -59,33 +83,80 @@ public class TestActivity {
 		}
 	}
 
+	////////////////////////////// WHITEBOX ////////////////////////////////////////////////////////////////////	
+
+	
 	@Test
 	public void testAreValidTimes_whiteBox(){
-		
-		// Test Path 1
-		//		-	node a:	All inputs greater than 0
-		//		-	node b:	All inputs less than MAX_DURATION
-		//		-	node c:	most likely less than pessimistic and more than optimistic
-		//		return true
-		assertTrue(Activity.areValidTimes(2, 1, 3));
+		double mostLikely, optimistic, pessimistic;
+		/**
+		 * Function to test:	Activity::areValidTimes()
+		 * Identifier:			areValidTimes_whiteBoxPath_1
+		 * Description:			Test for basis-coverage path 1
+		 * Preconditions:
+		 * -	All inputs greater than 0
+		 * -	All inputs less than Activity.MAX_DURATION
+		 * -	mostlikely less than pessimistic and more than optimistic
+		 * Inputs:
+		 * -	double mostLikely, optimistic, pessimistic
+		 * Outputs:
+		 * -	boolean
+		 * PostConditions:
+		 * -	return true
+		 */
+		mostLikely = 2; optimistic = 1; pessimistic = 3;
+		assertTrue(Activity.areValidTimes(mostLikely, optimistic, pessimistic));
 
-		// Test Path 2
-		//		-	node a:	At least 1 input less than 0
-		//		return false
-		assertFalse(Activity.areValidTimes(-1, 1, 3));
+		/**
+		 * Function to test:	Activity::areValidTimes()
+		 * Identifier:			areValidTimes_whiteBoxPath_2
+		 * Description:			Test for basis-coverage path 2
+		 * Preconditions:
+		 * -	At least 1 input less than 0
+		 * Inputs:
+		 * -	double mostLikely, optimistic, pessimistic
+		 * Outputs:
+		 * -	boolean
+		 * PostConditions:
+		 * -	return false
+		 */
+		mostLikely = -1; optimistic = 1; pessimistic = 3;
+		assertFalse(Activity.areValidTimes(mostLikely, optimistic, pessimistic));
 
-		// Test Path 3
-		//		-	node a:	All inputs greater than 0
-		//		-	node b:	At east 1 input greater than MAX_DURATION
-		//		return false
-		assertFalse(Activity.areValidTimes(Activity.MAX_DURATION + 1, 1, 3));
+		/**
+		 * Function to test:	Activity::areValidTimes()
+		 * Identifier:			areValidTimes_whiteBoxPath_3
+		 * Description:			Test for basis-coverage path 3
+		 * Preconditions:
+		 * -	All inputs greater than 0
+		 * -	At least 1 input greater than Activity.MAX_DURATION
+		 * Inputs:
+		 * -	double mostLikely, optimistic, pessimistic
+		 * Outputs:
+		 * -	boolean
+		 * PostConditions:
+		 * -	return false
+		 */
+		mostLikely =  Activity.MAX_COST + 1; optimistic = 1; pessimistic = 3;
+		assertFalse(Activity.areValidTimes(mostLikely, optimistic, pessimistic));
 
-		// Test Path 4
-		//		-	node a:	All inputs greater than 0
-		//		-	node b:	All inputs less than MAX_DURATION
-		//		-	node c:	most likely greater than pessimistic or less than optimistic
-		//		return false
-		assertFalse(Activity.areValidTimes(4, 1, 3));
+		/**
+		 * Function to test:	Activity::areValidTimes()
+		 * Identifier:			areValidTimes_whiteBoxPath_4
+		 * Description:			Test for basis-coverage path 4
+		 * Preconditions:
+		 * -	All inputs greater than 0
+		 * -	All inputs less than Activity.MAX_DURATION
+		 * -	mostLikely greater than pessimistic or less than optimistic
+		 * Inputs:
+		 * -	double mostLikely, optimistic, pessimistic
+		 * Outputs:
+		 * -	boolean
+		 * PostConditions:
+		 * -	return false
+		 */
+		mostLikely =  4; optimistic = 1; pessimistic = mostLikely - 1;
+		assertFalse(Activity.areValidTimes(mostLikely, optimistic, pessimistic));
 
 	}
 }

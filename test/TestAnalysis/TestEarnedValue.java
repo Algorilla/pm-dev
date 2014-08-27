@@ -25,7 +25,21 @@ public class TestEarnedValue {
 		return Math.abs(d1 - d2) < 0.001;
 	}
 	
-	//////////////////////////////WHITEBOX ////////////////////////////////////////////////////////////////////	
+	////////////////////////////// WHITEBOX ////////////////////////////////////////////////////////////////////	
+	/**
+	 * Function to test:	EarnedValue::calculateActualCost()
+	 * Identifier:			calcActCost_whiteBoxPath_1
+	 * Description:			Test for basis-coverage path 1
+	 * Preconditions:	
+	 * -	Project(p) has ONE Activity(a)
+	 * -	a.status = true
+	 * Inputs:
+	 * -	void
+	 * Outputs:
+	 * -	void
+	 * PostConditions:
+	 * -	Correct cost calculated
+	 */
 	@Test
 	public void testCalculateActualCost_whiteBoxPath1(){
 		
@@ -56,6 +70,21 @@ public class TestEarnedValue {
 		assertTrue(equals(p.getActualCost(), 10.0));
 		
 	}
+	
+	/**
+	 * Function to test:	EarnedValue::calculateActualCost()
+	 * Identifier:			calcActCost_whiteBoxPath_2
+	 * Description:			Test for basis-coverage path 2
+	 * Preconditions:	
+	 * -	Project(p) has ONE Activity(a)
+	 * -	a.status = true
+	 * Inputs:
+	 * -	void
+	 * Outputs:
+	 * -	void
+	 * PostConditions:
+	 * -	Correct cost calculated
+	 */
 	@Test
 	public void testCalculateActualCost_whiteBoxPath2(){
 		
@@ -71,35 +100,22 @@ public class TestEarnedValue {
 		
 		assertTrue(equals(p.getActualCost(), 0.0));
 	}
-	@Test
-	public void testCalculateActualCost_whiteBoxPath4(){
-	
-		Date today = new Date();
-		Project p = new Project(0, "CalcActCostTest1", "Disposable test Project", today, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-		p.setProjectID(100);
-		
-		Activity a = new Activity(100, "CalcActCostTestActivity1", "Disposable test Activity", 10, 10, 8, 12, 10, 0.5, 10, false);
-		Activity start = Activity.makeDummyStart();
-		Activity finish = Activity.makeDummyFinish();
-		
-		start.addDependent(a);
-		a.addPrecedent(start);
-		
-		a.addDependent(finish);
-		finish.addPrecedent(a);		
-		
-		p.addActivity(a);
-		p.addActivity(start);
-		p.addActivity(finish);
-		
-		double daysSinceStart = 5;
-		
-		EarnedValue ev = new EarnedValue(p, daysSinceStart);
-		
-		ev.calculateActualCost();
-		
-		assertTrue(equals(p.getActualCost(), 5.0));
-	}
+
+	/**
+	 * Function to test:	EarnedValue::calculateActualCost()
+	 * Identifier:			calcActCost_whiteBoxPath_3
+	 * Description:			Test for basis-coverage path 3
+	 * Preconditions:	
+	 * -	Project(p) has ONE Activity(a)
+	 * -	a.status = false
+	 * -	a.percentComplete > 0
+	 * Inputs:
+	 * -	void
+	 * Outputs:
+	 * -	void
+	 * PostConditions:
+	 * -	Correct cost calculated
+	 */
 	@Test
 	public void testCalculateActualCost_whiteBoxPath3(){
 		
@@ -130,6 +146,52 @@ public class TestEarnedValue {
 		assertTrue(equals(p.getActualCost(), 0.0));
 	}
 	
+	/**
+	 * Function to test:	EarnedValue::calculateActualCost()
+	 * Identifier:			calcActCost_whiteBoxPath_4
+	 * Description:			Test for basis-coverage path 4
+	 * Preconditions:	
+	 * -	Project(p) has ONE Activity(a)
+	 * -	a.status = false
+	 * -	a.percentComplete = 0 
+	 * Inputs:
+	 * -	void
+	 * Outputs:
+	 * -	void
+	 * PostConditions:
+	 * -	Correct cost calculated
+	 */
+	@Test
+	public void testCalculateActualCost_whiteBoxPath4(){
+	
+		Date today = new Date();
+		Project p = new Project(0, "CalcActCostTest1", "Disposable test Project", today, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+		p.setProjectID(100);
+		
+		Activity a = new Activity(100, "CalcActCostTestActivity1", "Disposable test Activity", 10, 10, 8, 12, 10, 0.5, 10, false);
+		Activity start = Activity.makeDummyStart();
+		Activity finish = Activity.makeDummyFinish();
+		
+		start.addDependent(a);
+		a.addPrecedent(start);
+		
+		a.addDependent(finish);
+		finish.addPrecedent(a);		
+		
+		p.addActivity(a);
+		p.addActivity(start);
+		p.addActivity(finish);
+		
+		double daysSinceStart = 5;
+		
+		EarnedValue ev = new EarnedValue(p, daysSinceStart);
+		
+		ev.calculateActualCost();
+		
+		assertTrue(equals(p.getActualCost(), 5.0));
+	}
+
+	
 	
 	//////////////////////////////BLACKBOX VALUES //////////////////////////////////////////////////////////////
 	double  earlyFinishMin = 0.0, earlyFinishMinPlus = 1.0, earlyFinishNominal = 30.0, earlyFinishMaxMinus = 731  - 1.0, earlyFinishMax = 731.0;
@@ -147,6 +209,18 @@ public class TestEarnedValue {
 	
 	
 	////////////////////////////// BLACKBOX ////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Function to test:	EarnedValue::getActivitySchedule()
+	 * Identifier:			getActivitySchedule_blackBox
+	 * Description:			Blackbox Test for getActivityScheduleValue()
+	 * Inputs:
+	 * -	double earlyFinish, lateFinish, plannedValue, duration, daysSinceStart
+	 * Outputs:
+	 * -	double scheduleValue
+	 * PostConditions:
+	 * -	correct scheduleValue is returned
+	 */
 	@Test
 	public void testGetActivityScheduleValue1(){
 		
